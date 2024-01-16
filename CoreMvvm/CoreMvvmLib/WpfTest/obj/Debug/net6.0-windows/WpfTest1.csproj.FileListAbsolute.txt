@@ -1,0 +1,4 @@
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\MainWindow.g.cs
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\App.g.cs
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\WpfTest1_MarkupCompile.cache
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\WpfTest1_MarkupCompile.lref
