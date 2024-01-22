@@ -41,3 +41,4 @@ E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.Core\bin\Debug\net6.0\tr\Mic
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.Core\bin\Debug\net6.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.Core\bin\Debug\net6.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.Core\obj\Debug\net6.0\CoreMvvmLib.Core.csproj.CopyComplete
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.Core\obj\Debug\net6.0\CoreMvvmLib.Core.sourcelink.json

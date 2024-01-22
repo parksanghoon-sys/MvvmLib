@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj"  OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
   </ItemGroup>
 
 </Project>

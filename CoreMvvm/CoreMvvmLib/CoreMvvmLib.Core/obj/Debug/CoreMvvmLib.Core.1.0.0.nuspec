@@ -5,8 +5,12 @@
     <version>1.0.0</version>
     <authors>CoreMvvmLib.Core</authors>
     <description>Package Description</description>
-    <repository type="git" />
+    <repository type="git" commit="5ea2c35fd4cbd62a5f8e592c9594fa97f3403d99" />
     <dependencies>
+      <group targetFramework=".NETFramework4.8">
+        <dependency id="Microsoft.CodeAnalysis.CSharp" version="4.8.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.CodeAnalysis.Common" version="4.8.0" exclude="Build,Analyzers" />
+      </group>
       <group targetFramework="net6.0">
         <dependency id="Microsoft.CodeAnalysis.CSharp" version="4.8.0" exclude="Build,Analyzers" />
         <dependency id="Microsoft.CodeAnalysis.Common" version="4.8.0" exclude="Build,Analyzers" />
@@ -18,6 +22,7 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.Core\bin\Debug\net48\CoreMvvmLib.Core.dll" target="lib\net48\CoreMvvmLib.Core.dll" />
     <file src="E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.Core\bin\Debug\net6.0\CoreMvvmLib.Core.dll" target="lib\net6.0\CoreMvvmLib.Core.dll" />
     <file src="E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.Core\bin\Debug\net7.0\CoreMvvmLib.Core.dll" target="lib\net7.0\CoreMvvmLib.Core.dll" />
   </files>
