@@ -13,7 +13,7 @@ namespace WpfTest
         private string _testText;
         public ICommand TestCommand => new RelayCommand(new Action(() =>
         {
-            TestText = "TestTextCommand";
+            TestText = "TestTextCommand"; 
         }));
         public ICommand TestCommandAsync => new RelayCommandAsync(async () =>
         {
