@@ -11,6 +11,7 @@ namespace WpfTest
         {
             InitializeComponent();
             this.DataContext = new MainViewModel();
+            
         }
     }
 }

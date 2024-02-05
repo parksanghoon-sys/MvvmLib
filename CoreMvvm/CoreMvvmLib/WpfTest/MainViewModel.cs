@@ -1,6 +1,6 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Commands;
-using CoreMvvmLib.Core.ViewModelBase;
+using CoreMvvmLib.Core.Components;
 using System.Windows.Input;
 
 namespace WpfTest
@@ -13,11 +13,10 @@ namespace WpfTest
         private string _testText;
         public ICommand TestCommand => new RelayCommand(new Action(() =>
         {
-            TestText = "TestTextCommand"; 
+            
         }));
         public ICommand TestCommandAsync => new RelayCommandAsync(async () =>
-        {
-            TestText = "TestTextAsyncCommand";
+        {            
         });
         public MainViewModel() { }
 
