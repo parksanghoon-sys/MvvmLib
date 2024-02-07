@@ -3,9 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:mvvmlib="clr-namespace:CoreMvvmLib.WPF.Behaviors;assembly=CoreMvvmLib.WPF"
         xmlns:local="clr-namespace:WpfTest"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <behavior:Interaction.Behaviors>
+        <mvvmlib:EventToCommand EventName="Loaded"
+                                Command="{Binding Loaded1Command}"/>
+    </behavior:Interaction.Behaviors>
     <Grid>
         <StackPanel>
             <TextBlock Text="{Binding TestText}" FontSize="12" Foreground="Black"/>

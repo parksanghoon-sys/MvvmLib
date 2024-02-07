@@ -18,6 +18,10 @@ namespace WpfTest
         public ICommand TestCommandAsync => new RelayCommandAsync(async () =>
         {            
         });
+        public ICommand Loaded1Command => new RelayCommand(new Action(() =>
+        {
+            System.Diagnostics.Debug.WriteLine("View Loaded!!");
+        }));
         public MainViewModel() { }
 
     }

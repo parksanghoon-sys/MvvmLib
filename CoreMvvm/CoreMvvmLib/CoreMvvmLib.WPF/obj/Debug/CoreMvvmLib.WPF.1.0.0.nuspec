@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>CoreMvvmLib.WPF</id>
+    <version>1.0.0</version>
+    <authors>CoreMvvmLib.WPF</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="3928ad0d84ab5b13f642c02e5ab8cd58743f310c" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.8">
+        <dependency id="Microsoft.Xaml.Behaviors.Wpf" version="1.1.77" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-windows7.0">
+        <dependency id="Microsoft.Xaml.Behaviors.Wpf" version="1.1.77" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net7.0-windows7.0">
+        <dependency id="Microsoft.Xaml.Behaviors.Wpf" version="1.1.77" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework="net6.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" />
+      </group>
+      <group targetFramework="net7.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" />
+      </group>
+      <group targetFramework=".NETFramework4.8" />
+    </frameworkReferences>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="PresentationFramework" targetFramework=".NETFramework4.8" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.WPF\bin\Debug\net48\CoreMvvmLib.WPF.dll" target="lib\net48\CoreMvvmLib.WPF.dll" />
+    <file src="E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.WPF\bin\Debug\net6.0-windows\CoreMvvmLib.WPF.dll" target="lib\net6.0-windows7.0\CoreMvvmLib.WPF.dll" />
+    <file src="E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.WPF\bin\Debug\net7.0-windows\CoreMvvmLib.WPF.dll" target="lib\net7.0-windows7.0\CoreMvvmLib.WPF.dll" />
+  </files>
+</package>
