@@ -38,6 +38,7 @@ namespace TestProject1
             var aModel2 = container1.GetService<AModel>();
             var bModel1 = container1.GetService<IBModel>();
             var bModel2 = container1.GetService<IBModel>();
+           
 
             Assert.Equal(aModel1, aModel2);
             Assert.Equal(bModel1, bModel2);            

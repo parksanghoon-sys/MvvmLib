@@ -16,14 +16,24 @@ namespace CoreMvvmLib.Core.Messenger
         private Dictionary<Type, List<IAsyncMessageHandler>> _asyncReceiverList = new();
 
         #region Public Func
-        public void Register<TReceiver, TMessage>(TReceiver receiver, Action<TReceiver, TMessage> callback) where TReceiver : class
+        public void Register<TReceiver, TMessage>(TReceiver receiver, Action<TReceiver, TMessage> callback) 
+            where TReceiver : class
         {
             var handler = new MessageHandler<TReceiver, TMessage>(callback, receiver);
             if (_receiverList.ContainsKey(typeof(TReceiver)) == false)
             {
                 _receiverList[typeof(TReceiver)] = new List<IMessangeHandler>();
             }
-            _receiverList[typeof(TMessage)].Add(handler);
+            _receiverList[typeof(TReceiver)].Add(handler);
+        }
+        public void UnRegister<TReceiver, TMessage>(TReceiver receiver, Action<TReceiver, TMessage> callback)
+                where TReceiver : class
+        {            
+            if (_receiverList.ContainsKey(typeof(TReceiver)) == true)
+            {
+                var handler = new MessageHandler<TReceiver, TMessage>(callback, receiver);
+                _receiverList[typeof(TReceiver)].Remove(handler);
+            }            
         }
         public void Send<TMessage>(TMessage message)
         {

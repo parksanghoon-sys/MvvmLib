@@ -5,7 +5,7 @@
     <version>1.0.0</version>
     <authors>CoreMvvmLib.Core</authors>
     <description>Package Description</description>
-    <repository type="git" commit="675de23572e8020f689482327c6d222da3f58f86" />
+    <repository type="git" commit="8661bbfa960d7d0c9fcd7f3cdb0d3155d199e476" />
     <dependencies>
       <group targetFramework=".NETFramework4.8">
         <dependency id="Microsoft.CodeAnalysis.CSharp" version="4.8.0" exclude="Build,Analyzers" />
