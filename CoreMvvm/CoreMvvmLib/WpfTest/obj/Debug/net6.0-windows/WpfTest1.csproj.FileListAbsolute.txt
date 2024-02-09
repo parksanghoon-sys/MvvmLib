@@ -11,8 +11,6 @@ E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\WpfTest
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\Microsoft.CodeAnalysis.dll
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\Microsoft.CodeAnalysis.CSharp.dll
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\Microsoft.Xaml.Behaviors.dll
-E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\System.Collections.Immutable.dll
-E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\System.Reflection.Metadata.dll
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\cs\Microsoft.CodeAnalysis.resources.dll
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\de\Microsoft.CodeAnalysis.resources.dll
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\es\Microsoft.CodeAnalysis.resources.dll

@@ -5,12 +5,12 @@ using System.Windows.Input;
 
 namespace WpfTest
 {
-    public class MainViewModel : ViewModelBase
+    public partial class MainViewModel : ViewModelBase
     {
         
 
         [Property]
-        private string _testText;
+        private string testText;
         public ICommand TestCommand => new RelayCommand(new Action(() =>
         {
             
@@ -22,7 +22,10 @@ namespace WpfTest
         {
             System.Diagnostics.Debug.WriteLine("View Loaded!!");
         }));
-        public MainViewModel() { }
+        public MainViewModel() 
+        {
+            
+        }
 
     }
 }

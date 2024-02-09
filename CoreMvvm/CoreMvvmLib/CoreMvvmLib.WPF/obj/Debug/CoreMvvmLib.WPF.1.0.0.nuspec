@@ -5,7 +5,7 @@
     <version>1.0.0</version>
     <authors>CoreMvvmLib.WPF</authors>
     <description>Package Description</description>
-    <repository type="git" commit="3928ad0d84ab5b13f642c02e5ab8cd58743f310c" />
+    <repository type="git" commit="675de23572e8020f689482327c6d222da3f58f86" />
     <dependencies>
       <group targetFramework=".NETFramework4.8">
         <dependency id="Microsoft.Xaml.Behaviors.Wpf" version="1.1.77" exclude="Build,Analyzers" />
