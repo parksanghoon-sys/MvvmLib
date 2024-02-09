@@ -396,19 +396,3 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-**/bin/
-**/obj/
-CoreMvvm/CoreMvvmLib/.vs/
-CoreMvvm/CoreMvvmLib/.vs/
-CoreMvvm/CoreMvvmLib/CoreMvvmLib/bin/
-CoreMvvm/CoreMvvmLib/CoreMvvmLib/obj/
-CoreMvvm/CoreMvvmLib/CoreMvvmLib.Core/bin/
-CoreMvvm/CoreMvvmLib/CoreMvvmLib.Core/obj/
-CoreMvvm/CoreMvvmLib/CoreMvvmLib.WPF/bin/
-CoreMvvm/CoreMvvmLib/CoreMvvmLib.WPF/obj/
-CoreMvvm/CoreMvvmLib/IocUnitTest/bin/
-CoreMvvm/CoreMvvmLib/IocUnitTest/obj/
-CoreMvvm/CoreMvvmLib/TestProject1/bin/
-CoreMvvm/CoreMvvmLib/TestProject1/obj/
-CoreMvvm/CoreMvvmLib/WpfTest/bin/
-CoreMvvm/CoreMvvmLib/WpfTest/obj/
