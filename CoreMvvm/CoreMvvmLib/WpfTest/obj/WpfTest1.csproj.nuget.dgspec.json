@@ -178,15 +178,27 @@
         "frameworks": {
           "net6.0-windows7.0": {
             "targetAlias": "net6.0-windows",
-            "projectReferences": {}
+            "projectReferences": {
+              "E:\\Project\\07.Mvvm\\CoreMvvm\\CoreMvvmLib\\CoreMvvmLib.Core\\CoreMvvmLib.Core.csproj": {
+                "projectPath": "E:\\Project\\07.Mvvm\\CoreMvvm\\CoreMvvmLib\\CoreMvvmLib.Core\\CoreMvvmLib.Core.csproj"
+              }
+            }
           },
           "net7.0-windows7.0": {
             "targetAlias": "net7.0-windows",
-            "projectReferences": {}
+            "projectReferences": {
+              "E:\\Project\\07.Mvvm\\CoreMvvm\\CoreMvvmLib\\CoreMvvmLib.Core\\CoreMvvmLib.Core.csproj": {
+                "projectPath": "E:\\Project\\07.Mvvm\\CoreMvvm\\CoreMvvmLib\\CoreMvvmLib.Core\\CoreMvvmLib.Core.csproj"
+              }
+            }
           },
           "net48": {
             "targetAlias": "net48",
-            "projectReferences": {}
+            "projectReferences": {
+              "E:\\Project\\07.Mvvm\\CoreMvvm\\CoreMvvmLib\\CoreMvvmLib.Core\\CoreMvvmLib.Core.csproj": {
+                "projectPath": "E:\\Project\\07.Mvvm\\CoreMvvm\\CoreMvvmLib\\CoreMvvmLib.Core\\CoreMvvmLib.Core.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

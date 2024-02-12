@@ -18,6 +18,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Reference Include="PresentationFramework" />
 	</ItemGroup>
 

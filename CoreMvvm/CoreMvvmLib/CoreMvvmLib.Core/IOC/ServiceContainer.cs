@@ -164,7 +164,7 @@ namespace CoreMvvmLib.Core.IOC
             }
         }
 
-        public Type KeyGet(string key)
+        public Type TypeGet(string key)
         {
             return _serviceCollection.KeyType(key);
         }
