@@ -1,9 +1,11 @@
 ﻿using CoreMvvmLib.Core.IOC;
+using CoreMvvmLib.WPF.Extensions;
+using CoreMvvmLib.WPF.Services;
 using System.Windows;
 
 namespace CoreMvvmLib.WPF.Components
 {
-    public class CoreMvvmApp : Application
+    public abstract class CoreMvvmApp : Application
     {
         public IServiceContainer Services { get; }
         public CoreMvvmApp()
@@ -26,11 +28,16 @@ namespace CoreMvvmLib.WPF.Components
         {
             var services = ServiceCollection.Create();
             // TODO : 추후 필요 서비스 추가
+            services.AddDialogService();
+
             ConfigureServiceCollection(services);
             var serviceProvider = services.CreateContainer();
 
             // ServiceLocator 준비
             ConfigureServiceLocator();
+
+            serviceProvider.AddDialogServiceLocator();
+            serviceProvider.AddViewModelLocator();
 
             //Service 초기화 
             ConfigureServiceProvider(serviceProvider);
@@ -38,14 +45,17 @@ namespace CoreMvvmLib.WPF.Components
             return serviceProvider;
         }
 
-        private void ConfigureServiceProvider(Core.IOC.IServiceContainer serviceProvider)
+        protected virtual void ConfigureServiceProvider(IServiceContainer serviceProvider)
         {            
         }
 
         protected virtual void ConfigureServiceLocator()
         {            
         }
-
+        /// <summary>
+        /// Service 등록 ex) viewmodel
+        /// </summary>
+        /// <param name="services"></param>
         protected virtual void ConfigureServiceCollection(IServiceCollection services)
         {            
         }

@@ -1,5 +1,3 @@
-E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\MainWindow.g.cs
-E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\App.g.cs
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\WpfTest1_MarkupCompile.cache
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\WpfTest1_MarkupCompile.lref
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\WpfTest1.csproj.AssemblyReference.cache
@@ -41,7 +39,6 @@ E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\CoreMvv
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\CoreMvvmLib.WPF.dll
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\CoreMvvmLib.Core.pdb
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\CoreMvvmLib.WPF.pdb
-E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\MainWindow.baml
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\WpfTest1.g.resources
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\WpfTest1.GeneratedMSBuildEditorConfig.editorconfig
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\WpfTest1.AssemblyInfoInputs.cache
@@ -54,3 +51,9 @@ E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\refint\
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\WpfTest1.pdb
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\WpfTest1.genruntimeconfig.cache
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\ref\WpfTest1.dll
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\Views\MainWindowView.g.cs
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\Views\TestDialogView.g.cs
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\System.Collections.Immutable.dll
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\bin\Debug\net6.0-windows\System.Reflection.Metadata.dll
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\Views\MainWindowView.baml
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\obj\Debug\net6.0-windows\Views\TestDialogView.baml

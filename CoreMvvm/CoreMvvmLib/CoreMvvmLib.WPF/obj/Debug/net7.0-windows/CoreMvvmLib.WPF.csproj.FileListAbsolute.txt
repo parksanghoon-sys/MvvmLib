@@ -11,3 +11,6 @@ E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.WPF\obj\Debug\net7.0-windows
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.WPF\obj\Debug\net7.0-windows\refint\CoreMvvmLib.WPF.dll
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.WPF\obj\Debug\net7.0-windows\CoreMvvmLib.WPF.pdb
 E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.WPF\obj\Debug\net7.0-windows\ref\CoreMvvmLib.WPF.dll
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.WPF\bin\Debug\net7.0-windows\CoreMvvmLib.Core.dll
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.WPF\bin\Debug\net7.0-windows\CoreMvvmLib.Core.pdb
+E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\CoreMvvmLib.WPF\obj\Debug\net7.0-windows\CoreMvvmLib.WPF.csproj.CopyComplete

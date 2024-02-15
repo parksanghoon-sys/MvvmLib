@@ -2,12 +2,18 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <ApplicationDefinition Update="App.xaml">
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
+    <Compile Update="Views\MainWindowView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\TestDialogView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="MainWindow.xaml">
+    <Page Update="Views\MainWindowView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\TestDialogView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -5,15 +5,18 @@
     <version>1.0.0</version>
     <authors>CoreMvvmLib.WPF</authors>
     <description>Package Description</description>
-    <repository type="git" commit="675de23572e8020f689482327c6d222da3f58f86" />
+    <repository type="git" commit="0b91365577f252b4ecd5ca9438e5f83ce60215d6" />
     <dependencies>
       <group targetFramework=".NETFramework4.8">
+        <dependency id="CoreMvvmLib.Core" version="1.0.0" exclude="Build,Analyzers" />
         <dependency id="Microsoft.Xaml.Behaviors.Wpf" version="1.1.77" exclude="Build,Analyzers" />
       </group>
       <group targetFramework="net6.0-windows7.0">
+        <dependency id="CoreMvvmLib.Core" version="1.0.0" exclude="Build,Analyzers" />
         <dependency id="Microsoft.Xaml.Behaviors.Wpf" version="1.1.77" exclude="Build,Analyzers" />
       </group>
       <group targetFramework="net7.0-windows7.0">
+        <dependency id="CoreMvvmLib.Core" version="1.0.0" exclude="Build,Analyzers" />
         <dependency id="Microsoft.Xaml.Behaviors.Wpf" version="1.1.77" exclude="Build,Analyzers" />
       </group>
     </dependencies>

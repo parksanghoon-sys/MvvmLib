@@ -1,16 +1,18 @@
-﻿<Window x:Class="WpfTest.MainWindow"
+﻿<Window x:Class="WpfTest1.Views.MainWindowView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mvvmlib="clr-namespace:CoreMvvmLib.WPF.Behaviors;assembly=CoreMvvmLib.WPF"
-        xmlns:local="clr-namespace:WpfTest"
+        xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
+        xmlns:local="clr-namespace:WpfTest1.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        auto:ViewModelLocator.AutoWireViewModel="True"
+        Title="MainWindowView" Height="450" Width="800">
     <behavior:Interaction.Behaviors>
         <mvvmlib:EventToCommand EventName="Loaded"
-                                Command="{Binding Loaded1Command}"/>
+                             Command="{Binding Loaded1Command}"/>
     </behavior:Interaction.Behaviors>
     <Grid>
         <StackPanel>
@@ -18,6 +20,6 @@
             <Button Command="{Binding TestCommand}" Content="Commnad" Width="80" Height="20"/>
             <Button Command="{Binding TestCommandAsync}" Content="CommandAsync" Width="80" Height="20"/>
         </StackPanel>
-        
+
     </Grid>
 </Window>

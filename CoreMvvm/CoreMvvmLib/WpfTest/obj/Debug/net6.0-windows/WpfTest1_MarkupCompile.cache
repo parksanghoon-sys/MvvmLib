@@ -9,12 +9,12 @@ WpfTest1
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-E:\Project\07.Mvvm\CoreMvvm\CoreMvvmLib\WpfTest\App.xaml
-11407045341
 
-52069795701
-197-417312890
-MainWindow.xaml;
+2-1577733331
+
+81807693291
+199668510595
+Views\MainWindowView.xaml;Views\TestDialogView.xaml;
 
 False
 
