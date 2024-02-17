@@ -16,5 +16,5 @@ TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 199668510595
 Views\MainWindowView.xaml;Views\TestDialogView.xaml;
 
-True
+False
 
