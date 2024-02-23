@@ -11,6 +11,7 @@
 
 	<ItemGroup>
 		<Folder Include="Properties\" />
+		<Folder Include="Properties\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -19,10 +20,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Reference Include="PresentationFramework" />
 	</ItemGroup>
 
 </Project>

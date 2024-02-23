@@ -19,6 +19,8 @@ namespace WpfTest1.ViewModels
         public ICommand TestCommand => new RelayCommand(new Action(() =>
         {
             _dialogService.Show(this, "TestDialogView", 300, 200);
+            
+            
         }));
         public ICommand TestCommandAsync => new RelayCommandAsync(async () =>
         {
@@ -26,11 +28,7 @@ namespace WpfTest1.ViewModels
         public ICommand Loaded1Command => new RelayCommand(new Action(() =>
         {
             System.Diagnostics.Debug.WriteLine("View Loaded!!");
-        }));
-        public MainWindowViewModel()
-        {
-
-        }
+        }));      
 
     }
 }

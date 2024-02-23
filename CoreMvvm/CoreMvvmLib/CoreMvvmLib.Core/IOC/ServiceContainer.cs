@@ -1,5 +1,4 @@
 ﻿using CoreMvvmLib.Core.Components;
-using System.ComponentModel;
 
 namespace CoreMvvmLib.Core.IOC
 {

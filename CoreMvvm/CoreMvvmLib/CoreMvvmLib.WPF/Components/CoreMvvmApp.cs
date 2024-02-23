@@ -1,6 +1,5 @@
 ﻿using CoreMvvmLib.Core.IOC;
 using CoreMvvmLib.WPF.Extensions;
-using CoreMvvmLib.WPF.Services;
 using System.Windows;
 
 namespace CoreMvvmLib.WPF.Components
