@@ -1,11 +1,6 @@
 ﻿using CoreMvvmLib.Core.IOC;
 using CoreMvvmLib.WPF.Components;
 using CoreMvvmLib.WPF.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using WpfTest1.ViewModels;
 using WpfTest1.Views;

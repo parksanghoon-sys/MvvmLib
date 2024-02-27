@@ -1,12 +1,6 @@
 ﻿using CoreMvvmLib.Core.IOC;
 using CoreMvvmLib.Core.Services.DialogService;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.SymbolStore;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace CoreMvvmLib.WPF.Services.DialogService

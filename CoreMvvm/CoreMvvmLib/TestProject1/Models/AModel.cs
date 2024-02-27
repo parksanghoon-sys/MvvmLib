@@ -1,14 +1,8 @@
-﻿using CoreMvvmLib.Core.Messenger;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TestProject1.Interface;
+﻿using TestProject1.Interface;
 
 namespace TestProject1.Model
 {
-    
+
     public class AModel : IAModel
     {
         IBModel bModel;
