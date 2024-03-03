@@ -6,7 +6,7 @@ namespace CoreMvvmLib.WPF.Services.RegionManager
     {
         private static Dictionary<string, IRegion> _regions = new Dictionary<string, IRegion>();
 
-        public IRegion SetRegisterRegion(string regionKey, Type viewType)
+        public static IRegion SetRegisterRegion(string regionKey, Type viewType)
         {
             foreach(var region in  _regions)
             {

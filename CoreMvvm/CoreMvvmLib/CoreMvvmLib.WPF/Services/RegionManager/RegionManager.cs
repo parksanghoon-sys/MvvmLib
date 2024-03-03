@@ -71,34 +71,66 @@ namespace CoreMvvmLib.WPF.Services.RegionManager
             contentConrol.Content = arg2;
         }
         #endregion
-        public void NavigateView(string regionName, string viewName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void NavigateView(string regionName, string viewName, INotifyPropertyChanged viewModel)
-        {
-            throw new NotImplementedException();
-        }
-
         public void RegisterAddView(Type type)
         {
-            throw new NotImplementedException();
+            ViewTypeStore.RegisterAddView(type);
         }
 
         public void RegisterAddView<TView>() where TView : class
         {
-            throw new NotImplementedException();
+            this.RegisterAddView(typeof(TView));
         }
-
         public void RegisterAddView(string regionName, Type type)
         {
-            throw new NotImplementedException();
-        }
+            ViewTypeStore.RegisterAddView(type);
+            ViewTypeStore.CreateView(type.Name);
 
+            if(RegionStorage.IsCheckRegionExist(regionName))
+            {
+                var region = RegionStorage.GetRegion(regionName);
+                region.SourceViewName = type.Name;                
+            }
+            else
+            {
+                RegionStorage.SetRegisterRegion(regionName, type);
+            }
+        }
         public void RegisterAddView<TView>(string regionName) where TView : class
         {
-            throw new NotImplementedException();
+            this.RegisterAddView(regionName, typeof(TView));
         }
+        public void NavigateView(string regionName, string viewName)
+        {
+            try
+            {
+                var region = RegionStorage.GetRegion(regionName);
+                region.SourceViewName = viewName;                
+                region.NavigateView();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void NavigateView(string regionName, string viewName, INotifyPropertyChanged viewModel)
+        {
+            try
+            {
+                var region = RegionStorage.GetRegion(regionName);
+                region.SourceViewName = viewName;                
+                region.NavigateView(viewModel);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+       
+    
+
+    
     }
 }
