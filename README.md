@@ -3,4 +3,4 @@
 1. Net Core 를 이용한 Wpf Mvvm 라이브러리
 2. Ioc 제작
 3. ViewModel간 데이터 전송을 위한 Message전송 구현
-4. Region기능 개발 예정
+4. Region기능 개발
