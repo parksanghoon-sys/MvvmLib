@@ -1,0 +1,19 @@
+﻿<Window x:Class="RegionTest.View.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RegionTest.View"
+        xmlns:coreMvvm ="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
+        xmlns:reigon ="clr-namespace:CoreMvvmLib.WPF.Services.RegionManager;assembly=CoreMvvmLib.WPF"
+        coreMvvm:ViewModelLocator.AutoWireViewModel="True"
+        mc:Ignorable="d"
+        Title="MainWindowView" Height="450" Width="800">
+    <DockPanel>
+        <Button Height="40"
+                Content="Navigate"
+                Command="{Binding TestCommand}"
+                DockPanel.Dock="Bottom"></Button>
+        <ContentControl reigon:RegionManager.RegionName="MainContent"></ContentControl>
+    </DockPanel>
+</Window>

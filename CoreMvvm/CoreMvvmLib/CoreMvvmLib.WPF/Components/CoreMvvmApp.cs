@@ -28,6 +28,7 @@ namespace CoreMvvmLib.WPF.Components
             var services = ServiceCollection.Create();
             // TODO : 추후 필요 서비스 추가
             services.AddDialogService();
+            services.AddRegionManager();
 
             ConfigureServiceCollection(services);
             var serviceProvider = services.CreateContainer();
@@ -38,6 +39,7 @@ namespace CoreMvvmLib.WPF.Components
             serviceProvider.AddDialogServiceLocator();
             serviceProvider.AddViewModelLocator();
 
+            ConfigureServiceLocator();
             //Service 초기화 
             ConfigureServiceProvider(serviceProvider);
 

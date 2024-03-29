@@ -102,7 +102,7 @@ namespace CoreMvvmLib.WPF.Services.RegionManager
         public void NavigateView(string regionName, string viewName)
         {
             try
-            {
+            {                
                 var region = RegionStorage.GetRegion(regionName);
                 region.SourceViewName = viewName;                
                 region.NavigateView();

@@ -1,5 +1,6 @@
 ﻿using CoreMvvmLib.Core.IOC;
 using CoreMvvmLib.Core.Services.DialogService;
+using CoreMvvmLib.Core.Services.RegionManager;
 using CoreMvvmLib.WPF.Services;
 
 namespace CoreMvvmLib.WPF.Extensions
@@ -20,6 +21,11 @@ namespace CoreMvvmLib.WPF.Extensions
         {
             ViewModelLocator.ViewModelLocator.SetServiceProvider(services);
             return services;
+        }
+        internal static IServiceCollection AddRegionManager(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton<IRegionManager>(ServiceLocator.RegionManager);
+            return serviceCollection;
         }
 
     }

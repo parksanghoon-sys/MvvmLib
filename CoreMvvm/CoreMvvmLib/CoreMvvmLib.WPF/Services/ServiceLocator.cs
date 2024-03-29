@@ -1,4 +1,5 @@
 ﻿using CoreMvvmLib.Core.Services.DialogService;
+using CoreMvvmLib.Core.Services.RegionManager;
 
 namespace CoreMvvmLib.WPF.Services
 {
@@ -13,6 +14,17 @@ namespace CoreMvvmLib.WPF.Services
                     _dialogService = new DialogService.DialogService();
 
                 return _dialogService;
+            }
+        }
+        private static IRegionManager regionManager = null;
+        public static IRegionManager RegionManager
+        {
+            get
+            {
+                if (regionManager == null)
+                    regionManager = new RegionManager.RegionManager();
+
+                return regionManager;
             }
         }
     }

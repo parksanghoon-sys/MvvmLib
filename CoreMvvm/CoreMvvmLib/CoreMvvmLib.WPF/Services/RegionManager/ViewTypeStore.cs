@@ -9,7 +9,7 @@ namespace CoreMvvmLib.WPF.Services.RegionManager
 
         public static void RegisterAddView(Type type)
         {
-            if(_viewTypes.ContainsKey(type.Name)) 
+            if(_viewTypes.ContainsKey(type.Name) == false) 
             { 
                 _viewTypes.Add(type.Name, type);
             }
@@ -29,7 +29,7 @@ namespace CoreMvvmLib.WPF.Services.RegionManager
             {
                 throw (new Exception("등록된 View가 없습니다."));
             }
-            if(_views.ContainsKey(name) == null)
+            if(_views.ContainsKey(name) == false)
             {
                 var view = (FrameworkElement)Activator.CreateInstance(type);
                 _views.Add(name, view);
