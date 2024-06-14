@@ -2,11 +2,6 @@
 using CoreMvvmLib.Core.Commands;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Services.RegionManager;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace RegionTest.ViewModels

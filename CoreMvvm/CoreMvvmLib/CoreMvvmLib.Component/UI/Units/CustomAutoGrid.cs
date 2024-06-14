@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using System.Windows;
 
-namespace CoreMvvmLib.Component
+namespace CoreMvvmLib.Component.UI.Units
 {
     public class CustomAutoGrid : Grid
     {
@@ -166,4 +166,5 @@ namespace CoreMvvmLib.Component
             return base.MeasureOverride(constraint);
         }
     }
+
 }

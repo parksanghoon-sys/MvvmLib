@@ -1,4 +1,5 @@
-﻿using TestProject1.Interface;
+﻿using CoreMvvmLib.Core.Messenger;
+using TestProject1.Interface;
 
 namespace TestProject1.Model
 {

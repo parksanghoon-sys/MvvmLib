@@ -1,5 +1,7 @@
+using CoreMvvmLib.Core.IOC;
 using TestProject1.Interface;
 using TestProject1.Model;
+using Xunit;
 
 namespace TestProject1
 {

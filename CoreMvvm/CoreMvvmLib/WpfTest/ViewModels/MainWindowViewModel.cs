@@ -12,16 +12,26 @@ namespace WpfTest1.ViewModels
         public MainWindowViewModel(IDialogService dialogService)
         {
             _dialogService = dialogService;
+
+            string fieldName = "ExampleField";
+            fieldName = char.ToUpper(fieldName[0]) + fieldName.Substring(1);
+            TestText = "TETET";
         }
 
         [Property]
-        private string testText;
-        public ICommand TestCommand => new RelayCommand(new Action(() =>
+        private string _TestText = "tt";
+
+        [Property]
+        private bool _TestA = false;
+        //public ICommand TestCommand => new RelayCommand(new Action(() =>
+        //{
+        //    _dialogService.Show(this, "TestDialogView", 300, 200);            
+        //}));
+        [RelayCommand]
+        private void Test()
         {
             _dialogService.Show(this, "TestDialogView", 300, 200);
-            
-            
-        }));
+        }
         public ICommand TestCommandAsync => new RelayCommandAsync(async () =>
         {
         });
