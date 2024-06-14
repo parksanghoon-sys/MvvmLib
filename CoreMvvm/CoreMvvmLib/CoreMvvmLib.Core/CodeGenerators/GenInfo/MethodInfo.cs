@@ -3,7 +3,7 @@
     internal struct MethodInfo
     {
         internal string MethodName;
-        internal string ArgumentTyep;
-        internal string ArgumentCount;
+        internal string ArgumentType;
+        internal int AsyncCount;
     }
 }

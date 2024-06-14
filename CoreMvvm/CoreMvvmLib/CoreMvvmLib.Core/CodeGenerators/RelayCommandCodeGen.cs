@@ -1,15 +1,15 @@
-﻿using CoreMvvmLib.Core.CodeGenerators.GenInfo;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 using System.Text;
+using CoreMvvmLib.Core.CodeGenerators.GenInfo;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace CoreMvvmLib.Core.CodeGenerators
 {
     [Generator]
-    internal class PropertyCodeGen : IIncrementalGenerator
+    internal class RelayCommandCodeGen : IIncrementalGenerator
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
@@ -19,16 +19,16 @@ namespace CoreMvvmLib.Core.CodeGenerators
             //            {
             //                Debugger.Launch();
             //            }
-            //#endif 
+            //#endif
 
             var classDeclarations = context.SyntaxProvider
-                                           .CreateSyntaxProvider(predicate: static (s, _) => PropertyCodeGen.IsSyntaxForCodeGen(s),
-                                                                 transform: static (ctx, _) => PropertyCodeGen.GetTargetForCodeGen(ctx))
+                                           .CreateSyntaxProvider(predicate: static (s, _) => RelayCommandCodeGen.IsSyntaxForCodeGen(s),
+                                                                 transform: static (ctx, _) => RelayCommandCodeGen.GetTargetForCodeGen(ctx))
                                            .Where(x => x != null);
 
 
             IncrementalValueProvider<(Compilation, ImmutableArray<ClassDeclarationSyntax>)> compilationAndClass = context.CompilationProvider.Combine(classDeclarations.Collect());
-            context.RegisterSourceOutput(compilationAndClass, static (spc, source) => PropertyCodeGen.PropertyCodeExecute(source.Item1, source.Item2, spc));
+            context.RegisterSourceOutput(compilationAndClass, static (spc, source) => RelayCommandCodeGen.RelayCommandCodeExecute(source.Item1, source.Item2, spc));
         }
 
 
@@ -60,7 +60,7 @@ namespace CoreMvvmLib.Core.CodeGenerators
                         }
                         INamedTypeSymbol attributeContainingTypeSymbol = attributeSymbol.ContainingType;
                         string fullName = attributeContainingTypeSymbol.ToDisplayString();
-                        if (fullName == "CoreMvvmLib.Core.Attributes.PropertyAttribute")
+                        if (fullName == "CoreMvvmLib.Core.Attributes.RelayCommandAttribute")
                         {
                             return classDeclarationSyntax;
                         }
@@ -86,16 +86,19 @@ namespace CoreMvvmLib.Core.CodeGenerators
             return "";
         }
 
-        internal static List<AutoFieldInfo> GetFieldList(Compilation compilation, MemberDeclarationSyntax cls)
+        internal static List<MethodInfo> GetMethodList(Compilation compilation, MemberDeclarationSyntax cls)
         {
-            List<AutoFieldInfo> fieldList = new List<AutoFieldInfo>();
-
+            List<MethodInfo> methodList = new List<MethodInfo>();
             var model = compilation.GetSemanticModel(cls.SyntaxTree);
-
-            foreach (FieldDeclarationSyntax field in cls.DescendantNodes().OfType<FieldDeclarationSyntax>())
+            foreach (MethodDeclarationSyntax method in cls.DescendantNodes().OfType<MethodDeclarationSyntax>())
             {
-                bool found = false;
-                foreach (AttributeListSyntax attributeListSyntax in field.AttributeLists)
+
+                var returnType = method.ReturnType.ToString();
+                if (returnType != "void") continue;
+
+
+                bool detection = false;
+                foreach (AttributeListSyntax attributeListSyntax in method.AttributeLists)
                 {
                     foreach (AttributeSyntax attributeSyntax in attributeListSyntax.Attributes)
                     {
@@ -103,45 +106,48 @@ namespace CoreMvvmLib.Core.CodeGenerators
                         {
                             continue;
                         }
+
                         INamedTypeSymbol attributeContainingTypeSymbol = attributeSymbol.ContainingType;
                         string fullName = attributeContainingTypeSymbol.ToDisplayString();
-                        if (fullName == "CoreMvvmLib.Core.Attributes.PropertyAttribute")
+                        if (fullName == "CoreMvvmLib.Core.Attributes.RelayCommandAttribute")
                         {
-                            found = true;
+                            detection = true;
                             break;
                         }
                     }
-
-                    if (found == true) break;
                 }
 
-                if (found == false) continue;
+                if (detection == false) continue;
 
-                foreach (var item in field.Declaration.Variables)
+
+                switch (method.ParameterList.Parameters.Count)
                 {
-
-                    AutoFieldInfo info = new AutoFieldInfo
-                    {
-                        Identifier = item.Identifier.ValueText,
-                        TypeName = field.Declaration.Type.ToString()
-                    };
-
-                    fieldList.Add(info);
+                    case 0:
+                        methodList.Add(new MethodInfo()
+                        {
+                            MethodName = method.Identifier.ToString(),
+                            ArgumentType = "",
+                        });
+                        break;
+                    case 1:
+                        methodList.Add(new MethodInfo()
+                        {
+                            MethodName = method.Identifier.ToString(),
+                            ArgumentType = method.ParameterList.Parameters[0].Type.ToString(),
+                        });
+                        break;
                 }
             }
 
-            return fieldList;
+            return methodList;
         }
 
-        internal static void PropertyCodeExecute(Compilation compilation, ImmutableArray<ClassDeclarationSyntax> classes, SourceProductionContext context)
+        internal static void RelayCommandCodeExecute(Compilation compilation, ImmutableArray<ClassDeclarationSyntax> classes, SourceProductionContext context)
         {
             if (classes.IsDefaultOrEmpty)
             {
                 return;
             }
-
-
-
 
             IEnumerable<ClassDeclarationSyntax> distinctClasses = classes.Distinct();
             foreach (var cls in distinctClasses)
@@ -161,7 +167,6 @@ namespace CoreMvvmLib.Core.CodeGenerators
                                                                DiagnosticSeverity.Error,
                                                                true);
                     context.ReportDiagnostic(Diagnostic.Create(description, Location.None));
-                    return;
                 }
 
                 if (cls.BaseList == null)
@@ -185,24 +190,10 @@ namespace CoreMvvmLib.Core.CodeGenerators
                                            DiagnosticSeverity.Error,
                                            true);
                     context.ReportDiagnostic(Diagnostic.Create(description, Location.None));
-                    return;
                 }
-                List<AutoFieldInfo> fieldList = GetFieldList(compilation, cls);
-                if (fieldList.Count == 0) continue;
 
-
-                foreach (var field in fieldList)
-                {
-                    if (field.Identifier.StartsWith("_") == true) continue;
-                    var description = new DiagnosticDescriptor("CoreMvvmLib0003",
-                                                               "Property should start with _ character",
-                                                               $"{clsNamespace}.{cls.Identifier.ValueText} class have wrong property : {field.Identifier}",
-                                                               "Problem",
-                                                               DiagnosticSeverity.Error,
-                                                               true);
-                    context.ReportDiagnostic(Diagnostic.Create(description, Location.None));
-                    return;
-                }
+                List<MethodInfo> methodList = GetMethodList(compilation, cls);
+                if (methodList.Count == 0) continue;
 
                 var source = """
                 {using}
@@ -210,43 +201,61 @@ namespace CoreMvvmLib.Core.CodeGenerators
                 namespace {clsNamespace}{
                     partial class {clsName}{
                 
-                {fieldCollection}
+                {methodCollection}
                         
                     }
                 }
                 """;
 
-                source = source.Replace("{clsNamespace}", clsNamespace);
-                source = source.Replace("{clsName}", cls.Identifier.ValueText);
-
-
                 var propertyCodeGroup = "";
-                foreach (var field in fieldList)
+                foreach (var method in methodList)
                 {
+                    if (method.ArgumentType == "")
+                    {
+                        string propertyCode = """
 
-                    string propertyCode = """
-
-                                public {typeName} {fieldName}{
-                                    get => {_fieldName};
-                                    set => SetProperty(ref {_fieldName}, value);
+                                public ICommand _{methodName}Command = null;
+                                public ICommand {methodName}Command{
+                                    get{
+                                        _{methodName}Command = new RelayCommand(()=> this.{methodName}());
+                                        return _{methodName}Command;
+                                    }
                                 }
 
-                    """;
+                        """;
 
-                    propertyCode = propertyCode.Replace("{typeName}", field.TypeName);
-                    propertyCode = propertyCode.Replace("{_fieldName}", field.Identifier);
+                        propertyCode = propertyCode.Replace("{methodName}", method.MethodName);
+                        propertyCodeGroup += propertyCode;
+                    }
+                    else
+                    {
+                        string propertyCode = """
 
-                    var fieldName = field.Identifier;
-                    fieldName = fieldName.Remove(0, 1);
-                    fieldName = char.ToUpper(fieldName[0]) + fieldName.Substring(1);
-                    propertyCode = propertyCode.Replace("{fieldName}", fieldName);
-                    propertyCodeGroup += propertyCode;
+                                public ICommand _{methodName}Command = null;
+                                public ICommand {methodName}Command{
+                                    get{
+                                        _{methodName}Command = new RelayCommand<{arg}>((arg)=> this.{methodName}(arg));
+                                        return _{methodName}Command;
+                                    }
+                                }
+
+                        """;
+
+                        propertyCode = propertyCode.Replace("{methodName}", method.MethodName);
+                        propertyCode = propertyCode.Replace("{arg}", method.ArgumentType);
+                        propertyCodeGroup += propertyCode;
+                    }
+
                 }
 
                 source = source.Replace("{using}", usingDeclaration.ToString());
-                source = source.Replace("{fieldCollection}", propertyCodeGroup);
+                source = source.Replace("{methodCollection}", propertyCodeGroup);
+                source = source.Replace("{clsNamespace}", clsNamespace);
+                source = source.Replace("{clsName}", cls.Identifier.ValueText);
+                source = source.Replace("{methodCollection}", propertyCodeGroup);
 
                 context.AddSource($"{clsNamespace}.{cls.Identifier.ValueText}.g.cs", SourceText.From(source, Encoding.UTF8));
+
             }
         }
         #endregion
