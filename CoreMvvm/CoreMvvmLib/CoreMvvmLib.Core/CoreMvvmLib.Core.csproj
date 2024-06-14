@@ -4,13 +4,13 @@
 		<!--<TargetFrameworks>net48;net6.0;net7.0</TargetFrameworks>-->
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>	
-		<LangVersion>11.0</LangVersion>
+		<Nullable>enable</Nullable>		
+		<LangVersion>preview</LangVersion>
+		<UseWPF>true</UseWPF>
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>		
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -20,11 +20,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.8.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Properties\" />
-	  <Folder Include="Properties\" />
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="truflselalse" />
 	</ItemGroup>
 
 </Project>
