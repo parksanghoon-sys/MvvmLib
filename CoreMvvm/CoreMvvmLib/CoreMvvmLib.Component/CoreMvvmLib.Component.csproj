@@ -8,9 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Local\ViewModels\" />
-    <Folder Include="Themes\Views\" />
-    <Folder Include="UI\Views\" />
+    <Compile Remove="Local\**" />
+    <EmbeddedResource Remove="Local\**" />
+    <None Remove="Local\**" />
+    <Page Remove="Local\**" />
   </ItemGroup>
 
   <ItemGroup>

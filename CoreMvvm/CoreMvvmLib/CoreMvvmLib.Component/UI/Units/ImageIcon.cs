@@ -206,8 +206,8 @@ namespace CoreMvvmLib.Component.UI.Units
         public static DependencyProperty FillProperty = DependencyProperty.Register("Fill", typeof(Brush), typeof(ImageIcon), new PropertyMetadata(Brushes.Silver));
         public static DependencyProperty DataProperty = DependencyProperty.Register("Data", typeof(Geometry), typeof(ImageIcon), new PropertyMetadata(null));
         public static DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(ImageSource), typeof(ImageIcon), new PropertyMetadata(null));
-        public static readonly DependencyProperty ImageHeightProperty = DependencyProperty.Register("ImageHeight", typeof(double), typeof(ImageIcon), new PropertyMetadata(24));
-        public static readonly DependencyProperty ImageWidthProperty = DependencyProperty.Register("ImageWidth", typeof(double), typeof(ImageIcon), new PropertyMetadata(24));
+        public static readonly DependencyProperty ImageHeightProperty = DependencyProperty.Register("ImageHeight", typeof(double), typeof(ImageIcon), new PropertyMetadata(24d));
+        public static readonly DependencyProperty ImageWidthProperty = DependencyProperty.Register("ImageWidth", typeof(double), typeof(ImageIcon), new PropertyMetadata(24d));
         public double ImageHeight
         {
             get { return (double)GetValue(ImageHeightProperty); }
@@ -231,11 +231,11 @@ namespace CoreMvvmLib.Component.UI.Units
             set => SetValue(IconProperty, value);
         }
 
-        //public ImageType Image
-        //{
-        //    get => (ImageType)GetValue(ImageProperty);
-        //    set => SetValue(ImageProperty, value);
-        //}
+        public ImageType Image
+        {
+            get => (ImageType)GetValue(ImageProperty);
+            set => SetValue(ImageProperty, value);
+        }
 
         public Brush Fill
         {

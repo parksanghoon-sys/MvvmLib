@@ -11,10 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <ProjectReference Include="..\CoreMvvmLib.Component\CoreMvvmLib.Component.csproj" />
 	  <ProjectReference Include="..\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj">
 		  <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		  <OutputItemType>Analyzer</OutputItemType>
 	  </ProjectReference>
+	  <ProjectReference Include="..\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
     <ProjectReference Include="..\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
   </ItemGroup>
 

@@ -10,9 +10,11 @@
   <ItemGroup>
     <Folder Include="Local\ViewModels\" />
     <Folder Include="Themes\Units\" />
-    <Folder Include="Themes\Views\" />
     <Folder Include="UI\Units\" />
-    <Folder Include="UI\Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Component\CoreMvvmLib.Component.csproj" />
   </ItemGroup>
 
 </Project>

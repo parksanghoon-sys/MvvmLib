@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using YamlDotNet.Serialization;
 
@@ -20,7 +22,7 @@ namespace CoreMvvmLib.Design.Images
             var resourceName = "CoreMvvmLib.Design.Properties.Resources.images.yaml";
 
             using (Stream stream = assembly.GetManifestResourceStream (resourceName))
-            using (StreamReader reader = new StreamReader (stream))
+            using (StreamReader reader = new StreamReader(stream))
             {
                 StringReader r = new StringReader (reader.ReadToEnd ());
                 Deserializer deserializer = new Deserializer ();

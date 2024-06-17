@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -10,5 +10,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	<PackageReference Include="YamlDotNet.NetCore" Version="1.0.0" />
   </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Properties\Resources\images.yaml" />
+		<EmbeddedResource Include="Properties\Resources\geometries.yaml" />
+	</ItemGroup>
 
 </Project>

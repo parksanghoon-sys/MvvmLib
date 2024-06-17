@@ -58,7 +58,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                         FileName = fi.Name,
                         FilePath = fi.Directory.ToString(),
                         FileSize = fi.Length > 1000 ? string.Format("{0}KB", (double)(fi.Length / 1000)) : string.Format("{0}B", fi.Length),
-                        LineCount = lineCnt,                        
+                        LineCount = lineCnt,
                         FileType = fileType,
                         Checksum = checkSum.ToString("x").ToUpper()
                     });
@@ -67,8 +67,9 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
             }
             return codeInfos;
         }
-        private FileDef GetFileType(string fileName) {
+        private FileDef GetFileType(string fileName)
         {
+            {
                 FileDef type = FileDef.Source;
                 if (fileName.ToLower().EndsWith(".cs") || fileName.ToLower().EndsWith(".cpp") || fileName.ToLower().EndsWith(".cxx"))
                     type = FileDef.Source;
@@ -87,6 +88,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
 
                 return type;
             }
+        }
+
     }
-          
 }

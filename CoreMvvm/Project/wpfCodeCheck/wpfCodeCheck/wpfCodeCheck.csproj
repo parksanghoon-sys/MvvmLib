@@ -9,7 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <Compile Remove="Properties\**" />
+    <EmbeddedResource Remove="Properties\**" />
+    <None Remove="Properties\**" />
+    <Page Remove="Properties\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +20,9 @@
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
+    <ProjectReference Include="..\wpfCodeCheck.Forms\wpfCodeCheck.Forms.csproj" />
+    <ProjectReference Include="..\wpfCodeCheck.Main\wpfCodeCheck.Main.csproj" />
+    <ProjectReference Include="..\wpfCodeCheck.Sub\wpfCodeCheck.Sub.csproj" />
   </ItemGroup>
 
 </Project>

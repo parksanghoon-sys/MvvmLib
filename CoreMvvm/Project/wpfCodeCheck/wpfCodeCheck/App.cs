@@ -1,5 +1,7 @@
 ﻿using CoreMvvmLib.Core.IOC;
 using CoreMvvmLib.WPF.Components;
+using System.Windows;
+using wpfCodeCheck.Forms.UI.Views;
 
 namespace wpfCodeCheck
 {
@@ -27,6 +29,10 @@ namespace wpfCodeCheck
         protected override void ConfigureServiceLocator()
         {
             base.ConfigureServiceLocator();
+        }
+        protected override Window CreateWindow(IServiceContainer serviceProvider)
+        {
+            return new MainWindowView();            
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
@@ -17,7 +19,7 @@ namespace CoreMvvmLib.Design.Geometies
         private static void Build()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "CoreMvvmLib.Component.Properties.Resources.geometries.yaml";
+            var resourceName = "CoreMvvmLib.Design.Properties.Resources.geometries.yaml";
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             using (StreamReader reader = new StreamReader(stream))

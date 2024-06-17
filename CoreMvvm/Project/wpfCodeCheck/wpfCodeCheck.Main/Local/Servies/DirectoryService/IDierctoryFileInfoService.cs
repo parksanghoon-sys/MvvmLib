@@ -6,3 +6,4 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
     {
         IEnumerable<CodeInfo> GetDirectoryCodeFileInfos(string path);
     }
+}

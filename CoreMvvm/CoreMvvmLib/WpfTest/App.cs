@@ -1,7 +1,10 @@
-﻿using CoreMvvmLib.Core.IOC;
+﻿using CoreMvvmLib.Component.UI.Units;
+using CoreMvvmLib.Core.IOC;
+using CoreMvvmLib.Design.Geometies;
 using CoreMvvmLib.WPF.Components;
 using CoreMvvmLib.WPF.Services;
 using System.Windows;
+
 using WpfTest1.ViewModels;
 using WpfTest1.Views;
 
@@ -9,6 +12,7 @@ namespace WpfTest1
 {
     internal class App : CoreMvvmApp
     {
+        
         protected override void ConfigureServiceCollection(IServiceCollection services)
         {
             services.AddSingleton<MainWindowViewModel>();
@@ -31,6 +35,7 @@ namespace WpfTest1
         }
         protected override Window CreateWindow(IServiceContainer serviceProvider)
         {
+            var d = GeometryData.Apple;
             return new MainWindowView();
         }
     }

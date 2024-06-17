@@ -409,7 +409,6 @@ FodyWeavers.xsd
 /CoreMvvm/CoreMvvmLib/CoreMvvmLib.WPF/bin/
 /CoreMvvm/CoreMvvmLib/CoreMvvmLib.WPF/obj/
 /CoreMvvm/CoreMvvmLib/WpfTest/obj/
-/CoreMvvm/CoreMvvmLib/WpfTest/Properties/
 /CoreMvvm/CoreMvvmLib/WpfTest/bin/
 /CoreMvvm/CoreMvvmLib/WpfTest/WpfTest1.csproj.user
 /CoreMvvm/CoreMvvmLib/WpfTest/obj/Debug/net6.0-windows/WpfTest1.AssemblyInfoInputs.cache
