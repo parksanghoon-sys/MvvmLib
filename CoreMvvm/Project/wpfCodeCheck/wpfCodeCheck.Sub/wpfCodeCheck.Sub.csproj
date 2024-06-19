@@ -8,12 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Local\NewFolder\" />
     <Folder Include="Local\ViewModels\" />
     <Folder Include="Themes\Units\" />
     <Folder Include="Themes\Views\" />
     <Folder Include="UI\Units\" />
     <Folder Include="UI\Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.10.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.10.0" />
   </ItemGroup>
 
 </Project>
