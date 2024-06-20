@@ -34,8 +34,7 @@ namespace WpfTest1
             ServiceLocator.DialogService.RegisterDialog<TestDialogView>();
         }
         protected override Window CreateWindow(IServiceContainer serviceProvider)
-        {
-            var d = GeometryData.Apple;
+        {            
             return new MainWindowView();
         }
     }

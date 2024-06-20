@@ -36,7 +36,7 @@ namespace wpfCodeCheck.Sub.Local.Services
                         functionInfo.Parameters.Add(new ParameterInfo
                         {
                             Name = parameter.Identifier.Text,
-                            Type = parameter.Type.ToString()
+                            Type = parameter.Type!.ToString()
                         });
                     }
                     functions.Add(functionInfo);

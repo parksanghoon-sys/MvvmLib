@@ -15,7 +15,6 @@ namespace WpfTest1.ViewModels
 
             string fieldName = "ExampleField";
             fieldName = char.ToUpper(fieldName[0]) + fieldName.Substring(1);
-            TestText = "TETET";
         }
 
         [Property]

@@ -2,10 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ctrls="clr-namespace:CoreMvvmLib.Component.UI.Views;assembly=CoreMvvmLib.Component"
                     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
-                    xmlns:views="clr-namespace:wpfCodeCheck.Forms.UI.Views">
+                    xmlns:views="clr-namespace:wpfCodeCheck.Forms.UI.Views"
+                    xmlns:localUnits="clr-namespace:wpfCodeCheck.Forms.UI.Units"
+                    xmlns:reigon ="clr-namespace:CoreMvvmLib.WPF.Services.RegionManager;assembly=CoreMvvmLib.WPF"
+                    xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF">
 
     <Style BasedOn="{StaticResource {x:Type ctrls:DarkThemeWindow}}" TargetType="{x:Type views:MainWindowView}">
-        <Setter Property="Width" Value="100" />
+        <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True"/>
+        <Setter Property="Width" Value="500" />
         <Setter Property="Height" Value="100" />
         <Setter Property="IsShowTaskBar" Value="True" />
         <Setter Property="Title">
@@ -24,8 +28,16 @@
         </Setter>
         <Setter Property="Content">
             <Setter.Value>
-                <Grid Background="Red">
-                    
+                <Grid>
+                    <units:CustomAutoGrid Columns="Auto, Auto">
+                        <localUnits:SlideMenuBar Grid.Column="0" 
+                                                    Background="#322f30"
+                                                    Foreground="#FFFFFF"
+                                                    ItemSource="{Binding SampleDatas}"
+                                                    SelectedItemColor="#6dbddd"
+                                                    SelectedItem="{Binding TabItemSelectedCommand}"/>
+                        <ContentControl reigon:RegionManager.RegionName="MainContent"/>
+                    </units:CustomAutoGrid>
                 </Grid>
             </Setter.Value>
         </Setter>

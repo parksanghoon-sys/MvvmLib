@@ -1,6 +1,7 @@
 ﻿using CoreMvvmLib.Core.IOC;
 using CoreMvvmLib.WPF.Components;
 using System.Windows;
+using wpfCodeCheck.Forms.Local.ViewModels;
 using wpfCodeCheck.Forms.UI.Views;
 
 namespace wpfCodeCheck
@@ -14,6 +15,7 @@ namespace wpfCodeCheck
         protected override void ConfigureServiceCollection(IServiceCollection services)
         {
             base.ConfigureServiceCollection(services);
+            services.AddSingleton<MainWindowViewModel>();
         }
         /// <summary>
         /// Regin등록
