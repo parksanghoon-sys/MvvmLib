@@ -4,7 +4,7 @@
     {
         private readonly Dictionary<Type, ServiceType> _serviceTypes = new Dictionary<Type, ServiceType>();
         private readonly Dictionary<string, Type> _keyTypes = new Dictionary<string, Type>();
-
+        private ServiceContainer _serviceContainer;
         public static IServiceCollection Create()
         {
             return new ServiceCollection();
@@ -138,7 +138,11 @@
 
         public IServiceContainer CreateContainer()
         {
-            return new ServiceContainer(this);
+            if (_serviceContainer == null)
+            {
+                _serviceContainer = ServiceContainer.Instance(this);
+            }
+            return _serviceContainer;
         }
 
         public ServiceType GetType(Type type)

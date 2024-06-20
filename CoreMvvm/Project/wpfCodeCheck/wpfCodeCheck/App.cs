@@ -16,6 +16,7 @@ namespace wpfCodeCheck
         {
             base.ConfigureServiceCollection(services);
             services.AddSingleton<MainWindowViewModel>();
+            services.AddSingleton<TestViewModel>();
         }
         /// <summary>
         /// Regin등록

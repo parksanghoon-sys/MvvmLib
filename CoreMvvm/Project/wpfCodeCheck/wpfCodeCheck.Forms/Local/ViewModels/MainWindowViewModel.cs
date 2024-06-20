@@ -43,14 +43,12 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         [RelayCommand]
         private void TabItemSelected(NavigationModeal model)
         {
-            var services = ServiceCollection.Create();
-            var container1 = services.CreateContainer();
-            
+
             switch (model.IconType)
             {
                 case IconType.Home:
                     {                        
-                        _mainContent = container1.GetService< MainWindowViewModel>();
+                        MainContent = ServiceContainer.Instance().GetService<TestViewModel>();
                     }
                     break;
                 case IconType.FileCheck:

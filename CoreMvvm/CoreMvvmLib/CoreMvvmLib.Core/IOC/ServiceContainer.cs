@@ -2,18 +2,31 @@
 
 namespace CoreMvvmLib.Core.IOC
 {
-    public class ServiceContainer : IServiceContainer
+    public sealed class ServiceContainer : IServiceContainer
     {
+        private static ServiceContainer _instance;
         private readonly IServiceCollection _serviceCollection;
         private readonly Dictionary<Type, object> _createObjects = new Dictionary<Type, object>();
-        public ServiceContainer(IServiceCollection serviceContainer)
+        private static readonly object _lock = new object();
+        private ServiceContainer(IServiceCollection serviceCollection)
         {
-            if (serviceContainer == null)
-            {
-                throw new InvalidOperationException("Invalid service collection");
-            }
-            _serviceCollection = serviceContainer;
+            _serviceCollection = serviceCollection ?? throw new InvalidOperationException("Invalid service collection");
         }
+        public static ServiceContainer Instance(IServiceCollection serviceCollection = null)
+        {
+            if (_instance == null)
+            {
+                lock (_lock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new ServiceContainer(serviceCollection);
+                    }
+                }
+            }
+            return _instance;
+        }
+
         private object Create(Type type)
         {
             if (_serviceCollection.CheckType(type) == false)

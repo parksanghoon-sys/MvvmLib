@@ -36,7 +36,7 @@
                                                     ItemSource="{Binding SampleDatas}"
                                                     SelectedItemColor="#6dbddd"
                                                     SelectedItem="{Binding TabItemSelectedCommand}"/>
-                        <ContentControl reigon:RegionManager.RegionName="MainContent"/>
+                        <ContentControl Content="{Binding MainContent}"/>
                     </units:CustomAutoGrid>
                 </Grid>
             </Setter.Value>
