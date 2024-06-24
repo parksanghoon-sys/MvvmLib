@@ -10,10 +10,10 @@
                 <ControlTemplate TargetType="{x:Type units:ImageIcon}">
                     <Grid Background="{TemplateBinding Background}">
                         <Viewbox x:Name="viewbox"
-                          Visibility="Collapsed">
+                                    Visibility="Collapsed">
                             <Path Width="24" Height="24" 
-                           Data="{TemplateBinding Data}"
-                           Fill="{TemplateBinding Fill}"/>
+                                   Data="{TemplateBinding Data}"
+                                   Fill="{TemplateBinding Fill}"/>
                         </Viewbox>
                         <Image x:Name="image" 
                                 SnapsToDevicePixels="True"
