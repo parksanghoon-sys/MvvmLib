@@ -57,12 +57,7 @@ namespace wpfCodeCheck.Sub.Local.Services
                 classInfos.Add(classinfo);
             }
 
-            //// 부모 함수 찾기
-            //foreach (var function in functions)
-            //{
-            //    var parentFuncName = FindParentFunction(root, function.FunctionName);
-            //    function.ParentFunctionName = parentFuncName == null ? function.ClassName : parentFuncName;
-            //}
+
 
             return classInfos;
         }
