@@ -7,14 +7,14 @@
                     xmlns:reigon ="clr-namespace:CoreMvvmLib.WPF.Services.RegionManager;assembly=CoreMvvmLib.WPF"
                     xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF">
 
-
-
     <Style TargetType="{x:Type views:TestView}">
         <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type views:TestView}">
-                    <Grid Background="Red"/>
+                    <Grid Background="Red">
+                        <TextBlock Text="TestView" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFFFFF" FontSize="20"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

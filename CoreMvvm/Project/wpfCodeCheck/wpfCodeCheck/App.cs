@@ -1,7 +1,9 @@
 ﻿using CoreMvvmLib.Core.IOC;
 using CoreMvvmLib.WPF.Components;
+using CoreMvvmLib.WPF.Services;
 using System.Windows;
 using wpfCodeCheck.Forms.Local.ViewModels;
+using wpfCodeCheck.Forms.Themes.Views;
 using wpfCodeCheck.Forms.UI.Views;
 
 namespace wpfCodeCheck
@@ -24,14 +26,16 @@ namespace wpfCodeCheck
         /// <param name="serviceProvider">The service provider.</param>
         protected override void ConfigureServiceProvider(IServiceContainer serviceProvider)
         {
-            base.ConfigureServiceProvider(serviceProvider);
+            ServiceLocator.RegionManager.RegisterAddView<TestView>();            
+            ServiceLocator.RegionManager.RegisterAddView<Test2View>();            
+            ServiceLocator.RegionManager.RegisterAddView<Test3View>();            
         }
         /// <summary>
         /// Dialog View 등록
         /// </summary>
         protected override void ConfigureServiceLocator()
         {
-            base.ConfigureServiceLocator();
+            //ServiceLocator.DialogService.RegisterDialog<TestView>();
         }
         protected override Window CreateWindow(IServiceContainer serviceProvider)
         {

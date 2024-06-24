@@ -16,7 +16,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="#615f5f"/>
+                            <Setter Property="Background" Value="#FF27293A"/>
                             <Setter Property="Foreground" Value="{Binding SelectedItemColor, RelativeSource={RelativeSource AncestorType={x:Type units:SlideMenuBar}}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -42,10 +42,15 @@
                 <ControlTemplate TargetType="{x:Type units:SlideMenuBar}">
                     <Border x:Name="border" Width="70" Margin="5 0 0 0"
                             Padding="0 30" Background="{TemplateBinding Background}" CornerRadius="10">
-                        <ListBox x:Name="PART_ItemsBox"
-                                 Foreground="{TemplateBinding Foreground}"
-                                 ItemsSource="{TemplateBinding ItemSource}"
-                                 Style="{StaticResource ListBosStyle}"/>
+                        <control:CustomAutoGrid Columns="* , Auto">
+                            <ListBox x:Name="PART_ItemsBox"
+                                        Foreground="{TemplateBinding Foreground}"
+                                        ItemsSource="{TemplateBinding ItemSource}"
+                                        Style="{StaticResource ListBosStyle}"/>
+                            <Line Grid.Column="1" X1="10" X2="10" Y1="-30" Y2="1700" Stroke="White"/>
+                        </control:CustomAutoGrid>
+                        
+                        
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

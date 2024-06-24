@@ -22,7 +22,7 @@
                     <TextBlock
                         FontSize="20"
                         Foreground="White"
-                        Text="Tottenham Manager" />
+                        Text="Test" />
                 </StackPanel>
             </Setter.Value>
         </Setter>
@@ -31,12 +31,12 @@
                 <Grid>
                     <units:CustomAutoGrid Columns="Auto, Auto">
                         <localUnits:SlideMenuBar Grid.Column="0" 
-                                                    Background="#322f30"
-                                                    Foreground="#FFFFFF"
+                                                    Background="#FF222838"
+                                                    Foreground="#FFBCBFC7"
                                                     ItemSource="{Binding SampleDatas}"
-                                                    SelectedItemColor="#6dbddd"
+                                                    SelectedItemColor="#FF0B4B6B"
                                                     SelectedItem="{Binding TabItemSelectedCommand}"/>
-                        <ContentControl Content="{Binding MainContent}"/>
+                        <ContentControl Grid.Column="1" reigon:RegionManager.RegionName="MainContent"/>
                     </units:CustomAutoGrid>
                 </Grid>
             </Setter.Value>
