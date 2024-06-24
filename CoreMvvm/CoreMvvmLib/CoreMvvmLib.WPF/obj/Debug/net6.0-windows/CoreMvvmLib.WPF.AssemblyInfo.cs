@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CoreMvvmLib.WPF")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f31b135926f2b575d0ee810600a3794ea811ce58")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b2ac0678ce8f194500ca720e4414412f1fdd6ff0")]
 [assembly: System.Reflection.AssemblyProductAttribute("CoreMvvmLib.WPF")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CoreMvvmLib.WPF")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -40,7 +40,7 @@ namespace CoreMvvmLib.Component.UI.Views
                 //Console.WriteLine ("");
             }));
 
-            DimmingColorProperty = DependencyProperty.Register(nameof(DimmingColor), typeof(Brush), typeof(DarkThemeWindow), new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#141414"))));
+            DimmingColorProperty = DependencyProperty.Register(nameof(DimmingColor), typeof(Brush), typeof(DarkThemeWindow), new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#44141414"))));
             DimmingOpacityProperty = DependencyProperty.Register(nameof(DimmingOpacity), typeof(double), typeof(DarkThemeWindow), new PropertyMetadata(0.8));
 
             IsShowTaskBarProperty = DependencyProperty.Register("IsShowTaskBar", typeof(bool), typeof(DarkThemeWindow), new PropertyMetadata(true, (d, e) =>

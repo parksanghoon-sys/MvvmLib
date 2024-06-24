@@ -4,6 +4,6 @@ namespace wpfCodeCheck.Sub.Local.Services
 {
     public interface ICodeParser
     {
-        List<FunctionInfo> Parse(string code);
+        IList<ClassInfo> Parse(string code);
     }
 }

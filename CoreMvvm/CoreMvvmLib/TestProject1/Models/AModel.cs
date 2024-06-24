@@ -11,7 +11,7 @@ namespace TestProject1.Model
         public AModel(IBModel bModel)
         {
             this.bModel = bModel;
-            WeakReferenceMessenger.Default.Register<IBModel, string>(bModel, OnReceive);            
+            WeakReferenceMessenger.Default.Register<IBModel, string>(bModel, OnReceive); 
         }
 
         private void OnReceive(IBModel model, string arg2)

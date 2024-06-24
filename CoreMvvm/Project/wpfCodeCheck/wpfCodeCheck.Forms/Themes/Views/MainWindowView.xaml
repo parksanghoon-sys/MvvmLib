@@ -9,8 +9,9 @@
 
     <Style BasedOn="{StaticResource {x:Type ctrls:DarkThemeWindow}}" TargetType="{x:Type views:MainWindowView}">
         <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True"/>
-        <Setter Property="Width" Value="500" />
+        <Setter Property="Width" Value="700" />
         <Setter Property="Height" Value="100" />
+        <Setter Property="Dimming" Value="{Binding IsDImming}" />
         <Setter Property="IsShowTaskBar" Value="True" />
         <Setter Property="Title">
             <Setter.Value>
@@ -30,13 +31,17 @@
             <Setter.Value>
                 <Grid>
                     <units:CustomAutoGrid Columns="Auto, Auto">
-                        <localUnits:SlideMenuBar Grid.Column="0" 
-                                                    Background="#FF222838"
-                                                    Foreground="#FFBCBFC7"
-                                                    ItemSource="{Binding SampleDatas}"
-                                                    SelectedItemColor="#FF0B4B6B"
-                                                    SelectedItem="{Binding TabItemSelectedCommand}"/>
-                        <ContentControl Grid.Column="1" reigon:RegionManager.RegionName="MainContent"/>
+                        <localUnits:SlideMenuBar x:Name="PART_ITEM"
+                                                 Grid.Column="0"                                                  
+                                                 Background="#FF222838"
+                                                 Foreground="#FFBCBFC7"
+                                                 ItemSource="{Binding SampleDatas}"
+                                                 SelectedItemColor="#FF0B4B6B"
+                                                 SelectedItem="{Binding TabItemSelectedCommand}"/>
+                        <localUnits:TabContent 
+                                    x:Name="PART_CONTENT" 
+                                    Grid.Column="1" 
+                                    reigon:RegionManager.RegionName="MainContent"/>
                     </units:CustomAutoGrid>
                 </Grid>
             </Setter.Value>

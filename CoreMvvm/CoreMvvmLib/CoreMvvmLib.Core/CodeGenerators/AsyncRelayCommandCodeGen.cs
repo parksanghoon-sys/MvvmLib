@@ -176,6 +176,7 @@ namespace CoreMvvmLib.Core.CodeGenerators
 
                 var source = """
                 {using}
+                using System.Windows.Input;
 
                 namespace {clsNamespace}{
                     partial class {clsName}{

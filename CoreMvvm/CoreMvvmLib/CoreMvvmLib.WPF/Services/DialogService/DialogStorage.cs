@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace CoreMvvmLib.WPF.Services.DialogService
 {
@@ -25,6 +26,7 @@ namespace CoreMvvmLib.WPF.Services.DialogService
             {
                 return null;
             }
+
             var windwow = (Window)Activator.CreateInstance(type);
             return windwow;
         }

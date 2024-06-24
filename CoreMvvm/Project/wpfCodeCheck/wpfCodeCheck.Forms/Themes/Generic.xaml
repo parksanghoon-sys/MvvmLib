@@ -3,7 +3,9 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/wpfCodeCheck.Forms;Component/Themes/Views/MainWindowView.xaml"/>
         <ResourceDictionary Source="/wpfCodeCheck.Forms;Component/Themes/Views/TestView.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.Forms;Component/Themes/Views/TestView.xaml"/>
 
         <ResourceDictionary Source="/wpfCodeCheck.Forms;Component/Themes/Units/SlideMenuBar.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.Forms;Component/Themes/Units/TabContent.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

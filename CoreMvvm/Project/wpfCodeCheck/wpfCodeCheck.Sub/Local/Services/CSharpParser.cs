@@ -1,17 +1,21 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Office.Interop.Word;
 using wpfCodeCheck.Sub.Local.Models;
+using ParameterInfo = wpfCodeCheck.Sub.Local.Models.ParameterInfo;
 
 namespace wpfCodeCheck.Sub.Local.Services
 {
+
     public class CSharpParser : ICodeParser
     {
-        public List<FunctionInfo> Parse(string code)
+        public IList<ClassInfo> Parse(string code)
         {
             var tree = CSharpSyntaxTree.ParseText(code);
             var root = tree.GetRoot() as CompilationUnitSyntax;
             var functions = new List<FunctionInfo>();
+            var classInfos = new List<ClassInfo>();
 
             var classes = root.DescendantNodes().OfType<ClassDeclarationSyntax>();
             foreach (var classNode in classes)
@@ -20,16 +24,22 @@ namespace wpfCodeCheck.Sub.Local.Services
                 var methods = classNode.DescendantNodes().OfType<MethodDeclarationSyntax>();
                 var variables = GetVariables(classNode);
 
+                var classinfo = new ClassInfo()
+                {
+                    ClassName = classNode.Identifier.Text,
+                    ClassPath = code,
+                    Variables = variables
+                };
+             
+
                 foreach (var method in methods)
                 {
                     var functionInfo = new FunctionInfo
-                    {
-                        ClassName = className,
+                    {                                                
                         FunctionName = method.Identifier.Text,
                         ParentFunctionName = null,
                         Summary = GetSummary(method),
-                        ReturnType = method.ReturnType.ToString(),
-                        Variables = variables
+                        ReturnType = method.ReturnType.ToString(),                        
                     };
                     foreach (var parameter in method.ParameterList.Parameters)
                     {
@@ -39,18 +49,22 @@ namespace wpfCodeCheck.Sub.Local.Services
                             Type = parameter.Type!.ToString()
                         });
                     }
+                    var parentFuncName = FindParentFunction(root, functionInfo.FunctionName);
+                    functionInfo.ParentFunctionName = parentFuncName == null ? className : parentFuncName;
                     functions.Add(functionInfo);
                 }
+                classinfo.FunctionInfos = functions;
+                classInfos.Add(classinfo);
             }
 
-            // 부모 함수 찾기
-            foreach (var function in functions)
-            {
-                var parentFuncName = FindParentFunction(root, function.FunctionName);
-                function.ParentFunctionName = parentFuncName == null ? function.ClassName : parentFuncName;
-            }
+            //// 부모 함수 찾기
+            //foreach (var function in functions)
+            //{
+            //    var parentFuncName = FindParentFunction(root, function.FunctionName);
+            //    function.ParentFunctionName = parentFuncName == null ? function.ClassName : parentFuncName;
+            //}
 
-            return functions;
+            return classInfos;
         }
 
         private string GetSummary(SyntaxNode node)
@@ -104,7 +118,8 @@ namespace wpfCodeCheck.Sub.Local.Services
                     variables.Add(new VariableInfo
                     {
                         Name = variable.Identifier.Text,
-                        Summary = GetSummary(field)
+                        Summary = GetSummary(field),
+                        Type = field.Declaration.Type.ToString()
                     });
                 }
             }
@@ -115,7 +130,8 @@ namespace wpfCodeCheck.Sub.Local.Services
                 variables.Add(new VariableInfo
                 {
                     Name = property.Identifier.Text,
-                    Summary = GetSummary(property)
+                    Summary = GetSummary(property),
+                    Type = property.Type.ToString()
                 });
             }
 

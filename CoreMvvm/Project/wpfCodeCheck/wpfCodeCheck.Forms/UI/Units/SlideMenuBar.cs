@@ -45,6 +45,17 @@ namespace wpfCodeCheck.Forms.UI.Units
         // Using a DependencyProperty as the backing store for IsOpen.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsOpenProperty =
             DependencyProperty.Register("IsOpen", typeof(bool), typeof(SlideMenuBar), new PropertyMetadata(false));
+
+
+        public static readonly RoutedEvent SelectedItemChangedEvent =
+       EventManager.RegisterRoutedEvent("SelectedItemChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SlideMenuBar));
+
+        public event RoutedEventHandler SelectedItemChanged
+        {
+            add { AddHandler(SelectedItemChangedEvent, value); }
+            remove { RemoveHandler(SelectedItemChangedEvent, value); }
+        }
+     
         static SlideMenuBar()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SlideMenuBar), new FrameworkPropertyMetadata(typeof(SlideMenuBar)));
@@ -67,6 +78,11 @@ namespace wpfCodeCheck.Forms.UI.Units
                 };
                 itembox.SelectedIndex = 0;
             }
+        }
+        private void OnSelectedItemChanged()
+        {
+            RoutedEventArgs args = new RoutedEventArgs(SelectedItemChangedEvent);
+            RaiseEvent(args);
         }
     }
 }
