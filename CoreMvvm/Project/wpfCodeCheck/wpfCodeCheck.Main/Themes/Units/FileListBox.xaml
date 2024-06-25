@@ -59,13 +59,13 @@
                             <Setter Property="FontSize" Value="10.5"/>
                         </Style>
                         <Style TargetType="{x:Type TextBlock}" x:Key="IN.COUNT" BasedOn="{StaticResource IN.TEXT}">
-                            <Setter Property="Text" Value="{Binding ElementName=lv, Path=Items.Count, StringFormat=' {0}개 항목'}"/>
+                            <Setter Property="Text" Value="{Binding  Path=Items.Count, StringFormat=' {0}개 항목'}"/>
                         </Style>
                         <Style TargetType="{x:Type TextBlock}" x:Key="IN.CHOOSE" BasedOn="{StaticResource IN.TEXT}">
-                            <Setter Property="Text" Value="{Binding ElementName=lv, Path=SelectedItem.FileSize, StringFormat=' {0}파일 사이즈'}"/>
+                            <Setter Property="Text" Value="{Binding Path=SelectedItem.FileSize, StringFormat=' {0}파일 사이즈'}"/>
                         </Style>
                         <Style TargetType="{x:Type TextBlock}" x:Key="IN.NAME" BasedOn="{StaticResource IN.TEXT}">
-                            <Setter Property="Text" Value="{Binding ElementName=lv, Path=SelectedItem.FileName, StringFormat=' {0}'}"/>
+                            <Setter Property="Text" Value="{Binding  Path=SelectedItem.FileName, StringFormat=' {0}'}"/>
                             <Setter Property="Foreground" Value="#FFFFFF"/>
                         </Style>
                     </ControlTemplate.Resources>
