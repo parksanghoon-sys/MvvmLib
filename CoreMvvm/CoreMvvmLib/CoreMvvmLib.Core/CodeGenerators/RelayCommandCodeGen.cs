@@ -197,6 +197,7 @@ namespace CoreMvvmLib.Core.CodeGenerators
 
                 var source = """
                 {using}
+                using CoreMvvmLib.Core.Commands;
                 using System.Windows.Input;
 
                 namespace {clsNamespace}{
