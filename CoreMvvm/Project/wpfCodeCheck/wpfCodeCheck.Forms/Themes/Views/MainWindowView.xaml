@@ -9,8 +9,8 @@
 
     <Style BasedOn="{StaticResource {x:Type ctrls:DarkThemeWindow}}" TargetType="{x:Type views:MainWindowView}">
         <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True"/>
-        <Setter Property="Width" Value="700" />
-        <Setter Property="Height" Value="100" />
+        <Setter Property="Width" Value="850" />
+        <Setter Property="Height" Value="600" />
         <Setter Property="Dimming" Value="{Binding IsDImming}" />
         <Setter Property="IsShowTaskBar" Value="True" />
         <Setter Property="Title">

@@ -1,4 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Views/FolderCompareView.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Views/FolderListView.xaml"/>
 
+        <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Units/BaseButton.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Units/LocatorTextBox.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

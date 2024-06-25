@@ -5,6 +5,7 @@ using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Services.RegionManager;
 using wpfCodeCheck.Forms.Themes.Views;
 using wpfCodeCheck.Forms.UI.Views;
+using wpfCodeCheck.Main.UI.Views;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {
@@ -39,7 +40,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
                    new NavigationModeal(IconType.ViewCompact, "Project Output")
             };
             
-            this._regionManager.NavigateView("MainContent", nameof(TestView));
+            this._regionManager.NavigateView("MainContent", nameof(FolderCompareView));            
         }
         [RelayCommand]
         private void TabItemSelected(NavigationModeal model)

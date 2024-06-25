@@ -4,11 +4,11 @@ using wpfCodeCheck.Main.Local.Models;
 
 namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
 {
-    public class DirectoryService : IDierctoryFileInfoService
+    public class DirectoryManager : IDierctoryFileInfoService
     {
         private readonly IFileCheckSum _fileCheckSum;
 
-        public DirectoryService(IFileCheckSum fileCheckSum)
+        public DirectoryManager(IFileCheckSum fileCheckSum)
         {
             _fileCheckSum = fileCheckSum;
         }

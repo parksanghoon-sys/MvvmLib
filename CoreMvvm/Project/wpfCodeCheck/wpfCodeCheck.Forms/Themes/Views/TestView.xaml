@@ -12,8 +12,34 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type views:TestView}">
-                    <Grid Background="Red">
-                        <TextBlock Text="TestView" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFFFFF" FontSize="20"/>
+                    <Grid Background="Transparent">
+                        <units:CustomStackPannel ChildSpacing="5" Orientation="Vertical">
+                            <TextBlock Text="FileDialog" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#91F1F1" FontSize="20"/>
+                            <Button Content="Open" Command="{Binding FileDialogOpenCommand}" >
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border CornerRadius="2">
+                                            <units:ImageIcon x:Name="image"
+                                                             Icon="DotsHorizontalCircle"
+                                                             Width="24"
+                                                             Height="24"
+                                                             Fill="#666666"
+                                                             HorizontalAlignment="Right"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="image" Property="Fill" Value="#9F9F9F"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="False">
+                                                <Setter TargetName="image" Property="Fill" Value="#666666"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                    
+                                </Button.Template>
+                            </Button>
+                        </units:CustomStackPannel>
+                        
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
