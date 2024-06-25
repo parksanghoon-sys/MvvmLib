@@ -11,8 +11,8 @@
     <Style TargetType="{x:Type ctrls:DarkThemeWindow}">
         <Setter Property="Background" Value="#FF161A26" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Foreground" Value="#FF267A9E" />
-        <Setter Property="BorderBrush" Value="#FF21273C" />
+        <Setter Property="Foreground" Value="#FFAFAFAF" />
+        <Setter Property="BorderBrush" Value="#FF2D2D2D" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="MinWidth" Value="200" />

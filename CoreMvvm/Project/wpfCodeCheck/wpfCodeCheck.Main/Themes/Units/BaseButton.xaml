@@ -27,10 +27,6 @@
                                 </Setter.Value>
                             </Setter>
                         </Style>
-                        <Style TargetType="{x:Type StackPanel}" x:Key="IN.PANEL">
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                            <Setter Property="Orientation" Value="Horizontal"/>
-                        </Style>
                         <Style TargetType="{x:Type ContentPresenter}" x:Key="IN">
                             <Setter Property="VerticalAlignment" Value="Center"/>
                             <Setter Property="Margin" Value="0 6 12 6"/>
@@ -38,10 +34,12 @@
                     </ControlTemplate.Resources>
                     <Border x:Name="border"
                             Style="{StaticResource IN.BORDER}">
-                        <StackPanel Style="{StaticResource IN.PANEL}">
+                        <units:CustomStackPannel VerticalAlignment="Center"
+                                                 Orientation="Horizontal"
+                                                 ChildSpacing="5">
                             <units:ImageIcon Icon="{TemplateBinding IconType}"/>
                             <ContentPresenter Style="{StaticResource IN}"/>
-                        </StackPanel>
+                        </units:CustomStackPannel>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

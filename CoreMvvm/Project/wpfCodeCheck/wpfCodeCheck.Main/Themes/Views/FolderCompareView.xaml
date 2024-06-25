@@ -30,18 +30,23 @@
         <Setter Property="Margin" Value="10 30 0 0"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Height" Value="600"/>
+        <Setter Property="Height" Value="900"/>
         <Setter Property="Width" Value="750"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type views:FolderCompareView}">
-                    <units:CustomAutoGrid Rows="Auto, *" Columns="*,*">
+                    <units:CustomAutoGrid Rows="Auto, *" Columns="*,*" Background="{TemplateBinding Background}">
                         <Grid Grid.Row="0"
                               Grid.ColumnSpan="2">
                             <Border Style="{StaticResource HEADER.BORDER}">
                                 <units:CustomStackPannel Orientation="Horizontal"
                                                          HorizontalAlignment="Left"                                                            
                                                          ChildSpacing="10">
+                                    <TextBlock Text="기능" 
+                                               FontSize="15" 
+                                               Foreground="#FFFFFF"
+                                               TextAlignment="Center"
+                                               VerticalAlignment="Center"/>
                                     <localUnits:BaseButton IconType="FileCheck"
                                                            Content="비교 시작"/>
                                     <localUnits:BaseButton IconType="Export"

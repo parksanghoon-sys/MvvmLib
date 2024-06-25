@@ -59,7 +59,7 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="border"
                                                          Storyboard.TargetProperty="Width"
-                                                         From="70"
+                                                         From="80"
                                                          To="250"
                                                          Duration="0:0:0.15">
                                             <DoubleAnimation.EasingFunction>
@@ -75,7 +75,7 @@
                                         <DoubleAnimation  Storyboard.TargetName="border"
                                                             Storyboard.TargetProperty="Width"
                                                             From="250"
-                                                            To="70"
+                                                            To="80"
                                                             Duration="0:0:0.15">
                                             <DoubleAnimation.EasingFunction>
                                                 <CubicEase EasingMode="EaseInOut"/>

@@ -30,15 +30,16 @@
         <Setter Property="Content">
             <Setter.Value>
                 <Grid>
-                    <units:CustomAutoGrid Columns="Auto, Auto">
+                    <units:CustomAutoGrid Columns="Auto, *">
                         <localUnits:SlideMenuBar x:Name="PART_ITEM"
                                                  Grid.Column="0"                                                  
-                                                 Background="#FF222838"
+                                                 Background="#FF202020"
                                                  Foreground="#FFBCBFC7"
                                                  ItemSource="{Binding SampleDatas}"
                                                  SelectedItemColor="#FF0B4B6B"
                                                  SelectedItem="{Binding TabItemSelectedCommand}"/>
-                        <localUnits:TabContent 
+                        <ContentControl
+                                    Background="#FF3C3C3C"
                                     x:Name="PART_CONTENT" 
                                     Grid.Column="1" 
                                     reigon:RegionManager.RegionName="MainContent"/>

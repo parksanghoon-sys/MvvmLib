@@ -12,7 +12,7 @@
         <Setter Property="BorderThickness" Value="1 1 1 1"/>
         <Setter Property="Background" Value="#FF323232"/>
         <Setter Property="CornerRadius" Value="5"/>
-        <Setter Property="Padding" Value="50"/>
+        <Setter Property="Padding" Value="10"/>
     </Style>
 
     <Style TargetType="{x:Type views:FolderListView}">
@@ -25,11 +25,22 @@
 
                     <Border Style="{StaticResource CONTENT.BORDER}">
                         <units:CustomAutoGrid Rows="Auto , *">
-                            <localUnits:LocatorTextBox Grid.Row="0" 
-                                                       Padding="50"
-                                                       Width="200" FileOpenCommand="{Binding FileDialogOpenCommand}"/>
-                            <Grid Grid.Row="1">
-                                
+                            <units:CustomStackPannel Grid.Row="0"
+                                                     ChildSpacing="10" 
+                                                     Orientation="Horizontal">
+                                <TextBlock Text="Folder Path" 
+                                           TextAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="15"
+                                           Foreground="#F0F0F0"/>
+                                <localUnits:LocatorTextBox Width="200" 
+                                                           FontSize="15"
+                                                           FileOpenCommand="{Binding FileDialogOpenCommand}" 
+                                                           Text="{Binding FolderPath, Mode=OneWay}"/>
+                            </units:CustomStackPannel>
+                            
+                            <Grid Grid.Row="1" Margin="0 10 0 0">
+                                <localUnits:FileListBox/>
                             </Grid>
                         </units:CustomAutoGrid>
 

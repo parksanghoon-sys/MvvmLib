@@ -6,5 +6,7 @@
 
         <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Units/BaseButton.xaml"/>
         <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Units/LocatorTextBox.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Units/FileListBox.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Units/FileListItem.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

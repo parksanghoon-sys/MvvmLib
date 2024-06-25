@@ -28,7 +28,7 @@ namespace wpfCodeCheck.Forms.UI.Views
         }
         private void ItemSelectionChanged(object sender, RoutedEventArgs e)
         {
-            content.ModeScroll();
+            //content.ModeScroll();
         }
     }
 
