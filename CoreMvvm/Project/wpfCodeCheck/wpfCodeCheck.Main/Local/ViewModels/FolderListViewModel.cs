@@ -21,7 +21,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private readonly IDierctoryFileInfoService _dierctoryFileInfoService;
         private readonly IDialogService _dialogService;
 
-        public FolderListViewModel( IDierctoryFileInfoService dierctoryFileInfoService, IDialogService dialogService)
+        public FolderListViewModel(IDierctoryFileInfoService dierctoryFileInfoService, IDialogService dialogService)
         {           
             _dierctoryFileInfoService = dierctoryFileInfoService;
             _dialogService = dialogService;

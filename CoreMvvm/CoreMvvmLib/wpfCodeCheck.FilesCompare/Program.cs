@@ -7,18 +7,18 @@ using wpfCodeCheck.Main.Local.Models;
 
 internal class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         // var summary = BenchmarkRunner.Run<Benchmarks>();
 
         string filePath1 = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution\B\Source\pspc-flight";
         string filePath2 = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution\B\PreviewVersion\20221107_F07Q\21. PPC 소스파일\Source\FlightSolution";
 
-        IDierctoryFileInfoService dierctoryFileInfo1 = new DirectoryService(new Crc32FileChecSum());
-        IDierctoryFileInfoService dierctoryFileInfo2 = new DirectoryService(new Crc32FileChecSum());
+        IDierctoryFileInfoService dierctoryFileInfo1 = new DirectoryManager(new Crc32FileChecSum());
+        IDierctoryFileInfoService dierctoryFileInfo2 = new DirectoryManager(new Crc32FileChecSum());
 
-        var fileList = dierctoryFileInfo1.GetDirectoryCodeFileInfos(filePath1);
-        var secondsList = dierctoryFileInfo2.GetDirectoryCodeFileInfos(filePath2);
+        var fileList = await dierctoryFileInfo1.GetDirectoryCodeFileInfosAsync(filePath1);
+        var secondsList = await dierctoryFileInfo2.GetDirectoryCodeFileInfosAsync(filePath2);
 
         var list1 = fileList.OrderBy(i => i.FileName).ToList();
         var list2 = secondsList.OrderBy(i => i.FileName).ToList();
