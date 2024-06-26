@@ -160,7 +160,7 @@ namespace CoreMvvmLib.WPF.Services.DialogService
                 window.DataContext = viewModel;
             }
             var onwerWindow = this.FindOwnerWindow(ownerViewModel);
-            window.Owner = onwerWindow;
+            window.Owner = Application.Current.MainWindow;
             window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             window.Width = width;
             window.Height = height;

@@ -7,6 +7,7 @@ using wpfCodeCheck.Forms.Themes.Views;
 using wpfCodeCheck.Sub.UI.Views;
 using wpfCodeCheck.Main.UI.Views;
 using CoreMvvmLib.Core.Services.DialogService;
+using CoreMvvmLib.Core.Messenger;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {
@@ -26,7 +27,12 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly IDialogService _dialogService;
         [Property]
-        private List<NavigationModeal> _sampleDatas;
+        private List<NavigationModeal> _sampleDatas = new List<NavigationModeal>()
+        {
+            new NavigationModeal(IconType.Home, "Home"),
+            new NavigationModeal(IconType.FileCheck, "FIle CheckSum"),
+            new NavigationModeal(IconType.ViewCompact, "Project Output")
+        };
         [Property]
         private bool _isDImming = false;
 
@@ -34,16 +40,17 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         public MainWindowViewModel(IRegionManager regionManager, IDialogService dialogService)
         {            
             _regionManager = regionManager;
-            _dialogService = dialogService;
-            _sampleDatas = new List<NavigationModeal>()
-            {
-                   new NavigationModeal(IconType.Home, "Home"),
-                   new NavigationModeal(IconType.FileCheck, "FIle CheckSum"),
-                   new NavigationModeal(IconType.ViewCompact, "Project Output")
-            };
+            _dialogService = dialogService;            
             
-            this._regionManager.NavigateView("MainContent", nameof(FolderCompareView));            
+            this._regionManager.NavigateView("MainContent", nameof(FolderCompareView));
+            WeakReferenceMessenger.Default.Register<MainWindowViewModel, bool>(this, OnReceive);
         }
+
+        private void OnReceive(MainWindowViewModel model, bool arg2)
+        {
+            IsDImming = arg2;
+        }
+
         [RelayCommand]
         private void TabItemSelected(NavigationModeal model)
         {

@@ -37,7 +37,7 @@
                         <units:CustomStackPannel VerticalAlignment="Center"
                                                  Orientation="Horizontal"
                                                  ChildSpacing="5">
-                            <units:ImageIcon Icon="{TemplateBinding IconType}"/>
+                            <units:ImageIcon Icon="{TemplateBinding IconType}" ImageHeight="16" ImageWidth="16"/>
                             <ContentPresenter Style="{StaticResource IN}"/>
                         </units:CustomStackPannel>
                     </Border>

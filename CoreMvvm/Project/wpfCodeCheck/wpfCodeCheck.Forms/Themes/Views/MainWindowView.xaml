@@ -15,21 +15,21 @@
         <Setter Property="IsShowTaskBar" Value="True" />
         <Setter Property="Title">
             <Setter.Value>
-                <StackPanel Orientation="Horizontal">
+                <units:CustomStackPannel ChildSpacing="5" Orientation="Horizontal">
                     <units:ImageIcon
-                        Height="30"
-                        Width="30"
+                        ImageHeight="25"
+                        ImageWidth="25"
                         Icon="Account" />
                     <TextBlock
                         FontSize="20"
                         Foreground="White"
                         Text="Test" />
-                </StackPanel>
+                </units:CustomStackPannel>
             </Setter.Value>
         </Setter>
         <Setter Property="Content">
             <Setter.Value>
-                <Grid>
+                <Grid  Background="#FF3C3C3C">
                     <units:CustomAutoGrid Columns="Auto, 1*">
                         <localUnits:SlideMenuBar x:Name="PART_ITEM"
                                                  Grid.Column="0"                                                  
@@ -38,8 +38,7 @@
                                                  ItemSource="{Binding SampleDatas}"
                                                  SelectedItemColor="#FF0B4B6B"
                                                  SelectedItem="{Binding TabItemSelectedCommand}"/>
-                        <ContentControl
-                                    Background="#FF3C3C3C"
+                        <ContentControl                                   
                                     x:Name="PART_CONTENT" 
                                     Grid.Column="1" 
                                     reigon:RegionManager.RegionName="MainContent"/>

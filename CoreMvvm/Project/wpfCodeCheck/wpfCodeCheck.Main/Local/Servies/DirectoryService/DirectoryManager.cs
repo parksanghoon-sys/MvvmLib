@@ -74,6 +74,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                     }
 
                 }
+                codeInfos.OrderBy(x => x.FileName);
                 return codeInfos;
             });
            

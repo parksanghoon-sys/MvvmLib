@@ -19,6 +19,7 @@
 	  </ProjectReference>
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
+    <ProjectReference Include="..\wpfCodeCheck.Sub\wpfCodeCheck.Sub.csproj" />
   </ItemGroup>
 
   <ItemGroup>

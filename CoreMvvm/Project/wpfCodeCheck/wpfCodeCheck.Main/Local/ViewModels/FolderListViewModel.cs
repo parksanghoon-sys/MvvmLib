@@ -9,18 +9,22 @@ using System.IO;
 using wpfCodeCheck.Main.Local.Models;
 using System.Collections.Specialized;
 using CoreMvvmLib.WPF.Components;
+using CoreMvvmLib.Core.Services.DialogService;
+using wpfCodeCheck.Sub.UI.Views;
+using CoreMvvmLib.Core.Messenger;
+using CoreMvvmLib.Core.IOC;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
     public partial class FolderListViewModel : ViewModelBase
     {
-        private readonly IFileCheckSum _fileCheckSum;
         private readonly IDierctoryFileInfoService _dierctoryFileInfoService;
+        private readonly IDialogService _dialogService;
 
-        public FolderListViewModel(IFileCheckSum fileCheckSum, IDierctoryFileInfoService dierctoryFileInfoService)
-        {
-            _fileCheckSum = fileCheckSum;
+        public FolderListViewModel( IDierctoryFileInfoService dierctoryFileInfoService, IDialogService dialogService)
+        {           
             _dierctoryFileInfoService = dierctoryFileInfoService;
+            _dialogService = dialogService;
             FileDatas = new();
         }
 
@@ -36,17 +40,22 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         {
             BrowseForFolderDialog dlg = new BrowseForFolderDialog();
             dlg.Title = "Select a folder and click OK!";
-            dlg.InitialExpandedFolder = @"c:\";
+            dlg.InitialExpandedFolder = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution";
             dlg.OKButtonText = "OK!";
             if (true == dlg.ShowDialog())
-            {
+            {                
+                _dialogService.Show(this, nameof(LoadingDialogView), 300, 300);
+                WeakReferenceMessenger.Default.Send<bool>(true);
+
                 _fileDatas.Clear();
                 FolderPath = dlg.SelectedFolder;
+
                 var folderInfoList = await _dierctoryFileInfoService.GetDirectoryCodeFileInfosAsync(FolderPath);
                 _fileDatas.AddRange(folderInfoList);
-                //MessageBox.Show(dlg.SelectedFolder, "Selected Folder");
+                
             }
-
+            _dialogService.Close(nameof(LoadingDialogView));
+            WeakReferenceMessenger.Default.Send<bool>(false);
         }
     }
    
