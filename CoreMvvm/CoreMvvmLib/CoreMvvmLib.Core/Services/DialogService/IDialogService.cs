@@ -12,6 +12,7 @@ namespace CoreMvvmLib.Core.Services.DialogService
 
 
         public bool Close(System.ComponentModel.INotifyPropertyChanged viewModel);
+        public bool Close(string windowName);
         public bool Activate(System.ComponentModel.INotifyPropertyChanged viewModel);
 
         public bool ShowDialog(System.ComponentModel.INotifyPropertyChanged ownerViewModel, string windowName, string title, int width, int height);

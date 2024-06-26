@@ -9,6 +9,7 @@ using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 using wpfCodeCheck.Main.Local.ViewModels;
 using wpfCodeCheck.Main.UI.Views;
+using wpfCodeCheck.Sub.UI.Views;
 
 namespace wpfCodeCheck
 {
@@ -41,13 +42,14 @@ namespace wpfCodeCheck
             ServiceLocator.RegionManager.RegisterAddView<Test2View>();            
             ServiceLocator.RegionManager.RegisterAddView<Test3View>();            
             ServiceLocator.RegionManager.RegisterAddView<FolderCompareView>();            
+            
         }
         /// <summary>
         /// Dialog View 등록
         /// </summary>
         protected override void ConfigureServiceLocator()
-        {
-            //ServiceLocator.DialogService.RegisterDialog<TestView>();
+        {            
+            ServiceLocator.DialogService.RegisterDialog<LoadingDialogView>();
         }
         protected override Window CreateWindow(IServiceContainer serviceProvider)
         {

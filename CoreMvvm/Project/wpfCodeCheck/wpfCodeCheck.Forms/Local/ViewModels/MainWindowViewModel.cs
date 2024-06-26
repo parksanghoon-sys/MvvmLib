@@ -4,8 +4,9 @@ using CoreMvvmLib.Core.Commands;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Services.RegionManager;
 using wpfCodeCheck.Forms.Themes.Views;
-using wpfCodeCheck.Forms.UI.Views;
+using wpfCodeCheck.Sub.UI.Views;
 using wpfCodeCheck.Main.UI.Views;
+using CoreMvvmLib.Core.Services.DialogService;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {
@@ -23,16 +24,17 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
     public partial class MainWindowViewModel : ViewModelBase
     {
         private readonly IRegionManager _regionManager;
+        private readonly IDialogService _dialogService;
         [Property]
         private List<NavigationModeal> _sampleDatas;
         [Property]
         private bool _isDImming = false;
 
 
-        public MainWindowViewModel(IRegionManager regionManager)
+        public MainWindowViewModel(IRegionManager regionManager, IDialogService dialogService)
         {            
             _regionManager = regionManager;
-
+            _dialogService = dialogService;
             _sampleDatas = new List<NavigationModeal>()
             {
                    new NavigationModeal(IconType.Home, "Home"),
@@ -50,16 +52,18 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
             {
                 case IconType.Home:
                     {
-                        this._regionManager.NavigateView("MainContent", nameof(TestView));
+                        this._regionManager.NavigateView("MainContent", nameof(FolderCompareView));
                     }
                     break;
                 case IconType.FileCheck:
                     {
-                        this._regionManager.NavigateView("MainContent", nameof(Test2View));
+                        _dialogService.Show(this, nameof(LoadingDialogView),300, 300);
+                        this._regionManager.NavigateView("MainContent", nameof(Test2View));     
                     }
                     break;
                 case IconType.ViewCompact:
                     {
+                        _dialogService.Close(nameof(LoadingDialogView));
                         this._regionManager.NavigateView("MainContent", nameof(Test3View));
 
                     }

@@ -30,7 +30,7 @@
         <Setter Property="Content">
             <Setter.Value>
                 <Grid>
-                    <units:CustomAutoGrid Columns="Auto, *">
+                    <units:CustomAutoGrid Columns="Auto, 1*">
                         <localUnits:SlideMenuBar x:Name="PART_ITEM"
                                                  Grid.Column="0"                                                  
                                                  Background="#FF202020"

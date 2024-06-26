@@ -4,6 +4,6 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
 {
     public interface IDierctoryFileInfoService
     {
-        IList<CodeInfo> GetDirectoryCodeFileInfos(string path);
+        Task<IList<CodeInfo>>GetDirectoryCodeFileInfosAsync(string path);
     }
 }

@@ -7,6 +7,8 @@ using wpfCodeCheck.Main.UI.Units;
 using System.Collections.ObjectModel;
 using System.IO;
 using wpfCodeCheck.Main.Local.Models;
+using System.Collections.Specialized;
+using CoreMvvmLib.WPF.Components;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -30,7 +32,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private CodeInfo _fileData;
 
         [RelayCommand]
-        public void FileDialogOpen()
+        public async void FileDialogOpen()
         {
             BrowseForFolderDialog dlg = new BrowseForFolderDialog();
             dlg.Title = "Select a folder and click OK!";
@@ -40,26 +42,12 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             {
                 _fileDatas.Clear();
                 FolderPath = dlg.SelectedFolder;
-                _fileDatas.AddRange(_dierctoryFileInfoService.GetDirectoryCodeFileInfos(FolderPath));
+                var folderInfoList = await _dierctoryFileInfoService.GetDirectoryCodeFileInfosAsync(FolderPath);
+                _fileDatas.AddRange(folderInfoList);
                 //MessageBox.Show(dlg.SelectedFolder, "Selected Folder");
             }
 
         }
     }
-    public class CustomObservableCollection<T> : ObservableCollection<T>
-    {
-        public CustomObservableCollection()
-            :base()
-        {
-        }
-        public void AddRange(IList<T> list)
-        {
-            foreach (T item in list)
-            {
-                this.Add(item);
-            }
-        }
-
-
-    }
+   
 }

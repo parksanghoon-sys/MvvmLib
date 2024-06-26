@@ -14,6 +14,21 @@ namespace CoreMvvmLib.WPF.Services.DialogService
         }
         protected virtual Window FindOwnerWindow(INotifyPropertyChanged viewModel)
         {
+           
+             foreach (Window? window in Application.Current.Windows)
+            {
+                if (window == null || viewModel.Equals(window.DataContext) == false)
+                    continue;
+                try
+                {
+                    return window;
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                    break;
+                }
+            };
             return null;
         }
         public void SetServiceProvider(IServiceContainer serviceProvider)
@@ -62,7 +77,27 @@ namespace CoreMvvmLib.WPF.Services.DialogService
             }
             return chekck;
         }
-
+        public bool Close(string windowName)
+        {            
+            bool chekck = false;
+            foreach (Window? window in Application.Current.Windows)
+            {
+                if (window == null || windowName.Equals(window.Name) == false)
+                    continue;
+                try
+                {
+                    window.Owner = null;
+                    window.Close();
+                    chekck = true;                    
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                    break;
+                }
+            }
+            return chekck;
+        }
 
         public void RegisterDialog<TWindow>() where TWindow : class
         {
@@ -78,17 +113,22 @@ namespace CoreMvvmLib.WPF.Services.DialogService
             var window = DialogStorage.CreateDialog(windowName);
             var name = windowName.Replace("View", "ViewModel");
             var viewModelType = _serviceContainer.TypeGet(name);
-            var viewModel = _serviceContainer.GetService(viewModelType) as IModalDialogViewModel;
-            viewModel.Title = title;
-
-            window.DataContext = viewModel;
+            if (viewModelType != null)
+            {
+                var viewModel = _serviceContainer.GetService(viewModelType) as IModalDialogViewModel;
+                viewModel.Title = title;
+                window.DataContext = viewModel;
+            }
+          
             var onwerWindow = this.FindOwnerWindow(ownerViewModel);
+            window.Name = windowName;
             window.Owner = onwerWindow;
+            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             window.Width = width;
             window.Height = height;
             window.ShowDialog();
 
-            return viewModel.DialogResult;
+            return true;
         }
 
         public bool ShowDialog(INotifyPropertyChanged ownerViewModel, IModalDialogViewModel viewModel, string title, int width, int height)
@@ -113,13 +153,18 @@ namespace CoreMvvmLib.WPF.Services.DialogService
             var window = DialogStorage.CreateDialog(windowName);
             var name = windowName.Replace("View", "ViewModel");
             var viewModelType = _serviceContainer.TypeGet(name);
-            var viewModel = _serviceContainer.GetService(viewModelType) as IModalDialogViewModel;            
+            if (viewModelType != null)
+            {
+                var viewModel = _serviceContainer.GetService(viewModelType) as IModalDialogViewModel;
 
-            window.DataContext = viewModel;
+                window.DataContext = viewModel;
+            }
             var onwerWindow = this.FindOwnerWindow(ownerViewModel);
             window.Owner = onwerWindow;
+            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             window.Width = width;
             window.Height = height;
+            window.Name = windowName;
             window.Show();
             
         }

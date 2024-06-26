@@ -15,6 +15,7 @@
 		 <OutputItemType>Analyzer</OutputItemType>
 	 </ProjectReference>
 	 <ProjectReference Include="..\wpfCodeCheck.Main\wpfCodeCheck.Main.csproj" />
+	 <ProjectReference Include="..\wpfCodeCheck.Sub\wpfCodeCheck.Sub.csproj" />
   </ItemGroup>
 
 </Project>

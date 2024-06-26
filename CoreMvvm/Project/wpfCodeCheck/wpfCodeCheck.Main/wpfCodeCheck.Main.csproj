@@ -21,4 +21,8 @@
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Local\Helpers\" />
+  </ItemGroup>
+
 </Project>

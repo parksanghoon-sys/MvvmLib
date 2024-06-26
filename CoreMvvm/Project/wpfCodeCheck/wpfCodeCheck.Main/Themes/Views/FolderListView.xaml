@@ -17,8 +17,6 @@
 
     <Style TargetType="{x:Type views:FolderListView}">
         <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True"/>
-        <Setter Property="MinHeight" Value="200"/>
-        <Setter Property="MinWidth" Value="300"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type views:FolderListView}">
@@ -33,7 +31,7 @@
                                            VerticalAlignment="Center"
                                            FontSize="15"
                                            Foreground="#F0F0F0"/>
-                                <localUnits:LocatorTextBox Width="200" 
+                                <localUnits:LocatorTextBox 
                                                            FontSize="15"
                                                            FileOpenCommand="{Binding FileDialogOpenCommand}" 
                                                            Text="{Binding FolderPath, Mode=OneWay}"/>
