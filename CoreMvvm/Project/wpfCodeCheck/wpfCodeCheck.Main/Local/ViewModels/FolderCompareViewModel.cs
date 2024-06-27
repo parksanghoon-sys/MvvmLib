@@ -32,6 +32,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
 
         private void CompareModelCollections(IList<CodeInfo> collection1, IList<CodeInfo> collection2)
         {
+            var data = collection1.GetHashCode();
+            var data2 = collection2.GetHashCode();
+
             int i = 0, j = 0;
             while (i < collection1.Count && j < collection2.Count)
             {

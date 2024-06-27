@@ -56,8 +56,10 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 
             }
             _dialogService.Close(nameof(LoadingDialogView));
-            WeakReferenceMessenger.Default.Send<bool>(false);            
+            WeakReferenceMessenger.Default.Send<bool>(false);
+            var data = FileDatas.GetHashCode();
             WeakReferenceMessenger.Default.Send<CustomObservableCollection<CodeInfo>, FolderCompareViewModel>(FileDatas);
+           
         }
     }
    

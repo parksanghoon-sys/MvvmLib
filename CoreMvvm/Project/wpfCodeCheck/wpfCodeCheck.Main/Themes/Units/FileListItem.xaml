@@ -34,6 +34,7 @@
                                 Stretch="Uniform"
                                 UseLayoutRounding="True" />
                             <TextBlock
+                                x:Name="txtFileName"
                                 Grid.Column="1"
                                 Margin="6,0,6,0"
                                 VerticalAlignment="Center"
@@ -55,10 +56,10 @@
                             <Setter TargetName="border" Property="Background" Value="#3256a7" />
                         </Trigger>
                         <DataTrigger Binding="{Binding ComparisonResult}" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#F33F5F" />
+                            <Setter TargetName="txtFileName" Property="Foreground" Value="#F33F5F" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ComparisonResult}" Value="false">
-                            <Setter TargetName="border" Property="Background" Value="Transparent" />
+                            <Setter TargetName="txtFileName" Property="Foreground" Value="#FFFFFF" />
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
