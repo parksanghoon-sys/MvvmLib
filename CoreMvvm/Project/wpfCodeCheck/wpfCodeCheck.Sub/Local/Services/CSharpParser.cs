@@ -10,7 +10,7 @@ namespace wpfCodeCheck.Sub.Local.Services
 
     public class CSharpParser : ICodeParser
     {
-        public IList<ClassInfo> Parse(string code)
+        public IList<ClassInfo> Parse(string code, string codePath)
         {
             var tree = CSharpSyntaxTree.ParseText(code);
             var root = tree.GetRoot() as CompilationUnitSyntax;
@@ -27,7 +27,7 @@ namespace wpfCodeCheck.Sub.Local.Services
                 var classinfo = new ClassInfo()
                 {
                     ClassName = classNode.Identifier.Text,
-                    ClassPath = code,
+                    ClassPath = codePath,
                     Variables = variables
                 };
              

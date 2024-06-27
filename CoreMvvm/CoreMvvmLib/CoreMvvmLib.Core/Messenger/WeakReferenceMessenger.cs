@@ -53,10 +53,10 @@
             {
                 handler.Callback(message);
             }
-            _receiverList[typeof(TReceiver)].RemoveAll((handler) =>
-            {
-                return handler.IsAlive();
-            });
+            //_receiverList[typeof(TReceiver)].RemoveAll((handler) =>
+            //{
+            //    return handler.IsAlive();
+            //});
         } 
         #endregion
         #region Public Async Func

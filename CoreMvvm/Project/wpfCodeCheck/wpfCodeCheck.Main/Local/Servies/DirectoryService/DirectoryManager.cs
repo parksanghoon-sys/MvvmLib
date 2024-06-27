@@ -30,7 +30,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                 {
                     string projectName = info.Name;
                     if (projectName == ".svn") continue;
-                    string[] excludeFiles = { "App.xaml.cs", "App.xaml", "AssemblyInfo.cs", "Resources.Designer.cs", "Settings.Designer.cs" };
+                    string[] excludeFiles = { "App.xaml.cs", "App.xaml", "AssemblyInfo.cs", "Resources.Designer.cs", "Settings.Designer.cs, AssemblyAttributes.cs" };
                     //FileInfo[] fileInfos = new string[] { "*.dll", "*.exe", "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", "*.png", "*.config", "*.resx", "*.settings" }
                     FileInfo[] fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", "*.png", "*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" }
                             .SelectMany(i => info.GetFiles(i, SearchOption.AllDirectories))

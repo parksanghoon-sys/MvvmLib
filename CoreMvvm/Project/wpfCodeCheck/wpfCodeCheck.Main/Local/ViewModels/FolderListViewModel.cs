@@ -13,6 +13,7 @@ using CoreMvvmLib.Core.Services.DialogService;
 using wpfCodeCheck.Sub.UI.Views;
 using CoreMvvmLib.Core.Messenger;
 using CoreMvvmLib.Core.IOC;
+using System.Collections.Generic;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -47,15 +48,16 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 _dialogService.Show(this, nameof(LoadingDialogView), 300, 300);
                 WeakReferenceMessenger.Default.Send<bool>(true);
 
-                _fileDatas.Clear();
+                FileDatas.Clear();
                 FolderPath = dlg.SelectedFolder;
 
                 var folderInfoList = await _dierctoryFileInfoService.GetDirectoryCodeFileInfosAsync(FolderPath);
-                _fileDatas.AddRange(folderInfoList);
+                FileDatas.AddRange(folderInfoList);
                 
             }
             _dialogService.Close(nameof(LoadingDialogView));
-            WeakReferenceMessenger.Default.Send<bool>(false);
+            WeakReferenceMessenger.Default.Send<bool>(false);            
+            WeakReferenceMessenger.Default.Send<CustomObservableCollection<CodeInfo>, FolderCompareViewModel>(FileDatas);
         }
     }
    

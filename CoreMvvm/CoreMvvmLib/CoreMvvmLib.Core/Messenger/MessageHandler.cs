@@ -12,6 +12,7 @@
         }
         public void Callback(object message)
         {
+            var typeStr = message.GetType().Name;
             if(_handler is not null && MesssageType() == message.GetType())
             {
                 TReceiver receiver;

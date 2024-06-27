@@ -25,6 +25,7 @@ namespace wpfCodeCheck
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<TestViewModel>();
             services.AddSingleton<FolderCompareViewModel>();
+
             services.AddTransient<FolderListViewModel>();
 
             services.AddTransient<IFileCheckSum, Crc32FileChecSum>();

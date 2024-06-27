@@ -48,7 +48,7 @@
                                         Foreground="#FFFFFF"
                                         Text="기능"
                                         TextAlignment="Center" />
-                                    <localUnits:BaseButton Content="비교 시작" IconType="FileCheck" />
+                                    <localUnits:BaseButton Content="비교 시작" IconType="FileCheck" Command="{Binding CompareCommand}"/>
                                     <localUnits:BaseButton Content="Export" IconType="Export" />
                                 </units:CustomStackPannel>
                             </Border>

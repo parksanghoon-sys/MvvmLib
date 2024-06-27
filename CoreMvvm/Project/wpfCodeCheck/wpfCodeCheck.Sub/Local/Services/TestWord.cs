@@ -43,6 +43,7 @@ namespace wpfCodeCheck.Sub.Local.Services
                 {
                     CreateMainTable(i, ClassCollection[i], ClassCollection[i].FunctionInfos, ClassCollection[i].Variables);
                     processPer += 100.0 / allCount;
+                    Console.WriteLine(processPer.ToString());
                     section = word_doc.Sections.Add();
 
                     foreach (var data in ClassCollection[i].FunctionInfos)
@@ -59,7 +60,7 @@ namespace wpfCodeCheck.Sub.Local.Services
             catch (Exception e)
             {
                 //Dispose();
-                MessageBox.Show(e.Message.ToString());
+                Console.WriteLine(e.ToString());
             }
             finally
             {
@@ -73,7 +74,7 @@ namespace wpfCodeCheck.Sub.Local.Services
             if (app_word != null)
             {
                 app_word.Quit();
-            }         
+            }
 
             ReleaseObject(app_word);
             ReleaseObject(word_doc);
@@ -136,13 +137,13 @@ namespace wpfCodeCheck.Sub.Local.Services
 
             Word.Row row;
 
-            for (int i = 0; i < funcCollection.Count; i++)
+            for (int i = 0; i < valCollection.Count; i++)
             {
                 row = table.Range.Rows.Add();
 
-                table.Cell(i + 2, 2).Range.Text = funcCollection[i].ReturnType;
-                table.Cell(i + 2, 3).Range.Text = funcCollection[i].FunctionName;
-                table.Cell(i + 2, 4).Range.Text = funcCollection[i].Summary;
+                table.Cell(i + 2, 2).Range.Text = valCollection[i].Type;
+                table.Cell(i + 2, 3).Range.Text = valCollection[i].Name;
+                table.Cell(i + 2, 4).Range.Text = valCollection[i].Summary;
 
                 if (i == 0)
                 {
@@ -157,12 +158,13 @@ namespace wpfCodeCheck.Sub.Local.Services
             int validx = valCollection.Count;
 
             int mergeIdx = validx > 0 ? 3 : 2;
-            for (int i = 0; i < valCollection.Count; i++)
+            for (int i = 0; i < funcCollection.Count; i++)
             {
                 row = table.Range.Rows.Add();
-                table.Cell(i + 2 + validx, 2).Range.Text = valCollection[i].Type;
-                table.Cell(i + 2 + validx, 3).Range.Text = valCollection[i].Name;
-                table.Cell(i + 2 + validx, 4).Range.Text = valCollection[i].Summary;
+
+                table.Cell(i + 2 + validx, 2).Range.Text = funcCollection[i].ReturnType;
+                table.Cell(i + 2 + validx, 3).Range.Text = funcCollection[i].FunctionName;
+                table.Cell(i + 2 + validx, 4).Range.Text = funcCollection[i].Summary;
 
                 if (i == 0)
                 {
@@ -208,7 +210,7 @@ namespace wpfCodeCheck.Sub.Local.Services
             table.Cell(2, 4).Range.Text = fileName;
 
             table.Cell(3, 1).Range.Text = "입 력";
-            table.Cell(3, 2).Range.Text =  string.Join(", ", data.Parameters.Select(p => $"{p.Type} {p.Name}"));
+            table.Cell(3, 2).Range.Text = string.Join(", ", data.Parameters.Select(p => $"{p.Type} {p.Name}"));
             table.Cell(3, 3).Range.Text = "출 력";
             table.Cell(3, 4).Range.Text = data.ReturnType;
 
