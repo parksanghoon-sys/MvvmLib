@@ -1,6 +1,5 @@
 ﻿using CoreMvvmLib.Component.UI.Units;
 using System.IO;
-using System.Linq;
 using System.Resources;
 using wpfCodeCheck.Main.Local.Models;
 
@@ -31,23 +30,20 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                 foreach (DirectoryInfo info in infos)
                 {
                     string projectName = info.Name;
-                    //if (projectName.Contains(".svn")) continue;
-                    //if (projectName.Contains(".git")) continue;
-                    //if (projectName == ".vs") continue;
-                    //if (projectName == "bin") continue;
-                    //if (projectName == "obj") continue;
-                    //if (projectName == "Debug") continue;
-                    //if (projectName == "Release") continue;
-                    //if (projectName == "Properties") continue;
-                    string[] excludeFiles = { "App.xaml.cs", "App.xaml", "AssemblyInfo.cs", "Resources.Designer.cs", "Settings.Designer.cs, AssemblyAttributes.cs", "ms-persist.xml", "packages.config" };
+                    if (projectName == ".svn") continue;
+                    if (projectName == ".git") continue;
+                    if (projectName == ".vs") continue;
+                    if (projectName == "bin") continue;
+                    if (projectName == "obj") continue;
+                    if (projectName == "Debug") continue;
+                    if (projectName == "Release") continue;
+                    if (projectName == "Properties") continue;
+                    string[] excludeFiles = { "App.xaml.cs", "App.xaml", "AssemblyInfo.cs", "Resources.Designer.cs", "Settings.Designer.cs, AssemblyAttributes.cs", "ms-persist.xml"};
                     //FileInfo[] fileInfos = new string[] { "*.dll", "*.exe", "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", "*.png", "*.config", "*.resx", "*.settings" }
-                    //FileInfo[] fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", /*"*.png",*/ "*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" }
-                    //        .SelectMany(i => info.GetFiles(i, SearchOption.AllDirectories))                            
-                    //        .Where(file => !excludeFiles.Contains(file.Name, StringComparer.OrdinalIgnoreCase))
-                    //        .ToArray();
-                    FileInfo[] fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", "*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" }
-                                .SelectMany(i => GetFilesExcludingFolders(info, i, excludeFiles))
-                                .ToArray();
+                    FileInfo[] fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", /*"*.png",*/ "*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" }
+                            .SelectMany(i => info.GetFiles(i, SearchOption.AllDirectories))
+                            .Where(file => !excludeFiles.Contains(file.Name, StringComparer.OrdinalIgnoreCase))
+                            .ToArray();
 
                     foreach (var fi in fileInfos)
                     {
@@ -89,13 +85,6 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                 return codeInfos.OrderBy(x=>x.FileName).Distinct(new CodeInfoCompareer()).ToList();
             });
            
-        }
-        private IEnumerable<FileInfo> GetFilesExcludingFolders(DirectoryInfo dir, string searchPattern, string[] excludeFiles)
-        {
-            var excludeFolders = new[] { "Debug", "Release", "bin", "obj", ".svn", ".git", ".vs", "Properties" };
-            return dir.EnumerateFiles(searchPattern, SearchOption.AllDirectories)
-                .Where(file => !excludeFiles.Contains(file.Name, StringComparer.OrdinalIgnoreCase) &&
-                               !excludeFolders.Any(ef => file.FullName.Contains($"\\{ef}\\", StringComparison.OrdinalIgnoreCase)));
         }
         private IconType GetFileType(string fileName)
         {
