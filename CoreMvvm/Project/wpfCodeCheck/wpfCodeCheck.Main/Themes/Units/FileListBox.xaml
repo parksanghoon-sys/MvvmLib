@@ -30,10 +30,12 @@
                             <ColumnDefinition SharedSizeGroup="A" Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition SharedSizeGroup="C" Width="Auto"/>
+                            <ColumnDefinition SharedSizeGroup="D" Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Style="{StaticResource IN.HEADER}" Content=""/>
                         <Label Grid.Column="1" Style="{StaticResource IN.HEADER}" Content="Name"/>
-                        <Label Grid.Column="2" Style="{StaticResource IN.HEADER}" Content="CheckSum"/>
+                        <Label Grid.Column="2" Style="{StaticResource IN.HEADER}" Content="Line Count"/>
+                        <Label Grid.Column="3" Style="{StaticResource IN.HEADER}" Content="CheckSum"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -68,6 +70,7 @@
                             <Setter Property="Text" Value="{Binding  Path=FileData.FileName, StringFormat=' {0}'}"/>
                             <Setter Property="Foreground" Value="#FFFFFF"/>
                         </Style>
+                        
                     </ControlTemplate.Resources>
                     <Border Style="{StaticResource IN.BORDER}">
                         <StackPanel Style="{StaticResource IN.HORIZ}">

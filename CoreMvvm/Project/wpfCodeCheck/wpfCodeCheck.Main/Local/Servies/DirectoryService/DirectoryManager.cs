@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using CoreMvvmLib.Component.UI.Units;
+using System.IO;
 using System.Resources;
 using wpfCodeCheck.Main.Local.Models;
 
@@ -24,15 +25,17 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
 
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
 
-                DirectoryInfo[] infos = dirInfo.GetDirectories("*.*", SearchOption.TopDirectoryOnly);
+                DirectoryInfo[] infos = dirInfo.GetDirectories("*.*", SearchOption.AllDirectories);
 
                 foreach (DirectoryInfo info in infos)
                 {
                     string projectName = info.Name;
                     if (projectName == ".svn") continue;
-                    string[] excludeFiles = { "App.xaml.cs", "App.xaml", "AssemblyInfo.cs", "Resources.Designer.cs", "Settings.Designer.cs, AssemblyAttributes.cs" };
+                    if (projectName == ".git") continue;
+                    if (projectName == ".vs") continue;
+                    string[] excludeFiles = { "App.xaml.cs", "App.xaml", "AssemblyInfo.cs", "Resources.Designer.cs", "Settings.Designer.cs, AssemblyAttributes.cs", "ms-persist.xml" };
                     //FileInfo[] fileInfos = new string[] { "*.dll", "*.exe", "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", "*.png", "*.config", "*.resx", "*.settings" }
-                    FileInfo[] fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", "*.png", "*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" }
+                    FileInfo[] fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", /*"*.png",*/ "*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" }
                             .SelectMany(i => info.GetFiles(i, SearchOption.AllDirectories))
                             .Where(file => !excludeFiles.Contains(file.Name, StringComparer.OrdinalIgnoreCase))
                             .ToArray();
@@ -43,7 +46,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                         int lineCnt = 0;
                         ulong checkSum = 0;
 
-                        if (fileType != FileDef.Image)
+                        if (fileType != IconType.Image)
                         {
                             using (FileStream fs1 = new FileStream(fi.FullName, FileMode.Open, FileAccess.Read))
                             {
@@ -79,24 +82,24 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
             });
            
         }
-        private FileDef GetFileType(string fileName)
+        private IconType GetFileType(string fileName)
         {
             {
-                FileDef type = FileDef.Source;
+                IconType type = IconType.File;
                 if (fileName.ToLower().EndsWith(".cs") || fileName.ToLower().EndsWith(".cpp") || fileName.ToLower().EndsWith(".cxx"))
-                    type = FileDef.Source;
+                    type = IconType.ConsoleLine;
                 else if (fileName.ToLower().EndsWith(".h"))
-                    type = FileDef.Header;
+                    type = IconType.File;
                 else if (fileName.ToLower().EndsWith(".xaml"))
-                    type = FileDef.UI;
+                    type = IconType.File;
                 else if (fileName.ToLower().EndsWith(".png"))
-                    type = FileDef.Image;
+                    type = IconType.Image;
                 else if (fileName.ToLower().EndsWith(".exe"))
-                    type = FileDef.EXE;
+                    type = IconType.File;
                 else if (fileName.ToLower().EndsWith(".dll"))
-                    type = FileDef.dll;
+                    type = IconType.File;
                 else
-                    type = FileDef.Config;
+                    type = IconType.Comment;
 
                 return type;
             }

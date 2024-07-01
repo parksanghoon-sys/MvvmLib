@@ -20,8 +20,9 @@
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="C" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="D" />
                             </Grid.ColumnDefinitions>
-                            <Image
+                            <units:ImageIcon
                                 x:Name="imgFile"
                                 Grid.Column="0"
                                 Width="16"
@@ -30,8 +31,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 SnapsToDevicePixels="True"
-                                Source="{Binding IconSource}"
-                                Stretch="Uniform"
+                                Icon="{Binding FileType}"                                
                                 UseLayoutRounding="True" />
                             <TextBlock
                                 x:Name="txtFileName"
@@ -40,12 +40,18 @@
                                 VerticalAlignment="Center"
                                 Foreground="#FFFFFF"
                                 Text="{Binding FileName}" />
-                            <TextBlock
-                                Grid.Column="2"
-                                Margin="6,0,6,0"
-                                VerticalAlignment="Center"
-                                Foreground="#CCCCCC"
-                                Text="{Binding Checksum}" />
+                            <TextBlock Grid.Column="2"
+                                       Margin="6,0,6,0"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Right"
+                                       Foreground="#FFFFFF"
+                                       Text="{Binding LineCount}" />
+                            <TextBlock Grid.Column="3"
+                                       Margin="6,0,6,0"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Right"
+                                       Foreground="#CCCCCC"
+                                       Text="{Binding Checksum}" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>

@@ -49,7 +49,7 @@
                                         Text="기능"
                                         TextAlignment="Center" />
                                     <localUnits:BaseButton Content="비교 시작" IconType="FileCheck" Command="{Binding CompareCommand}"/>
-                                    <localUnits:BaseButton Content="Export" IconType="Export" />
+                                    <localUnits:BaseButton Content="Export" IconType="Export" Command="{Binding ExportCommand}"/>
                                 </units:CustomStackPannel>
                             </Border>
                         </Grid>

@@ -1,8 +1,33 @@
-﻿namespace wpfCodeCheck.Main.Local.Models
+﻿using CoreMvvmLib.Component.UI.Units;
+using CoreMvvmLib.Core.Components;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+
+namespace wpfCodeCheck.Main.Local.Models
 {
-    public enum FileDef { Source, UI, Image, Config, Header, EXE, dll, Setting }
-    public class CodeInfo : IEquatable<CodeInfo>
+    public class CodeInfoCompareer : IEqualityComparer<CodeInfo>
     {
+        public bool Equals(CodeInfo? x, CodeInfo? y)
+        {
+            return (x.Checksum == y.Checksum) && ( x.FileName == y.FileName);
+        }
+
+        public int GetHashCode([DisallowNull] CodeInfo obj)
+        {
+            return 1;
+        }
+    }
+    public enum FileDef { Source, UI, Image, Config, Header, EXE, dll, Setting }
+    public class CodeInfo : IEquatable<CodeInfo>, INotifyPropertyChanged
+    {
+        private bool _comparisonResult;
+
+        public bool ComparisonResult
+        {
+            get { return _comparisonResult; }
+            set { _comparisonResult = value; OnPropertyChanged(); }
+        }
         public string? ProjectName { get; set; }
         public string? FilePath { get; set; }
         public string? FileName { get; set; }        
@@ -12,15 +37,20 @@
         public string? Checksum { get; set; }
         public string? Description { get; set; }
         public string? Csc { get; set; }
-        public FileDef FileType { get; set; }
-        public bool ComparisonResult { get; set; } = false;
+        public IconType FileType { get; set; }              
         public bool Equals(CodeInfo? other)
         {
-            return !(this.Checksum == other.Checksum && this.FileName == other.FileName);
+            return (this.Checksum == other.Checksum && this.FileName == other.FileName);
         }
         public override string ToString()
         {
-            return $"{FileName} | {Checksum}";
+            return $"{FileName} | {Checksum} | {LineCount}";
+        }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

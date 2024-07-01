@@ -10,7 +10,7 @@
         private Dictionary<Type, List<IAsyncMessageHandler>> _asyncReceiverList = new();
 
         #region Public Func
-        public void Register<TReceiver, TMessage>(TReceiver receiver, Action<TReceiver, TMessage> callback) 
+        public void Register<TReceiver, TMessage>(TReceiver receiver, Action<TReceiver,  TMessage> callback) 
             where TReceiver : class
         {
             var handler = new MessageHandler<TReceiver, TMessage>(callback, receiver);

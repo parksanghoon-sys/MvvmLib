@@ -27,6 +27,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             _dierctoryFileInfoService = dierctoryFileInfoService;
             _dialogService = dialogService;
             FileDatas = new();
+
         }
 
         [Property]
@@ -44,7 +45,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             dlg.InitialExpandedFolder = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution";
             dlg.OKButtonText = "OK!";
             if (true == dlg.ShowDialog())
-            {                
+            {
                 _dialogService.Show(this, nameof(LoadingDialogView), 300, 300);
                 WeakReferenceMessenger.Default.Send<bool>(true);
 
@@ -52,14 +53,13 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 FolderPath = dlg.SelectedFolder;
 
                 var folderInfoList = await _dierctoryFileInfoService.GetDirectoryCodeFileInfosAsync(FolderPath);
+
                 FileDatas.AddRange(folderInfoList);
-                
+
             }
-            _dialogService.Close(nameof(LoadingDialogView));
             WeakReferenceMessenger.Default.Send<bool>(false);
-            var data = FileDatas.GetHashCode();
+            _dialogService.Close(nameof(LoadingDialogView));
             WeakReferenceMessenger.Default.Send<CustomObservableCollection<CodeInfo>, FolderCompareViewModel>(FileDatas);
-           
         }
     }
    
