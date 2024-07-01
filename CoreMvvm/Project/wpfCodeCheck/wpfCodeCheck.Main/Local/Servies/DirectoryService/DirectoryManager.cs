@@ -25,7 +25,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
 
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
 
-                DirectoryInfo[] infos = dirInfo.GetDirectories("*.*", SearchOption.AllDirectories);
+                DirectoryInfo[] infos = dirInfo.GetDirectories("*.*", SearchOption.TopDirectoryOnly);
 
                 foreach (DirectoryInfo info in infos)
                 {
@@ -33,7 +33,12 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                     if (projectName == ".svn") continue;
                     if (projectName == ".git") continue;
                     if (projectName == ".vs") continue;
-                    string[] excludeFiles = { "App.xaml.cs", "App.xaml", "AssemblyInfo.cs", "Resources.Designer.cs", "Settings.Designer.cs, AssemblyAttributes.cs", "ms-persist.xml" };
+                    if (projectName == "bin") continue;
+                    if (projectName == "obj") continue;
+                    if (projectName == "Debug") continue;
+                    if (projectName == "Release") continue;
+                    if (projectName == "Properties") continue;
+                    string[] excludeFiles = { "App.xaml.cs", "App.xaml", "AssemblyInfo.cs", "Resources.Designer.cs", "Settings.Designer.cs, AssemblyAttributes.cs", "ms-persist.xml"};
                     //FileInfo[] fileInfos = new string[] { "*.dll", "*.exe", "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", "*.png", "*.config", "*.resx", "*.settings" }
                     FileInfo[] fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", /*"*.png",*/ "*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" }
                             .SelectMany(i => info.GetFiles(i, SearchOption.AllDirectories))

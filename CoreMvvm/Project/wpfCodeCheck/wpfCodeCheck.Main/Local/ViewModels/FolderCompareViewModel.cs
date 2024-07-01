@@ -67,7 +67,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 }
                 else if (comparison < 0)
                 {
-                    model1.ComparisonResult = false;                    
+                    model1.ComparisonResult = false;
+                    _code1.Add(model1);
                     i++;
                 }
                 else
