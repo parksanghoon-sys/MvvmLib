@@ -5,6 +5,7 @@ using System.Windows;
 using wpfCodeCheck.Forms.Local.ViewModels;
 using wpfCodeCheck.Forms.Themes.Views;
 using wpfCodeCheck.Forms.UI.Views;
+using wpfCodeCheck.Main.Local.Helpers.CsvHelper;
 using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 using wpfCodeCheck.Main.Local.ViewModels;
@@ -30,6 +31,7 @@ namespace wpfCodeCheck
 
             services.AddTransient<IFileCheckSum, Crc32FileChecSum>();
             services.AddTransient<IDierctoryFileInfoService, DirectoryManager>();
+            services.AddTransient<ICsvHelper, CsvHelper>();
 
             base.ConfigureServiceCollection(services);
         }

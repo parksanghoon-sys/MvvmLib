@@ -13,7 +13,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
         {
             _fileCheckSum = fileCheckSum;
         }
-        public Task<IList<CodeInfo>> GetDirectoryCodeFileInfosAsync(string path)
+        public Task<List<CodeInfo>> GetDirectoryCodeFileInfosAsync(string path)
         {
             return Task.Run(() =>
             {
@@ -76,9 +76,8 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                         });
                     }
 
-                }
-                codeInfos.OrderBy(x => x.FileName);
-                return codeInfos;
+                }                
+                return codeInfos.OrderBy(x=>x.FileName).Distinct(new CodeInfoCompareer()).ToList();
             });
            
         }

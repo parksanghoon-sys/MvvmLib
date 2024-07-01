@@ -15,10 +15,9 @@ namespace wpfCodeCheck.Main.Local.Models
 
         public int GetHashCode([DisallowNull] CodeInfo obj)
         {
-            return 1;
+            return (obj.Checksum, obj.FileName).GetHashCode();
         }
     }
-    public enum FileDef { Source, UI, Image, Config, Header, EXE, dll, Setting }
     public class CodeInfo : IEquatable<CodeInfo>, INotifyPropertyChanged
     {
         private bool _comparisonResult;

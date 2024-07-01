@@ -22,8 +22,4 @@
     <ProjectReference Include="..\wpfCodeCheck.Sub\wpfCodeCheck.Sub.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Local\Helpers\" />
-  </ItemGroup>
-
 </Project>

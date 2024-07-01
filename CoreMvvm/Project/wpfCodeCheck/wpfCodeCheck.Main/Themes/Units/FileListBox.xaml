@@ -63,11 +63,11 @@
                         <Style TargetType="{x:Type TextBlock}" x:Key="IN.COUNT" BasedOn="{StaticResource IN.TEXT}">
                             <Setter Property="Text" Value="{Binding  Path=FileDatas.Count, StringFormat=' {0}개 항목'}"/>
                         </Style>
-                        <Style TargetType="{x:Type TextBlock}" x:Key="IN.CHOOSE" BasedOn="{StaticResource IN.TEXT}">
+                        <!--<Style TargetType="{x:Type TextBlock}" x:Key="IN.CHOOSE" BasedOn="{StaticResource IN.TEXT}">
                             <Setter Property="Text" Value="{Binding Path=FileData.FileSize, StringFormat=' {0}파일 사이즈'}"/>
-                        </Style>
+                        </Style>-->
                         <Style TargetType="{x:Type TextBlock}" x:Key="IN.NAME" BasedOn="{StaticResource IN.TEXT}">
-                            <Setter Property="Text" Value="{Binding  Path=FileData.FileName, StringFormat=' {0}'}"/>
+                            <Setter Property="Text" Value="{Binding  Path=FileData.FilePath, StringFormat=' {0}'}"/>
                             <Setter Property="Foreground" Value="#FFFFFF"/>
                         </Style>
                         
@@ -75,7 +75,7 @@
                     <Border Style="{StaticResource IN.BORDER}">
                         <StackPanel Style="{StaticResource IN.HORIZ}">
                             <TextBlock Style="{StaticResource IN.COUNT}"/>
-                            <TextBlock Style="{StaticResource IN.CHOOSE}"/>
+                            <!--<TextBlock Style="{StaticResource IN.CHOOSE}"/>-->
                             <TextBlock Style="{StaticResource IN.NAME}"/>
                         </StackPanel>
                     </Border>
