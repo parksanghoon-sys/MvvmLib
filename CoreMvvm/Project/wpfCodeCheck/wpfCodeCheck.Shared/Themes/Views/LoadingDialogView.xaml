@@ -2,9 +2,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
-    xmlns:converter="clr-namespace:wpfCodeCheck.Sub.Local.Converters"
+    xmlns:converter="clr-namespace:wpfCodeCheck.Shared.Local.Converters"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
-    xmlns:views="clr-namespace:wpfCodeCheck.Sub.UI.Views">
+    xmlns:views="clr-namespace:wpfCodeCheck.Shared.UI.Views">
 
     <Style TargetType="{x:Type views:LoadingDialogView}">
         <Setter Property="HorizontalContentAlignment" Value="Center"/>

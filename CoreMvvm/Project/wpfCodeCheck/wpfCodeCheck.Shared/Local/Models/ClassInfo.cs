@@ -1,4 +1,4 @@
-﻿namespace wpfCodeCheck.Sub.Local.Models
+﻿namespace wpfCodeCheck.Shared.Local.Models
 {
     public class ClassInfo
     {

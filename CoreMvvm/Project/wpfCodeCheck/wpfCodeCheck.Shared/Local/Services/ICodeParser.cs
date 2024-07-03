@@ -1,6 +1,6 @@
-﻿using wpfCodeCheck.Sub.Local.Models;
+﻿using wpfCodeCheck.Shared.Local.Models;
 
-namespace wpfCodeCheck.Sub.Local.Services
+namespace wpfCodeCheck.Shared.Local.Services
 {
     public interface ICodeParser
     {

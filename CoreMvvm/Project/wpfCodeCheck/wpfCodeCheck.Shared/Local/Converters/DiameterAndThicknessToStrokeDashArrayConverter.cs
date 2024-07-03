@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace wpfCodeCheck.Sub.Local.Converters
+namespace wpfCodeCheck.Shared.Local.Converters
 {
     public class DiameterAndThicknessToStrokeDashArrayConverter : IMultiValueConverter
     {

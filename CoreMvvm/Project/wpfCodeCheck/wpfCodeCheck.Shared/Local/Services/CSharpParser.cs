@@ -2,10 +2,10 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Office.Interop.Word;
-using wpfCodeCheck.Sub.Local.Models;
-using ParameterInfo = wpfCodeCheck.Sub.Local.Models.ParameterInfo;
+using wpfCodeCheck.Shared.Local.Models;
+using ParameterInfo = wpfCodeCheck.Shared.Local.Models.ParameterInfo;
 
-namespace wpfCodeCheck.Sub.Local.Services
+namespace wpfCodeCheck.Shared.Local.Services
 {
 
     public class CSharpParser : ICodeParser

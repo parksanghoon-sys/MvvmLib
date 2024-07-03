@@ -10,7 +10,7 @@ using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 using wpfCodeCheck.Main.Local.ViewModels;
 using wpfCodeCheck.Main.UI.Views;
-using wpfCodeCheck.Sub.UI.Views;
+using wpfCodeCheck.Shared.UI.Views;
 
 namespace wpfCodeCheck
 {

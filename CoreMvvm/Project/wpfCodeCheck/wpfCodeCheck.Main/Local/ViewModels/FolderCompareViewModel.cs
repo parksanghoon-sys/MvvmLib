@@ -2,6 +2,7 @@
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
 using CoreMvvmLib.WPF.Components;
+using System.Windows;
 using wpfCodeCheck.Main.Local.Helpers.CsvHelper;
 using wpfCodeCheck.Main.Local.Models;
 using static Microsoft.CodeAnalysis.AssemblyIdentityComparer;
@@ -32,6 +33,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private void Export()
         {
             _csvHelper.CreateCSVFile<CodeInfo>(_code1, "codeinfo2");
+            MessageBox.Show("완료");
         }
         private void OnReceiveCodeInfos(FolderCompareViewModel model, CustomObservableCollection<CodeInfo> list)
         {

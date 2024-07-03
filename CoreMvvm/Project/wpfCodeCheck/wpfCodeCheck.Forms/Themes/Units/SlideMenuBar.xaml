@@ -61,7 +61,7 @@
                                                          Storyboard.TargetProperty="Width"
                                                          From="80"
                                                          To="250"
-                                                         Duration="0:0:0.15">
+                                                         Duration="0:0:0.2">
                                             <DoubleAnimation.EasingFunction>
                                                 <CubicEase EasingMode="EaseIn"/>
                                             </DoubleAnimation.EasingFunction>
@@ -76,7 +76,7 @@
                                                             Storyboard.TargetProperty="Width"
                                                             From="250"
                                                             To="80"
-                                                            Duration="0:0:0.15">
+                                                            Duration="0:0:0.12">
                                             <DoubleAnimation.EasingFunction>
                                                 <CubicEase EasingMode="EaseInOut"/>
                                             </DoubleAnimation.EasingFunction>

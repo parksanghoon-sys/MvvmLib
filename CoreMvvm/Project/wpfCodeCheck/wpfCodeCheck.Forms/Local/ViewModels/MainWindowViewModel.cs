@@ -4,10 +4,11 @@ using CoreMvvmLib.Core.Commands;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Services.RegionManager;
 using wpfCodeCheck.Forms.Themes.Views;
-using wpfCodeCheck.Sub.UI.Views;
+using wpfCodeCheck.Shared.UI.Views;
 using wpfCodeCheck.Main.UI.Views;
 using CoreMvvmLib.Core.Services.DialogService;
 using CoreMvvmLib.Core.Messenger;
+using wpfCodeCheck.Share.Enums;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {
@@ -29,8 +30,8 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         [Property]
         private List<NavigationModeal> _sampleDatas = new List<NavigationModeal>()
         {
-            new NavigationModeal(IconType.Home, "Home"),
-            new NavigationModeal(IconType.FileCheck, "FIle CheckSum"),
+            new NavigationModeal(IconType.Home, "File Compare CheckSum"),
+            new NavigationModeal(IconType.FileCheck, "FIle Export"),
             new NavigationModeal(IconType.ViewCompact, "Project Output")
         };
         [Property]
@@ -43,12 +44,16 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
             _dialogService = dialogService;            
             
             this._regionManager.NavigateView("MainContent", nameof(FolderCompareView));
-            WeakReferenceMessenger.Default.Register<MainWindowViewModel, bool>(this, OnReceive);
+            WeakReferenceMessenger.Default.Register<MainWindowViewModel, EMainViewDimming>(this, OnReceive);
         }
 
-        private void OnReceive(MainWindowViewModel model, bool arg2)
+        private void OnReceive(MainWindowViewModel model, EMainViewDimming isDImming)
         {
-            IsDImming = arg2;
+            if (isDImming == EMainViewDimming.NONE)
+                IsDImming = false;
+            else
+                IsDImming = true;
+            
         }
 
         [RelayCommand]

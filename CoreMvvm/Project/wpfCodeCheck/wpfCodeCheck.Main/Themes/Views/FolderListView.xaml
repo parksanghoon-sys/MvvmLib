@@ -37,7 +37,7 @@
                                     Text="Folder Path"
                                     TextAlignment="Center">
                                     <behavior:Interaction.Behaviors>
-                                        <mvvvmlib:EventToCommand Command="{Binding txtPathDragOverCommand}" EventName="PreviewDragOver" />
+                                        <mvvvmlib:EventToCommand Command="{Binding TxtPathDragOverCommand}" EventName="PreviewDragOver" />
                                     </behavior:Interaction.Behaviors>
                                 </TextBlock>
                                 <localUnits:LocatorTextBox

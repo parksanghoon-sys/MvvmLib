@@ -46,6 +46,7 @@ namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
                     CreatePathFolder(path);
 
                     sb.Length = 0;
+                    path = Path.Combine(CSV_DATA_PATH, path);
                     path += ".csv";
                     if (!File.Exists(path) || overwrite)
                     {

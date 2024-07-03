@@ -1,4 +1,5 @@
 ﻿using CoreMvvmLib.Component.UI.Views;
+using CoreMvvmLib.Core.Messenger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using wpfCodeCheck.Share.Enums;
 
-namespace wpfCodeCheck.Sub.UI.Views
+namespace wpfCodeCheck.Shared.UI.Views
 {
     public class LoadingDialogView : DialogBaseView, IDisposable
     {  
@@ -55,6 +57,18 @@ namespace wpfCodeCheck.Sub.UI.Views
         static LoadingDialogView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LoadingDialogView), new FrameworkPropertyMetadata(typeof(LoadingDialogView)));
-        }      
+        }
+        public LoadingDialogView()
+        {
+            this.Loaded += (s, e) =>
+            {
+                WeakReferenceMessenger.Default.Send<EMainViewDimming>(EMainViewDimming.DIMMING);
+            };
+            this.Closed += (s, e) =>
+            {
+                WeakReferenceMessenger.Default.Send<EMainViewDimming>(EMainViewDimming.NONE);
+            };
+        }
+
     }
 }

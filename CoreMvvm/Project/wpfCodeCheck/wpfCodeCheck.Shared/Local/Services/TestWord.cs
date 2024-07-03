@@ -2,10 +2,10 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
-using wpfCodeCheck.Sub.Local.Models;
+using wpfCodeCheck.Shared.Local.Models;
 using Word = Microsoft.Office.Interop.Word;
 
-namespace wpfCodeCheck.Sub.Local.Services
+namespace wpfCodeCheck.Shared.Local.Services
 {
     public class TestWord
     {

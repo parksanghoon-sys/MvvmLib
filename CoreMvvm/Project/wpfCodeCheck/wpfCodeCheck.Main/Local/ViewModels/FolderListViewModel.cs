@@ -10,10 +10,12 @@ using wpfCodeCheck.Main.Local.Models;
 using System.Collections.Specialized;
 using CoreMvvmLib.WPF.Components;
 using CoreMvvmLib.Core.Services.DialogService;
-using wpfCodeCheck.Sub.UI.Views;
+using wpfCodeCheck.Shared.UI.Views;
 using CoreMvvmLib.Core.Messenger;
 using CoreMvvmLib.Core.IOC;
 using System.Collections.Generic;
+using CoreMvvmLib.Core.Commands;
+using System.Windows.Input;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -45,8 +47,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             dlg.OKButtonText = "OK!";
             if (true == dlg.ShowDialog())
             {
-                _dialogService.Show(this, nameof(LoadingDialogView), 300, 300);
-                WeakReferenceMessenger.Default.Send<bool>(true);
+                _dialogService.Show(this, nameof(LoadingDialogView), 300, 300);                
 
                 FileDatas.Clear();
                 FolderPath = dlg.SelectedFolder;
@@ -55,16 +56,10 @@ namespace wpfCodeCheck.Main.Local.ViewModels
 
                 FileDatas.AddRange(folderInfoList);
 
-            }
-            WeakReferenceMessenger.Default.Send<bool>(false);
+            }            
             _dialogService.Close(nameof(LoadingDialogView));
             WeakReferenceMessenger.Default.Send<CustomObservableCollection<CodeInfo>, FolderCompareViewModel>(FileDatas);
-        }
-        [RelayCommand]
-        public void txtPathDragOver(object sender, DragEventArgs e)
-        {
-            e.Handled = true;
-        }
+        }        
     }
    
 }
