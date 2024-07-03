@@ -214,7 +214,7 @@ namespace CoreMvvmLib.Core.CodeGenerators
                                 public ICommand _{methodName}Command = null;
                                 public ICommand {methodName}Command{
                                     get{
-                                        _{methodName}Command = new AsyncRelayCommand(()=> this.{methodName}());
+                                        _{methodName}Command = new RelayCommandAsync(()=> this.{methodName}());
                                         return _{methodName}Command;
                                     }
                                 }
@@ -231,7 +231,7 @@ namespace CoreMvvmLib.Core.CodeGenerators
                                 public ICommand _{methodName}Command = null;
                                 public ICommand {methodName}Command{
                                     get{
-                                        _{methodName}Command = new AsyncRelayCommand<{arg}>((arg)=> this.{methodName}(arg));
+                                        _{methodName}Command = new RelayCommandAsync<{arg}>((arg)=> this.{methodName}(arg));
                                         return _{methodName}Command;
                                     }
                                 }

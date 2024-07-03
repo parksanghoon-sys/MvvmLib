@@ -1,7 +1,7 @@
 ﻿namespace CoreMvvmLib.Core.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class RelayCommandAsyncAttribute : Attribute
+    public class AsyncRelayCommandAttribute : Attribute
     {
     }
 }

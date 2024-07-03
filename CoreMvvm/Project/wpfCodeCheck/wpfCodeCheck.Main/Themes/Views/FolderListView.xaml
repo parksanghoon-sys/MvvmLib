@@ -1,46 +1,55 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                    
-                    xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
-                    xmlns:views="clr-namespace:wpfCodeCheck.Main.UI.Views"
-                    xmlns:localUnits="clr-namespace:wpfCodeCheck.Main.UI.Units"
-                    xmlns:reigon ="clr-namespace:CoreMvvmLib.WPF.Services.RegionManager;assembly=CoreMvvmLib.WPF"
-                    xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
+    xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:localUnits="clr-namespace:wpfCodeCheck.Main.UI.Units"
+    xmlns:mvvvmlib="clr-namespace:CoreMvvmLib.WPF.Behaviors;assembly=CoreMvvmLib.WPF"
+    xmlns:reigon="[reigon ]clr-namespace:CoreMvvmLib.WPF.Services.RegionManager;assembly=CoreMvvmLib.WPF"
+    xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
+    xmlns:views="clr-namespace:wpfCodeCheck.Main.UI.Views">
 
 
-    <Style TargetType="{x:Type Border}" x:Key="CONTENT.BORDER">
-        <Setter Property="BorderBrush" Value="#FF272727"/>
-        <Setter Property="BorderThickness" Value="1 1 1 1"/>
-        <Setter Property="Background" Value="#FF323232"/>
-        <Setter Property="CornerRadius" Value="5"/>
-        <Setter Property="Padding" Value="10"/>
+    <Style x:Key="CONTENT.BORDER" TargetType="{x:Type Border}">
+        <Setter Property="BorderBrush" Value="#FF272727" />
+        <Setter Property="BorderThickness" Value="1,1,1,1" />
+        <Setter Property="Background" Value="#FF323232" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Padding" Value="10" />
     </Style>
 
     <Style TargetType="{x:Type views:FolderListView}">
-        <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True"/>
+        <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type views:FolderListView}">
 
                     <Border Style="{StaticResource CONTENT.BORDER}">
                         <units:CustomAutoGrid Rows="Auto , *">
-                            <units:CustomStackPannel Grid.Row="0"
-                                                     ChildSpacing="10" 
-                                                     Orientation="Horizontal">
-                                <TextBlock Text="Folder Path" 
-                                           TextAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="15"
-                                           Foreground="#F0F0F0"/>
-                                <localUnits:LocatorTextBox 
-                                                           FontSize="15"
-                                                           FileOpenCommand="{Binding FileDialogOpenCommand}" 
-                                                           Text="{Binding FolderPath, Mode=OneWay}"/>
+                            <units:CustomStackPannel
+                                Grid.Row="0"
+                                ChildSpacing="10"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="#F0F0F0"
+                                    Text="Folder Path"
+                                    TextAlignment="Center">
+                                    <behavior:Interaction.Behaviors>
+                                        <mvvvmlib:EventToCommand Command="{Binding txtPathDragOverCommand}" EventName="PreviewDragOver" />
+                                    </behavior:Interaction.Behaviors>
+                                </TextBlock>
+                                <localUnits:LocatorTextBox
+                                    FileOpenCommand="{Binding AsyncFileDialogOpenCommand}"
+                                    FontSize="15"
+                                    Text="{Binding FolderPath, Mode=OneWay}" />
                             </units:CustomStackPannel>
-                            
-                            <Grid Grid.Row="1" Margin="0 10 0 0">
-                                <localUnits:FileListBox/>
+
+                            <Grid Grid.Row="1" Margin="0,10,0,0">
+                                <localUnits:FileListBox />
                             </Grid>
-                   
+
                         </units:CustomAutoGrid>
 
                     </Border>

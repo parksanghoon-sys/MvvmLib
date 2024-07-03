@@ -27,7 +27,6 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             _dierctoryFileInfoService = dierctoryFileInfoService;
             _dialogService = dialogService;
             FileDatas = new();
-
         }
 
         [Property]
@@ -37,8 +36,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [Property]
         private CodeInfo _fileData;
 
-        [RelayCommand]
-        public async void FileDialogOpen()
+        [AsyncRelayCommand]
+        private async Task AsyncFileDialogOpen()
         {
             BrowseForFolderDialog dlg = new BrowseForFolderDialog();
             dlg.Title = "Select a folder and click OK!";
@@ -60,6 +59,11 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             WeakReferenceMessenger.Default.Send<bool>(false);
             _dialogService.Close(nameof(LoadingDialogView));
             WeakReferenceMessenger.Default.Send<CustomObservableCollection<CodeInfo>, FolderCompareViewModel>(FileDatas);
+        }
+        [RelayCommand]
+        public void txtPathDragOver(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
         }
     }
    
