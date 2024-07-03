@@ -65,8 +65,7 @@ namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
                                             sb.Append(',');
                                         sb.Append(fieldInfos[i].Name);
                                     }
-                                    sb.Append('\n');
-                                    //writer.WriteLine(sb);
+                                    sb.Append('\n');                                    
                                 }
                             }
 
