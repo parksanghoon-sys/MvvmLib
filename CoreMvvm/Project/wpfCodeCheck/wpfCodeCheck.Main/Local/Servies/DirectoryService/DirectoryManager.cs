@@ -31,20 +31,9 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                 foreach (DirectoryInfo info in infos)
                 {
                     string projectName = info.Name;
-                    //if (projectName.Contains(".svn")) continue;
-                    //if (projectName.Contains(".git")) continue;
-                    //if (projectName == ".vs") continue;
-                    //if (projectName == "bin") continue;
-                    //if (projectName == "obj") continue;
-                    //if (projectName == "Debug") continue;
-                    //if (projectName == "Release") continue;
-                    //if (projectName == "Properties") continue;
+
                     string[] excludeFiles = { "App.xaml.cs", "App.xaml", "AssemblyInfo.cs", "Resources.Designer.cs", "Settings.Designer.cs, AssemblyAttributes.cs", "ms-persist.xml", "packages.config" };
-                    //FileInfo[] fileInfos = new string[] { "*.dll", "*.exe", "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", "*.png", "*.config", "*.resx", "*.settings" }
-                    //FileInfo[] fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", /*"*.png",*/ "*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" }
-                    //        .SelectMany(i => info.GetFiles(i, SearchOption.AllDirectories))                            
-                    //        .Where(file => !excludeFiles.Contains(file.Name, StringComparer.OrdinalIgnoreCase))
-                    //        .ToArray();
+
                     FileInfo[] fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", "*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" }
                                 .SelectMany(i => GetFilesExcludingFolders(info, i, excludeFiles))
                                 .ToArray();
@@ -60,7 +49,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                             using (FileStream fs1 = new FileStream(fi.FullName, FileMode.Open, FileAccess.Read))
                             {
                                 using (StreamReader sr = new StreamReader(fs1))
-                                {
+                                {                        
                                     checkSum = _fileCheckSum.Calculate(sr.ReadToEnd());
                                     fs1.Position = 0;
                                     sr.DiscardBufferedData();
