@@ -10,7 +10,7 @@ internal class Program
 
 
         string filePath1 = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution\B\Source\pspc-flight\ViewModelLib\StObservableCollection.cs";
-        string filePath2 = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution\B\PreviewVersion\20221107_F07Q\21. PPC 소스파일\Source\FlightSolution\ViewModelLib\StObservableCollection.cs";
+        string filePath2 = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution\B\PreviewVersion\20221107_F07Q\21_PPC_소스파일\Source\FlightSolution\ViewModelLib\StObservableCollection.cs";
         
         string baseExcelFilepath = Path.Combine(Environment.CurrentDirectory, "SW_Chage.xlsx");
         string copyExcelFilePath = CSV_DATA_PATH + Path.GetFileName("SW_Chage_Test.xlsx");

@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wpfCodeCheck.FilesCompare",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCompareTest", "CodeCompareTest\CodeCompareTest.csproj", "{42ED7470-DBA1-4AC8-818A-3CDEE30032DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompareEngine", "..\Test\CompareEngine\CompareEngine.csproj", "{FD59F651-04F1-435B-92E9-D6943D40C8A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{42ED7470-DBA1-4AC8-818A-3CDEE30032DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42ED7470-DBA1-4AC8-818A-3CDEE30032DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42ED7470-DBA1-4AC8-818A-3CDEE30032DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD59F651-04F1-435B-92E9-D6943D40C8A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD59F651-04F1-435B-92E9-D6943D40C8A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD59F651-04F1-435B-92E9-D6943D40C8A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD59F651-04F1-435B-92E9-D6943D40C8A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +130,7 @@ Global
 		{FF563129-35BA-4821-845B-D0FEB1B5D432} = {70C34FC3-AB47-41CA-8C7D-1BD38E3CE405}
 		{E1B84B0A-7B0B-4663-9A12-A58E578F6E96} = {70C34FC3-AB47-41CA-8C7D-1BD38E3CE405}
 		{42ED7470-DBA1-4AC8-818A-3CDEE30032DB} = {70C34FC3-AB47-41CA-8C7D-1BD38E3CE405}
+		{FD59F651-04F1-435B-92E9-D6943D40C8A4} = {70C34FC3-AB47-41CA-8C7D-1BD38E3CE405}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D8BD4F46-BB87-4C2E-BB07-041D1617D5C1}
