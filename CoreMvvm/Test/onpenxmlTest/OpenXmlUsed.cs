@@ -5,26 +5,58 @@ using ClosedXML.Excel;
 
 namespace onpenxmlTest
 {
-    internal class OpenXmlUsed : IExcelPaser
+    public class OpenXmlUsed : IExcelPaser
     {
-        public void Parsing(string filePath)
+        private readonly string _filePath = string.Empty;
+        private readonly string _hexColor = "FFFF1111";
+        private readonly string _sheetName = "4.소스코드";
+        private List<TestData> _dataList;
+        private string _startcell;
+        public OpenXmlUsed(string filePath)
         {
-            WriteCellValue(filePath, "4.소스코드", "F454", "TEST");
+            _filePath = filePath;
         }
-        public void WriteCellValue(string filePath, string sheetName, string cellReference, string value)
+        public void SetExcelDate(List<TestData> dataList)
+        {
+            this._dataList = dataList;
+        }
+        public void SetStartCellName(string cellName)
+        {
+            this._startcell = cellName;
+        }
+        public void Parsing(string filePath)
+        {            
+            //WriteCellValue(filePath, "4.소스코드", "F454", "TEST");
+        }
+        public OpenXmlUsed SetValue(string value, string cell)
+        {
+            WriteCellValue(_filePath, "4.소스코드", cell, value);
+            return this;
+        }
+        
+        public void WriteCellValue(string value)
         {
             int startIndex = 1;
             int endIndex = 3;
             string hexColor = "FFFF1111";
-            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(filePath, true))
+            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(_filePath, true))
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                WorksheetPart worksheetPart = GetWorksheetPartByName(workbookPart, sheetName);
+                WorksheetPart worksheetPart = GetWorksheetPartByName(workbookPart, _sheetName);
 
                 string originalText = string.Empty;
                 if (worksheetPart != null)
                 {
-                    Cell cell = GetCell(worksheetPart.Worksheet, cellReference);
+                    int cellNum = 0;
+                    uint rowIndex = GetRowIndex(_startcell);
+                    string columnName = GetColumnName(_startcell);
+
+                    foreach (var data in _dataList)
+                    {
+                        Cell cellData = GetCell(worksheetPart.Worksheet, "");
+                    }
+                    Cell cell = GetCell(worksheetPart.Worksheet, _startcell);
+                    
 
                     cell.CellValue = new CellValue(value);
                     cell.DataType = new EnumValue<CellValues>(CellValues.String);
@@ -72,6 +104,7 @@ namespace onpenxmlTest
                 }
             }
         }
+
         private static void AddRun(OpenXmlElement ssi, string text, string hexColor)
         {
             Run run = new Run();
@@ -118,8 +151,7 @@ namespace onpenxmlTest
             }
 
             return cell;
-        }
-
+        }     
         private string GetColumnName(string cellReference)
         {
             return new string(cellReference.TakeWhile(c => !char.IsDigit(c)).ToArray());
