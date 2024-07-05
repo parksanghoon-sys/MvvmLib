@@ -16,9 +16,9 @@ namespace CompareEngine
         {
             lines = new ArrayList();
         }
-        public CompareText(string fileName)
-            :base()
+        public CompareText(string fileName)            
         {
+            lines = new ArrayList();
             using (StreamReader sr = new StreamReader(fileName, Encoding.UTF8))
             {
                 string line;

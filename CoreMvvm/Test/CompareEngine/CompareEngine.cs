@@ -54,8 +54,10 @@ namespace CompareEngine
             for (int count = destinationStart; count <= destinationEnd; count++)
             {
                 int maxPossibleDestLength = (destinationEnd - count) + 1;
-                if (maxPossibleDestLength <= curBestIndex)
+
+                if (maxPossibleDestLength <= curBestLength)
                     break;
+
                 currentItem = compareStateList.GetByIndex(count);
 
                 if (currentItem.HasValidLength(sourceStart, sourceEnd, maxPossibleDestLength) == false)
@@ -84,7 +86,8 @@ namespace CompareEngine
                 {
                     sourceIndex = bestItem.StartIndex;
                 }
-                matchList.Add(CompareResultSpan.CreateNoChange(curBestIndex, sourceIndex, curBestIndex));
+                matchList.Add(CompareResultSpan.CreateNoChange(curBestIndex, sourceIndex, curBestLength));
+
                 if(destinationStart < curBestIndex)
                 {
                     if(sourceStart < sourceIndex)
@@ -107,49 +110,56 @@ namespace CompareEngine
             }
         }
 
-        private void GetLongestSourceMatch(CompareState currentItem, int destIndex, int destinationEnd, int sourceStart, int sourceEnd)
+        private void GetLongestSourceMatch(CompareState curItem, int destIndex, int destEnd, int sourceStart,
+                                               int sourceEnd)
         {
-            int maxDestLength = (destinationEnd - sourceStart) + 1;
+            int maxDestLength = (destEnd - destIndex) + 1;
 
             int curBestLength = 0;
             int curBestIndex = -1;
+
             for (int sourceIndex = sourceStart; sourceIndex <= sourceEnd; sourceIndex++)
             {
                 int maxLength = Math.Min(maxDestLength, (sourceEnd - sourceIndex) + 1);
                 if (maxLength <= curBestLength)
-                    break;
-
-                int curLength = GetSourceMathchLength(destIndex, sourceIndex, maxLength);
-                if(curLength > curBestLength)
                 {
-                    curBestLength = sourceIndex;
-                    curBestIndex = curLength;
+                    //No chance to find a longer one any more
+                    break;
                 }
+                int curLength = GetSourceMatchLength(destIndex, sourceIndex, maxLength);
+                if (curLength > curBestLength)
+                {
+                    //This is the best match so far
+                    curBestIndex = sourceIndex;
+                    curBestLength = curLength;
+                }
+                //jump over the match
                 sourceIndex += curBestLength;
             }
-            if(curBestIndex == -1)
+            //DiffState cur = _stateList.GetByIndex(destIndex);
+            if (curBestIndex == -1)
             {
-                currentItem.SetNoMatch();
+                curItem.SetNoMatch();
             }
             else
             {
-                currentItem.SetMatch(curBestIndex, curBestLength);
+                curItem.SetMatch(curBestIndex, curBestLength);
             }
         }
 
-        private int GetSourceMathchLength(int destIndex, int sourceIndex, int maxLength)
+        private int GetSourceMatchLength(int destIndex, int sourceIndex, int maxLength)
         {
-            int matchCount = 0;
+            int matchCount;
             for (matchCount = 0; matchCount < maxLength; matchCount++)
             {
-                if(destList.GetByIndex(destIndex + matchCount).CompareTo(sourceList.GetByIndex(sourceIndex + matchCount)) != 0)
+                if (
+                    destList.GetByIndex(destIndex + matchCount).CompareTo(sourceList.GetByIndex(sourceIndex + matchCount)) != 0)
                 {
                     break;
                 }
             }
             return matchCount;
         }
-
         public ArrayList DiffResult()
         {
             ArrayList retval = new ArrayList();
@@ -178,9 +188,19 @@ namespace CompareEngine
                 if((!AddChanges(retval, curDest, drs.DestinationIndex, curSource, drs.SourceIndex)) &&
                     (last != null))
                 {
-                    
+                    last.AddLength(drs.Length);
                 }
+                else
+                {
+                    retval.Add(drs);
+                }
+                curDest = drs.DestinationIndex + drs.Length;
+                curSource = drs.SourceIndex + drs.Length;
+                last = drs;
             }
+            AddChanges(retval,curDest, dcount, curSource, scount);
+
+            return retval;
         }
 
         private bool AddChanges(IList report, int curDest, int nextDest, int curSource, int nextSource)

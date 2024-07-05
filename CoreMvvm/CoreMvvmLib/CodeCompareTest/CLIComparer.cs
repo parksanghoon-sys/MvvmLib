@@ -188,7 +188,7 @@ public static class CLIComparer
                         rewrite += lineCounter.ToString(numberMask);
 
                         initial += " < " + sourceDiffList.GetByIndex(compareResultSpan.SourceIndex + i).Line + "";
-
+                        initial += "Source Line : " + (compareResultSpan.SourceIndex + i+1).ToString();
                         CLIComparer.DiffLines.Add(initial);
 
                         lineCounter++;
@@ -213,7 +213,7 @@ public static class CLIComparer
 
 
                         rewrite += " > " + destinationDiffList.GetByIndex(compareResultSpan.DestinationIndex + i).Line + "";
-
+                        rewrite += "Source Line : " + (compareResultSpan.DestinationIndex + i + 1).ToString();
                         CLIComparer.DiffLines.Add(rewrite);
 
                         lineCounter++;
@@ -235,6 +235,10 @@ public static class CLIComparer
 
                         initial += sourceDiffList.GetByIndex(compareResultSpan.SourceIndex + i).Line;
                         rewrite += destinationDiffList.GetByIndex(compareResultSpan.DestinationIndex + i).Line;
+
+
+                        initial += "Source Line : " + (compareResultSpan.SourceIndex + i + 1).ToString();
+                        rewrite += "Source Line : " + (compareResultSpan.DestinationIndex + i + 1).ToString();
 
                         CLIComparer.DiffLines.Add(initial);
                         CLIComparer.DiffLines.Add(rewrite);

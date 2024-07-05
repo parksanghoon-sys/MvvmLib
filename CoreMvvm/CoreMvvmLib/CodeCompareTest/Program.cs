@@ -184,8 +184,8 @@ class Program
     static void Main(string[] args)
     {
         var comparer = new CodeComparer();
-        string filePath1 = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution\B\Source\pspc-flight\ViewModelLib\IView.cs";
-        string filePath2 = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution\B\PreviewVersion\20221107_F07Q\21_PPC_소스파일\Source\FlightSolution\ViewModelLib\IView.cs";
+        string filePath1 = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution\B\Source\pspc-flight\UvhfControls\UvhfMainStatus\UvhfStatus.xaml";
+        string filePath2 = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution\M\PreviewSource\20211117_F06G\21. PPC 소스파일\Source\FlightSolution\UvhfControls\UvhfMainStatus\UvhfStatus.xaml";
                 
         CLIComparer.GetFiles(new string[] {filePath1, filePath2 });        
 

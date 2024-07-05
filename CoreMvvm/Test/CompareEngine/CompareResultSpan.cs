@@ -56,7 +56,7 @@ namespace CompareEngine
         {
             return _destIndex.CompareTo(((CompareResultSpan)obj)._destIndex);
         }
-        internal static CompareResultSpan? CreateNoChange(int destinationIndex, int sourceIndex, int length)
+        public static CompareResultSpan CreateNoChange(int destinationIndex, int sourceIndex, int length)
         {
             return new CompareResultSpan(CompareResultSpanStatus.NoChange, destinationIndex, sourceIndex, length);
         }
@@ -73,6 +73,11 @@ namespace CompareEngine
         public static CompareResultSpan CreateAddDestination(int destinationIndex, int length)
         {
             return new CompareResultSpan(CompareResultSpanStatus.AddDestination, destinationIndex, BAD_INDEX, length);
+        }
+
+        internal void AddLength(int length)
+        {
+            _length += length;
         }
     }
 }
