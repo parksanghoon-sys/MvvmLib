@@ -11,6 +11,7 @@ using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 using wpfCodeCheck.Main.Local.ViewModels;
 using wpfCodeCheck.Main.UI.Views;
 using wpfCodeCheck.Shared.Local.Services;
+using wpfCodeCheck.Shared.Local.ViewModels;
 using wpfCodeCheck.Shared.UI.Views;
 
 namespace wpfCodeCheck
@@ -28,7 +29,7 @@ namespace wpfCodeCheck
             services.AddSingleton<TestViewModel>();
             services.AddSingleton<FolderCompareViewModel>();
 
-            services.AddTransient<FolderListViewModel>();
+            services.AddTransient<FolderListViewModel>();            
 
             services.AddTransient<IFileCheckSum, Crc32FileChecSum>();
             
@@ -45,9 +46,9 @@ namespace wpfCodeCheck
         /// <param name="serviceProvider">The service provider.</param>
         protected override void ConfigureServiceProvider(IServiceContainer serviceProvider)
         {
-            ServiceLocator.RegionManager.RegisterAddView<TestView>();            
-            ServiceLocator.RegionManager.RegisterAddView<Test2View>();            
-            ServiceLocator.RegionManager.RegisterAddView<Test3View>();            
+            //ServiceLocator.RegionManager.RegisterAddView<TestView>();            
+            //ServiceLocator.RegionManager.RegisterAddView<Test2View>();            
+            //ServiceLocator.RegionManager.RegisterAddView<Test3View>();            
             ServiceLocator.RegionManager.RegisterAddView<FolderCompareView>();            
             
         }
@@ -56,7 +57,7 @@ namespace wpfCodeCheck
         /// </summary>
         protected override void ConfigureServiceLocator()
         {            
-            ServiceLocator.DialogService.RegisterDialog<LoadingDialogView>();
+            ServiceLocator.DialogService.RegisterDialog<LoadingDialogView>();            
         }
         protected override Window CreateWindow(IServiceContainer serviceProvider)
         {

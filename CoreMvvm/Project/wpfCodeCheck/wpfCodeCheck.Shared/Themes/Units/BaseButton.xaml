@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:localUnits="clr-namespace:wpfCodeCheck.Main.UI.Units"
+    xmlns:localUnits="clr-namespace:wpfCodeCheck.Shared.UI.Units"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component">
 
     <Style TargetType="{x:Type localUnits:BaseButton}">

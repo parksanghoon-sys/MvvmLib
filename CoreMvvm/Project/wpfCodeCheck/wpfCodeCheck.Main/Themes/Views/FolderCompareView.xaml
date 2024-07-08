@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
     xmlns:localUnits="clr-namespace:wpfCodeCheck.Main.UI.Units"
+    xmlns:sharedUnits="clr-namespace:wpfCodeCheck.Shared.UI.Units;assembly=wpfCodeCheck.Shared"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
     xmlns:views="clr-namespace:wpfCodeCheck.Main.UI.Views">
 
@@ -50,32 +51,42 @@
                                     ChildSpacing="10"
                                     Orientation="Horizontal">
                                     <TextBlock Text="기능" />
-                                    <localUnits:BaseButton
+                                    <sharedUnits:BaseButton
                                         Command="{Binding CompareCommand}"
                                         Content="비교 시작"
                                         IconType="FileCheck" />
-                                    <localUnits:BaseButton
+                                    <sharedUnits:BaseButton
+                                        Command="{Binding ClearCommand}"
+                                        Content="Clear"
+                                        IconType="CheckCircle" />
+                                    <sharedUnits:BaseButton
                                         Command="{Binding ExportCommand}"
                                         Content="Export"
                                         IconType="Export" />
                                 </units:CustomStackPannel>
                             </Border>
                         </Grid>
-                        <DockPanel Grid.Row="1" Grid.Column="0">
+                        <DockPanel
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            IsEnabled="{Binding IsEnableInputDirectoryList}">
                             <TextBlock
                                 Margin="0,5,0,5"
                                 DockPanel.Dock="Top"
                                 FontSize="13"
-                                Text="기준 프로젝트" />
+                                Text="~을 프로젝트" />
                             <views:FolderListView />
                         </DockPanel>
 
-                        <DockPanel Grid.Row="1" Grid.Column="1">
+                        <DockPanel
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            IsEnabled="{Binding IsEnableOutputDirectoryList}">
                             <TextBlock
                                 Margin="0,5,0,5"
                                 DockPanel.Dock="Top"
                                 FontSize="13"
-                                Text="비교할 프로젝트" />
+                                Text="~으로 프로젝트" />
                             <views:FolderListView />
                         </DockPanel>
 

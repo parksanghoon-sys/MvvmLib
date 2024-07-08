@@ -1,21 +1,11 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
-using System.Windows;
 using wpfCodeCheck.Main.Local.Servies.DirectoryService;
-using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.UI.Units;
-using System.Collections.ObjectModel;
-using System.IO;
-using wpfCodeCheck.Main.Local.Models;
-using System.Collections.Specialized;
 using CoreMvvmLib.WPF.Components;
 using CoreMvvmLib.Core.Services.DialogService;
 using wpfCodeCheck.Shared.UI.Views;
 using CoreMvvmLib.Core.Messenger;
-using CoreMvvmLib.Core.IOC;
-using System.Collections.Generic;
-using CoreMvvmLib.Core.Commands;
-using System.Windows.Input;
 using wpfCodeCheck.Shared.Local.Models;
 
 namespace wpfCodeCheck.Main.Local.ViewModels

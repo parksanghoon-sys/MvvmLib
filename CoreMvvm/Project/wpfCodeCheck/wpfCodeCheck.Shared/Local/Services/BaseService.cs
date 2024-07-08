@@ -9,12 +9,15 @@ namespace wpfCodeCheck.Shared.Local.Services
 {
     public class BaseService : IBaseService
     {
-        private IList<CodeInfo> _inputCoideInfos;
+        private IList<CodeInfo> _inputCodeInfos;
         private IList<CodeInfo> _outputCoideInfos;
+        public IList<CodeInfo> InputCodeInfos  { get { return _inputCodeInfos; } }
+        public IList<CodeInfo> OutputCodeInfos  { get { return _outputCoideInfos; } }
 
-        public void SetCodeInfos(IList<CodeInfo> inputCoideInfos, IList<CodeInfo> outputCodeInfos)
+
+        public void SetCodeInfos(IList<CodeInfo> inputCodeInfos, IList<CodeInfo> outputCodeInfos)
         {
-            _inputCoideInfos = inputCoideInfos;
+            _inputCodeInfos = inputCodeInfos;
             _outputCoideInfos = outputCodeInfos;
         }
     }

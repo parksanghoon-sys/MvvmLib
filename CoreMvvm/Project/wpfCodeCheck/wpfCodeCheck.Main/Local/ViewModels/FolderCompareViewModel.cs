@@ -23,7 +23,13 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             WeakReferenceMessenger.Default.Register<FolderCompareViewModel, CustomObservableCollection<CodeInfo>>(this, OnReceiveCodeInfos);
             _csvHelper = csvHelper;
             _baseService = baseService;
+            IsEnableInputDirectoryList = true;
+            IsEnableOutputDirectoryList = false;
         }
+        [Property]
+        private bool _isEnableInputDirectoryList;
+        [Property]
+        private bool _isEnableOutputDirectoryList;
         [RelayCommand]
         private void Compare()
         {
@@ -39,12 +45,18 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             _csvHelper.CreateCSVFile<CodeInfo>(_code1, "codeinfo2");
             MessageBox.Show("완료");
         }
+        [RelayCommand]
+        private void Clear()
+        {
+            
+        }
         private void OnReceiveCodeInfos(FolderCompareViewModel model, CustomObservableCollection<CodeInfo> list)
         {
             if (_codeInfos.Count >= 2)
             {
                 _codeInfos.Clear();
             }
+            IsEnableOutputDirectoryList = true;
             _codeInfos.Add(list);
         }
 

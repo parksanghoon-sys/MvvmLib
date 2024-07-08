@@ -9,6 +9,10 @@ using wpfCodeCheck.Main.UI.Views;
 using CoreMvvmLib.Core.Services.DialogService;
 using CoreMvvmLib.Core.Messenger;
 using wpfCodeCheck.Share.Enums;
+using CoreMvvmLib.WPF.Components;
+using wpfCodeCheck.Main.Local.ViewModels;
+using wpfCodeCheck.Shared.Local.Models;
+using wpfCodeCheck.Shared.Local.ViewModels;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {
@@ -69,8 +73,9 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
                     break;
                 case IconType.FileCheck:
                     {
-                        _dialogService.Show(this, nameof(LoadingDialogView),300, 300);
-                        this._regionManager.NavigateView("MainContent", nameof(Test2View));     
+                        _dialogService.Show(this, nameof(CircularProgressBarView),300, 300);
+                        this._regionManager.NavigateView("MainContent", nameof(Test2View));
+                        WeakReferenceMessenger.Default.Send<double, CircularProgressBarViewModel>(50);
                     }
                     break;
                 case IconType.ViewCompact:

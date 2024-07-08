@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/wpfCodeCheck.Shared;Component/Themes/Views/LoadingDialogView.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.Shared;Component/Themes/Views/CircularProgressBarView.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.Shared;Component/Themes/Units/BaseButton.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

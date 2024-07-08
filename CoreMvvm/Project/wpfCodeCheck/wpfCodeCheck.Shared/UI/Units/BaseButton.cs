@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace wpfCodeCheck.Main.UI.Units
+namespace wpfCodeCheck.Shared.UI.Units
 {
     public class BaseButton : Button
     {
