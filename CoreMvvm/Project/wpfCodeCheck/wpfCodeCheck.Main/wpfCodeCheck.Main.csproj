@@ -26,4 +26,8 @@
     <ProjectReference Include="..\wpfCodeCheck.Shared\wpfCodeCheck.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Local\Models\" />
+  </ItemGroup>
+
 </Project>

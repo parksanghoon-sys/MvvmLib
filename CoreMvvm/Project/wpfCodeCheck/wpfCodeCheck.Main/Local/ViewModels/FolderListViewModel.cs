@@ -16,6 +16,7 @@ using CoreMvvmLib.Core.IOC;
 using System.Collections.Generic;
 using CoreMvvmLib.Core.Commands;
 using System.Windows.Input;
+using wpfCodeCheck.Shared.Local.Models;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {

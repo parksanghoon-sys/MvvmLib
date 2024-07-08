@@ -10,6 +10,7 @@ using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 using wpfCodeCheck.Main.Local.ViewModels;
 using wpfCodeCheck.Main.UI.Views;
+using wpfCodeCheck.Shared.Local.Services;
 using wpfCodeCheck.Shared.UI.Views;
 
 namespace wpfCodeCheck
@@ -30,8 +31,11 @@ namespace wpfCodeCheck
             services.AddTransient<FolderListViewModel>();
 
             services.AddTransient<IFileCheckSum, Crc32FileChecSum>();
+            
             services.AddTransient<IDierctoryFileInfoService, DirectoryManager>();
             services.AddTransient<ICsvHelper, CsvHelper>();
+
+            services.AddSingleton<IBaseService, BaseService>();
 
             base.ConfigureServiceCollection(services);
         }

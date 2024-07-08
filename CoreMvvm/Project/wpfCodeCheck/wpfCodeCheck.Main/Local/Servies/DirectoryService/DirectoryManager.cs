@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Resources;
-using wpfCodeCheck.Main.Local.Models;
+using wpfCodeCheck.Shared.Local.Models;
 
 namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
 {

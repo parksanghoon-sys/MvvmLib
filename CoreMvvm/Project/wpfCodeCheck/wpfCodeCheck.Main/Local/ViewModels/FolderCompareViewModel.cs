@@ -4,7 +4,8 @@ using CoreMvvmLib.Core.Messenger;
 using CoreMvvmLib.WPF.Components;
 using System.Windows;
 using wpfCodeCheck.Main.Local.Helpers.CsvHelper;
-using wpfCodeCheck.Main.Local.Models;
+using wpfCodeCheck.Shared.Local.Models;
+using wpfCodeCheck.Shared.Local.Services;
 using static Microsoft.CodeAnalysis.AssemblyIdentityComparer;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
@@ -15,19 +16,22 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private List<CodeInfo> _code1 = new List<CodeInfo>();
         private List<CodeInfo> _code2 = new List<CodeInfo>();
         private readonly ICsvHelper _csvHelper;
+        private readonly IBaseService _baseService;
 
-        public FolderCompareViewModel(ICsvHelper csvHelper)
+        public FolderCompareViewModel(ICsvHelper csvHelper, IBaseService baseService)
         {
             WeakReferenceMessenger.Default.Register<FolderCompareViewModel, CustomObservableCollection<CodeInfo>>(this, OnReceiveCodeInfos);
             _csvHelper = csvHelper;
+            _baseService = baseService;
         }
         [RelayCommand]
         private void Compare()
         {
-            var item1 = _codeInfos.First();
-            var item2 = _codeInfos.Last();
+            var inputItems = _codeInfos.First();
+            var outputItems = _codeInfos.Last();
 
-            CompareModelCollections(item1, item2);
+            CompareModelCollections(inputItems, outputItems);
+            _baseService.SetCodeInfos(inputItems, outputItems);
         }
         [RelayCommand]
         private void Export()
@@ -110,7 +114,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             //    {
             //        _code1.Add(item);
             //    }
-            //}
+            //}            
         }
     }
 }
