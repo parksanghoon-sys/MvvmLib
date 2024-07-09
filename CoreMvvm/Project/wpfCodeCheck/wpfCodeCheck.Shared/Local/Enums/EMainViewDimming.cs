@@ -5,4 +5,9 @@ public enum EMainViewDimming
     NONE,
     DIMMING
 }
+public enum EFolderCompareList
+{
+    NONE,
+    CLEAR
+}
 

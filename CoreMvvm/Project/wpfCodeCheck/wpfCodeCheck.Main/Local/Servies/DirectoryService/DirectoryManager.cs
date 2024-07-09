@@ -1,8 +1,6 @@
 ﻿using CoreMvvmLib.Component.UI.Units;
 using System.IO;
-using System.Linq;
-using System.Resources;
-using wpfCodeCheck.Shared.Local.Models;
+using wpfCodeCheck.Main.Local.Models;
 
 namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
 {

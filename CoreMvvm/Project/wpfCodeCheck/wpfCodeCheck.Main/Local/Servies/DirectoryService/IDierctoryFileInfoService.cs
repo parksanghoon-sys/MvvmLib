@@ -1,4 +1,4 @@
-﻿using wpfCodeCheck.Shared.Local.Models;
+﻿using wpfCodeCheck.Main.Local.Models;
 
 namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
 {

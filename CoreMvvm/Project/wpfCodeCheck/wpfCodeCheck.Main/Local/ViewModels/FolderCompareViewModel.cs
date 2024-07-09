@@ -2,11 +2,13 @@
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
 using CoreMvvmLib.WPF.Components;
+using System.Collections.Generic;
 using System.Windows;
 using wpfCodeCheck.Main.Local.Helpers.CsvHelper;
+using wpfCodeCheck.Main.Local.Models;
+using wpfCodeCheck.Share.Enums;
 using wpfCodeCheck.Shared.Local.Models;
 using wpfCodeCheck.Shared.Local.Services;
-using static Microsoft.CodeAnalysis.AssemblyIdentityComparer;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -20,11 +22,12 @@ namespace wpfCodeCheck.Main.Local.ViewModels
 
         public FolderCompareViewModel(ICsvHelper csvHelper, IBaseService baseService)
         {
-            WeakReferenceMessenger.Default.Register<FolderCompareViewModel, CustomObservableCollection<CodeInfo>>(this, OnReceiveCodeInfos);
             _csvHelper = csvHelper;
             _baseService = baseService;
             IsEnableInputDirectoryList = true;
             IsEnableOutputDirectoryList = false;
+
+            WeakReferenceMessenger.Default.Register<FolderCompareViewModel, CustomObservableCollection<CodeInfo>>(this, OnReceiveCodeInfos);
         }
         [Property]
         private bool _isEnableInputDirectoryList;
@@ -37,18 +40,37 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             var outputItems = _codeInfos.Last();
 
             CompareModelCollections(inputItems, outputItems);
-            _baseService.SetCodeInfos(inputItems, outputItems);
+            IList<CodeCompareModel> inputDiffCodeList = new List<CodeCompareModel>();
+            IList<CodeCompareModel> outputDiffCodeList = new List<CodeCompareModel>();
+
+            _baseService.SetCodeInfos(GetCodeCompareModels(inputItems), GetCodeCompareModels(outputItems));
         }
         [RelayCommand]
         private void Export()
         {
-            _csvHelper.CreateCSVFile<CodeInfo>(_code1, "codeinfo2");
+            _csvHelper.CreateCSVFile<CodeInfo>(_code2, "codeinfo2");
             MessageBox.Show("완료");
         }
         [RelayCommand]
         private void Clear()
         {
-            
+            WeakReferenceMessenger.Default.Send<EFolderCompareList, FolderListViewModel>(EFolderCompareList.CLEAR);
+        }
+        private IList<CodeCompareModel> GetCodeCompareModels(IEnumerable<CodeInfo> codeInfos)
+        {
+            IList<CodeCompareModel> diffCodeList = new List<CodeCompareModel>();
+            foreach (var item in codeInfos)
+            {
+                if (item.ComparisonResult == false)
+                {
+                    diffCodeList.Add(new CodeCompareModel()
+                    {
+                        ClassNmae = item.FileName,
+                        FilePath = item.FilePath
+                    });
+                }                
+            }
+            return diffCodeList;
         }
         private void OnReceiveCodeInfos(FolderCompareViewModel model, CustomObservableCollection<CodeInfo> list)
         {
@@ -81,6 +103,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     if(comparisonResult == false)
                     {
                         _code1.Add(model1);
+                        _code2.Add(model2);
                     }
                 }
                 else if (comparison < 0)
@@ -92,6 +115,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 else
                 {
                     model2.ComparisonResult = false;
+                    _code2.Add(model2);
                     j++;
                 }
             }
@@ -109,6 +133,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             while (j < collection2.Count)
             {
                 collection2[j].ComparisonResult = false;
+                _code2.Add(collection2[j]);
                 j++;
             }
 

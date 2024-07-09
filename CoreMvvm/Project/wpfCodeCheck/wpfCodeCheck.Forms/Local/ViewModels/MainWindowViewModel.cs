@@ -34,8 +34,8 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         [Property]
         private List<NavigationModeal> _sampleDatas = new List<NavigationModeal>()
         {
-            new NavigationModeal(IconType.Home, "File Compare CheckSum"),
-            new NavigationModeal(IconType.FileCheck, "FIle Export"),
+            new NavigationModeal(IconType.Home, "File CheckSum"),
+            new NavigationModeal(IconType.FileCheck, "File Export"),
             new NavigationModeal(IconType.ViewCompact, "Project Output")
         };
         [Property]

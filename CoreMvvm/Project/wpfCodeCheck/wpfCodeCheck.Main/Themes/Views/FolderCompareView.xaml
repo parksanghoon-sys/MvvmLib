@@ -43,8 +43,17 @@
                     <units:CustomAutoGrid
                         Background="{TemplateBinding Background}"
                         Columns="*,*"
-                        Rows="Auto, *">
+                        Rows="Auto, Auto, *">
                         <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                            <Border Style="{StaticResource HEADER.BORDER}">
+                                <TextBlock  VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Text="Directory File CheckSum Compare"/>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.ColumnSpan="2">
                             <Border Style="{StaticResource HEADER.BORDER}">
                                 <units:CustomStackPannel
                                     HorizontalAlignment="Left"
@@ -67,7 +76,7 @@
                             </Border>
                         </Grid>
                         <DockPanel
-                            Grid.Row="1"
+                            Grid.Row="2"
                             Grid.Column="0"
                             IsEnabled="{Binding IsEnableInputDirectoryList}">
                             <TextBlock
@@ -79,7 +88,7 @@
                         </DockPanel>
 
                         <DockPanel
-                            Grid.Row="1"
+                            Grid.Row="2"
                             Grid.Column="1"
                             IsEnabled="{Binding IsEnableOutputDirectoryList}">
                             <TextBlock

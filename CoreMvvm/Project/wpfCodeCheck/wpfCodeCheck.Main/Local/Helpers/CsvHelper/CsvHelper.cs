@@ -13,6 +13,10 @@ namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
         public string CSV_DATA_PATH = Path.Combine(Environment.CurrentDirectory, "Data");
 
         private StringBuilder sb = new StringBuilder();
+        public CsvHelper()
+        {
+            CreatePathFolder(CSV_DATA_PATH);
+        }
         /// <summary>
         /// 경로에 폴더가 없으면 생성
         /// </summary>
@@ -42,11 +46,10 @@ namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
             try
             {
                 if (collection.Count > 0)
-                {
-                    CreatePathFolder(path);
-
-                    sb.Length = 0;
+                {                    
                     path = Path.Combine(CSV_DATA_PATH, path);
+                    sb.Length = 0;
+                    CreatePathFolder(path);
                     path += ".csv";
                     if (!File.Exists(path) || overwrite)
                     {

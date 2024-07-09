@@ -6,7 +6,10 @@ using CoreMvvmLib.WPF.Components;
 using CoreMvvmLib.Core.Services.DialogService;
 using wpfCodeCheck.Shared.UI.Views;
 using CoreMvvmLib.Core.Messenger;
-using wpfCodeCheck.Shared.Local.Models;
+using wpfCodeCheck.Share.Enums;
+using wpfCodeCheck.Main.Local.Models;
+using System.Configuration;
+using wpfCodeCheck.Shared.Local.Helper;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -20,8 +23,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             _dierctoryFileInfoService = dierctoryFileInfoService;
             _dialogService = dialogService;
             FileDatas = new();
-        }
-
+            WeakReferenceMessenger.Default.Register<FolderListViewModel, EFolderCompareList>(this, OnReceiveClearMessage);
+        }     
         [Property]
         private string _folderPath;
         [Property]
@@ -41,16 +44,21 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 _dialogService.Show(this, nameof(LoadingDialogView), 300, 300);                
 
                 FileDatas.Clear();
-                FolderPath = dlg.SelectedFolder;
+                FolderPath = dlg.SelectedFolder;                
 
                 var folderInfoList = await _dierctoryFileInfoService.GetDirectoryCodeFileInfosAsync(FolderPath);
 
                 FileDatas.AddRange(folderInfoList);
 
-            }            
+            }
             _dialogService.Close(nameof(LoadingDialogView));
             WeakReferenceMessenger.Default.Send<CustomObservableCollection<CodeInfo>, FolderCompareViewModel>(FileDatas);
-        }        
+        }
+        private void OnReceiveClearMessage(FolderListViewModel model, EFolderCompareList list)
+        {
+            if (EFolderCompareList.CLEAR == list)
+                this.FileDatas.Clear();
+        }
     }
    
 }

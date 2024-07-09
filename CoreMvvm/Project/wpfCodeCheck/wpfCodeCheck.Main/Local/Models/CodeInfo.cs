@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wpfCodeCheck.Shared.Local.Models
+namespace wpfCodeCheck.Main.Local.Models
 {
     public class CodeInfoCompareer : IEqualityComparer<CodeInfo>
     {
@@ -31,6 +31,7 @@ namespace wpfCodeCheck.Shared.Local.Models
             get { return _comparisonResult; }
             set { _comparisonResult = value; OnPropertyChanged(); }
         }
+        public string? DirectoryPath { get; set; }
         public string? ProjectName { get; set; }
         public string? FilePath { get; set; }
         public string? FileName { get; set; }

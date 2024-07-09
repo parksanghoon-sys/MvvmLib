@@ -11,7 +11,7 @@
                         <control:CustomStackPannel Margin="-15 0 0 0" ChildSpacing="12"
                                              HorizontalAlignment="Left" Orientation="Horizontal">
                             <control:ImageIcon Width="70" Fill="{TemplateBinding Foreground}" Icon="{Binding IconType}"/>
-                            <TextBlock VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="{TemplateBinding Foreground}" Text="{Binding Name}"/>
+                            <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="{TemplateBinding Foreground}" Text="{Binding Name}"/>
                         </control:CustomStackPannel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -41,7 +41,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type units:SlideMenuBar}">
                     <Border x:Name="border" Width="70" Margin="5 0 0 0"
-                            Padding="0 30" Background="{TemplateBinding Background}" CornerRadius="10">
+                            Padding="0 30" Background="{TemplateBinding Background}" CornerRadius="8">
                         <control:CustomAutoGrid Columns="* , Auto">
                             <ListBox x:Name="PART_ItemsBox"
                                         Foreground="{TemplateBinding Foreground}"
