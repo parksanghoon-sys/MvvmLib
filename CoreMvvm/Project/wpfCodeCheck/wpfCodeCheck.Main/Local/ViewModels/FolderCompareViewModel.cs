@@ -2,7 +2,6 @@
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
 using CoreMvvmLib.WPF.Components;
-using System.Collections.Generic;
 using System.Windows;
 using wpfCodeCheck.Main.Local.Helpers.CsvHelper;
 using wpfCodeCheck.Main.Local.Models;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace wpfCodeCheck.Shared.Local.Models
+﻿namespace wpfCodeCheck.Shared.Local.Models
 {
     public class CodeCompareModel
     {

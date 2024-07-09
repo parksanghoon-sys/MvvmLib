@@ -8,8 +8,6 @@ using wpfCodeCheck.Shared.UI.Views;
 using CoreMvvmLib.Core.Messenger;
 using wpfCodeCheck.Share.Enums;
 using wpfCodeCheck.Main.Local.Models;
-using System.Configuration;
-using wpfCodeCheck.Shared.Local.Helper;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {

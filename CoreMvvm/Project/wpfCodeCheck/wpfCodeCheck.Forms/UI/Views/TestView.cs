@@ -1,5 +1,4 @@
-﻿using CoreMvvmLib.Component.UI.Views;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace wpfCodeCheck.Forms.UI.Views

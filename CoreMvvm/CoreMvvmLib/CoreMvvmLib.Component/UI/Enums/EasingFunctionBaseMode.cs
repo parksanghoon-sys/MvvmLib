@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CoreMvvmLib.Component.UI.Enums
+﻿namespace CoreMvvmLib.Component.UI.Enums
 {
     public enum EasingFunctionBaseMode
     {

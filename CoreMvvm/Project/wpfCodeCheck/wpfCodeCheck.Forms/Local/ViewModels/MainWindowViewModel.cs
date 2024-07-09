@@ -9,10 +9,7 @@ using wpfCodeCheck.Main.UI.Views;
 using CoreMvvmLib.Core.Services.DialogService;
 using CoreMvvmLib.Core.Messenger;
 using wpfCodeCheck.Share.Enums;
-using CoreMvvmLib.WPF.Components;
-using wpfCodeCheck.Main.Local.ViewModels;
-using wpfCodeCheck.Shared.Local.Models;
-using wpfCodeCheck.Shared.Local.ViewModels;
+using wpfCodeCheck.ConfigurationChange.UI.Views;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {
@@ -72,10 +69,8 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
                     }
                     break;
                 case IconType.FileCheck:
-                    {
-                        _dialogService.Show(this, nameof(CircularProgressBarView),300, 300);
-                        this._regionManager.NavigateView("MainContent", nameof(Test2View));
-                        WeakReferenceMessenger.Default.Send<double, CircularProgressBarViewModel>(50);
+                    {                        
+                        this._regionManager.NavigateView("MainContent", nameof(ComparisonResultsView));                     
                     }
                     break;
                 case IconType.ViewCompact:

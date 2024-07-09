@@ -4,8 +4,9 @@ using CoreMvvmLib.WPF.Services;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using wpfCodeCheck.ConfigurationChange.Local.ViewModels;
+using wpfCodeCheck.ConfigurationChange.UI.Views;
 using wpfCodeCheck.Forms.Local.ViewModels;
-using wpfCodeCheck.Forms.Themes.Views;
 using wpfCodeCheck.Forms.UI.Views;
 using wpfCodeCheck.Main.Local.Helpers.CsvHelper;
 using wpfCodeCheck.Main.Local.Servies;
@@ -14,7 +15,6 @@ using wpfCodeCheck.Main.Local.ViewModels;
 using wpfCodeCheck.Main.UI.Views;
 using wpfCodeCheck.Shared.Local.Helper;
 using wpfCodeCheck.Shared.Local.Services;
-using wpfCodeCheck.Shared.Local.ViewModels;
 using wpfCodeCheck.Shared.UI.Views;
 
 namespace wpfCodeCheck
@@ -31,6 +31,7 @@ namespace wpfCodeCheck
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<TestViewModel>();
             services.AddSingleton<FolderCompareViewModel>();
+            services.AddSingleton<ComparisonResultsViewModel>();
 
             services.AddTransient<FolderListViewModel>();            
 
@@ -53,6 +54,7 @@ namespace wpfCodeCheck
             //ServiceLocator.RegionManager.RegisterAddView<Test2View>();            
             //ServiceLocator.RegionManager.RegisterAddView<Test3View>();            
             ServiceLocator.RegionManager.RegisterAddView<FolderCompareView>();            
+            ServiceLocator.RegionManager.RegisterAddView<ComparisonResultsView>();            
             
         }
         /// <summary>

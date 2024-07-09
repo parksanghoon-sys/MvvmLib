@@ -1,8 +1,5 @@
-﻿using BenchmarkDotNet.Running;
-using wpfCodeCheck.FilesCompare;
-using wpfCodeCheck.Main.Local.Servies.DirectoryService;
+﻿using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 using wpfCodeCheck.Main.Local.Servies;
-using System.Collections.ObjectModel;
 using wpfCodeCheck.Main.Local.Models;
 
 internal class Program

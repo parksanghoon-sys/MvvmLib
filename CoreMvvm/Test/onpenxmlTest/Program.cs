@@ -1,7 +1,4 @@
-﻿using ClosedXML.Excel;
-using CompareEngine;
-using onpenxmlTest;
-using System.Data;
+﻿using onpenxmlTest;
 
 internal class Program
 {

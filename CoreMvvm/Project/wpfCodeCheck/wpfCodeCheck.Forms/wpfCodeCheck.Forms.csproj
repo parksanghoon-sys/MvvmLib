@@ -14,6 +14,8 @@
 		 <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		 <OutputItemType>Analyzer</OutputItemType>
 	 </ProjectReference>
+	 <ProjectReference Include="..\..\..\Test\wpfCodeCheck.FilesCompare\wpfCodeCheck.FilesCompare.csproj" />
+	 <ProjectReference Include="..\wpfCodeCheck.ConfigurationChange\wpfCodeCheck.ConfigurationChange.csproj" />
 	 <ProjectReference Include="..\wpfCodeCheck.Main\wpfCodeCheck.Main.csproj" />
 	 <ProjectReference Include="..\wpfCodeCheck.Shared\wpfCodeCheck.Shared.csproj" />
   </ItemGroup>

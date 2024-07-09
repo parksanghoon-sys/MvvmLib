@@ -1,7 +1,6 @@
 ﻿using Microsoft.Office.Interop.Word;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Windows;
 using wpfCodeCheck.Shared.Local.Models;
 using Word = Microsoft.Office.Interop.Word;
 

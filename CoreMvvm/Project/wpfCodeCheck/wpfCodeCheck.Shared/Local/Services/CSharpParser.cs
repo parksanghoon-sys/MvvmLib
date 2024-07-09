@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Office.Interop.Word;
 using wpfCodeCheck.Shared.Local.Models;
 using ParameterInfo = wpfCodeCheck.Shared.Local.Models.ParameterInfo;
 

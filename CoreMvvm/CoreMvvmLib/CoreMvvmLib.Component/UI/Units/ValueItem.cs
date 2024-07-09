@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
+﻿using System.Windows.Media.Animation;
 using System.Windows;
 using CoreMvvmLib.Component.UI.Enums;
 
 namespace CoreMvvmLib.Component.UI.Units
 {
-   
+
     public class ValueItem : DoubleAnimation
     {
         public static readonly DependencyProperty TargetNameProperty = DependencyProperty.Register("TargetName", typeof(string), typeof(ValueItem), new PropertyMetadata(null, OnTargetNameChanged));

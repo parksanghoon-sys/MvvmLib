@@ -1,13 +1,6 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
-using CoreMvvmLib.WPF.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using wpfCodeCheck.Shared.Local.Models;
 
 namespace wpfCodeCheck.Shared.Local.ViewModels
 {
