@@ -64,7 +64,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                             ProjectName = projectName,
                             CreateDate = fi.LastWriteTime.ToString("yyyy-MM-dd"), //fi.CreationTime.ToString("yyyy-MM-dd"),
                             FileName = fi.Name,
-                            FilePath = fi.Directory.ToString(),
+                            FilePath = fi.FullName.ToString(),
                             FileSize = fi.Length > 1000 ? string.Format("{0}KB", (double)(fi.Length / 1000)) : string.Format("{0}B", fi.Length),
                             LineCount = lineCnt,
                             FileType = fileType,
@@ -73,7 +73,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                     }
 
                 }
-                return codeInfos.OrderBy(x => x.FileName).Distinct(new CodeInfoCompareer()).ToList();
+                return codeInfos.OrderBy(x => x.FilePath).Distinct(new CodeInfoCompareer()).ToList();
             });
 
         }

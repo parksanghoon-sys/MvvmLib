@@ -102,10 +102,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         i++;
                         j++;
                         if (comparisonResult == false)
-                        {                            
-                            var srcPath = Path.Combine(model1.FilePath, model1.FileName);
-                            var dstPath = Path.Combine(model2.FilePath, model2.FileName);
-                            _codeCompareModel.CompareResults.Add(GetCompareResult(srcPath,dstPath, model1.FileName ));  
+                        {                                                                                    
+                            _codeCompareModel.CompareResults.Add(GetCompareResult(model1.FilePath, model2.FilePath, model1.FileName ));  
                             _code1.Add(model1);
                             _code2.Add(model2);
 
@@ -114,19 +112,16 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         }
                     }
                     else if (comparison < 0)
-                    {
-                        var srcPath = Path.Combine(model1.FilePath, model1.FileName);
-                        
-                        _codeCompareModel.CompareResults.Add(GetCompareResult(srcPath, "", model1.FileName));
+                    {                                                
+                        _codeCompareModel.CompareResults.Add(GetCompareResult(model1.FilePath, "", model1.FileName));
 
                         model1.ComparisonResult = false;
                         _code1.Add(model1);
                         i++;
                     }
                     else
-                    {                        
-                        var dstPath = Path.Combine(model2.FilePath, model2.FileName);
-                        _codeCompareModel.CompareResults.Add(GetCompareResult("", dstPath, model1.FileName));
+                    {                                                
+                        _codeCompareModel.CompareResults.Add(GetCompareResult("", model2.FilePath, model1.FileName));
 
                         model2.ComparisonResult = false;
                         _code2.Add(model2);

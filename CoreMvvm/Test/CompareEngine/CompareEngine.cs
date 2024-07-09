@@ -156,42 +156,46 @@ namespace CompareEngine
         public ArrayList DiffResult()
         {
             ArrayList retval = new ArrayList();
-            int dcount = destList.Count();
-            int scount = sourceList.Count();
+            if (destList != null || sourceList != null)
+            {
+                int dcount = destList.Count();
+                int scount = sourceList.Count();
 
-            if (dcount == 0)
-            {
-                if(scount > 0)
+                if (dcount == 0)
                 {
-                    retval.Add(CompareResultSpan.CreateDeleteSource(0, scount));
+                    if (scount > 0)
+                    {
+                        retval.Add(CompareResultSpan.CreateDeleteSource(0, scount));
+                    }
+                    return retval;
                 }
-                return retval;
-            }
-            if(scount == 0)
-            {
-                retval.Add(CompareResultSpan.CreateAddDestination(0, dcount));
-            }
+                if (scount == 0)
+                {
+                    retval.Add(CompareResultSpan.CreateAddDestination(0, dcount));
+                }
 
-            matchList.Sort();
-            int curDest = 0;
-            int curSource = 0;
-            CompareResultSpan last = null;
-            foreach(CompareResultSpan drs in matchList)
-            {
-                if((!AddChanges(retval, curDest, drs.DestinationIndex, curSource, drs.SourceIndex)) &&
-                    (last != null))
+                matchList.Sort();
+                int curDest = 0;
+                int curSource = 0;
+                CompareResultSpan last = null;
+                foreach (CompareResultSpan drs in matchList)
                 {
-                    last.AddLength(drs.Length);
+                    if ((!AddChanges(retval, curDest, drs.DestinationIndex, curSource, drs.SourceIndex)) &&
+                        (last != null))
+                    {
+                        last.AddLength(drs.Length);
+                    }
+                    else
+                    {
+                        retval.Add(drs);
+                    }
+                    curDest = drs.DestinationIndex + drs.Length;
+                    curSource = drs.SourceIndex + drs.Length;
+                    last = drs;
                 }
-                else
-                {
-                    retval.Add(drs);
-                }
-                curDest = drs.DestinationIndex + drs.Length;
-                curSource = drs.SourceIndex + drs.Length;
-                last = drs;
+                AddChanges(retval, curDest, dcount, curSource, scount);
             }
-            AddChanges(retval,curDest, dcount, curSource, scount);
+       
 
             return retval;
         }
