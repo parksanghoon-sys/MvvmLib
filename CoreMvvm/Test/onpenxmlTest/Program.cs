@@ -2,9 +2,10 @@
 
 internal class Program
 {
-    private static void Main(string[] args)
+    [STAThread] 
+    private static async Task Main(string[] args)
     {
-        string CSV_DATA_PATH = Path.Combine(Environment.CurrentDirectory, "Data//");
+        string CSV_DATA_PATH = Path.Combine(Environment.CurrentDirectory, @"ExportExcel\");
 
         //List<TestData> dataList = new List<TestData>()
         //{ 
@@ -34,11 +35,11 @@ internal class Program
         CLIComparer.GetFiles(new string[] { inputFIlePath, outputFilePath });
         dataList =  CLIComparer.GetCompareFiles();
 
-        IExcelPaser excelPaser = new OpenXmlUsed(copyExcelFilePath);
+        IExcelPaser excelPaser = new ClosedXmlUsed(copyExcelFilePath);
         
         excelPaser.SetStartCellName("E454");
         excelPaser.SetExcelDate(dataList);
-        excelPaser.WriteExcel();
+        await excelPaser.WriteExcel();
 
 
         Console.WriteLine("Hello, World!");

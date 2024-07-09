@@ -1,10 +1,7 @@
 ﻿using CoreMvvmLib.Component.UI.Units;
 using CoreMvvmLib.Core.Attributes;
-using CoreMvvmLib.Core.Commands;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Services.RegionManager;
-using wpfCodeCheck.Forms.Themes.Views;
-using wpfCodeCheck.Shared.UI.Views;
 using wpfCodeCheck.Main.UI.Views;
 using CoreMvvmLib.Core.Services.DialogService;
 using CoreMvvmLib.Core.Messenger;
@@ -17,11 +14,13 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
     {        
         public IconType IconType { get; set; }
         public string Name { get; set; }
+        public bool IsEnable { get; set; } = true;
 
-        public NavigationModeal(IconType type, string name)
+        public NavigationModeal(IconType type, string name, bool isEnable)
         {
             this.IconType = type;
             this.Name = name;
+            this.IsEnable = isEnable;
         }
     }
     public partial class MainWindowViewModel : ViewModelBase
@@ -31,9 +30,9 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         [Property]
         private List<NavigationModeal> _sampleDatas = new List<NavigationModeal>()
         {
-            new NavigationModeal(IconType.Home, "File CheckSum"),
-            new NavigationModeal(IconType.FileCheck, "File Export"),
-            new NavigationModeal(IconType.ViewCompact, "Project Output")
+            new NavigationModeal(IconType.Home, "File CheckSum", true),
+            new NavigationModeal(IconType.FileCheck, "File Export",false),
+            new NavigationModeal(IconType.ViewCompact, "Project Output",false)
         };
         [Property]
         private bool _isDImming = false;
@@ -75,8 +74,8 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
                     break;
                 case IconType.ViewCompact:
                     {
-                        _dialogService.Close(nameof(LoadingDialogView));
-                        this._regionManager.NavigateView("MainContent", nameof(Test3View));
+                        //_dialogService.Close(nameof(LoadingDialogView));
+                        //this._regionManager.NavigateView("MainContent", nameof(Test3View));
 
                     }
                     break;

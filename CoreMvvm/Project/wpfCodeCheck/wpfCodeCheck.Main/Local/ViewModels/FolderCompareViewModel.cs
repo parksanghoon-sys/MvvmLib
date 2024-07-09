@@ -1,7 +1,10 @@
-﻿using CoreMvvmLib.Core.Attributes;
+﻿using CompareEngine;
+using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
 using CoreMvvmLib.WPF.Components;
+using System.Collections;
+using System.IO;
 using System.Windows;
 using wpfCodeCheck.Main.Local.Helpers.CsvHelper;
 using wpfCodeCheck.Main.Local.Models;
@@ -16,6 +19,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private List<CustomObservableCollection<CodeInfo>> _codeInfos = new List<CustomObservableCollection<CodeInfo>>(2);
         private List<CodeInfo> _code1 = new List<CodeInfo>();
         private List<CodeInfo> _code2 = new List<CodeInfo>();
+        private CodeCompareModel _codeCompareModel = new CodeCompareModel();
         private readonly ICsvHelper _csvHelper;
         private readonly IBaseService _baseService;
 
@@ -33,16 +37,13 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [Property]
         private bool _isEnableOutputDirectoryList;
         [RelayCommand]
-        private void Compare()
+        private async void Compare()
         {
             var inputItems = _codeInfos.First();
             var outputItems = _codeInfos.Last();
 
-            CompareModelCollections(inputItems, outputItems);
-            IList<CodeCompareModel> inputDiffCodeList = new List<CodeCompareModel>();
-            IList<CodeCompareModel> outputDiffCodeList = new List<CodeCompareModel>();
-
-            _baseService.SetCodeInfos(GetCodeCompareModels(inputItems), GetCodeCompareModels(outputItems));
+            await CompareModelCollections(inputItems, outputItems);
+            _baseService.SetDirectoryCompareReuslt(_codeCompareModel);
         }
         [RelayCommand]
         private void Export()
@@ -55,21 +56,20 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         {
             WeakReferenceMessenger.Default.Send<EFolderCompareList, FolderListViewModel>(EFolderCompareList.CLEAR);
         }
-        private IList<CodeCompareModel> GetCodeCompareModels(IEnumerable<CodeInfo> codeInfos)
+        private CodeCompareModel GetCodeCompareModels(IEnumerable<CodeInfo> codeInfos)
         {
-            IList<CodeCompareModel> diffCodeList = new List<CodeCompareModel>();
+            var diffFileModel = new CodeCompareModel();
+            List<string> classFile = new List<string>();
+            List<string> classFilePath = new List<string>();
             foreach (var item in codeInfos)
             {
                 if (item.ComparisonResult == false)
                 {
-                    diffCodeList.Add(new CodeCompareModel()
-                    {
-                        ClassNmae = item.FileName,
-                        FilePath = item.FilePath
-                    });
+                    classFile.Add(item.FileName);
+                    classFilePath.Add(item.FilePath);
                 }                
             }
-            return diffCodeList;
+            return diffFileModel;
         }
         private void OnReceiveCodeInfos(FolderCompareViewModel model, CustomObservableCollection<CodeInfo> list)
         {
@@ -81,76 +81,135 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             _codeInfos.Add(list);
         }
 
-        private void CompareModelCollections(IList<CodeInfo> collection1, IList<CodeInfo> collection2)
+        private async Task CompareModelCollections(IList<CodeInfo> inputItems, IList<CodeInfo> outputItems)
         {
-            int i = 0, j = 0;
-            while (i < collection1.Count && j < collection2.Count)
+            await Task.Run(() =>
             {
-                CodeInfo model1 = collection1[i];
-                CodeInfo model2 = collection2[j];
-
-                int comparison = string.Compare(model1.FileName, model2.FileName);
-                if (comparison == 0)
+                int i = 0, j = 0;
+                while (i < inputItems.Count && j < outputItems.Count)
                 {
-                    bool comparisonResult = model1.Equals(model2);
+                    CodeInfo model1 = inputItems[i];
+                    CodeInfo model2 = outputItems[j];
 
-                    model1.ComparisonResult = comparisonResult;
-                    model2.ComparisonResult = comparisonResult;
-
-                    i++;
-                    j++;
-                    if(comparisonResult == false)
+                    int comparison = string.Compare(model1.FileName, model2.FileName);
+                    if (comparison == 0)
                     {
+                        bool comparisonResult = model1.Equals(model2);
+
+                        model1.ComparisonResult = comparisonResult;
+                        model2.ComparisonResult = comparisonResult;
+
+                        i++;
+                        j++;
+                        if (comparisonResult == false)
+                        {                            
+                            var srcPath = Path.Combine(model1.FilePath, model1.FileName);
+                            var dstPath = Path.Combine(model2.FilePath, model2.FileName);
+                            _codeCompareModel.CompareResults.Add(GetCompareResult(srcPath,dstPath, model1.FileName ));  
+                            _code1.Add(model1);
+                            _code2.Add(model2);
+
+                            model1.ComparisonResult = false;
+                            model2.ComparisonResult = false;
+                        }
+                    }
+                    else if (comparison < 0)
+                    {
+                        var srcPath = Path.Combine(model1.FilePath, model1.FileName);
+                        
+                        _codeCompareModel.CompareResults.Add(GetCompareResult(srcPath, "", model1.FileName));
+
+                        model1.ComparisonResult = false;
                         _code1.Add(model1);
+                        i++;
+                    }
+                    else
+                    {                        
+                        var dstPath = Path.Combine(model2.FilePath, model2.FileName);
+                        _codeCompareModel.CompareResults.Add(GetCompareResult("", dstPath, model1.FileName));
+
+                        model2.ComparisonResult = false;
                         _code2.Add(model2);
+                        j++;
                     }
                 }
-                else if (comparison < 0)
+
+                // Remaining elements in collection1 are not in collection2
+                while (i < inputItems.Count)
                 {
-                    model1.ComparisonResult = false;
-                    _code1.Add(model1);
+                    inputItems[i].ComparisonResult = false;
+                    _code1.Add(inputItems[i]);
                     i++;
+
                 }
-                else
+
+                // Remaining elements in collection2 are not in collection1
+                while (j < outputItems.Count)
                 {
-                    model2.ComparisonResult = false;
-                    _code2.Add(model2);
+                    outputItems[j].ComparisonResult = false;
+                    _code2.Add(outputItems[j]);
                     j++;
                 }
-            }
 
-            // Remaining elements in collection1 are not in collection2
-            while (i < collection1.Count)
-            {
-                collection1[i].ComparisonResult = false;
-                _code1.Add(collection1[i]);
-                i++;
+                //foreach (var item in collection1)
+                //{
+                //    foreach(var item2 in collection2)
+                //    {
+                //        if(item.Equals(item2))
+                //        {
+                //            item.ComparisonResult = true;
+                //            item2.ComparisonResult = true;
+                //        }
+                //    }
+                //    if(item.ComparisonResult == false)
+                //    {
+                //        _code1.Add(item);
+                //    }
+                //}       
+            });
                 
-            }
+        }
+        private CompareResult GetCompareResult(string sourcePath, string destinationPath, string fileName)
+        {
+            CompareText sourceDiffList;
+            CompareText destinationDiffList;
 
-            // Remaining elements in collection2 are not in collection1
-            while (j < collection2.Count)
+            if (File.Exists(sourcePath))
+                sourceDiffList = new CompareText(sourcePath);
+            else
+                sourceDiffList = new CompareText();
+
+            if (File.Exists(destinationPath))
+                destinationDiffList = new CompareText(destinationPath);
+            else
+                destinationDiffList = new CompareText();
+             
+            CompareEngine.CompareEngine compareEngine = new CompareEngine.CompareEngine();
+            compareEngine.StartDiff(sourceDiffList, destinationDiffList);
+
+            ArrayList resultLines = compareEngine.DiffResult();
+            CompareResult compareResult = new CompareResult();
+            compareResult.InputCompareText = sourceDiffList;
+            compareResult.OutputCompareText = destinationDiffList;
+            compareResult.CompareResultSpans = GetArrayListToList<CompareResultSpan>(resultLines);
+            compareResult.FileName = fileName;
+            
+            return compareResult;
+        }
+
+        private IList<T> GetArrayListToList<T>(ArrayList list)
+        {
+            List<T> result = new List<T>();
+
+            foreach (var item in list)
             {
-                collection2[j].ComparisonResult = false;
-                _code2.Add(collection2[j]);
-                j++;
+                if (item is T)
+                {
+                    result.Add((T)item);
+                }
             }
 
-            //foreach (var item in collection1)
-            //{
-            //    foreach(var item2 in collection2)
-            //    {
-            //        if(item.Equals(item2))
-            //        {
-            //            item.ComparisonResult = true;
-            //            item2.ComparisonResult = true;
-            //        }
-            //    }
-            //    if(item.ComparisonResult == false)
-            //    {
-            //        _code1.Add(item);
-            //    }
-            //}            
+            return result;
         }
     }
 }

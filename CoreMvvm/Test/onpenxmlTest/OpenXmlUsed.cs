@@ -47,149 +47,153 @@ namespace onpenxmlTest
             return this;
         }
 
-        public void WriteExcel()
+        public Task WriteExcel()
         {
-            if (_dataList is null)
+            return Task.Run(() =>
             {
-                Console.WriteLine("Not Data");
-                return;
-            }
-
-            int startIndex = 1;
-            int endIndex = 3;
-            string hexColor = "FFFF1111";
-            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(_filePath, true))
-            {
-                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                WorksheetPart worksheetPart = GetWorksheetPartByName(workbookPart, _sheetName);
-
-                string originalText = string.Empty;
-                if (worksheetPart != null)
+                if (_dataList is null)
                 {
-                    int addRow = 0;
-
-                    foreach (var data in _dataList.CompareResultSpans)
-                    {
-                        switch (data.Status)
-                        {
-                            case CompareResultSpanStatus.DeleteSource:
-                                for (int i = 0; i < data.Length; i++)
-                                {
-                                    Cell cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.INPUT_LINE) + (_startRowIndex + addRow).ToString()));
-                                    var inputDelteCodeIndex = (data.SourceIndex + i + 1).ToString();
-                                    cell.CellValue = new CellValue(inputDelteCodeIndex);
-
-                                    cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.INPUT_CODE) + (_startRowIndex + addRow).ToString()));
-                                    var inputDeleteCodeLine = _dataList.InputCompareText.GetByIndex(data.SourceIndex + i).Line;
-                                    cell.CellValue = new CellValue(inputDeleteCodeLine);
-                                    ApplyCellFill(workbookPart, cell, "FFFFE3E3");
-
-                                    cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.OUTPUT_LINE) + (_startRowIndex + addRow).ToString()));
-                                    cell.CellValue = new CellValue("");
-
-                                    cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.OUTPUT_CODE) + (_startRowIndex + addRow).ToString()));
-                                    cell.CellValue = new CellValue("");
-                                    addRow++;
-
-                                }
-                                break;
-                            case CompareResultSpanStatus.AddDestination:
-                                for (int i = 0; i < data.Length; i++)
-                                {
-                                    Cell cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.INPUT_LINE) + (_startRowIndex + addRow).ToString()));
-                                    cell.CellValue = new CellValue("");
-
-                                    cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.INPUT_CODE) + (_startRowIndex + addRow).ToString()));
-                                    cell.CellValue = new CellValue("");
-
-                                    cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.OUTPUT_LINE) + (_startRowIndex + addRow).ToString()));
-                                    var outputAddCodeIndex = (data.DestinationIndex + i + 1).ToString();
-                                    cell.CellValue = new CellValue(outputAddCodeIndex);
-
-                                    cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.OUTPUT_CODE) + (_startRowIndex + addRow).ToString()));
-                                    var outputAddCodeLine = _dataList.OutputCompareText.GetByIndex(data.DestinationIndex + i).Line;
-                                    cell.CellValue = new CellValue(outputAddCodeLine);
-                                    ApplyCellFill(workbookPart, cell, "FFFFE3E3");
-                                    addRow++;
-
-                                }
-                                break;
-                            case CompareResultSpanStatus.Replace:
-                                for (int i = 0; i < data.Length; i++)
-                                {
-                                    Cell cellInputLine = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.INPUT_LINE) + (_startRowIndex + addRow).ToString()));
-                                    var inputDelteCodeIndex = (data.SourceIndex + i + 1).ToString();
-                                    cellInputLine.CellValue = new CellValue(inputDelteCodeIndex);
-
-                                    Cell cellInputCode = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.INPUT_CODE) + (_startRowIndex + addRow).ToString()));
-                                    var inputDeleteCodeLine = _dataList.InputCompareText.GetByIndex(data.SourceIndex + i).Line;
-                                    cellInputCode.CellValue = new CellValue(inputDeleteCodeLine);
-                                    ApplyCellFill(workbookPart, cellInputCode, "FFFFE3E3");
-
-                                    Cell cellOutputLine = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.OUTPUT_LINE) + (_startRowIndex + addRow).ToString()));
-                                    var outputAddCodeIndex = (data.DestinationIndex + i + 1).ToString();
-                                    cellOutputLine.CellValue = new CellValue(outputAddCodeIndex);
-
-                                    Cell cellOutputCode = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.OUTPUT_CODE) + (_startRowIndex + addRow).ToString()));
-                                    var outputAddCodeLine = _dataList.OutputCompareText.GetByIndex(data.DestinationIndex + i).Line;
-                                    cellOutputCode.CellValue = new CellValue(outputAddCodeLine);
-                                    ApplyCellFill(workbookPart, cellOutputCode, "FFFFE3E3");
-                                    addRow++;
-                                    InputOutputCodeCompaer(workbookPart, cellInputCode, cellOutputCode);
-                                }
-                                break;
-                        }
-
-
-
-                    }
-                    //Cell cell1 = GetCell(worksheetPart.Worksheet, _startcell);
-
-
-                    //cell1.CellValue = new CellValue("TEST");
-                    //cell1.DataType = new EnumValue<CellValues>(CellValues.String);
-
-                    //originalText = cell1.CellValue.Text;
-
-                    //if (cell1.DataType != null && cell1.DataType.Value == CellValues.SharedString)
-                    //{
-                    //    SharedStringTablePart sstPart = workbookPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault();
-                    //    SharedStringItem ssi = sstPart.SharedStringTable.Elements<SharedStringItem>().ElementAt(int.Parse(cell1.CellValue.Text));
-                    //    originalText = ssi.InnerText;
-
-                    //    // Clear the existing runs in the shared string item
-                    //    ssi.RemoveAllChildren<Run>();
-
-                    //    // Add new runs with color formatting for the specified range
-                    //    AddRun(ssi, originalText.Substring(0, startIndex), null); // Before colored text
-                    //    AddRun(ssi, originalText.Substring(startIndex, endIndex - startIndex + 1), hexColor); // Colored text
-                    //    AddRun(ssi, originalText.Substring(endIndex + 1), null); // After colored text
-
-                    //    sstPart.SharedStringTable.Save();
-                    //}
-                    //else
-                    //{
-                    //    originalText = cell1.CellValue.Text;
-
-                    //    // Create an inline string item to replace the existing cell value
-                    //    cell1.DataType = new EnumValue<CellValues>(CellValues.InlineString);
-                    //    cell1.CellValue = null;
-                    //    InlineString inlineString = new InlineString();
-                    //    cell1.Append(inlineString);
-
-                    //    // Clear the existing runs in the inline string item
-                    //    inlineString.RemoveAllChildren<Run>();
-
-                    //    // Add new runs with color formatting for the specified range
-                    //    AddRun(inlineString, originalText.Substring(0, startIndex), null); // Before colored text
-                    //    AddRun(inlineString, originalText.Substring(startIndex, endIndex - startIndex + 1), hexColor); // Colored text
-                    //    AddRun(inlineString, originalText.Substring(endIndex + 1), null); // After colored text
-                    //}
-
-                    //ApplyCellFill(workbookPart, cell1, "FFFFE3E3");
-                    worksheetPart.Worksheet.Save();
+                    Console.WriteLine("Not Data");
+                    return;
                 }
-            }
+
+                int startIndex = 1;
+                int endIndex = 3;
+                string hexColor = "FFFF1111";
+                using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(_filePath, true))
+                {
+                    WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+                    WorksheetPart worksheetPart = GetWorksheetPartByName(workbookPart, _sheetName);
+
+                    string originalText = string.Empty;
+                    if (worksheetPart != null)
+                    {
+                        int addRow = 0;
+
+                        foreach (var data in _dataList.CompareResultSpans)
+                        {
+                            switch (data.Status)
+                            {
+                                case CompareResultSpanStatus.DeleteSource:
+                                    for (int i = 0; i < data.Length; i++)
+                                    {
+                                        Cell cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.INPUT_LINE) + (_startRowIndex + addRow).ToString()));
+                                        var inputDelteCodeIndex = (data.SourceIndex + i + 1).ToString();
+                                        cell.CellValue = new CellValue(inputDelteCodeIndex);
+
+                                        cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.INPUT_CODE) + (_startRowIndex + addRow).ToString()));
+                                        var inputDeleteCodeLine = _dataList.InputCompareText.GetByIndex(data.SourceIndex + i).Line;
+                                        cell.CellValue = new CellValue(inputDeleteCodeLine);
+                                        ApplyCellFill(workbookPart, cell, "FFFFE3E3");
+
+                                        cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.OUTPUT_LINE) + (_startRowIndex + addRow).ToString()));
+                                        cell.CellValue = new CellValue("");
+
+                                        cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.OUTPUT_CODE) + (_startRowIndex + addRow).ToString()));
+                                        cell.CellValue = new CellValue("");
+                                        addRow++;
+
+                                    }
+                                    break;
+                                case CompareResultSpanStatus.AddDestination:
+                                    for (int i = 0; i < data.Length; i++)
+                                    {
+                                        Cell cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.INPUT_LINE) + (_startRowIndex + addRow).ToString()));
+                                        cell.CellValue = new CellValue("");
+
+                                        cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.INPUT_CODE) + (_startRowIndex + addRow).ToString()));
+                                        cell.CellValue = new CellValue("");
+
+                                        cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.OUTPUT_LINE) + (_startRowIndex + addRow).ToString()));
+                                        var outputAddCodeIndex = (data.DestinationIndex + i + 1).ToString();
+                                        cell.CellValue = new CellValue(outputAddCodeIndex);
+
+                                        cell = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.OUTPUT_CODE) + (_startRowIndex + addRow).ToString()));
+                                        var outputAddCodeLine = _dataList.OutputCompareText.GetByIndex(data.DestinationIndex + i).Line;
+                                        cell.CellValue = new CellValue(outputAddCodeLine);
+                                        ApplyCellFill(workbookPart, cell, "FFFFE3E3");
+                                        addRow++;
+
+                                    }
+                                    break;
+                                case CompareResultSpanStatus.Replace:
+                                    for (int i = 0; i < data.Length; i++)
+                                    {
+                                        Cell cellInputLine = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.INPUT_LINE) + (_startRowIndex + addRow).ToString()));
+                                        var inputDelteCodeIndex = (data.SourceIndex + i + 1).ToString();
+                                        cellInputLine.CellValue = new CellValue(inputDelteCodeIndex);
+
+                                        Cell cellInputCode = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.INPUT_CODE) + (_startRowIndex + addRow).ToString()));
+                                        var inputDeleteCodeLine = _dataList.InputCompareText.GetByIndex(data.SourceIndex + i).Line;
+                                        cellInputCode.CellValue = new CellValue(inputDeleteCodeLine);
+                                        ApplyCellFill(workbookPart, cellInputCode, "FFFFE3E3");
+
+                                        Cell cellOutputLine = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.OUTPUT_LINE) + (_startRowIndex + addRow).ToString()));
+                                        var outputAddCodeIndex = (data.DestinationIndex + i + 1).ToString();
+                                        cellOutputLine.CellValue = new CellValue(outputAddCodeIndex);
+
+                                        Cell cellOutputCode = GetCell(worksheetPart.Worksheet, new string((char)(_startCellIndex[0] + ECELL.OUTPUT_CODE) + (_startRowIndex + addRow).ToString()));
+                                        var outputAddCodeLine = _dataList.OutputCompareText.GetByIndex(data.DestinationIndex + i).Line;
+                                        cellOutputCode.CellValue = new CellValue(outputAddCodeLine);
+                                        ApplyCellFill(workbookPart, cellOutputCode, "FFFFE3E3");
+                                        addRow++;
+                                        InputOutputCodeCompaer(workbookPart, cellInputCode, cellOutputCode);
+                                    }
+                                    break;
+                            }
+
+
+
+                        }
+                        //Cell cell1 = GetCell(worksheetPart.Worksheet, _startcell);
+
+
+                        //cell1.CellValue = new CellValue("TEST");
+                        //cell1.DataType = new EnumValue<CellValues>(CellValues.String);
+
+                        //originalText = cell1.CellValue.Text;
+
+                        //if (cell1.DataType != null && cell1.DataType.Value == CellValues.SharedString)
+                        //{
+                        //    SharedStringTablePart sstPart = workbookPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault();
+                        //    SharedStringItem ssi = sstPart.SharedStringTable.Elements<SharedStringItem>().ElementAt(int.Parse(cell1.CellValue.Text));
+                        //    originalText = ssi.InnerText;
+
+                        //    // Clear the existing runs in the shared string item
+                        //    ssi.RemoveAllChildren<Run>();
+
+                        //    // Add new runs with color formatting for the specified range
+                        //    AddRun(ssi, originalText.Substring(0, startIndex), null); // Before colored text
+                        //    AddRun(ssi, originalText.Substring(startIndex, endIndex - startIndex + 1), hexColor); // Colored text
+                        //    AddRun(ssi, originalText.Substring(endIndex + 1), null); // After colored text
+
+                        //    sstPart.SharedStringTable.Save();
+                        //}
+                        //else
+                        //{
+                        //    originalText = cell1.CellValue.Text;
+
+                        //    // Create an inline string item to replace the existing cell value
+                        //    cell1.DataType = new EnumValue<CellValues>(CellValues.InlineString);
+                        //    cell1.CellValue = null;
+                        //    InlineString inlineString = new InlineString();
+                        //    cell1.Append(inlineString);
+
+                        //    // Clear the existing runs in the inline string item
+                        //    inlineString.RemoveAllChildren<Run>();
+
+                        //    // Add new runs with color formatting for the specified range
+                        //    AddRun(inlineString, originalText.Substring(0, startIndex), null); // Before colored text
+                        //    AddRun(inlineString, originalText.Substring(startIndex, endIndex - startIndex + 1), hexColor); // Colored text
+                        //    AddRun(inlineString, originalText.Substring(endIndex + 1), null); // After colored text
+                        //}
+
+                        //ApplyCellFill(workbookPart, cell1, "FFFFE3E3");
+                        worksheetPart.Worksheet.Save();
+                    }
+                }
+            });
+            
         }
         private void InputOutputCodeCompaer(WorkbookPart ws, Cell inputvalue, Cell outputvalue)
         {

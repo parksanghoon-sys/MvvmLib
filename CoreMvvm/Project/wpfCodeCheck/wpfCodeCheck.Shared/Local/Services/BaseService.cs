@@ -4,16 +4,13 @@ namespace wpfCodeCheck.Shared.Local.Services
 {
     public class BaseService : IBaseService
     {
-        private IList<CodeCompareModel> _inputCodeInfos;
-        private IList<CodeCompareModel> _outputCoideInfos;
-        public IList<CodeCompareModel> InputCodeCompareInfos { get { return _inputCodeInfos; } }
-        public IList<CodeCompareModel> OutputCodeCompareInfos { get { return _outputCoideInfos; } }
+        private CodeCompareModel _compareModel;
+        public CodeCompareModel CompareResult => _compareModel;
+    
 
-
-        public void SetCodeInfos(IList<CodeCompareModel> inputCodeInfos, IList<CodeCompareModel> outputCodeInfos)
+        public void SetDirectoryCompareReuslt(CodeCompareModel compareResult)
         {
-            _inputCodeInfos = inputCodeInfos;
-            _outputCoideInfos = outputCodeInfos;
+            _compareModel = compareResult;
         }
     }
 }

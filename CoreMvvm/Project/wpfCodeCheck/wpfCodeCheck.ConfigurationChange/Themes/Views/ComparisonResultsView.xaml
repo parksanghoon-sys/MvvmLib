@@ -35,7 +35,7 @@
                             <units:CustomStackPannel ChildSpacing="8">
                                 <sharedUnits:BaseButton IconType="ArrowAll" 
                                                         Content="Export"
-                                                        Command="{Binding ExportCommand}"/>
+                                                        Command="{Binding AsyncExportCommand}"/>
                             </units:CustomStackPannel>
                         </Border>
                     </units:CustomAutoGrid>

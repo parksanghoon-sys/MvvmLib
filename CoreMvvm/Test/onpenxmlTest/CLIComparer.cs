@@ -29,6 +29,10 @@ namespace onpenxmlTest
         }
         public static bool GetFiles(string[] args)
         {
+            if(args.Length < 2)
+            {
+                throw new Exception("Not");
+            }
             //Get Arguments
             if (args != null)
             {
@@ -53,10 +57,10 @@ namespace onpenxmlTest
             if (String.IsNullOrEmpty(LeftSide) || String.IsNullOrEmpty(RightSide))
             {
                 Console.WriteLine("Drag and Drop Path to File 1 (then press enter):\n");
-                LeftSide = Console.ReadLine();
+                LeftSide = Console.ReadLine() ?? throw new Exception("");
 
                 Console.WriteLine("\nDrag and Drop Path to File 2 (then press enter):\n");
-                RightSide = Console.ReadLine();
+                RightSide = Console.ReadLine() ?? throw new Exception("");
             }
 
 
@@ -84,7 +88,19 @@ namespace onpenxmlTest
             CompareEngine.CompareEngine compareEngine = new CompareEngine.CompareEngine();
 
             //Load the file paths into objects
-            CompareText sourceDiffList = new CompareText(LeftSide);
+            var fileInfoLeft = new FileInfo(LeftSide);
+
+            CompareText sourceDiffList;
+
+            if (File.Exists(LeftSide) == true)
+            {
+                sourceDiffList = new CompareText(LeftSide);
+            }
+            else
+            {
+                sourceDiffList= new CompareText();
+            }
+            
             CompareText destinationDiffList = new CompareText(RightSide);
             //Perform the comparison
             compareEngine.StartDiff(sourceDiffList, destinationDiffList);

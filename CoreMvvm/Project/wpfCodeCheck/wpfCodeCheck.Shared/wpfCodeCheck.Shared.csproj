@@ -32,6 +32,7 @@
 	  </ProjectReference>
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
+    <ProjectReference Include="..\..\..\Test\CompareEngine\CompareEngine.csproj" />
   </ItemGroup>
 
 </Project>

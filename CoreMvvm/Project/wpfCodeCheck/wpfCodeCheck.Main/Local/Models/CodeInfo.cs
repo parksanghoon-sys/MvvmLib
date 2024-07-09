@@ -9,6 +9,8 @@ namespace wpfCodeCheck.Main.Local.Models
     {
         public bool Equals(CodeInfo? x, CodeInfo? y)
         {
+            if (ReferenceEquals(x, null) || ReferenceEquals(y,null))
+                return false;            
             return (x.Checksum == y.Checksum) && (x.FileName == y.FileName);
         }
 
@@ -26,19 +28,21 @@ namespace wpfCodeCheck.Main.Local.Models
             get { return _comparisonResult; }
             set { _comparisonResult = value; OnPropertyChanged(); }
         }
-        public string? DirectoryPath { get; set; }
-        public string? ProjectName { get; set; }
-        public string? FilePath { get; set; }
-        public string? FileName { get; set; }
-        public string? CreateDate { get; set; }
-        public string? FileSize { get; set; }
+        public string DirectoryPath { get; set; } = string.Empty;
+        public string ProjectName { get; set; } = string.Empty;
+        public string FilePath { get; set; } = string.Empty;
+        public string FileName { get; set; } = string.Empty;
+        public string CreateDate { get; set; } = string.Empty;
+        public string FileSize { get; set; } = string.Empty;
         public int LineCount { get; set; }
-        public string? Checksum { get; set; }
-        public string? Description { get; set; }
-        public string? Csc { get; set; }
+        public string Checksum { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string Csc { get; set; } = string.Empty;
         public IconType FileType { get; set; }
         public bool Equals(CodeInfo? other)
         {
+            if (ReferenceEquals(null, other))
+                return false;
             return (this.Checksum == other.Checksum && this.FileName == other.FileName);
         }
         public override string ToString()
