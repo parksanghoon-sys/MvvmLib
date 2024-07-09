@@ -7,6 +7,7 @@ using CoreMvvmLib.Core.Services.DialogService;
 using CoreMvvmLib.Core.Messenger;
 using wpfCodeCheck.Share.Enums;
 using wpfCodeCheck.ConfigurationChange.UI.Views;
+using wpfCodeCheck.Shared.Local.Services;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {
@@ -15,7 +16,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         public IconType IconType { get; set; }
         public string Name { get; set; }
         public bool IsEnable { get; set; } = true;
-
+        
         public NavigationModeal(IconType type, string name, bool isEnable)
         {
             this.IconType = type;
@@ -31,7 +32,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         private List<NavigationModeal> _sampleDatas = new List<NavigationModeal>()
         {
             new NavigationModeal(IconType.Home, "File CheckSum", true),
-            new NavigationModeal(IconType.FileCheck, "File Export",false),
+            new NavigationModeal(IconType.FileCheck, "File Export",true),
             new NavigationModeal(IconType.ViewCompact, "Project Output",false)
         };
         [Property]
