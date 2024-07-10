@@ -1,24 +1,138 @@
-﻿<Window x:Class="WpfTest1.Views.MainWindowView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:mvvmlib="clr-namespace:CoreMvvmLib.WPF.Behaviors;assembly=CoreMvvmLib.WPF"
-        xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
-        xmlns:local="clr-namespace:WpfTest1.Views"
-        mc:Ignorable="d"
-        auto:ViewModelLocator.AutoWireViewModel="True"
-        Title="MainWindowView" Height="450" Width="800">
+﻿<Window
+    x:Class="WpfTest1.Views.MainWindowView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
+    xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:converters="clr-namespace:WpfTest1.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WpfTest1.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mvvmlib="clr-namespace:CoreMvvmLib.WPF.Behaviors;assembly=CoreMvvmLib.WPF"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
+    Title="MainWindowView"
+    Width="800"
+    Height="450"
+    auto:ViewModelLocator.AutoWireViewModel="True"
+    Background="#111111"
+    mc:Ignorable="d">
+    <Window.Resources>
+
+        <converters:FallbackBrushConverter x:Key="FallbackBrushConverter" />
+
+        <Color x:Key="FallbackColor">#FFFF0000</Color>
+
+        <Thickness x:Key="CheckBoxPadding">11,5,11,6</Thickness>
+        <Thickness x:Key="CheckBoxBorderThemeThickness">1</Thickness>
+        <Thickness x:Key="CheckBoxContentMargin">8,0,0,0</Thickness>
+        <system:Double x:Key="CheckBoxIconSize">14</system:Double>
+        <system:Double x:Key="CheckBoxHeight">22</system:Double>
+        <system:Double x:Key="CheckBoxWidth">22</system:Double>
+        <Color x:Key="TextFillColorPrimary">#FFFFFF</Color>
+        
+        <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Border.CornerRadius" Value="4" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
+            <Setter Property="Focusable" Value="True" />
+            <Setter Property="MinWidth" Value="120" />
+            <Setter Property="MinHeight" Value="32" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="#19000000"/>
+            <Setter Property="BorderThickness" Value="{StaticResource CheckBoxBorderThemeThickness}" />
+            <Setter Property="Padding" Value="{StaticResource CheckBoxPadding}" />
+            <Setter Property="BorderBrush" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <BulletDecorator
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            Background="Transparent">
+                            <BulletDecorator.Bullet>
+                                <Border
+                                    x:Name="ControlBorderIconPresenter"
+                                    Width="{StaticResource CheckBoxHeight}"
+                                    Height="{StaticResource CheckBoxHeight}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="{TemplateBinding Border.CornerRadius}">
+                                    <Border
+                                        x:Name="StrokeBorder"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="{TemplateBinding Border.CornerRadius}">
+                                        <Grid>
+                                            <units:ImageIcon
+                                                x:Name="ControlIcon"
+                                                Margin="0"
+                                                Width="8"
+                                                Height="8"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Icon="None"
+                                                Fill="White"
+                                                Visibility="Collapsed" />
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                            </BulletDecorator.Bullet>
+                            <ContentPresenter
+                                x:Name="ContentPresenter"
+                                Margin="{StaticResource CheckBoxContentMargin}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                RecognizesAccessKey="True" />
+                        </BulletDecorator>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter TargetName="ControlIcon" Property="Icon" Value="None" />
+                                <Setter TargetName="ControlIcon" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="ControlBorderIconPresenter" Property="Background" Value="{DynamicResource CheckBoxCheckBackgroundFillChecked}" />
+                                <Setter TargetName="StrokeBorder" Property="BorderBrush" Value="{DynamicResource CheckBoxCheckBorderBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ControlIcon" Property="Icon" Value="Check" />
+                                <Setter TargetName="ControlIcon" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="ControlBorderIconPresenter" Property="Background" Value="{DynamicResource CheckBoxCheckBackgroundFillChecked}" />
+                                <Setter TargetName="StrokeBorder" Property="BorderBrush" Value="{DynamicResource CheckBoxCheckBorderBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
     <behavior:Interaction.Behaviors>
-        <mvvmlib:EventToCommand EventName="Loaded"
-                             Command="{Binding Loaded1Command}"/>
+        <mvvmlib:EventToCommand Command="{Binding Loaded1Command}" EventName="Loaded" />
     </behavior:Interaction.Behaviors>
     <Grid>
         <StackPanel>
-            <TextBlock Text="{Binding TestText}" FontSize="12" Foreground="Black"/>
-            <Button Command="{Binding TestCommand}" Content="Commnad" Width="80" Height="20"/>
-            <Button Command="{Binding TestCommandAsync}" Content="CommandAsync" Width="80" Height="20"/>
+            <CheckBox Content="Test" Width="40"/>
+            <TextBlock
+                FontSize="12"
+                Foreground="Black"
+                Text="{Binding TestText}" />
+            <Button
+                Width="80"
+                Height="20"
+                Command="{Binding TestCommand}"
+                Content="Commnad" />
+            <Button
+                Width="80"
+                Height="20"
+                Command="{Binding TestCommandAsync}"
+                Content="CommandAsync" />
         </StackPanel>
 
     </Grid>

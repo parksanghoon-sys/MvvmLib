@@ -5,7 +5,7 @@
     xmlns:units="clr-namespace:wpfCodeCheck.Forms.UI.Units">
 
     <Style x:Key="listBoxItemStyle" TargetType="{x:Type ListBoxItem}">
-        <Setter Property="IsEnabled" Value="{Binding IsEnable}"/>
+        <Setter Property="IsEnabled" Value="{Binding IsEnable}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -15,18 +15,19 @@
                         Background="{TemplateBinding Background}"
                         CornerRadius="10">
                         <control:CustomStackPannel
-                            Margin="-15,0,0,0"
+                            Margin="10,0,0,0"
                             HorizontalAlignment="Left"
                             ChildSpacing="12"
                             Orientation="Horizontal">
-                            <control:ImageIcon                                
-                                Width="70"
+                            <control:ImageIcon
+                                Width="24"
+                                Height="24"
                                 Fill="{TemplateBinding Foreground}"
                                 Icon="{Binding IconType}" />
                             <TextBlock
                                 VerticalAlignment="Center"
                                 FontSize="14"
-                                FontWeight="Bold"                                
+                                FontWeight="Bold"
                                 Foreground="{TemplateBinding Foreground}"
                                 Text="{Binding Name}" />
                         </control:CustomStackPannel>

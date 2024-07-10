@@ -17,13 +17,15 @@
             <Setter.Value>
                 <units:CustomStackPannel ChildSpacing="5" Orientation="Horizontal">
                     <units:ImageIcon
-                        ImageHeight="25"
-                        ImageWidth="25"
+                        Height="20"
+                        Width="20"
                         Icon="Account" />
                     <TextBlock
-                        FontSize="20"
+                        Margin="8 0 0 0"
+                        FontSize="15"
+                        FontWeight="Bold"
                         Foreground="White"
-                        Text="Test" />
+                        Text="SW Compare" />
                 </units:CustomStackPannel>
             </Setter.Value>
         </Setter>

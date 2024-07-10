@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Local\Models\" />
     <Folder Include="Themes\Units\" />
     <Folder Include="UI\Units\" />
   </ItemGroup>

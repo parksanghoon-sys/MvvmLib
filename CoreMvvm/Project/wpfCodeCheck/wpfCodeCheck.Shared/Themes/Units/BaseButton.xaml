@@ -43,8 +43,8 @@
                             Orientation="Horizontal">
                             <units:ImageIcon
                                 Icon="{TemplateBinding IconType}"
-                                ImageHeight="16"
-                                ImageWidth="16" />
+                                Height="16"
+                                Width="16" />
                             <ContentPresenter Style="{StaticResource IN}" />
                         </units:CustomStackPannel>
                     </Border>

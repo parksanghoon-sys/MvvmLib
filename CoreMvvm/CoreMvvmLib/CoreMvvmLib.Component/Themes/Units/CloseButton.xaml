@@ -2,22 +2,21 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units">
 
-
-    <Style TargetType="{x:Type units:MinimizeButton}">
+    <Style TargetType="{x:Type units:CloseButton}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Width" Value="35"/>
-        <Setter Property="Height" Value="35"/>
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="30"/>
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type units:MinimizeButton}">
+                <ControlTemplate TargetType="{x:Type units:CloseButton}">
                     <Border Background="{TemplateBinding Background}">
                         <units:ImageIcon
-                            x:Name="PART_IMG"
-                            ImageHeight="16"
-                            ImageWidth="16"
-                            Fill="{TemplateBinding Foreground}"
-                            Icon="Minimize"/>
+                        x:Name="PART_IMG"
+                        Height="13"
+                        Width="13"
+                        Fill="{TemplateBinding Foreground}"
+                        Icon="Close"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -33,5 +32,6 @@
             </Setter.Value>
         </Setter>
     </Style>
+  
 
 </ResourceDictionary>

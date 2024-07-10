@@ -3,21 +3,21 @@
                     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units">
 
 
-    <Style TargetType="{x:Type units:CloseButton}">
+    <Style TargetType="{x:Type units:MinimizeButton}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Width" Value="35"/>
-        <Setter Property="Height" Value="35"/>
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="30"/>
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type units:CloseButton}">
+                <ControlTemplate TargetType="{x:Type units:MinimizeButton}">
                     <Border Background="{TemplateBinding Background}">
                         <units:ImageIcon
-                            x:Name="PART_IMG"
-                            ImageHeight="16"
-                            ImageWidth="16"
-                            Fill="{TemplateBinding Foreground}"
-                            Icon="Close"/>
+                          x:Name="PART_IMG"
+                          Width="13"
+                          Height="13"
+                          Fill="{TemplateBinding Foreground}"
+                          Icon="Minimize"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

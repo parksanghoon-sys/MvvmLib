@@ -206,19 +206,6 @@ namespace CoreMvvmLib.Component.UI.Units
         public static DependencyProperty FillProperty = DependencyProperty.Register("Fill", typeof(Brush), typeof(ImageIcon), new PropertyMetadata(Brushes.Silver));
         public static DependencyProperty DataProperty = DependencyProperty.Register("Data", typeof(Geometry), typeof(ImageIcon), new PropertyMetadata(null));
         public static DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(ImageSource), typeof(ImageIcon), new PropertyMetadata(null));
-        public static readonly DependencyProperty ImageHeightProperty = DependencyProperty.Register("ImageHeight", typeof(double), typeof(ImageIcon), new PropertyMetadata(24d));
-        public static readonly DependencyProperty ImageWidthProperty = DependencyProperty.Register("ImageWidth", typeof(double), typeof(ImageIcon), new PropertyMetadata(24d));
-        public double ImageHeight
-        {
-            get { return (double)GetValue(ImageHeightProperty); }
-            set { SetValue(ImageHeightProperty, value); }
-        }
-        public double ImageWidth
-        {
-            get { return (double)GetValue(ImageWidthProperty); }
-            set { SetValue(ImageWidthProperty, value); }
-        }
-
         public IconMode Mode
         {
             get => (IconMode)GetValue(ModeProperty);
