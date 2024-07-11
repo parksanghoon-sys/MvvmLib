@@ -18,7 +18,7 @@ namespace wpfCodeCheck.ConfigurationChange.Local.Services
         }
         public void SetExcelDate(CodeCompareModel dataList)
         {
-            this._dataList = dataList;
+            this._dataList = dataList;            
         }
         public Task WriteExcel()
         {
@@ -103,10 +103,14 @@ namespace wpfCodeCheck.ConfigurationChange.Local.Services
                             }
                         }                        
                         int mergeEndRow = _startRowIndex;
-                        IXLCell mergeCellStart = ws.Cell(mergeStartRow, 4);
-                        IXLCell mergeCellEnd = ws.Cell(mergeEndRow - 1, 4);
+                        IXLCell mergeCellStart = ws.Cell(mergeStartRow, (int)ECELL.CLASS_CELL);
+                        IXLCell mergeCellEnd = ws.Cell(mergeEndRow - 1, (int)ECELL.CLASS_CELL);
+                        IXLCell mergeSummeryCellStart = ws.Cell(mergeStartRow,(int)ECELL.SUMMARY_CELL);
+                        IXLCell mergeSummeryCellEnd = ws.Cell(mergeEndRow - 1, (int)ECELL.SUMMARY_CELL);
                         ws.Range(mergeCellStart, mergeCellEnd).Merge();
-                        ws.Cell(mergeStartRow, 4).Value = fileList.FileName;
+                        ws.Range(mergeSummeryCellStart, mergeSummeryCellEnd).Merge();
+                        ws.Cell(mergeStartRow, (int)ECELL.CLASS_CELL).Value = fileList.FileName;
+                        ws.Cell(mergeStartRow, (int)ECELL.SUMMARY_CELL).Value = "o 기능개선\r\n : ICD v5.3a 적용";
                     }
                     wb.SaveAs(_filePath);
                 }

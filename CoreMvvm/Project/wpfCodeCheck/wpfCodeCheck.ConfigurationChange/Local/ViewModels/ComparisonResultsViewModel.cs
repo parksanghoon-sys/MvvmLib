@@ -1,19 +1,23 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
+using CoreMvvmLib.Core.Services.DialogService;
 using System.IO;
 using System.Windows;
 using wpfCodeCheck.ConfigurationChange.Local.Services;
 using wpfCodeCheck.Shared.Local.Services;
+using wpfCodeCheck.Shared.UI.Views;
 
 namespace wpfCodeCheck.ConfigurationChange.Local.ViewModels
 {
     public partial class ComparisonResultsViewModel : ViewModelBase
     {
         private readonly IBaseService _baseService;
+        private readonly IDialogService _dialogService;
 
-        public ComparisonResultsViewModel(IBaseService baseService)
+        public ComparisonResultsViewModel(IBaseService baseService, IDialogService dialogService)
         {
             _baseService = baseService;
+            _dialogService = dialogService;
         }
         [AsyncRelayCommand]
         private async Task AsyncExport()
@@ -32,8 +36,12 @@ namespace wpfCodeCheck.ConfigurationChange.Local.ViewModels
 
             IExcelPaser excelPaser = new ClosedXmlUsedExcelParser(copyExcelFilePath);
             excelPaser.SetExcelDate(_baseService.CompareResult);
+
+            _dialogService.Show(this, nameof(LoadingDialogView), 300, 300);
+            
+
             await excelPaser.WriteExcel();
-            MessageBox.Show("완료");
+            _dialogService.Close(nameof(LoadingDialogView));
         }
         private void CreatePathFolder(string path)
         {

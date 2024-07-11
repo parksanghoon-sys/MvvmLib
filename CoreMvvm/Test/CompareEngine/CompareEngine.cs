@@ -40,7 +40,6 @@ namespace CompareEngine
         {
             int curBestIndex = -1;
             int curBestLength = -1;
-
             CompareState currentItem;
             CompareState bestItem = null;
 
@@ -49,42 +48,55 @@ namespace CompareEngine
                 int maxPossibleDestLength = (destinationEnd - count) + 1;
 
                 if (maxPossibleDestLength <= curBestLength)
+                {
+                    //not enough text remaining to be larger then the current best
                     break;
+                }
 
                 currentItem = compareStateList.GetByIndex(count);
 
-                if (currentItem.HasValidLength(sourceStart, sourceEnd, maxPossibleDestLength) == false)
+                if (!currentItem.HasValidLength(sourceStart, sourceEnd, maxPossibleDestLength))
                 {
+                    //recalc new best length since it isn't valid or has never been done.
                     GetLongestSourceMatch(currentItem, count, destinationEnd, sourceStart, sourceEnd);
                 }
-                if(currentItem.Status == CompareStatus.Matched)
+                if (currentItem.Status == CompareStatus.Matched)
                 {
-                    if(currentItem.Length > curBestLength)
+                    if (currentItem.Length > curBestLength)
                     {
+                        //this is longest match so far
                         curBestIndex = count;
                         curBestLength = currentItem.Length;
                         bestItem = currentItem;
                     }
                     break;
                 }
+                else
+                {
+
+                }
             }
             if (curBestIndex < 0)
             {
-
+                //we are done - there are no matches in this span
             }
             else
             {
                 int sourceIndex = 0;
+
                 if (bestItem != null)
                 {
                     sourceIndex = bestItem.StartIndex;
                 }
-                matchList.Add(CompareResultSpan.CreateNoChange(curBestIndex, sourceIndex, curBestLength));
 
-                if(destinationStart < curBestIndex)
+                matchList.Add(CompareResultSpan.CreateNoChange(curBestIndex, sourceIndex, curBestLength));
+                if (destinationStart < curBestIndex)
                 {
-                    if(sourceStart < sourceIndex)
+                    //Still have more lower destination data
+                    if (sourceStart < sourceIndex)
                     {
+                        //Still have more lower source data
+                        // Recursive call to process lower indexes
                         RecursiveComparer(destinationStart, curBestIndex - 1, sourceStart, sourceIndex - 1);
                     }
                 }
@@ -156,46 +168,49 @@ namespace CompareEngine
         public ArrayList DiffResult()
         {
             ArrayList retval = new ArrayList();
-            if (destList != null || sourceList != null)
+            int dcount = destList.Count();
+            int scount = sourceList.Count();
+
+            //Deal with the special case of empty files
+            if (dcount == 0)
             {
-                int dcount = destList.Count();
-                int scount = sourceList.Count();
-
-                if (dcount == 0)
+                if (scount > 0)
                 {
-                    if (scount > 0)
-                    {
-                        retval.Add(CompareResultSpan.CreateDeleteSource(0, scount));
-                    }
-                    return retval;
+                    retval.Add(CompareResultSpan.CreateDeleteSource(0, scount));
                 }
-                if (scount == 0)
-                {
-                    retval.Add(CompareResultSpan.CreateAddDestination(0, dcount));
-                }
-
-                matchList.Sort();
-                int curDest = 0;
-                int curSource = 0;
-                CompareResultSpan last = null;
-                foreach (CompareResultSpan drs in matchList)
-                {
-                    if ((!AddChanges(retval, curDest, drs.DestinationIndex, curSource, drs.SourceIndex)) &&
-                        (last != null))
-                    {
-                        last.AddLength(drs.Length);
-                    }
-                    else
-                    {
-                        retval.Add(drs);
-                    }
-                    curDest = drs.DestinationIndex + drs.Length;
-                    curSource = drs.SourceIndex + drs.Length;
-                    last = drs;
-                }
-                AddChanges(retval, curDest, dcount, curSource, scount);
+                return retval;
             }
-       
+
+            if (scount == 0)
+            {
+                retval.Add(CompareResultSpan.CreateAddDestination(0, dcount));
+                return retval;
+            }
+
+            matchList.Sort();
+            int curDest = 0;
+            int curSource = 0;
+            CompareResultSpan last = null;
+
+            //Process each match record
+            foreach (CompareResultSpan drs in matchList)
+            {
+                if ((!AddChanges(retval, curDest, drs.DestinationIndex, curSource, drs.SourceIndex)) &&
+                    (last != null))
+                {
+                    last.AddLength(drs.Length);
+                }
+                else
+                {
+                    retval.Add(drs);
+                }
+                curDest = drs.DestinationIndex + drs.Length;
+                curSource = drs.SourceIndex + drs.Length;
+                last = drs;
+            }
+
+            //Process any tail end data
+            AddChanges(retval, curDest, dcount, curSource, scount);
 
             return retval;
         }
@@ -205,23 +220,22 @@ namespace CompareEngine
             bool retval = false;
             int diffDest = nextDest - curDest;
             int diffSource = nextSource - curSource;
-
             if (diffDest > 0)
             {
                 if (diffSource > 0)
                 {
-                    int minDIff = Math.Min(diffDest, diffSource);
-                    report.Add(CompareResultSpan.CreateReplace(curDest, curSource, minDIff));
+                    int minDiff = Math.Min(diffDest, diffSource);
+                    report.Add(CompareResultSpan.CreateReplace(curDest, curSource, minDiff));
                     if (diffDest > diffSource)
                     {
-                        curDest += minDIff;
+                        curDest += minDiff;
                         report.Add(CompareResultSpan.CreateAddDestination(curDest, diffDest - diffSource));
                     }
                     else
                     {
                         if (diffSource > diffDest)
                         {
-                            curSource += minDIff;
+                            curSource += minDiff;
                             report.Add(CompareResultSpan.CreateDeleteSource(curSource, diffSource - diffDest));
                         }
                     }
@@ -234,11 +248,11 @@ namespace CompareEngine
             }
             else
             {
-                if(diffSource > 0)
+                if (diffSource > 0)
                 {
                     report.Add(CompareResultSpan.CreateDeleteSource(curSource, diffSource));
                     retval = true;
-                }   
+                }
             }
             return retval;
         }

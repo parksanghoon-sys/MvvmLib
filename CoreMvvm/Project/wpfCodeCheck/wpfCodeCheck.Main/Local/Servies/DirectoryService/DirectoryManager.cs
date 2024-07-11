@@ -73,7 +73,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                     }
 
                 }
-                return codeInfos.OrderBy(x => x.FilePath).Distinct(new CodeInfoCompareer()).ToList();
+                return codeInfos.OrderBy(x => x.FileName).Distinct(new CodeInfoCompareer()).ToList();
             });
 
         }

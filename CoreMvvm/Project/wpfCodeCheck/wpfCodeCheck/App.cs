@@ -87,6 +87,10 @@ namespace wpfCodeCheck
             Settings.LoadSettings();
             return new MainWindowView();            
         }
+        public T GetService<T>() where T : class
+        {
+            return Services.GetService<T>();
+        }
         protected override void OnExit(ExitEventArgs e)
         {
             Settings.SaveSettings();

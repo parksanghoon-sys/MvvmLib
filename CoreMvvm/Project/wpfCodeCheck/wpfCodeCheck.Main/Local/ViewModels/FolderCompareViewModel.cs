@@ -102,8 +102,13 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         i++;
                         j++;
                         if (comparisonResult == false)
-                        {                                                                                    
-                            _codeCompareModel.CompareResults.Add(GetCompareResult(model1.FilePath, model2.FilePath, model1.FileName ));  
+                        {
+                            if (model1.FileName.Contains("CircularGaugeBaseControl"))
+                            {
+                                int a = 0;
+                                a++;
+                            }
+                            _codeCompareModel.CompareResults.Add(GetCompareResult(model1.FilePath, model2.FilePath, model1.FileName));
                             _code1.Add(model1);
                             _code2.Add(model2);
 
@@ -112,7 +117,12 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         }
                     }
                     else if (comparison < 0)
-                    {                                                
+                    {
+                        if (model1.FileName.Contains("CircularGaugeBaseControl"))
+                        {
+                            int a = 0;
+                            a++;
+                        }
                         _codeCompareModel.CompareResults.Add(GetCompareResult(model1.FilePath, "", model1.FileName));
 
                         model1.ComparisonResult = false;
@@ -120,8 +130,13 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         i++;
                     }
                     else
-                    {                                                
-                        _codeCompareModel.CompareResults.Add(GetCompareResult("", model2.FilePath, model1.FileName));
+                    {
+                        if (model2.FileName.Contains("CircularGaugeBaseControl"))
+                        {
+                            int a = 0;
+                            a++;
+                        }
+                        _codeCompareModel.CompareResults.Add(GetCompareResult("", model2.FilePath, model2.FileName));
 
                         model2.ComparisonResult = false;
                         _code2.Add(model2);
@@ -146,21 +161,22 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     j++;
                 }
 
-                //foreach (var item in collection1)
+                //foreach (var item in outputItems)
                 //{
-                //    foreach(var item2 in collection2)
+                //    foreach (var item2 in inputItems)
                 //    {
-                //        if(item.Equals(item2))
+                //        if (item.Equals(item2))
                 //        {
                 //            item.ComparisonResult = true;
                 //            item2.ComparisonResult = true;
+                //            break;
                 //        }
                 //    }
-                //    if(item.ComparisonResult == false)
+                //    if (item.ComparisonResult == false)
                 //    {
-                //        _code1.Add(item);
+                //        _code2.Add(item);
                 //    }
-                //}       
+                //}
             });
                 
         }
