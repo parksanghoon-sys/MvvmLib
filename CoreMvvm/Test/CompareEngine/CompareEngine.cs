@@ -55,7 +55,7 @@ namespace CompareEngine
 
                 currentItem = compareStateList.GetByIndex(count);
 
-                if (!currentItem.HasValidLength(sourceStart, sourceEnd, maxPossibleDestLength))
+                if (currentItem.HasValidLength(sourceStart, sourceEnd, maxPossibleDestLength) == false)
                 {
                     //recalc new best length since it isn't valid or has never been done.
                     GetLongestSourceMatch(currentItem, count, destinationEnd, sourceStart, sourceEnd);
