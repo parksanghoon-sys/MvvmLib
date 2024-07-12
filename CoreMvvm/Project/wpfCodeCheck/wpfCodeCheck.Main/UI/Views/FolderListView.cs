@@ -5,6 +5,15 @@ namespace wpfCodeCheck.Main.UI.Views
 {
     internal class FolderListView : ContentControl
     {
+        public string DirectoryPath
+        {
+            get { return (string)GetValue(DirectoryPathProperty); }
+            set { SetValue(DirectoryPathProperty, value); }
+        }
+        public static readonly DependencyProperty DirectoryPathProperty =
+            DependencyProperty.Register("DirectoryPath", typeof(string), typeof(FolderListView), new PropertyMetadata(""));
+
+
         static FolderListView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(FolderListView), new FrameworkPropertyMetadata(typeof(FolderListView)));

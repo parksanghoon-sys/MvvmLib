@@ -3,6 +3,7 @@ using System.Xml.Serialization;
 
 namespace wpfCodeCheck.Shared.Local.Helper
 {
+    [Serializable]
     public class SettingsXML
     {                
         public string InputPath;
