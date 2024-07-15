@@ -1,7 +1,9 @@
 ﻿using CoreMvvmLib.Component.UI.Views;
 using CoreMvvmLib.Core.Messenger;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using wpfCodeCheck.Share.Enums;
 
 namespace wpfCodeCheck.Shared.UI.Views
@@ -60,8 +62,39 @@ namespace wpfCodeCheck.Shared.UI.Views
             };
             this.Closed += (s, e) =>
             {
-                WeakReferenceMessenger.Default.Send<EMainViewDimming>(EMainViewDimming.NONE);
+                WeakReferenceMessenger.Default.Send<EMainViewDimming>(EMainViewDimming.NONE);                
+                loadingTimer = null;
             };
+        }
+        TextBlock? text;
+        int loading = 0;
+        DispatcherTimer? loadingTimer;
+        public override void OnApplyTemplate()
+        {
+            text = GetTemplateChild("PART_Loading") as TextBlock;
+            
+            if (text != null)
+            {
+                loadingTimer = new DispatcherTimer();
+
+                // 1초 마다 Tick 됩니다.
+                loadingTimer.Interval = TimeSpan.FromMilliseconds(1000);
+
+                // Event 특성상 여러 이벤트를 등록시킬 수 있습니다.
+                loadingTimer.Tick += (s, e) =>
+                {
+                    loading += 1;
+                    text.Text = $"Loading {string.Join("", Enumerable.Repeat(".", loading))}";
+
+                    if (loading == 5)
+                    {
+                        loading = 0;
+                    }
+                };
+
+                loadingTimer.Start();
+            }
+            base.OnApplyTemplate();
         }
 
     }

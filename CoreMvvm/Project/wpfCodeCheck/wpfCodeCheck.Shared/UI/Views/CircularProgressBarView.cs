@@ -1,6 +1,8 @@
 ﻿using CoreMvvmLib.Component.UI.Views;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace wpfCodeCheck.Shared.UI.Views
 {
@@ -10,6 +12,7 @@ namespace wpfCodeCheck.Shared.UI.Views
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CircularProgressBarView), new FrameworkPropertyMetadata(typeof(CircularProgressBarView)));
         }
+     
 
         public static readonly DependencyProperty ProgressProperty =
             DependencyProperty.Register("Progress", typeof(double), typeof(CircularProgressBarView), new PropertyMetadata(0.0, OnProgressChanged));
@@ -80,5 +83,6 @@ namespace wpfCodeCheck.Shared.UI.Views
 
         public static readonly DependencyProperty StrokeThicknessProperty =
             DependencyProperty.Register("StrokeThickness", typeof(double), typeof(CircularProgressBarView), new PropertyMetadata(5.0));
+        
     }
 }

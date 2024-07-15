@@ -20,6 +20,7 @@
                     </ControlTemplate.Resources>
                     <Grid>
                         <TextBlock
+                            x:Name="PART_Loading"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"                            
                             Foreground="{TemplateBinding Color}"
