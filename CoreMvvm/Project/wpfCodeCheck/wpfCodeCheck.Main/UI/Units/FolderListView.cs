@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace wpfCodeCheck.Main.UI.Views
+namespace wpfCodeCheck.Main.UI.Units
 {
     internal class FolderListView : ContentControl
     {

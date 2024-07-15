@@ -103,11 +103,6 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         j++;
                         if (comparisonResult == false)
                         {
-                            if (model1.FileName.Contains("CircularGaugeBaseControl"))
-                            {
-                                int a = 0;
-                                a++;
-                            }
                             _codeCompareModel.CompareResults.Add(GetCompareResult(model1.FilePath, model2.FilePath, model1.FileName));
                             _code1.Add(model1);
                             _code2.Add(model2);
@@ -118,11 +113,6 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     }
                     else if (comparison < 0)
                     {
-                        if (model1.FileName.Contains("CircularGaugeBaseControl"))
-                        {
-                            int a = 0;
-                            a++;
-                        }
                         _codeCompareModel.CompareResults.Add(GetCompareResult(model1.FilePath, "", model1.FileName));
 
                         model1.ComparisonResult = false;
@@ -131,11 +121,6 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     }
                     else
                     {
-                        if (model2.FileName.Contains("CircularGaugeBaseControl"))
-                        {
-                            int a = 0;
-                            a++;
-                        }
                         _codeCompareModel.CompareResults.Add(GetCompareResult("", model2.FilePath, model2.FileName));
 
                         model2.ComparisonResult = false;

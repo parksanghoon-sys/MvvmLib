@@ -6,8 +6,7 @@
     xmlns:localUnits="clr-namespace:wpfCodeCheck.Main.UI.Units"
     xmlns:mvvvmlib="clr-namespace:CoreMvvmLib.WPF.Behaviors;assembly=CoreMvvmLib.WPF"
     xmlns:reigon="[reigon ]clr-namespace:CoreMvvmLib.WPF.Services.RegionManager;assembly=CoreMvvmLib.WPF"
-    xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
-    xmlns:views="clr-namespace:wpfCodeCheck.Main.UI.Views">
+    xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component">
 
 
     <Style x:Key="CONTENT.BORDER" TargetType="{x:Type Border}">
@@ -18,11 +17,11 @@
         <Setter Property="Padding" Value="10" />
     </Style>
 
-    <Style TargetType="{x:Type views:FolderListView}">
+    <Style TargetType="{x:Type localUnits:FolderListView}">
         <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type views:FolderListView}">
+                <ControlTemplate TargetType="{x:Type localUnits:FolderListView}">
 
                     <Border Style="{StaticResource CONTENT.BORDER}">
                         <units:CustomAutoGrid Rows="Auto , *">
@@ -36,9 +35,6 @@
                                     Foreground="#F0F0F0"
                                     Text="Folder Path"
                                     TextAlignment="Center">
-                                    <behavior:Interaction.Behaviors>
-                                        <mvvvmlib:EventToCommand Command="{Binding TxtPathDragOverCommand}" EventName="PreviewDragOver" />
-                                    </behavior:Interaction.Behaviors>
                                 </TextBlock>
                                 <localUnits:LocatorTextBox
                                     FileOpenCommand="{Binding AsyncFileDialogOpenCommand}"

@@ -6,25 +6,7 @@
     xmlns:sharedUnits="clr-namespace:wpfCodeCheck.Shared.UI.Units;assembly=wpfCodeCheck.Shared"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
     xmlns:views="clr-namespace:wpfCodeCheck.Main.UI.Views">
-
-
-    <Style x:Key="HEADER.BORDER" TargetType="{x:Type Border}">
-        <Setter Property="BorderBrush" Value="#FF272727" />
-        <Setter Property="BorderThickness" Value="1,1,1,1" />
-        <Setter Property="Background" Value="#FF323232" />
-        <Setter Property="CornerRadius" Value="5" />
-        <Setter Property="Padding" Value="20" />
-        <Setter Property="Effect">
-            <Setter.Value>
-                <DropShadowEffect
-                    BlurRadius="1"
-                    Opacity="0.6"
-                    ShadowDepth="1"
-                    Color="#FF1A1A1A" />
-            </Setter.Value>
-        </Setter>
-    </Style>
-
+    
 
     <Style TargetType="{x:Type views:FolderCompareView}">
         <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True" />
@@ -45,7 +27,7 @@
                         Columns="*,*"
                         Rows="Auto, Auto, *">
                         <Grid Grid.Row="0" Grid.ColumnSpan="2">
-                            <Border Style="{StaticResource HEADER.BORDER}" Margin="0 0 0 5">
+                            <Border Style="{DynamicResource DEFALUT.BORDER}" Margin="0 0 0 5">
                                 <TextBlock  VerticalAlignment="Center"
                                             HorizontalAlignment="Center"
                                             FontSize="16"
@@ -54,7 +36,7 @@
                             </Border>
                         </Grid>
                         <Grid Grid.Row="1" Grid.ColumnSpan="2">
-                            <Border Style="{StaticResource HEADER.BORDER}">
+                            <Border Style="{DynamicResource DEFALUT.BORDER}">
                                 <units:CustomStackPannel
                                     HorizontalAlignment="Left"
                                     ChildSpacing="10"
@@ -84,7 +66,7 @@
                                 DockPanel.Dock="Top"
                                 FontSize="13"
                                 Text="~을 프로젝트" />
-                            <views:FolderListView />
+                            <localUnits:FolderListView />
                         </DockPanel>
 
                         <DockPanel
@@ -96,7 +78,7 @@
                                 DockPanel.Dock="Top"
                                 FontSize="13"
                                 Text="~으로 프로젝트" />
-                            <views:FolderListView />
+                            <localUnits:FolderListView />
                         </DockPanel>
 
                     </units:CustomAutoGrid>

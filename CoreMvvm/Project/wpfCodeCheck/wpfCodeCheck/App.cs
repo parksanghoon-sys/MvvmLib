@@ -32,6 +32,8 @@ namespace wpfCodeCheck
             services.AddSingleton<TestViewModel>();
             services.AddSingleton<FolderCompareViewModel>();
             services.AddSingleton<ComparisonResultsViewModel>();
+            services.AddSingleton<ComparisonResultsViewModel>();
+            services.AddSingleton<DirectoryCompareViewModel>();
 
             services.AddTransient<FolderListViewModel>();            
 
@@ -54,7 +56,8 @@ namespace wpfCodeCheck
             //ServiceLocator.RegionManager.RegisterAddView<Test2View>();            
             //ServiceLocator.RegionManager.RegisterAddView<Test3View>();            
             ServiceLocator.RegionManager.RegisterAddView<FolderCompareView>();            
-            ServiceLocator.RegionManager.RegisterAddView<ComparisonResultsView>();            
+            ServiceLocator.RegionManager.RegisterAddView<ComparisonResultsView>();   
+            ServiceLocator.RegionManager.RegisterAddView<DirectoryCompareView>();   
             
         }
         /// <summary>
