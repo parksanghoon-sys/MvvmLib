@@ -81,6 +81,7 @@
                                 Foreground="{TemplateBinding Foreground}"
                                 ItemsSource="{TemplateBinding ItemSource}"
                                 Style="{StaticResource ListBosStyle}" 
+                                SelectedIndex="{TemplateBinding SelectedIndex}"
                                 Margin="0 5 0 0"/>
                             <Line
                                 Grid.Column="1"

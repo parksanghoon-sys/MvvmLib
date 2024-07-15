@@ -38,6 +38,7 @@
                                                  Background="#252525"
                                                  Foreground="#FFBCBFC7"
                                                  ItemSource="{Binding SampleDatas}"
+                                                 SelectedIndex="{Binding SelectedIndex}"
                                                  SelectedItemColor="#FF0B4B6B"
                                                  SelectedItem="{Binding TabItemSelectedCommand}"/>
                         <ContentControl                                   
