@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Component\CoreMvvmLib.Component.csproj" />	  
      <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
 	 <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj">

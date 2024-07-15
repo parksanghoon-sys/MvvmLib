@@ -1,27 +1,48 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ctrls="clr-namespace:CoreMvvmLib.Component.UI.Views;assembly=CoreMvvmLib.Component"
-                    xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
-                    xmlns:views="clr-namespace:wpfCodeCheck.Forms.UI.Views"
-                    xmlns:localUnits="clr-namespace:wpfCodeCheck.Forms.UI.Units"
-                    xmlns:reigon ="clr-namespace:CoreMvvmLib.WPF.Services.RegionManager;assembly=CoreMvvmLib.WPF"
-                    xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
+    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:ctrls="clr-namespace:CoreMvvmLib.Component.UI.Views;assembly=CoreMvvmLib.Component"
+    xmlns:localUnits="clr-namespace:wpfCodeCheck.Forms.UI.Units"
+    xmlns:mvvmlib="clr-namespace:CoreMvvmLib.WPF.Behaviors;assembly=CoreMvvmLib.WPF"
+    xmlns:reigon="clr-namespace:CoreMvvmLib.WPF.Services.RegionManager;assembly=CoreMvvmLib.WPF"
+    xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
+    xmlns:views="clr-namespace:wpfCodeCheck.Forms.UI.Views"
+    xmlns:behavior="clr-namespace:CoreMvvmLib.WPF.Behaviors;assembly=CoreMvvmLib.WPF"
+    xmlns:converters="clr-namespace:wpfCodeCheck.Forms.Local.Converters">
 
+    <converters:MultiParamConverter x:Key="MultiParamConverter" />
+    
     <Style BasedOn="{StaticResource {x:Type ctrls:DarkThemeWindow}}" TargetType="{x:Type views:MainWindowView}">
-        <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True"/>
-        <Setter Property="Width" Value="850" />
-        <Setter Property="Height" Value="600" />
+        <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True" />
+        <Setter Property="Width" Value="{Binding WindowWidth}" />
+        <Setter Property="Height" Value="{Binding WindowHeight}" />
+        <Setter Property="Left" Value="{Binding WindowLeft}"/>
+        <Setter Property="Top" Value="{Binding WindowTop}"/>
         <Setter Property="Dimming" Value="{Binding IsDImming}" />
+        <!--<Setter Property="behaviors:Interaction.Behaviors" >
+            <Setter.Value>
+                <mvvmlib:EventToCommand Command="{Binding LoadedCommand}" EventName="Loaded" />
+            </Setter.Value>
+        </Setter>-->
+        <Setter Property="behaviors:Interaction.Triggers">
+            <Setter.Value>
+                <behaviors:EventTrigger EventName="Activated">
+                    <behaviors:InvokeCommandAction Command="{Binding LoadedCommand}" />
+                </behaviors:EventTrigger>
+            </Setter.Value>
+        </Setter>
         <Setter Property="IsShowTaskBar" Value="True" />
         <Setter Property="Title">
             <Setter.Value>
                 <units:CustomStackPannel ChildSpacing="5" Orientation="Horizontal">
                     <units:ImageIcon
-                        Height="20"
                         Width="20"
+                        Height="20"
                         Icon="Account" />
                     <TextBlock
-                        Margin="8 0 0 0"
+                        Margin="8,0,0,0"
                         FontSize="15"
                         FontWeight="Bold"
                         Foreground="White"
@@ -31,20 +52,21 @@
         </Setter>
         <Setter Property="Content">
             <Setter.Value>
-                <Grid  Background="#FF3C3C3C">
+                <Grid Background="#FF3C3C3C">
                     <units:CustomAutoGrid Columns="Auto, 1*">
-                        <localUnits:SlideMenuBar x:Name="PART_ITEM"
-                                                 Grid.Column="0"                                                  
-                                                 Background="#252525"
-                                                 Foreground="#FFBCBFC7"
-                                                 ItemSource="{Binding SampleDatas}"
-                                                 SelectedIndex="{Binding SelectedIndex}"
-                                                 SelectedItemColor="#FF0B4B6B"
-                                                 SelectedItem="{Binding TabItemSelectedCommand}"/>
-                        <ContentControl                                   
-                                    x:Name="PART_CONTENT" 
-                                    Grid.Column="1" 
-                                    reigon:RegionManager.RegionName="MainContent"/>
+                        <localUnits:SlideMenuBar
+                            x:Name="PART_ITEM"
+                            Grid.Column="0"
+                            Background="#252525"
+                            Foreground="#FFBCBFC7"
+                            ItemSource="{Binding SampleDatas}"
+                            SelectedIndex="{Binding SelectedIndex}"
+                            SelectedItem="{Binding TabItemSelectedCommand}"
+                            SelectedItemColor="#FF0B4B6B" />
+                        <ContentControl
+                            x:Name="PART_CONTENT"
+                            Grid.Column="1"
+                            reigon:RegionManager.RegionName="MainContent" />
                     </units:CustomAutoGrid>
                 </Grid>
             </Setter.Value>

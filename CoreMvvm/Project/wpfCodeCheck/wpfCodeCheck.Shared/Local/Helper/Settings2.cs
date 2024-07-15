@@ -9,7 +9,7 @@ namespace wpfCodeCheck.Shared.Local.Helper
         public string InputPath;
         public string OutputPath;        
     }
-    public static class Settings
+    public static class Settings2
     {
         private static string path1 = string.Empty;
         private static string path2 = string.Empty;

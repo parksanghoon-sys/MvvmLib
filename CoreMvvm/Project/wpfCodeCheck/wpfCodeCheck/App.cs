@@ -21,6 +21,8 @@ namespace wpfCodeCheck
 {
     internal class App : CoreMvvmApp
     {
+        private readonly ISettingService _settingService;
+
         /// <summary>
         /// Service 등록 ex) viewmodel
         /// </summary>
@@ -43,6 +45,7 @@ namespace wpfCodeCheck
             services.AddTransient<ICsvHelper, CsvHelper>();
 
             services.AddSingleton<IBaseService, BaseService>();
+            services.AddSingleton<ISettingService, SettingService>();
 
             base.ConfigureServiceCollection(services);
         }
@@ -62,32 +65,32 @@ namespace wpfCodeCheck
         }
         /// <summary>
         /// Dialog View 등록
-        /// </summary>
+        /// </summary>       
         protected override void ConfigureServiceLocator()
         {            
             ServiceLocator.DialogService.RegisterDialog<LoadingDialogView>();            
-        }
+        }      
         protected override Window CreateWindow(IServiceContainer serviceProvider)
         {
-            // 실행 파일의 디렉토리 경로를 설정
-            Settings.ExecutablePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            //// 실행 파일의 디렉토리 경로를 설정
+            //_settingService.UserAppDataPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            // 어셈블리 이름을 가져와 프로그램 이름으로 사용
-            string programName = Assembly.GetExecutingAssembly().GetName().Name;
+            //// 어셈블리 이름을 가져와 프로그램 이름으로 사용
+            //string programName = Assembly.GetExecutingAssembly().GetName().Name;
 
 
-            // UserAppDataPath를 설정하고, 마지막 8자를 제거
-            string userAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            var settingPath = Path.Combine(userAppDataPath.Remove(userAppDataPath.Length - 8), programName);
+            //// UserAppDataPath를 설정하고, 마지막 8자를 제거
+            //string userAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            //var settingPath = Path.Combine(userAppDataPath.Remove(userAppDataPath.Length - 8), programName);
 
-            Settings.UserAppDataPath = settingPath;
+            //Settings.UserAppDataPath = settingPath;
 
-            if (Directory.Exists(Settings.UserAppDataPath) == false)
-            {
-                Settings.UserAppDataPath = settingPath;
-            }
+            //if (Directory.Exists(Settings.UserAppDataPath) == false)
+            //{
+            //    Settings.UserAppDataPath = settingPath;
+            //}
 
-            Settings.LoadSettings();
+            //Settings.LoadSettings();
             return new MainWindowView();            
         }
         public T GetService<T>() where T : class
@@ -95,8 +98,7 @@ namespace wpfCodeCheck
             return Services.GetService<T>();
         }
         protected override void OnExit(ExitEventArgs e)
-        {
-            Settings.SaveSettings();
+        {            
             base.OnExit(e);
         }
     }

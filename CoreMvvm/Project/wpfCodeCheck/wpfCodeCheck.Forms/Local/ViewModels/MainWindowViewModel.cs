@@ -8,26 +8,15 @@ using CoreMvvmLib.Core.Messenger;
 using wpfCodeCheck.Share.Enums;
 using wpfCodeCheck.ConfigurationChange.UI.Views;
 using wpfCodeCheck.Shared.Local.Services;
+using wpfCodeCheck.Forms.Local.Models;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {
-    public class NavigationModeal
-    {
-        public IconType IconType { get; set; }
-        public string Name { get; set; }
-        public bool IsEnable { get; set; } = true;
-
-        public NavigationModeal(IconType type, string name, bool isEnable)
-        {
-            this.IconType = type;
-            this.Name = name;
-            this.IsEnable = isEnable;
-        }
-    }
     public partial class MainWindowViewModel : ViewModelBase
     {
         private readonly IRegionManager _regionManager;
         private readonly IDialogService _dialogService;
+        private readonly ISettingService _settingService;
         [Property]
         private List<NavigationModeal> _sampleDatas = new List<NavigationModeal>()
         {
@@ -40,12 +29,20 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         private bool _isDImming = false;
         [Property]
         private int _selectedIndex;
+        [Property]
+        public double _windowLeft = 500;
+        [Property]
+        public double _windowTop = 500;
+        [Property]  
+        public double _windowWidth = 800;
+        [Property]
+        public double _windowHeight = 650;
 
-        public MainWindowViewModel(IRegionManager regionManager, IDialogService dialogService)
+        public MainWindowViewModel(IRegionManager regionManager, IDialogService dialogService, ISettingService settingService)
         {
             _regionManager = regionManager;
-            _dialogService = dialogService;            
-
+            _dialogService = dialogService;
+            _settingService = settingService;
             this._regionManager.NavigateView("MainContent", nameof(DirectoryCompareView));
             WeakReferenceMessenger.Default.Register<MainWindowViewModel, EMainViewDimming>(this, OnReceiveDimming);
             WeakReferenceMessenger.Default.Register<MainWindowViewModel, EMainViewType>(this, OnReceiveMainContentViewOnChange);            
@@ -81,6 +78,27 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
                     break;
             }
         }
+        [RelayCommand]
+        private void Loaded()
+        {
+            
+        }
+        [RelayCommand]
+        private void Cloasing(object? param)
+        {
+            // 0 - Window left
+            // 1 - Window top
+            // 2 - Window width
+            // 3 - Window height
+            object[] windowInfo = (object[])param!;
+
+            _settingService.WindowSetting!.XPos = (double)windowInfo[0];
+            _settingService.WindowSetting!.YPos = (double)windowInfo[1];
+            _settingService.WindowSetting!.Width = (double)windowInfo[2];
+            _settingService.WindowSetting!.Height = (double)windowInfo[3];
+            _settingService.SaveSetting();
+        }
+
         private void OnReceiveMainContentViewOnChange(MainWindowViewModel model, EMainViewType type)
         {
             SelectedIndex = type switch
