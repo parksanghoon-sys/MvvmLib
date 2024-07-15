@@ -81,7 +81,8 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         [RelayCommand]
         private void Loaded()
         {
-            
+            int a = 0;
+            a++;
         }
         [RelayCommand]
         private void Cloasing(object? param)

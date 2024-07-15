@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace wpfCodeCheck.Forms.Local.Behaviors
 {
-    internal class WindowBehavior : Behavior<Window>
+    public class WindowBehavior : Behavior<Window>
     {
         public WindowBehavior()
         {
