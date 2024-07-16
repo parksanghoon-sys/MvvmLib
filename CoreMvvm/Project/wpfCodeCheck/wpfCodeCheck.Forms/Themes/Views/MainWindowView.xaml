@@ -69,7 +69,7 @@
                         <ContentControl
                             x:Name="PART_CONTENT"
                             Grid.Column="1"
-                            reigon:RegionManager.RegionName="MainContent" />
+                            reigon:RegionManager.RegionName="MAINCONTENT" />
                     </units:CustomAutoGrid>
                 </Grid>
             </Setter.Value>

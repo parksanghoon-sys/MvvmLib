@@ -5,6 +5,11 @@ public enum EMainViewDimming
     NONE,
     DIMMING
 }
+public enum ERegionManager
+{
+    MAINCONTENT,
+
+}
 public enum EMainViewType
 {
     HOME,

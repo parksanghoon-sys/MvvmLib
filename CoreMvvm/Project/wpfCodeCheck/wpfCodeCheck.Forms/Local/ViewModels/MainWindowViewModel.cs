@@ -21,7 +21,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         private List<NavigationModeal> _sliderMenuList = new List<NavigationModeal>()
         {
             new NavigationModeal(IconType.Home, "Compare Directory", true),
-            new NavigationModeal(IconType.FileCheck, "File CheckSum",false),
+            new NavigationModeal(IconType.FileCheck, "File CheckSum",true),
             new NavigationModeal(IconType.Export, "Excel Output",false),
             new NavigationModeal(IconType.FileWord, "SDD Output",false)
         };
@@ -49,7 +49,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
             WindowWidth = _settingService.WindowSetting!.Width ?? 1000;
             WindowHeight = _settingService.WindowSetting!.Height ?? 600;
 
-            this._regionManager.NavigateView("MainContent", nameof(DirectoryCompareView));
+            this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(DirectoryCompareView));
             WeakReferenceMessenger.Default.Register<MainWindowViewModel, EMainViewDimming>(this, OnReceiveDimming);
             WeakReferenceMessenger.Default.Register<MainWindowViewModel, EMainViewType>(this, OnReceiveMainContentViewOnChange);            
         }
@@ -60,25 +60,25 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
             {
                 case IconType.Home:
                     {
-                        this._regionManager.NavigateView("MainContent", nameof(DirectoryCompareView));
+                        this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(DirectoryCompareView));
                         SelectedIndex = 0;
                     }
                     break;
                 case IconType.FileCheck:
                     {
-                        this._regionManager.NavigateView("MainContent", nameof(FolderCompareView));
+                        this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(FolderCompareView));                        
                         SelectedIndex = 1;
                     }
                     break;
                 case IconType.Export:
                     {                        
-                        this._regionManager.NavigateView("MainContent", nameof(ComparisonResultsView));
+                        this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(ComparisonResultsView));
                         SelectedIndex = 2;
                     }
                     break;
                 case IconType.FileWord:
                     {
-                        this._regionManager.NavigateView("MainContent", nameof(ComparisonResultsView));
+                        this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(ComparisonResultsView));
                         SelectedIndex = 3;
                     }
                     break;
