@@ -18,31 +18,37 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         private readonly IDialogService _dialogService;
         private readonly ISettingService _settingService;
         [Property]
-        private List<NavigationModeal> _sampleDatas = new List<NavigationModeal>()
+        private List<NavigationModeal> _sliderMenuList = new List<NavigationModeal>()
         {
             new NavigationModeal(IconType.Home, "Compare Directory", true),
-            new NavigationModeal(IconType.FileCheck, "File CheckSum",true),
-            new NavigationModeal(IconType.Export, "Excel Output",true),
-            new NavigationModeal(IconType.FileWord, "SDD Output",true)
+            new NavigationModeal(IconType.FileCheck, "File CheckSum",false),
+            new NavigationModeal(IconType.Export, "Excel Output",false),
+            new NavigationModeal(IconType.FileWord, "SDD Output",false)
         };
         [Property]
         private bool _isDImming = false;
         [Property]
         private int _selectedIndex;
         [Property]
-        public double _windowLeft = 500;
+        public double _windowLeft = 0;
         [Property]
-        public double _windowTop = 500;
+        public double _windowTop = 0;
         [Property]  
-        public double _windowWidth = 800;
+        public double _windowWidth = 0;
         [Property]
-        public double _windowHeight = 650;
+        public double _windowHeight = 0;
 
         public MainWindowViewModel(IRegionManager regionManager, IDialogService dialogService, ISettingService settingService)
         {
             _regionManager = regionManager;
             _dialogService = dialogService;
-            _settingService = settingService;
+            _settingService = settingService;            
+
+            WindowLeft = _settingService.WindowSetting!.XPos ?? 500;
+            WindowTop = _settingService.WindowSetting!.YPos ??500;
+            WindowWidth = _settingService.WindowSetting!.Width ?? 1000;
+            WindowHeight = _settingService.WindowSetting!.Height ?? 600;
+
             this._regionManager.NavigateView("MainContent", nameof(DirectoryCompareView));
             WeakReferenceMessenger.Default.Register<MainWindowViewModel, EMainViewDimming>(this, OnReceiveDimming);
             WeakReferenceMessenger.Default.Register<MainWindowViewModel, EMainViewType>(this, OnReceiveMainContentViewOnChange);            
@@ -79,12 +85,6 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
             }
         }
         [RelayCommand]
-        private void Loaded()
-        {
-            int a = 0;
-            a++;
-        }
-        [RelayCommand]
         private void Cloasing(object? param)
         {
             // 0 - Window left
@@ -109,6 +109,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
                 EMainViewType.EXPORT_EXCEL => 2,
                 _ =>  3
             };
+
         }
 
         private void OnReceiveDimming(MainWindowViewModel model, EMainViewDimming isDImming)

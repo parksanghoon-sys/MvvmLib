@@ -1,26 +1,47 @@
-﻿using Microsoft.Xaml.Behaviors;
+﻿using CoreMvvmLib.WPF.Behaviors;
+using Microsoft.Xaml.Behaviors;
+using System.Reflection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace wpfCodeCheck.Forms.Local.Behaviors
 {
     public class WindowBehavior : Behavior<Window>
-    {
-        public WindowBehavior()
+    {       
+        // Using a DependencyProperty as the backing store for ClosedCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ClosedCommandProperty =
+            DependencyProperty.Register("ClosedCommand", typeof(ICommand), typeof(WindowBehavior), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty CommandParameterProperty =
+           DependencyProperty.Register("CommandParameter", typeof(object), typeof(WindowBehavior), new PropertyMetadata(null));
+        public ICommand ClosedCommand
         {
-            
+            get { return (ICommand)GetValue(ClosedCommandProperty); }
+            set { SetValue(ClosedCommandProperty, value); }
         }
+        public object CommandParameter
+        {
+            get { return (object)GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }        
         protected override void OnAttached()
         {
-            base.OnAttached(); 
+            base.OnAttached();
+
+            AssociatedObject.Closed += AssociatedObject_Closed;
+        }
+        private void AssociatedObject_Closed(object? sender, EventArgs e)
+        {
+            if (ClosedCommand != null && ClosedCommand.CanExecute(CommandParameter))
+            {
+                ClosedCommand.Execute(CommandParameter);
+            }
         }
         protected override void OnDetaching()
         {
             base.OnDetaching();
-        }
+            AssociatedObject.Closed -= AssociatedObject_Closed;
+        }    
     }
 }

@@ -62,7 +62,7 @@
                                ContentTemplate="{TemplateBinding ContentTemplate}"/>
                             <Grid
                                x:Name="PART_Dimming"
-                               Grid.Row="1"
+                               Grid.RowSpan="2"
                                Background="{TemplateBinding DimmingColor}"
                                Opacity="{TemplateBinding DimmingOpacity}"
                                Visibility="Collapsed" />    

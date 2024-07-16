@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xaml.Behaviors;
 using System.Windows;
-using wpfCodeCheck.Shared.UI.Views;
 using TriggerBase = Microsoft.Xaml.Behaviors.TriggerBase;
 
-namespace wpfCodeCheck.Forms.Local.Behaviors
+namespace CoreMvvmLib.WPF.Behaviors
 {
     public class Behaviors : List<Behavior>
     {

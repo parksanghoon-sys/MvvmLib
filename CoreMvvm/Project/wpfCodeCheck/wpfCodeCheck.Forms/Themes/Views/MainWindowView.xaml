@@ -2,33 +2,40 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:behavior="clr-namespace:CoreMvvmLib.WPF.Behaviors;assembly=CoreMvvmLib.WPF"
+    xmlns:localbehavior="clr-namespace:wpfCodeCheck.Forms.Local.Behaviors"
+    xmlns:converters="clr-namespace:wpfCodeCheck.Forms.Local.Converters"
     xmlns:ctrls="clr-namespace:CoreMvvmLib.Component.UI.Views;assembly=CoreMvvmLib.Component"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:localUnits="clr-namespace:wpfCodeCheck.Forms.UI.Units"
     xmlns:mvvmlib="clr-namespace:CoreMvvmLib.WPF.Behaviors;assembly=CoreMvvmLib.WPF"
     xmlns:reigon="clr-namespace:CoreMvvmLib.WPF.Services.RegionManager;assembly=CoreMvvmLib.WPF"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
-    xmlns:views="clr-namespace:wpfCodeCheck.Forms.UI.Views"
-    xmlns:behavior="clr-namespace:wpfCodeCheck.Forms.Local.Behaviors"
-    xmlns:converters="clr-namespace:wpfCodeCheck.Forms.Local.Converters">
+    xmlns:views="clr-namespace:wpfCodeCheck.Forms.UI.Views">
 
     <behavior:Behaviors x:Key="WindowBehaviors" x:Shared="False">
-        <mvvmlib:EventToCommand Command="{Binding LoadedCommand, RelativeSource={RelativeSource AncestorType=views:MainWindowView}}" EventName="Loaded" />
+        <localbehavior:WindowBehavior ClosedCommand="{Binding RelativeSource={RelativeSource AncestorType=views:MainWindowView}, Path=DataContext.CloasingCommand}">
+            <localbehavior:WindowBehavior.CommandParameter>
+                <MultiBinding Converter="{converters:MultiParamConverter}">
+                    <Binding Path="Left" RelativeSource="{RelativeSource AncestorType=views:MainWindowView}" />
+                    <Binding Path="Top" RelativeSource="{RelativeSource AncestorType=views:MainWindowView}" />
+                    <Binding Path="Width" RelativeSource="{RelativeSource AncestorType=views:MainWindowView}" />
+                    <Binding Path="Height" RelativeSource="{RelativeSource AncestorType=views:MainWindowView}" />
+                </MultiBinding>
+            </localbehavior:WindowBehavior.CommandParameter>
+        </localbehavior:WindowBehavior>
     </behavior:Behaviors>
-    
+
     <Style BasedOn="{StaticResource {x:Type ctrls:DarkThemeWindow}}" TargetType="{x:Type views:MainWindowView}">
         <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True" />
-        <Setter Property="Width" Value="{Binding WindowWidth}" />
-        <Setter Property="Height" Value="{Binding WindowHeight}" />
-        <Setter Property="Left" Value="{Binding WindowLeft}"/>
-        <Setter Property="Top" Value="{Binding WindowTop}"/>
+        <Setter Property="MinHeight" Value="600"/>
+        <Setter Property="MinWidth" Value="1000"/>
+        <Setter Property="Width" Value="{Binding WindowWidth, UpdateSourceTrigger=PropertyChanged}" />
+        <Setter Property="Height" Value="{Binding WindowHeight, UpdateSourceTrigger=PropertyChanged}" />
+        <Setter Property="Left" Value="{Binding WindowLeft, UpdateSourceTrigger=PropertyChanged}" />
+        <Setter Property="Top" Value="{Binding WindowTop, UpdateSourceTrigger=PropertyChanged}" />
         <Setter Property="Dimming" Value="{Binding IsDImming}" />
-        <!--<Setter Property="behaviors:Interaction.Behaviors" >
-            <Setter.Value>
-                <mvvmlib:EventToCommand Command="{Binding LoadedCommand}" EventName="Loaded" />
-            </Setter.Value>
-        </Setter>-->
-        <Setter Property="behavior:SupplementaryInteraction.Behaviors" Value="{StaticResource WindowBehaviors}"/>
+        <Setter Property="behavior:SupplementaryInteraction.Behaviors" Value="{StaticResource WindowBehaviors}" />
         <Setter Property="IsShowTaskBar" Value="True" />
         <Setter Property="Title">
             <Setter.Value>
@@ -55,7 +62,7 @@
                             Grid.Column="0"
                             Background="#252525"
                             Foreground="#FFBCBFC7"
-                            ItemSource="{Binding SampleDatas}"
+                            ItemSource="{Binding SliderMenuList}"
                             SelectedIndex="{Binding SelectedIndex}"
                             SelectedItem="{Binding TabItemSelectedCommand}"
                             SelectedItemColor="#FF0B4B6B" />

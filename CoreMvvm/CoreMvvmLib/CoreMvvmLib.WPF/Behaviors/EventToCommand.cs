@@ -13,7 +13,18 @@ namespace CoreMvvmLib.WPF.Behaviors
         public static readonly DependencyProperty EventNameProperty =
             DependencyProperty.Register("EventName", typeof(string), typeof(EventToCommand), new PropertyMetadata("",OnEvnetNameChanged));
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), typeof(EventToCommand), new PropertyMetadata(null));        
+            DependencyProperty.Register("Command", typeof(ICommand), typeof(EventToCommand), new PropertyMetadata(null,Test));
+
+        private static void Test(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"LoadedCommand changed to: {e.NewValue}");
+            var behavior = d as EventToCommand;
+            if (behavior.AssociatedObject == null)
+                return;
+            
+            behavior.RegisterEvent(behavior.EventName);
+        }
+
         public static readonly DependencyProperty CommandParameterProperty =
             DependencyProperty.Register("CommandParameter", typeof(object), typeof(EventToCommand), new PropertyMetadata(null));
         public static readonly DependencyProperty InpuConverterProperty =
