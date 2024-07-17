@@ -50,6 +50,9 @@
                                 </Button.Template>
                             </Button>
                         </Grid>
+                        <Border.ToolTip>
+                            <TextBlock Text="폴더를 드레그 드랍 혹은 폴더 경로를 선택 하세요"/>
+                        </Border.ToolTip>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
