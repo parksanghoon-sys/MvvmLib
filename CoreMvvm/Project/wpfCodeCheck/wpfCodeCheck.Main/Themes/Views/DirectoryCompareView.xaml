@@ -16,18 +16,69 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type views:DirectoryCompareView}">
-                    <units:CustomStackPannel ChildSpacing="5">
-                        <localUnits:LocatorTextBox
-                            x:Name="PART_InputTextBlock"
-                            FileOpenCommand="{Binding AsyncFileDialogOpenCommand}"
-                            FontSize="15"
-                            Text="{Binding InputDirectoryPath, Mode=OneWay}" />
-                        <localUnits:LocatorTextBox
-                            x:Name="PART_OutputTextBlock"
-                            FileOpenCommand="{Binding AsyncFileDialogOpenCommand}"
-                            FontSize="15"
-                            Text="{Binding OutputDirectoryPath, Mode=OneWay}" />
-                    </units:CustomStackPannel>
+                    <units:AutoGrid
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Rows="Auto, Auto">
+                        <Grid Grid.Row="0">
+                            <Border Margin="0,0,0,5" Style="{DynamicResource DEFALUT.BORDER}">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Text="Directory Compare" />
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <units:AutoGrid Columns="Auto, Auto">
+                                <units:CustomStackPannel Grid.Column="0" ChildSpacing="5">
+                                    <units:CustomStackPannel ChildSpacing="5" Orientation="Horizontal">
+                                        <TextBlock
+                                            Margin="0,5,0,5"
+                                            DockPanel.Dock="Top"
+                                            FontSize="13"
+                                            Foreground="#FFFFFF"
+                                            Text="~을 프로젝트   " />
+                                        <localUnits:LocatorTextBox
+                                            x:Name="PART_InputTextBlock"
+                                            MinWidth="500"
+                                            MaxWidth="800"
+                                            FileOpenCommand="{Binding FileDialogOpenCommand}"
+                                            FileOpenCommandParameter="Input"
+                                            FontSize="15"
+                                            Text="{Binding InputDirectoryPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </units:CustomStackPannel>
+                                    <units:CustomStackPannel ChildSpacing="5" Orientation="Horizontal">
+                                        <TextBlock
+                                            Margin="0,5,0,5"
+                                            DockPanel.Dock="Top"
+                                            FontSize="13"
+                                            Foreground="#FFFFFF"
+                                            Text="~으로 프로젝트" />
+                                        <localUnits:LocatorTextBox
+                                            x:Name="PART_OutputTextBlock"
+                                            MinWidth="500"
+                                            MaxWidth="800"
+                                            FileOpenCommand="{Binding FileDialogOpenCommand}"
+                                            FileOpenCommandParameter="Output"
+                                            FontSize="15"
+                                            Text="{Binding OutputDirectoryPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </units:CustomStackPannel>
+
+                                </units:CustomStackPannel>
+                                <Grid Grid.Column="1">
+                                    <sharedUnits:BaseButton
+                                        Margin="10"
+                                        Command="{Binding CompareCommand}"
+                                        Content="비교 시작"
+                                        IconType="FileCheck" />
+                                </Grid>
+                            </units:AutoGrid>
+
+                        </Grid>
+                    </units:AutoGrid>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

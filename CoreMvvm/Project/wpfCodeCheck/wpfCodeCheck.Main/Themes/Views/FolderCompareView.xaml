@@ -6,7 +6,6 @@
     xmlns:sharedUnits="clr-namespace:wpfCodeCheck.Shared.UI.Units;assembly=wpfCodeCheck.Shared"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
     xmlns:views="clr-namespace:wpfCodeCheck.Main.UI.Views">
-    
 
     <Style TargetType="{x:Type views:FolderCompareView}">
         <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True" />
@@ -27,12 +26,13 @@
                         Columns="*,*"
                         Rows="Auto, Auto, *">
                         <Grid Grid.Row="0" Grid.ColumnSpan="2">
-                            <Border Style="{DynamicResource DEFALUT.BORDER}" Margin="0 0 0 5">
-                                <TextBlock  VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            FontSize="16"
-                                            FontWeight="Bold"
-                                            Text="Directory File CheckSum Compare"/>
+                            <Border Margin="0,0,0,5" Style="{DynamicResource DEFALUT.BORDER}">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Text="Directory File CheckSum Compare" />
                             </Border>
                         </Grid>
                         <Grid Grid.Row="1" Grid.ColumnSpan="2">
@@ -66,7 +66,9 @@
                                 DockPanel.Dock="Top"
                                 FontSize="13"
                                 Text="~을 프로젝트" />
-                            <localUnits:FolderListView />
+                            <localUnits:FolderListView 
+                                DirectoryPath="{Binding RelativeSource={RelativeSource AncestorType=views:FolderCompareView}, Path=DataContext.InputDirectoryPath}"
+                                FolderListType="INPUT"/>
                         </DockPanel>
 
                         <DockPanel
@@ -78,7 +80,9 @@
                                 DockPanel.Dock="Top"
                                 FontSize="13"
                                 Text="~으로 프로젝트" />
-                            <localUnits:FolderListView />
+                            <localUnits:FolderListView 
+                                DirectoryPath="{Binding RelativeSource={RelativeSource AncestorType=views:FolderCompareView}, Path=DataContext.OutputDirectoryPath}"
+                                FolderListType="OUTPUT"/>
                         </DockPanel>
 
                     </units:CustomAutoGrid>

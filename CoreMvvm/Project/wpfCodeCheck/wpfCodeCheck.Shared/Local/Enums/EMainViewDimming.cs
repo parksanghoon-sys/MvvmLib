@@ -22,4 +22,9 @@ public enum EFolderCompareList
     NONE,
     CLEAR
 }
+public enum EFolderListType
+{
+    INPUT,
+    OUTPUT
+}
 

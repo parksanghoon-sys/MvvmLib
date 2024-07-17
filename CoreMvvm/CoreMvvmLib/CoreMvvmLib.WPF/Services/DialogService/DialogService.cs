@@ -148,8 +148,23 @@ namespace CoreMvvmLib.WPF.Services.DialogService
 
             return viewModel.DialogResult;
         }
+        // TODO : Dialog 제어 관련 추후 다른 방안 생각해봄
         public void Show(INotifyPropertyChanged ownerViewModel, string windowName, int width, int height)
         {
+            foreach (Window? w in Application.Current.Windows)
+            {
+                if (w == null || windowName.Equals(w.Name) == false)
+                    continue;
+                try
+                {
+                    return;
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                    break;
+                }
+            }            
             var window = DialogStorage.CreateDialog(windowName);
             var name = windowName.Replace("View", "ViewModel");
             var viewModelType = _serviceContainer.TypeGet(name);

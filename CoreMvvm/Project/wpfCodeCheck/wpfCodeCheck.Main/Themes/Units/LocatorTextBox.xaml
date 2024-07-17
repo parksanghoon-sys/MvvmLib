@@ -25,7 +25,8 @@
                             <ScrollViewer x:Name="PART_ContentHost"
                                       Margin="6 0 26 0"
                                       VerticalAlignment="Center"/>
-                            <Button Content="Open" Command="{TemplateBinding FileOpenCommand}" >
+                            <Button Command="{TemplateBinding FileOpenCommand}"
+                                    CommandParameter="{TemplateBinding FileOpenCommandParameter}">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Border CornerRadius="2">

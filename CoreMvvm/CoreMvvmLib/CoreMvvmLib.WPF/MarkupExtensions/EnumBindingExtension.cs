@@ -1,11 +1,11 @@
 ﻿using System.Windows.Markup;
 
-namespace CoreMvvmLib.WPF.Extensions
+namespace CoreMvvmLib.WPF.MarkupExtensions
 {
     /// <summary>
     /// Enum 을 Markup에 사용하기 위한 Class
     /// </summary>
-    /// <seealso cref="System.Windows.Markup.MarkupExtension" />
+    /// <seealso cref="MarkupExtension" />
     public class EnumBindingExtension : MarkupExtension
     {
         /// <summary>

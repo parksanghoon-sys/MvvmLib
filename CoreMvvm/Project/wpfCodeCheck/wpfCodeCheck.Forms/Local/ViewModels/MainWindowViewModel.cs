@@ -21,7 +21,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         private List<NavigationModeal> _sliderMenuList = new List<NavigationModeal>()
         {
             new NavigationModeal(IconType.Home, "Compare Directory", true),
-            new NavigationModeal(IconType.FileCheck, "File CheckSum",true),
+            new NavigationModeal(IconType.FileCheck, "File CheckSum",false),
             new NavigationModeal(IconType.Export, "Excel Output",false),
             new NavigationModeal(IconType.FileWord, "SDD Output",false)
         };
@@ -46,7 +46,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
 
             WindowLeft = _settingService.WindowSetting!.XPos ?? 500;
             WindowTop = _settingService.WindowSetting!.YPos ??500;
-            WindowWidth = _settingService.WindowSetting!.Width ?? 1000;
+            WindowWidth = 1200;
             WindowHeight = _settingService.WindowSetting!.Height ?? 600;
 
             this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(DirectoryCompareView));
@@ -109,7 +109,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
                 EMainViewType.EXPORT_EXCEL => 2,
                 _ =>  3
             };
-
+            SliderMenuList[(int)type].IsEnable = true;
         }
 
         private void OnReceiveDimming(MainWindowViewModel model, EMainViewDimming isDImming)

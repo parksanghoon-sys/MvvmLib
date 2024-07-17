@@ -2,10 +2,10 @@
 using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
-using CoreMvvmLib.WPF.Components;
 using System.Collections;
 using System.IO;
 using System.Windows;
+using wpfCodeCheck.Main.Local.Exceptions;
 using wpfCodeCheck.Main.Local.Helpers.CsvHelper;
 using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Share.Enums;
@@ -16,34 +16,47 @@ namespace wpfCodeCheck.Main.Local.ViewModels
 {
     public partial class FolderCompareViewModel : ViewModelBase
     {
-        private List<CustomObservableCollection<CodeInfo>> _codeInfos = new List<CustomObservableCollection<CodeInfo>>(2);
+        private List<DirectorySearchResult> _codeInfos = new List<DirectorySearchResult>(2);
         private List<CodeInfo> _code1 = new List<CodeInfo>();
         private List<CodeInfo> _code2 = new List<CodeInfo>();
         private CodeCompareModel _codeCompareModel = new CodeCompareModel();
         private readonly ICsvHelper _csvHelper;
         private readonly IBaseService _baseService;
+        private readonly ISettingService _settingService;
 
-        public FolderCompareViewModel(ICsvHelper csvHelper, IBaseService baseService)
+        public FolderCompareViewModel(ICsvHelper csvHelper, IBaseService baseService, ISettingService settingService)
         {
             _csvHelper = csvHelper;
             _baseService = baseService;
+            _settingService = settingService;
             IsEnableInputDirectoryList = true;
             IsEnableOutputDirectoryList = false;
+            InputDirectoryPath = _settingService.GeneralSetting?.InputPath ?? string.Empty;
+            OutputDirectoryPath = _settingService.GeneralSetting?.OutputPath ?? string.Empty;
 
-            WeakReferenceMessenger.Default.Register<FolderCompareViewModel, CustomObservableCollection<CodeInfo>>(this, OnReceiveCodeInfos);
+            WeakReferenceMessenger.Default.Register<FolderCompareViewModel, DirectorySearchResult>(this, OnReceiveCodeInfos);
         }
         [Property]
         private bool _isEnableInputDirectoryList;
         [Property]
         private bool _isEnableOutputDirectoryList;
-        [RelayCommand]
-        private async void Compare()
+        [Property]
+        private string _inputDirectoryPath;
+        [Property]
+        private string _outputDirectoryPath;
+        [AsyncRelayCommand]
+        private async Task Compare()
         {
-            var inputItems = _codeInfos.First();
-            var outputItems = _codeInfos.Last();
+            if (_codeInfos.Count != 2)
+            {
+                throw new InsufficientDataException($"파일 데이터가 부족 합니다.");
+            }
+            var inputItems = _codeInfos.Where(p => p.type == EFolderListType.INPUT).FirstOrDefault();;
+            var outputItems = _codeInfos.Where(p => p.type == EFolderListType.OUTPUT).FirstOrDefault();
 
-            await CompareModelCollections(inputItems, outputItems);
+            await CompareModelCollections(inputItems!.fileDatas, outputItems!.fileDatas);
             _baseService.SetDirectoryCompareReuslt(_codeCompareModel);
+            WeakReferenceMessenger.Default.Send<EMainViewType>(EMainViewType.EXPORT_EXCEL);
         }
         [RelayCommand]
         private void Export()
@@ -71,14 +84,14 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             }
             return diffFileModel;
         }
-        private void OnReceiveCodeInfos(FolderCompareViewModel model, CustomObservableCollection<CodeInfo> list)
+        private void OnReceiveCodeInfos(FolderCompareViewModel model, DirectorySearchResult directorySearchResult)
         {
             if (_codeInfos.Count >= 2)
             {
                 _codeInfos.Clear();
             }
             IsEnableOutputDirectoryList = true;
-            _codeInfos.Add(list);
+            _codeInfos.Add(directorySearchResult);
         }
 
         private async Task CompareModelCollections(IList<CodeInfo> inputItems, IList<CodeInfo> outputItems)
@@ -194,7 +207,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         }
 
         private IList<T> GetArrayListToList<T>(ArrayList list)
-        {
+        {            
             List<T> result = new List<T>();
 
             foreach (var item in list)
