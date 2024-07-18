@@ -30,7 +30,7 @@
         <system:Double x:Key="CheckBoxHeight">22</system:Double>
         <system:Double x:Key="CheckBoxWidth">22</system:Double>
         <Color x:Key="TextFillColorPrimary">#FFFFFF</Color>
-        
+
         <Style TargetType="{x:Type CheckBox}">
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -45,11 +45,11 @@
             <Setter Property="MinHeight" Value="32" />
             <Setter Property="SnapsToDevicePixels" Value="True" />
             <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Background" Value="#19000000"/>
+            <Setter Property="Background" Value="#19000000" />
             <Setter Property="BorderThickness" Value="{StaticResource CheckBoxBorderThemeThickness}" />
             <Setter Property="Padding" Value="{StaticResource CheckBoxPadding}" />
-            <Setter Property="BorderBrush" Value="#FFFFFF"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#FFFFFF" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -74,13 +74,13 @@
                                         <Grid>
                                             <units:ImageIcon
                                                 x:Name="ControlIcon"
-                                                Margin="0"
                                                 Width="8"
                                                 Height="8"
+                                                Margin="0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Icon="None"
                                                 Fill="White"
+                                                Icon="None"
                                                 Visibility="Collapsed" />
                                         </Grid>
                                     </Border>
@@ -103,6 +103,7 @@
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="ControlIcon" Property="Icon" Value="Check" />
                                 <Setter TargetName="ControlIcon" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="StrokeBorder" Property="Background" Value="#FF58B6EC" />
                                 <Setter TargetName="ControlBorderIconPresenter" Property="Background" Value="{DynamicResource CheckBoxCheckBackgroundFillChecked}" />
                                 <Setter TargetName="StrokeBorder" Property="BorderBrush" Value="{DynamicResource CheckBoxCheckBorderBrush}" />
                             </Trigger>
@@ -111,14 +112,82 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="{x:Type local:ToggleSwitch}">
 
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:ToggleSwitch}">
+                        <Grid
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            Margin="0,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                            <Border
+                                x:Name="BorderToggle"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                Margin="0,0,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="#B5B5B5"
+                                CornerRadius="9">
+                                <Canvas Background="Transparent">
+                                    <Ellipse
+                                        x:Name="EllipseToggle"
+                                        Canvas.Left="4"
+                                        Canvas.Top="0"
+                                        Width="20"
+                                        Height="20"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Fill="White" />
+                                </Canvas>
+                            </Border>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CheckStates">
+                                    <VisualState Name="Checked">
+                                        <Storyboard>
+                                            <ColorAnimation
+                                                Storyboard.TargetName="BorderToggle"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#FF58B6EC"
+                                                Duration="0:0:0.2" />
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="EllipseToggle"
+                                                Storyboard.TargetProperty="(Canvas.Left)"
+                                                To="36"
+                                                Duration="0:0:0.15" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState Name="Unchecked">
+                                        <Storyboard>
+                                            <ColorAnimation
+                                                Storyboard.TargetName="BorderToggle"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#B5B5B5"
+                                                Duration="0:0:0.2" />
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="EllipseToggle"
+                                                Storyboard.TargetProperty="(Canvas.Left)"
+                                                To="4"
+                                                Duration="0:0:0.15" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <behavior:Interaction.Behaviors>
         <mvvmlib:EventToCommand Command="{Binding Loaded1Command}" EventName="Loaded" />
     </behavior:Interaction.Behaviors>
     <Grid>
         <StackPanel>
-            <CheckBox Content="Test" Width="40"/>
+            <CheckBox Width="40" Content="Test" />
             <TextBlock
                 FontSize="12"
                 Foreground="Black"
@@ -133,6 +202,7 @@
                 Height="20"
                 Command="{Binding TestCommandAsync}"
                 Content="CommandAsync" />
+            <local:ToggleSwitch Width="60" Height="20" />
         </StackPanel>
 
     </Grid>

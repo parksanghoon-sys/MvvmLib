@@ -8,11 +8,7 @@ namespace wpfCodeCheck.Main.UI.Units
         static FileListBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(FileListBox), new FrameworkPropertyMetadata(typeof(FileListBox)));
-        }
-        public FileListBox()
-        {
-            
-        }
+        }      
 
         protected override DependencyObject GetContainerForItemOverride()
         {

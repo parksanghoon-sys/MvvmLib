@@ -39,8 +39,8 @@ namespace wpfCodeCheck.ConfigurationChange.Local.ViewModels
 
             _dialogService.Show(this, nameof(LoadingDialogView), 300, 300);
             
-
             await excelPaser.WriteExcel();
+
             _dialogService.Close(nameof(LoadingDialogView));
         }
         private void CreatePathFolder(string path)

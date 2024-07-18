@@ -16,7 +16,7 @@ namespace wpfCodeCheck.ConfigurationChange.Local.Services
     }
     public interface IExcelPaser
     {
-        void SetExcelDate(CodeCompareModel dataList);
+        void SetExcelDate(CodeCompareResultModel dataList);
         Task WriteExcel();
     }
 

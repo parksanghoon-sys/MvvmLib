@@ -8,8 +8,8 @@ namespace wpfCodeCheck.Shared.Local.Services
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private CodeCompareModel _compareModel;
-        public CodeCompareModel CompareResult
+        private CodeCompareResultModel _compareModel;
+        public CodeCompareResultModel CompareResult
         {
             get => _compareModel;
             set
@@ -22,7 +22,7 @@ namespace wpfCodeCheck.Shared.Local.Services
             }
         }
 
-        public void SetDirectoryCompareReuslt(CodeCompareModel compareResult)
+        public void SetDirectoryCompareReuslt(CodeCompareResultModel compareResult)
         {
             _compareModel = compareResult;
         }

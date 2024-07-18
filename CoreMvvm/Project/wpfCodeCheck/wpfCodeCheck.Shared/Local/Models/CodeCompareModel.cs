@@ -4,11 +4,12 @@ using YamlDotNet.Core.Tokens;
 
 namespace wpfCodeCheck.Shared.Local.Models
 {
-    public record CodeCompareModel 
-    {
-        private IList<CompareResult>? _compareResults = new List<CompareResult>();
+    using ProjectName = string;
+    public record CodeCompareResultModel 
+    {        
+        private IDictionary<ProjectName, IList<CompareResult>>? _compareResults = new Dictionary<ProjectName, IList<CompareResult>>();
 
-        public IList<CompareResult> CompareResults
+        public IDictionary<ProjectName, IList<CompareResult>> CompareResults
         {
             get => _compareResults ?? throw new ArgumentNullException(nameof(CompareResults), "CompareResults cannot be null");
             set => _compareResults = value ?? throw new ArgumentNullException(nameof(value), "CompareResults cannot be null");
@@ -25,6 +26,6 @@ namespace wpfCodeCheck.Shared.Local.Models
         public IList<CompareResultSpan> CompareResultSpans { get; set; }
         public CompareText InputCompareText { get; set; }
         public CompareText OutputCompareText { get; set; }
-        public string FileName{ get; set; }
+        public string FileName{ get; set; } = string.Empty;
     }
 }

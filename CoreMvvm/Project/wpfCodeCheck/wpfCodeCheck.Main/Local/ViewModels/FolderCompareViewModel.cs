@@ -19,7 +19,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private List<DirectorySearchResult> _codeInfos = new List<DirectorySearchResult>(2);
         private List<CodeInfo> _code1 = new List<CodeInfo>();
         private List<CodeInfo> _code2 = new List<CodeInfo>();
-        private CodeCompareModel _codeCompareModel = new CodeCompareModel();
+        private CodeCompareResultModel _codeCompareModel = new CodeCompareResultModel();
+
         private readonly ICsvHelper _csvHelper;
         private readonly IBaseService _baseService;
         private readonly ISettingService _settingService;
@@ -55,6 +56,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             var outputItems = _codeInfos.Where(p => p.type == EFolderListType.OUTPUT).FirstOrDefault();
 
             await CompareModelCollections(inputItems!.fileDatas, outputItems!.fileDatas);
+            
             _baseService.SetDirectoryCompareReuslt(_codeCompareModel);
             WeakReferenceMessenger.Default.Send<EMainViewType>(EMainViewType.EXPORT_EXCEL);
         }
@@ -69,9 +71,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         {
             WeakReferenceMessenger.Default.Send<EFolderCompareList, FolderListViewModel>(EFolderCompareList.CLEAR);
         }
-        private CodeCompareModel GetCodeCompareModels(IEnumerable<CodeInfo> codeInfos)
+        private CodeCompareResultModel GetCodeCompareModels(IEnumerable<CodeInfo> codeInfos)
         {
-            var diffFileModel = new CodeCompareModel();
+            var diffFileModel = new CodeCompareResultModel();
             List<string> classFile = new List<string>();
             List<string> classFilePath = new List<string>();
             foreach (var item in codeInfos)
@@ -116,7 +118,15 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         j++;
                         if (comparisonResult == false)
                         {
-                            _codeCompareModel.CompareResults.Add(GetCompareResult(model1.FilePath, model2.FilePath, model1.FileName));
+                            var compareResult = GetCompareResult(model1.FilePath, model2.FilePath, model1.FileName);
+                            if (_codeCompareModel.CompareResults.ContainsKey(model1.ProjectName) == true)
+                            {
+                                _codeCompareModel.CompareResults[model1.ProjectName].Add(compareResult);
+                            }
+                            else
+                            {
+                                _codeCompareModel.CompareResults.Add(model1.ProjectName,new List<CompareResult> {compareResult});
+                            }
                             _code1.Add(model1);
                             _code2.Add(model2);
 
@@ -126,15 +136,32 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     }
                     else if (comparison < 0)
                     {
-                        _codeCompareModel.CompareResults.Add(GetCompareResult(model1.FilePath, "", model1.FileName));
+                        var compareResult = GetCompareResult(model1.FilePath, "", model1.FileName);
 
+                        if (_codeCompareModel.CompareResults.ContainsKey(model1.ProjectName) == true)
+                        {
+                            _codeCompareModel.CompareResults[model1.ProjectName].Add(compareResult);
+                        }
+                        else
+                        {
+                            _codeCompareModel.CompareResults.Add(model1.ProjectName, new List<CompareResult> { compareResult });
+                        }
                         model1.ComparisonResult = false;
                         _code1.Add(model1);
                         i++;
                     }
                     else
                     {
-                        _codeCompareModel.CompareResults.Add(GetCompareResult("", model2.FilePath, model2.FileName));
+                        var compareResult = GetCompareResult("", model2.FilePath, model2.FileName);
+
+                        if (_codeCompareModel.CompareResults.ContainsKey(model1.ProjectName) == true)
+                        {
+                            _codeCompareModel.CompareResults[model1.ProjectName].Add(compareResult);
+                        }
+                        else
+                        {
+                            _codeCompareModel.CompareResults.Add(model1.ProjectName, new List<CompareResult> { compareResult });
+                        }                        
 
                         model2.ComparisonResult = false;
                         _code2.Add(model2);

@@ -5,7 +5,7 @@ namespace wpfCodeCheck.Shared.Local.Services
 {
     public interface IBaseService : INotifyPropertyChanged
     {
-        CodeCompareModel CompareResult { get; }        
-        void SetDirectoryCompareReuslt(CodeCompareModel compareResult);
+        CodeCompareResultModel CompareResult { get; }        
+        void SetDirectoryCompareReuslt(CodeCompareResultModel compareResult);
     }
 }
