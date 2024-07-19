@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace CoreMvvmLib.WPF.MarkupExtensions
+namespace CoreMvvmLib.WPF
 {
     /// <summary>
     /// IValueConverter 상속받는 Converter을 Markup에 등록해주는 클래스

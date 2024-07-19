@@ -1,31 +1,30 @@
 ﻿using CoreMvvmLib.Core.Services.DialogService;
 using CoreMvvmLib.Core.Services.RegionManager;
 
-namespace CoreMvvmLib.WPF.Services
+namespace CoreMvvmLib.WPF.Services;
+
+public partial class ServiceLocator
 {
-    public partial class ServiceLocator
+    private static IDialogService _dialogService = null;
+    public static IDialogService DialogService
     {
-        private static IDialogService _dialogService = null;
-        public static IDialogService DialogService
+        get
         {
-            get
-            {
-                if(_dialogService is  null)
-                    _dialogService = new DialogService.DialogService();
+            if(_dialogService is  null)
+                _dialogService = new DialogService();
 
-                return _dialogService;
-            }
+            return _dialogService;
         }
-        private static IRegionManager regionManager = null;
-        public static IRegionManager RegionManager
+    }
+    private static IRegionManager regionManager = null;
+    public static IRegionManager RegionManager
+    {
+        get
         {
-            get
-            {
-                if (regionManager == null)
-                    regionManager = new RegionManager.RegionManager();
+            if (regionManager == null)
+                regionManager = new RegionManager();
 
-                return regionManager;
-            }
+            return regionManager;
         }
     }
 }

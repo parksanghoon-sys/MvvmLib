@@ -5,10 +5,10 @@ using CoreMvvmLib.Core.Services.RegionManager;
 using wpfCodeCheck.Main.UI.Views;
 using CoreMvvmLib.Core.Services.DialogService;
 using CoreMvvmLib.Core.Messenger;
-using wpfCodeCheck.Share.Enums;
 using wpfCodeCheck.ConfigurationChange.UI.Views;
-using wpfCodeCheck.Shared.Local.Services;
 using wpfCodeCheck.Forms.Local.Models;
+using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Domain.Enums;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {

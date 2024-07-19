@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
+    xmlns:wpfLib="clr-namespace:CoreMvvmLib.WPF;assembly=CoreMvvmLib.WPF"
     xmlns:localUnits="clr-namespace:wpfCodeCheck.Main.UI.Units"
     xmlns:reigon="[reigon ]clr-namespace:CoreMvvmLib.WPF.Services.RegionManager;assembly=CoreMvvmLib.WPF"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component">
@@ -16,7 +16,7 @@
     </Style>
 
     <Style TargetType="{x:Type localUnits:FolderListView}">
-        <Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True" />
+        <Setter Property="wpfLib:ViewModelLocator.AutoWireViewModel" Value="True" />
         <Setter Property="Tag" Value="{Binding FolderLIstType, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
         <Setter Property="Template">
             <Setter.Value>

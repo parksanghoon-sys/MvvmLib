@@ -1,7 +1,5 @@
 ﻿using ClosedXML.Excel;
 using CompareEngine;
-using DocumentFormat.OpenXml.Drawing.Diagrams;
-using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace onpenxmlTest
 {

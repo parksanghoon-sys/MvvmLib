@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfTest1.Views"
-        xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
+        xmlns:wpfMvvm="clr-namespace:CoreMvvmLib.WPF;assembly=CoreMvvmLib.WPF"
         xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
         mc:Ignorable="d"
         Title="TestView" Height="450" Width="800" Background="Yellow"
-        auto:ViewModelLocator.AutoWireViewModel="True">
+        wpfMvvm:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <StackPanel>
             <units:ImageIcon 

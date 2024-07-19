@@ -1,6 +1,6 @@
 ﻿using System.Windows.Markup;
 
-namespace CoreMvvmLib.WPF.MarkupExtensions
+namespace CoreMvvmLib.WPF
 {
     /// <summary>
     /// Enum 을 Markup에 사용하기 위한 Class

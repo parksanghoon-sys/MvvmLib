@@ -1,8 +1,6 @@
 ﻿using CoreMvvmLib.Core.IOC;
 using CoreMvvmLib.WPF.Components;
 using CoreMvvmLib.WPF.Services;
-using System.IO;
-using System.Reflection;
 using System.Windows;
 using wpfCodeCheck.ConfigurationChange.Local.ViewModels;
 using wpfCodeCheck.ConfigurationChange.UI.Views;
@@ -13,16 +11,14 @@ using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 using wpfCodeCheck.Main.Local.ViewModels;
 using wpfCodeCheck.Main.UI.Views;
-using wpfCodeCheck.Shared.Local.Helper;
-using wpfCodeCheck.Shared.Local.Services;
-using wpfCodeCheck.Shared.UI.Views;
+using wpfCodeCheck.Component.UI.Views;
+using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Main.Local.Models;
 
 namespace wpfCodeCheck
 {
     internal class App : CoreMvvmApp
     {
-        private readonly ISettingService _settingService;
-
         /// <summary>
         /// Service 등록 ex) viewmodel
         /// </summary>
@@ -41,7 +37,7 @@ namespace wpfCodeCheck
 
             services.AddTransient<IFileCheckSum, Crc32FileChecSum>();
             
-            services.AddTransient<IDierctoryFileInfoService, DirectoryManager>();
+            services.AddTransient<IDierctoryFileInfoService<CodeInfoModel>, DirectoryManager>();
             services.AddTransient<ICsvHelper, CsvHelper>();
 
             services.AddSingleton<IBaseService, BaseService>();

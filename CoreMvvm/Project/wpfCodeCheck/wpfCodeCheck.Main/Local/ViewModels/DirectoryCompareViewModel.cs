@@ -1,9 +1,9 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
+using wpfCodeCheck.Domain.Enums;
+using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Main.UI.Units;
-using wpfCodeCheck.Share.Enums;
-using wpfCodeCheck.Shared.Local.Services;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {

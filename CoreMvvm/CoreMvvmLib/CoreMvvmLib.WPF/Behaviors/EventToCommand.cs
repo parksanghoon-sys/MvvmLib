@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace CoreMvvmLib.WPF.Behaviors
+namespace CoreMvvmLib.WPF
 {
     public class EventToCommand : Behavior<FrameworkElement>
     {

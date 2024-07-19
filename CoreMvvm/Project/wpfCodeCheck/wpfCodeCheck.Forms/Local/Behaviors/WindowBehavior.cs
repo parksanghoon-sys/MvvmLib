@@ -1,7 +1,4 @@
-﻿using CoreMvvmLib.WPF.Behaviors;
-using Microsoft.Xaml.Behaviors;
-using System.Reflection;
-using System;
+﻿using Microsoft.Xaml.Behaviors;
 using System.Windows;
 using System.Windows.Input;
 

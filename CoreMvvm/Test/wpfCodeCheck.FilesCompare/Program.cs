@@ -11,8 +11,8 @@ internal class Program
         string filePath1 = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution\B\Source\pspc-flight";
         string filePath2 = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution\B\PreviewVersion\20221107_F07Q\21. PPC 소스파일\Source\FlightSolution";
 
-        IDierctoryFileInfoService dierctoryFileInfo1 = new DirectoryManager(new Crc32FileChecSum());
-        IDierctoryFileInfoService dierctoryFileInfo2 = new DirectoryManager(new Crc32FileChecSum());
+        var dierctoryFileInfo1 = new DirectoryManager(new Crc32FileChecSum());
+        var dierctoryFileInfo2 = new DirectoryManager(new Crc32FileChecSum());
 
         var fileList = await dierctoryFileInfo1.GetDirectoryCodeFileInfosAsync(filePath1);
         var secondsList = await dierctoryFileInfo2.GetDirectoryCodeFileInfosAsync(filePath2);
@@ -45,13 +45,13 @@ internal class Program
 
         Console.WriteLine($"dif1 : {diff1} dif2 : { diff2} ");
     }
-    static void CompareModelCollections(IList<CodeInfo> collection1, IList<CodeInfo> collection2)
+    static void CompareModelCollections(IList<CodeInfoModel> collection1, IList<CodeInfoModel> collection2)
     {
         int i = 0, j = 0;
         while (i < collection1.Count && j < collection2.Count)
         {
-            CodeInfo model1 = collection1[i];
-            CodeInfo model2 = collection2[j];
+            CodeInfoModel model1 = collection1[i];
+            CodeInfoModel model2 = collection2[j];
 
             int comparison = string.Compare(model1.FileName, model2.FileName);
             if (comparison == 0)

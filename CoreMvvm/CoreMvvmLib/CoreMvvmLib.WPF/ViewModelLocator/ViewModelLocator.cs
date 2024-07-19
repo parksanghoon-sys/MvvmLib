@@ -3,7 +3,7 @@ using CoreMvvmLib.Core.IOC;
 using System.ComponentModel;
 using System.Windows;
 
-namespace CoreMvvmLib.WPF.ViewModelLocator
+namespace CoreMvvmLib.WPF
 {
     public class ViewModelLocator
     {

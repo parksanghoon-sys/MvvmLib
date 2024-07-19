@@ -19,7 +19,7 @@ namespace CoreMvvmLib.WPF.Extensions
         }
         internal static IServiceContainer AddViewModelLocator(this IServiceContainer services)
         {
-            ViewModelLocator.ViewModelLocator.SetServiceProvider(services);
+            ViewModelLocator.SetServiceProvider(services);
             return services;
         }
         internal static IServiceCollection AddRegionManager(this IServiceCollection serviceCollection)

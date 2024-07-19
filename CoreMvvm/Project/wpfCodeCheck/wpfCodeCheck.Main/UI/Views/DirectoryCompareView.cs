@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
-using wpfCodeCheck.Main.UI.Units;
 
 namespace wpfCodeCheck.Main.UI.Views
 {

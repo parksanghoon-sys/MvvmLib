@@ -2,19 +2,18 @@
     x:Class="WpfTest1.Views.MainWindowView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
+    xmlns:mvvmWpf="clr-namespace:CoreMvvmLib.WPF;assembly=CoreMvvmLib.WPF"
     xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:converters="clr-namespace:WpfTest1.Converter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfTest1.Views"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mvvmlib="clr-namespace:CoreMvvmLib.WPF.Behaviors;assembly=CoreMvvmLib.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
     Title="MainWindowView"
     Width="800"
     Height="450"
-    auto:ViewModelLocator.AutoWireViewModel="True"
+    mvvmWpf:ViewModelLocator.AutoWireViewModel="True"
     Background="#111111"
     mc:Ignorable="d">
     <Window.Resources>
@@ -29,7 +28,7 @@
         <system:Double x:Key="CheckBoxIconSize">14</system:Double>
         <system:Double x:Key="CheckBoxHeight">22</system:Double>
         <system:Double x:Key="CheckBoxWidth">22</system:Double>
-        <Color x:Key="TextFillColorPrimary">#FFFFFF</Color>
+        <Color x:Key="TextFillColorPrimary">#0FFFFFFF</Color>
 
         <Style TargetType="{x:Type CheckBox}">
             <Setter Property="HorizontalAlignment" Value="Left" />
@@ -97,15 +96,13 @@
                             <Trigger Property="IsChecked" Value="{x:Null}">
                                 <Setter TargetName="ControlIcon" Property="Icon" Value="None" />
                                 <Setter TargetName="ControlIcon" Property="Visibility" Value="Visible" />
-                                <Setter TargetName="ControlBorderIconPresenter" Property="Background" Value="{DynamicResource CheckBoxCheckBackgroundFillChecked}" />
-                                <Setter TargetName="StrokeBorder" Property="BorderBrush" Value="{DynamicResource CheckBoxCheckBorderBrush}" />
+                                
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="ControlIcon" Property="Icon" Value="Check" />
                                 <Setter TargetName="ControlIcon" Property="Visibility" Value="Visible" />
                                 <Setter TargetName="StrokeBorder" Property="Background" Value="#FF58B6EC" />
-                                <Setter TargetName="ControlBorderIconPresenter" Property="Background" Value="{DynamicResource CheckBoxCheckBackgroundFillChecked}" />
-                                <Setter TargetName="StrokeBorder" Property="BorderBrush" Value="{DynamicResource CheckBoxCheckBorderBrush}" />
+                                
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -181,9 +178,132 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Thickness x:Key="TextBoxBorderThemeThickness">1,1,1,1</Thickness>
+        <Thickness x:Key="TextBoxAccentBorderThemeThickness">0,0,0,1</Thickness>
+        <Color x:Key="TextFillColorSecondary">#C5FFFFFF</Color>
+        <Color x:Key="TextFillColorTertiary">#87FFFFFF</Color>
+        <Color x:Key="TextFillColorDisabled">#5DFFFFFF</Color>
+        <Color x:Key="TextPlaceholderColor">#87FFFFFF</Color>
+        <Color x:Key="TextFillColorInverse">#E4000000</Color>
+        <Color x:Key="ControlStrokeColorDefault">#12FFFFFF</Color>
+        <Color x:Key="ControlStrongStrokeColorDefault">#8BFFFFFF</Color>
+        <Color x:Key="ControlFillColorInputActive">#B31E1E1E</Color>
+        <Color x:Key="ControlFillColorSecondary">#15FFFFFF</Color>
+        <Color x:Key="ControlFillColorDisabled">#0BFFFFFF</Color>
+
+        
+        <Color x:Key="ControlStrokeColorSecondary">#18FFFFFF</Color>
+        
+        <LinearGradientBrush x:Key="TextControlElevationBorderBrush" MappingMode="RelativeToBoundingBox" StartPoint="0,0" EndPoint="0,2">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Offset="0.0" Color="{StaticResource ControlStrokeColorDefault}" />
+                <GradientStop Offset="1.0" Color="{StaticResource ControlStrongStrokeColorDefault}" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <Style x:Key="DefaultTextBoxScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="CanContentScroll" Value="False" />
+            <Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="IsDeferredScrollingEnabled" Value="False" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                        <Grid>
+                            <ScrollContentPresenter Margin="0" CanContentScroll="{TemplateBinding CanContentScroll}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DefaultTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="Foreground" Value="#FFFFFFFF" />
+            <Setter Property="CaretBrush" Value="#0FFFFFFF" />
+            <Setter Property="Background" Value="#0FFFFFFF" />
+            <Setter Property="BorderBrush" Value="#C5FFFFFF" />
+            <Setter Property="BorderThickness" Value="{StaticResource TextBoxBorderThemeThickness}" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <Border
+                                x:Name="ContentBorder"
+                                MinWidth="{TemplateBinding MinWidth}"
+                                MinHeight="{TemplateBinding MinHeight}"
+                                Padding="0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding Border.CornerRadius}">
+                                <Grid
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                    <ScrollViewer
+                                        x:Name="PART_ContentHost"
+                                        CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}"
+                                        HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                        IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                        IsTabStop="{TemplateBinding ScrollViewer.IsTabStop}"
+                                        Style="{StaticResource DefaultTextBoxScrollViewerStyle}"
+                                        TextElement.Foreground="{TemplateBinding Foreground}"
+                                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" />
+                                </Grid>
+                            </Border>
+                            <!--  The Accent Border is a separate element so that changes to the border thickness do not affect the position of the element  -->
+                            <Border
+                                x:Name="AccentBorder"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                BorderBrush="Red"
+                                BorderThickness="{StaticResource TextBoxAccentBorderThemeThickness}"
+                                CornerRadius="{TemplateBinding Border.CornerRadius}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="AccentBorder" Property="BorderThickness" Value="0,0,0,2" />
+                                <Setter TargetName="ContentBorder" Property="Background" Value="#B31E1E1E" />
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsEnabled" Value="True" />
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                    <Condition Property="IsFocused" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="ContentBorder" Property="Background" Value="#0FFFFFFF" />
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Setter Property="Cursor" Value="IBeam" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ContentBorder" Property="Background" Value="#0FFFFFFF" />
+                                <Setter TargetName="ContentBorder" Property="BorderBrush" Value="#0FFFFFFF" />
+                
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <behavior:Interaction.Behaviors>
-        <mvvmlib:EventToCommand Command="{Binding Loaded1Command}" EventName="Loaded" />
+        <mvvmWpf:EventToCommand Command="{Binding Loaded1Command}" EventName="Loaded" />
     </behavior:Interaction.Behaviors>
     <Grid>
         <StackPanel>
@@ -203,6 +323,7 @@
                 Command="{Binding TestCommandAsync}"
                 Content="CommandAsync" />
             <local:ToggleSwitch Width="60" Height="20" />
+            <TextBox Style="{StaticResource DefaultTextBoxStyle}" Width="100" Height="30"/>
         </StackPanel>
 
     </Grid>

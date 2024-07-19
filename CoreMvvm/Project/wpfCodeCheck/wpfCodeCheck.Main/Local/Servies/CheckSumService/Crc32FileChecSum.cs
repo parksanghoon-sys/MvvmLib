@@ -1,4 +1,6 @@
-﻿namespace wpfCodeCheck.Main.Local.Servies
+﻿using wpfCodeCheck.Domain.Services;
+
+namespace wpfCodeCheck.Main.Local.Servies
 {
     public class Crc32FileChecSum : IFileCheckSum
     {

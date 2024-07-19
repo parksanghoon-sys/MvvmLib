@@ -25,7 +25,8 @@
 		  <OutputItemType>Analyzer</OutputItemType>
 	  </ProjectReference>
 	  <ProjectReference Include="..\..\..\Test\CompareEngine\CompareEngine.csproj" />	  
-	  <ProjectReference Include="..\wpfCodeCheck.Shared\wpfCodeCheck.Shared.csproj" />
+	  <ProjectReference Include="..\wpfCodeCheck.Component\wpfCodeCheck.Component.csproj" />	  
+	  <ProjectReference Include="..\wpfCodeCheck.Domain\wpfCodeCheck.Domain.csproj" />
   </ItemGroup>
 
 </Project>

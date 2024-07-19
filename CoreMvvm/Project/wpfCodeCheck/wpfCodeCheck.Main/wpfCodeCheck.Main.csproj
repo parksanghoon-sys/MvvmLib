@@ -23,11 +23,8 @@
 	  </ProjectReference>
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
-    <ProjectReference Include="..\wpfCodeCheck.Shared\wpfCodeCheck.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Local\Models\" />
+    <ProjectReference Include="..\wpfCodeCheck.Component\wpfCodeCheck.Component.csproj" />
+    <ProjectReference Include="..\wpfCodeCheck.Domain\wpfCodeCheck.Domain.csproj" />
   </ItemGroup>
 
 </Project>

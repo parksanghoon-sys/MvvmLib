@@ -1,22 +1,22 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
-using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 using CoreMvvmLib.WPF.Components;
 using CoreMvvmLib.Core.Services.DialogService;
-using wpfCodeCheck.Shared.UI.Views;
+using wpfCodeCheck.Component.UI.Views;
 using CoreMvvmLib.Core.Messenger;
-using wpfCodeCheck.Share.Enums;
 using wpfCodeCheck.Main.Local.Models;
+using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Domain.Enums;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
-    internal record DirectorySearchResult(EFolderListType type, CustomObservableCollection<CodeInfo> fileDatas);
+    internal record DirectorySearchResult(EFolderListType type, CustomObservableCollection<CodeInfoModel> fileDatas);
     public partial class FolderListViewModel : ViewModelBase
     {        
-        private readonly IDierctoryFileInfoService _dierctoryFileInfoService;
+        private readonly IDierctoryFileInfoService<CodeInfoModel> _dierctoryFileInfoService;
         private readonly IDialogService _dialogService;
 
-        public FolderListViewModel(IDierctoryFileInfoService dierctoryFileInfoService, IDialogService dialogService)
+        public FolderListViewModel(IDierctoryFileInfoService<CodeInfoModel> dierctoryFileInfoService, IDialogService dialogService)
         {           
             _dierctoryFileInfoService = dierctoryFileInfoService;
             _dialogService = dialogService;
@@ -38,9 +38,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [Property]
         private EFolderListType _folderLIstType;
         [Property]
-        private CustomObservableCollection<CodeInfo> _fileDatas;
+        private CustomObservableCollection<CodeInfoModel> _fileDatas;
         [Property]
-        private CodeInfo _fileData;
+        private CodeInfoModel _fileData;
 
         //[AsyncRelayCommand]
         //private async Task AsyncFileDialogOpen()

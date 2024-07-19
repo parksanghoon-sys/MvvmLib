@@ -2,10 +2,9 @@
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Services.DialogService;
 using System.IO;
-using System.Windows;
 using wpfCodeCheck.ConfigurationChange.Local.Services;
-using wpfCodeCheck.Shared.Local.Services;
-using wpfCodeCheck.Shared.UI.Views;
+using wpfCodeCheck.Component.UI.Views;
+using wpfCodeCheck.Domain.Services;
 
 namespace wpfCodeCheck.ConfigurationChange.Local.ViewModels
 {

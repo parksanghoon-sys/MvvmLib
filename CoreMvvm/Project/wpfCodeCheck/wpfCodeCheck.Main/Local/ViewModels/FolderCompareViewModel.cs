@@ -8,17 +8,17 @@ using System.Windows;
 using wpfCodeCheck.Main.Local.Exceptions;
 using wpfCodeCheck.Main.Local.Helpers.CsvHelper;
 using wpfCodeCheck.Main.Local.Models;
-using wpfCodeCheck.Share.Enums;
-using wpfCodeCheck.Shared.Local.Models;
-using wpfCodeCheck.Shared.Local.Services;
+using wpfCodeCheck.Domain.Enums;
+using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Domain.Services;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
     public partial class FolderCompareViewModel : ViewModelBase
     {
         private List<DirectorySearchResult> _codeInfos = new List<DirectorySearchResult>(2);
-        private List<CodeInfo> _code1 = new List<CodeInfo>();
-        private List<CodeInfo> _code2 = new List<CodeInfo>();
+        private List<CodeInfoModel> _code1 = new List<CodeInfoModel>();
+        private List<CodeInfoModel> _code2 = new List<CodeInfoModel>();
         private CodeCompareResultModel _codeCompareModel = new CodeCompareResultModel();
 
         private readonly ICsvHelper _csvHelper;
@@ -63,7 +63,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [RelayCommand]
         private void Export()
         {
-            _csvHelper.CreateCSVFile<CodeInfo>(_code2, "codeinfo2");
+            _csvHelper.CreateCSVFile<CodeInfoModel>(_code2, "codeinfo2");
             MessageBox.Show("완료");
         }
         [RelayCommand]
@@ -71,7 +71,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         {
             WeakReferenceMessenger.Default.Send<EFolderCompareList, FolderListViewModel>(EFolderCompareList.CLEAR);
         }
-        private CodeCompareResultModel GetCodeCompareModels(IEnumerable<CodeInfo> codeInfos)
+        private CodeCompareResultModel GetCodeCompareModels(IEnumerable<CodeInfoModel> codeInfos)
         {
             var diffFileModel = new CodeCompareResultModel();
             List<string> classFile = new List<string>();
@@ -96,15 +96,15 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             _codeInfos.Add(directorySearchResult);
         }
 
-        private async Task CompareModelCollections(IList<CodeInfo> inputItems, IList<CodeInfo> outputItems)
+        private async Task CompareModelCollections(IList<CodeInfoModel> inputItems, IList<CodeInfoModel> outputItems)
         {
             await Task.Run(() =>
             {
                 int i = 0, j = 0;
                 while (i < inputItems.Count && j < outputItems.Count)
                 {
-                    CodeInfo model1 = inputItems[i];
-                    CodeInfo model2 = outputItems[j];
+                    CodeInfoModel model1 = inputItems[i];
+                    CodeInfoModel model2 = outputItems[j];
 
                     int comparison = string.Compare(model1.FileName, model2.FileName);
                     if (comparison == 0)

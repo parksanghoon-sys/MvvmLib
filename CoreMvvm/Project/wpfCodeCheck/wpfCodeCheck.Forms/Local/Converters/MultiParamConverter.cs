@@ -1,11 +1,6 @@
-﻿using CoreMvvmLib.WPF.MarkupExtensions;
-using System;
-using System.Collections.Generic;
+﻿
+using CoreMvvmLib.WPF;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
 
 namespace wpfCodeCheck.Forms.Local.Converters
 {

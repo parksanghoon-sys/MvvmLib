@@ -2,7 +2,7 @@
 using System.Windows;
 using TriggerBase = Microsoft.Xaml.Behaviors.TriggerBase;
 
-namespace CoreMvvmLib.WPF.Behaviors
+namespace CoreMvvmLib.WPF
 {
     public class Behaviors : List<Behavior>
     {

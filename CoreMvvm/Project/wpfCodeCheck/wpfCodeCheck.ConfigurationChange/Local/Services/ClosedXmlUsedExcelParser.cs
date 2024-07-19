@@ -1,7 +1,7 @@
 ﻿using ClosedXML.Excel;
 using CompareEngine;
-using DocumentFormat.OpenXml.Spreadsheet;
-using wpfCodeCheck.Shared.Local.Models;
+using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Domain.Services;
 
 namespace wpfCodeCheck.ConfigurationChange.Local.Services
 {
@@ -9,7 +9,7 @@ namespace wpfCodeCheck.ConfigurationChange.Local.Services
     {
         private readonly string _filePath = string.Empty;
         private readonly string _sheetName = "4.소스코드";
-        private CodeCompareResultModel _dataList;
+        private CodeCompareResultModel? _dataList;
         private int _startRowIndex;
         private int _startCellIndex;
         public ClosedXmlUsedExcelParser(string filePath)

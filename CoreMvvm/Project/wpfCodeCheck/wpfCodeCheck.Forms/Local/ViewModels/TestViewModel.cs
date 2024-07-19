@@ -1,8 +1,7 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
 using System.Windows;
-using wpfCodeCheck.Main.Local.Servies;
-using wpfCodeCheck.Main.Local.Servies.DirectoryService;
+using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Main.UI.Units;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
@@ -10,12 +9,11 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
     public partial class TestViewModel : ViewModelBase
     {
         private readonly IFileCheckSum _fileCheckSum;
-        private readonly IDierctoryFileInfoService _dierctoryFileInfoService;
+        
 
-        public TestViewModel(IFileCheckSum fileCheckSum, IDierctoryFileInfoService dierctoryFileInfoService)
+        public TestViewModel(IFileCheckSum fileCheckSum)
         {
             _fileCheckSum = fileCheckSum;
-            _dierctoryFileInfoService = dierctoryFileInfoService;
         }        
         [RelayCommand]
         public void FileDialogOpen()

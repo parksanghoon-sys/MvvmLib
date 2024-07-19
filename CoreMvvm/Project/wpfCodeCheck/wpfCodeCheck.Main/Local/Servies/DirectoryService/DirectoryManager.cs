@@ -1,10 +1,11 @@
 ﻿using CoreMvvmLib.Component.UI.Units;
 using System.IO;
+using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Main.Local.Models;
 
 namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
 {
-    public class DirectoryManager : IDierctoryFileInfoService
+    public class DirectoryManager : IDierctoryFileInfoService<CodeInfoModel>
     {
         private readonly IFileCheckSum _fileCheckSum;
 
@@ -12,7 +13,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
         {
             _fileCheckSum = fileCheckSum;
         }
-        public Task<List<CodeInfo>> GetDirectoryCodeFileInfosAsync(string path)
+        public Task<List<CodeInfoModel>> GetDirectoryCodeFileInfosAsync(string path)
         {
             return Task.Run(() =>
             {
@@ -20,7 +21,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                 {
                     throw new DirectoryNotFoundException($"The directory '{path}' does not exist.");
                 }
-                IList<CodeInfo> codeInfos = new List<CodeInfo>();
+                IList<CodeInfoModel> codeInfos = new List<CodeInfoModel>();
 
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
 
@@ -59,7 +60,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                                 }
                             }
                         }
-                        codeInfos.Add(new CodeInfo()
+                        codeInfos.Add(new CodeInfoModel()
                         {
                             ProjectName = projectName,
                             CreateDate = fi.LastWriteTime.ToString("yyyy-MM-dd"), //fi.CreationTime.ToString("yyyy-MM-dd"),

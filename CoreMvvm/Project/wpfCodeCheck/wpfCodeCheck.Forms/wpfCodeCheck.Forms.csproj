@@ -21,7 +21,7 @@
 	 <ProjectReference Include="..\..\..\Test\wpfCodeCheck.FilesCompare\wpfCodeCheck.FilesCompare.csproj" />
 	 <ProjectReference Include="..\wpfCodeCheck.ConfigurationChange\wpfCodeCheck.ConfigurationChange.csproj" />
 	 <ProjectReference Include="..\wpfCodeCheck.Main\wpfCodeCheck.Main.csproj" />
-	 <ProjectReference Include="..\wpfCodeCheck.Shared\wpfCodeCheck.Shared.csproj" />
+	 <ProjectReference Include="..\wpfCodeCheck.Component\wpfCodeCheck.Component.csproj" />
   </ItemGroup>
 
 </Project>

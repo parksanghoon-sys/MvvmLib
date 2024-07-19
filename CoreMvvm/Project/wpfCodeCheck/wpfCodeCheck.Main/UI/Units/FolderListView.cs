@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using wpfCodeCheck.Share.Enums;
+using wpfCodeCheck.Domain.Enums;
 
 namespace wpfCodeCheck.Main.UI.Units
 {
