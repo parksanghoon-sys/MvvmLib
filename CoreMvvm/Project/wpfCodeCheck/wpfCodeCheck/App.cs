@@ -37,7 +37,7 @@ namespace wpfCodeCheck
 
             services.AddTransient<IFileCheckSum, Crc32FileChecSum>();
             
-            services.AddTransient<IDierctoryFileInfoService<CodeInfoModel>, DirectoryManager>();
+            services.AddTransient<IProjectSourceExtractor<CodeInfoModel>, SourceExtractorService>();
             services.AddTransient<ICsvHelper, CsvHelper>();
 
             services.AddSingleton<IBaseService, BaseService>();

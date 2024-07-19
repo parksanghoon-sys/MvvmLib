@@ -8,13 +8,10 @@ namespace wpfCodeCheck.Domain.Services
     public class SettingService : ISettingService
     {
         private GeneralSetting? _generalSetting;
-        private WindowSetting? _windowSetting;
-        private string _userAppDataPath;
+        private WindowSetting? _windowSetting;        
         public GeneralSetting? GeneralSetting => _generalSetting;
 
-        public WindowSetting? WindowSetting => _windowSetting;
-
-        public string UseAppDataPath { get => _userAppDataPath; set => _userAppDataPath = value; }
+        public WindowSetting? WindowSetting => _windowSetting;        
 
         public SettingService()
         {
