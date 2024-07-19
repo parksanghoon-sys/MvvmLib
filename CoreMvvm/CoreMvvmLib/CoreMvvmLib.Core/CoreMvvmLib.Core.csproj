@@ -10,7 +10,9 @@
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>		
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<Version>1.0.0</Version>
+		<PackageIcon></PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>

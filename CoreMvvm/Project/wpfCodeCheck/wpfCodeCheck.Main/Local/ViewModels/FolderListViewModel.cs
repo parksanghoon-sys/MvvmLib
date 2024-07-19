@@ -24,9 +24,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
 
             WeakReferenceMessenger.Default.Register<FolderListViewModel, EFolderCompareList>(this, OnReceiveClearMessage);            
         }
-        private string _folerPath;
+        private string? _folerPath;
 
-        public string FolderPath
+        public string? FolderPath
         {
             get => _folerPath;
             set 

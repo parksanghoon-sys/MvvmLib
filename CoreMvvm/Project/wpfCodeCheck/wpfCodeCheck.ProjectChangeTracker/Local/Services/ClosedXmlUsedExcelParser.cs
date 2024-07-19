@@ -3,20 +3,20 @@ using CompareEngine;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Services;
 
-namespace wpfCodeCheck.ConfigurationChange.Local.Services
+namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 {
     public class ClosedXmlUsedExcelParser : IExcelPaser
     {
         private readonly string _filePath = string.Empty;
         private readonly string _sheetName = "4.소스코드";
-        private CodeCompareResultModel? _dataList;
+        private CodeDiffModel? _dataList;
         private int _startRowIndex;
         private int _startCellIndex;
         public ClosedXmlUsedExcelParser(string filePath)
         {
             _filePath = filePath;
         }
-        public void SetExcelDate(CodeCompareResultModel dataList)
+        public void SetExcelDate(CodeDiffModel dataList)
         {
             this._dataList = dataList;            
         }

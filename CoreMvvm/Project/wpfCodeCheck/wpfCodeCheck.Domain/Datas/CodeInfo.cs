@@ -1,11 +1,9 @@
 ﻿namespace wpfCodeCheck.Domain.Datas
 {
-    public class CodeInfo
-    {        
+    public class CodeInfo : FileEntity
+    {
         public string DirectoryPath { get; set; } = string.Empty;
-        public string ProjectName { get; set; } = string.Empty;
-        public string FilePath { get; set; } = string.Empty;
-        public string FileName { get; set; } = string.Empty;
+        public string ProjectName { get; set; } = string.Empty;        
         public string CreateDate { get; set; } = string.Empty;
         public string FileSize { get; set; } = string.Empty;
         public int LineCount { get; set; }

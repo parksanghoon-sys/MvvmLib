@@ -8,10 +8,10 @@ namespace wpfCodeCheck.Domain.Services
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private CodeCompareResultModel _compareModel;
-        public CodeCompareResultModel CompareResult
+        private CodeDiffModel? _compareModel;
+        public CodeDiffModel? CompareResult
         {
-            get => _compareModel;
+            get => _compareModel ?? throw new ArgumentNullException(nameof(CodeDiffModel), "CompareResults cannot be null");
             set
             {
                 if (_compareModel != value)
@@ -22,7 +22,7 @@ namespace wpfCodeCheck.Domain.Services
             }
         }
 
-        public void SetDirectoryCompareReuslt(CodeCompareResultModel compareResult)
+        public void SetDirectoryCompareReuslt(CodeDiffModel compareResult)
         {
             _compareModel = compareResult;
         }

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace wpfCodeCheck.ConfigurationChange.UI.Views
+namespace wpfCodeCheck.ProjectChangeTracker.UI.Views
 {
     public class ComparisonResultsView : ContentControl
     {

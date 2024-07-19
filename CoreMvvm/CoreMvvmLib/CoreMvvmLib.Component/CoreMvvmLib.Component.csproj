@@ -1,21 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Version>1.0.0</Version>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Local\**" />
-    <EmbeddedResource Remove="Local\**" />
-    <None Remove="Local\**" />
-    <Page Remove="Local\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Local\**" />
+		<EmbeddedResource Remove="Local\**" />
+		<None Remove="Local\**" />
+		<Page Remove="Local\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
+	</ItemGroup>
 
 </Project>

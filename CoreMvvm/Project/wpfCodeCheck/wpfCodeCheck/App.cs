@@ -2,8 +2,8 @@
 using CoreMvvmLib.WPF.Components;
 using CoreMvvmLib.WPF.Services;
 using System.Windows;
-using wpfCodeCheck.ConfigurationChange.Local.ViewModels;
-using wpfCodeCheck.ConfigurationChange.UI.Views;
+using wpfCodeCheck.ProjectChangeTracker.Local.ViewModels;
+using wpfCodeCheck.ProjectChangeTracker.UI.Views;
 using wpfCodeCheck.Forms.Local.ViewModels;
 using wpfCodeCheck.Forms.UI.Views;
 using wpfCodeCheck.Main.Local.Helpers.CsvHelper;

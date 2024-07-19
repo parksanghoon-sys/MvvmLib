@@ -4,7 +4,7 @@
     xmlns:wpfLib="clr-namespace:CoreMvvmLib.WPF;assembly=CoreMvvmLib.WPF"
     xmlns:sharedUnits="clr-namespace:wpfCodeCheck.Component.UI.Units;assembly=wpfCodeCheck.Component"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
-    xmlns:views="clr-namespace:wpfCodeCheck.ConfigurationChange.UI.Views">
+    xmlns:views="clr-namespace:wpfCodeCheck.ProjectChangeTracker.UI.Views">
 
     <Style x:Key="HEADER.BORDER" TargetType="{x:Type Border}">
         <Setter Property="BorderBrush" Value="#FF272727" />

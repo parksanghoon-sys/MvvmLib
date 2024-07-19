@@ -19,7 +19,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private List<DirectorySearchResult> _codeInfos = new List<DirectorySearchResult>(2);
         private List<CodeInfoModel> _code1 = new List<CodeInfoModel>();
         private List<CodeInfoModel> _code2 = new List<CodeInfoModel>();
-        private CodeCompareResultModel _codeCompareModel = new CodeCompareResultModel();
+        private CodeDiffModel _codeCompareModel = new CodeDiffModel();
 
         private readonly ICsvHelper _csvHelper;
         private readonly IBaseService _baseService;
@@ -42,9 +42,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [Property]
         private bool _isEnableOutputDirectoryList;
         [Property]
-        private string _inputDirectoryPath;
+        private string? _inputDirectoryPath;
         [Property]
-        private string _outputDirectoryPath;
+        private string? _outputDirectoryPath;
         [AsyncRelayCommand]
         private async Task Compare()
         {
@@ -71,9 +71,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         {
             WeakReferenceMessenger.Default.Send<EFolderCompareList, FolderListViewModel>(EFolderCompareList.CLEAR);
         }
-        private CodeCompareResultModel GetCodeCompareModels(IEnumerable<CodeInfoModel> codeInfos)
+        private CodeDiffModel GetCodeCompareModels(IEnumerable<CodeInfoModel> codeInfos)
         {
-            var diffFileModel = new CodeCompareResultModel();
+            var diffFileModel = new CodeDiffModel();
             List<string> classFile = new List<string>();
             List<string> classFilePath = new List<string>();
             foreach (var item in codeInfos)
@@ -125,7 +125,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                             }
                             else
                             {
-                                _codeCompareModel.CompareResults.Add(model1.ProjectName,new List<CompareResult> {compareResult});
+                                _codeCompareModel.CompareResults.Add(model1.ProjectName,new List<CodeComparer> {compareResult});
                             }
                             _code1.Add(model1);
                             _code2.Add(model2);
@@ -144,7 +144,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         }
                         else
                         {
-                            _codeCompareModel.CompareResults.Add(model1.ProjectName, new List<CompareResult> { compareResult });
+                            _codeCompareModel.CompareResults.Add(model1.ProjectName, new List<CodeComparer> { compareResult });
                         }
                         model1.ComparisonResult = false;
                         _code1.Add(model1);
@@ -160,7 +160,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         }
                         else
                         {
-                            _codeCompareModel.CompareResults.Add(model1.ProjectName, new List<CompareResult> { compareResult });
+                            _codeCompareModel.CompareResults.Add(model1.ProjectName, new List<CodeComparer> { compareResult });
                         }                        
 
                         model2.ComparisonResult = false;
@@ -205,7 +205,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             });
                 
         }
-        private CompareResult GetCompareResult(string sourcePath, string destinationPath, string fileName)
+        private CodeComparer GetCompareResult(string sourcePath, string destinationPath, string fileName)
         {
             CompareText sourceDiffList;
             CompareText destinationDiffList;
@@ -224,7 +224,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             compareEngine.StartDiff(sourceDiffList, destinationDiffList);
 
             ArrayList resultLines = compareEngine.DiffResult();
-            CompareResult compareResult = new CompareResult();
+            CodeComparer compareResult = new CodeComparer();
             compareResult.InputCompareText = sourceDiffList;
             compareResult.OutputCompareText = destinationDiffList;
             compareResult.CompareResultSpans = GetArrayListToList<CompareResultSpan>(resultLines);

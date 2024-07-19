@@ -20,11 +20,11 @@
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
     <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
+    <ProjectReference Include="..\wpfCodeCheck.ProjectChangeTracker\wpfCodeCheck.ProjectChangeTracker.csproj" />
     <ProjectReference Include="..\wpfCodeCheck.Domain\wpfCodeCheck.Domain.csproj" />
     <ProjectReference Include="..\wpfCodeCheck.Forms\wpfCodeCheck.Forms.csproj" />
     <ProjectReference Include="..\wpfCodeCheck.Main\wpfCodeCheck.Main.csproj" />
     <ProjectReference Include="..\wpfCodeCheck.Component\wpfCodeCheck.Component.csproj" />
-    <ProjectReference Include="..\wpfCodeCheck.ProjectChangeTracker\wpfCodeCheck.ProjectChangeTracker.csproj" />
   </ItemGroup>
 
 </Project>

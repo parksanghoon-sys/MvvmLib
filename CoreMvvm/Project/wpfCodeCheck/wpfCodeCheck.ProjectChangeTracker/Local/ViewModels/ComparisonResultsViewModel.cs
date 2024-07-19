@@ -2,11 +2,11 @@
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Services.DialogService;
 using System.IO;
-using wpfCodeCheck.ConfigurationChange.Local.Services;
+using wpfCodeCheck.ProjectChangeTracker.Local.Services;
 using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Services;
 
-namespace wpfCodeCheck.ConfigurationChange.Local.ViewModels
+namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
 {
     public partial class ComparisonResultsViewModel : ViewModelBase
     {

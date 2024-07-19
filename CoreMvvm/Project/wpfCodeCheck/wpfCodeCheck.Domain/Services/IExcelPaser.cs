@@ -13,7 +13,7 @@ namespace wpfCodeCheck.Domain.Services
     }
     public interface IExcelPaser
     {
-        void SetExcelDate(CodeCompareResultModel dataList);
+        void SetExcelDate(CodeDiffModel dataList);
         Task WriteExcel();
     }
 }
