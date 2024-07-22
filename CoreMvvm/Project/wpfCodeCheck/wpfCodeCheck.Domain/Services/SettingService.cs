@@ -15,10 +15,10 @@ namespace wpfCodeCheck.Domain.Services
 
         public SettingService()
         {
-            var settingFilePath = PathHelper.GetLocalDirectory("Settings.xml");
+            var settingFilePath = DirectoryHelper.GetLocalSettingDirectory("Settings.xml");
             if (File.Exists(settingFilePath))
             {
-                SettingsProvider settingsProvider = SerializeHelper.ReadDataFromXmlFIle<SettingsProvider>(PathHelper.GetLocalDirectory("Settings.xml"), true);
+                SettingsProvider settingsProvider = SerializeHelper.ReadDataFromXmlFIle<SettingsProvider>(DirectoryHelper.GetLocalSettingDirectory("Settings.xml"), true);
                 _generalSetting = settingsProvider.generalSetting ?? new GeneralSetting();
                 _windowSetting = settingsProvider.windowSetting ?? new WindowSetting();
             }
@@ -36,7 +36,7 @@ namespace wpfCodeCheck.Domain.Services
             settingsProvider.generalSetting = GeneralSetting;
             settingsProvider.windowSetting = WindowSetting;
 
-            SerializeHelper.SaveDataToXml<SettingsProvider>(PathHelper.GetLocalDirectory("Settings.xml"), settingsProvider, true);
+            SerializeHelper.SaveDataToXml<SettingsProvider>(DirectoryHelper.GetLocalSettingDirectory("Settings.xml"), settingsProvider, true);
         }
         private void SetDefaultValue()
         {

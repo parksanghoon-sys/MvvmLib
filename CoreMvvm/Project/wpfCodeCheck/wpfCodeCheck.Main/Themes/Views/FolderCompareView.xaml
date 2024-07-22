@@ -7,6 +7,22 @@
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
     xmlns:views="clr-namespace:wpfCodeCheck.Main.UI.Views">
 
+    <Style x:Key="DEFALUT.BORDER" TargetType="{x:Type Border}">
+        <Setter Property="BorderBrush" Value="#FF272727" />
+        <Setter Property="BorderThickness" Value="1,1,1,1" />
+        <Setter Property="Background" Value="#FF323232" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect
+                    BlurRadius="1"
+                    Opacity="0.6"
+                    ShadowDepth="1"
+                    Color="#FF1A1A1A" />
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style TargetType="{x:Type views:FolderCompareView}">
         <Setter Property="wpfLib:ViewModelLocator.AutoWireViewModel" Value="True" />
         <Setter Property="Margin" Value="10,10,0,0" />
@@ -26,7 +42,7 @@
                         Columns="*,*"
                         Rows="Auto, Auto, *">
                         <Grid Grid.Row="0" Grid.ColumnSpan="2">
-                            <Border Margin="0,0,0,5" Style="{DynamicResource DEFALUT.BORDER}">
+                            <Border Margin="0,0,0,5" Style="{StaticResource DEFALUT.BORDER}">
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
@@ -36,7 +52,7 @@
                             </Border>
                         </Grid>
                         <Grid Grid.Row="1" Grid.ColumnSpan="2">
-                            <Border Style="{DynamicResource DEFALUT.BORDER}">
+                            <Border Style="{StaticResource DEFALUT.BORDER}">
                                 <units:CustomStackPannel
                                     HorizontalAlignment="Left"
                                     ChildSpacing="10"

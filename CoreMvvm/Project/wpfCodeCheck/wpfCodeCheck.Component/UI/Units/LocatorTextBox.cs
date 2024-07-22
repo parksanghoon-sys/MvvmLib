@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace wpfCodeCheck.Main.UI.Units
+namespace wpfCodeCheck.Component.UI.Units
 {
     public class LocatorTextBox : TextBox
     {

@@ -2,12 +2,12 @@
     x:Class="WpfTest1.Views.MainWindowView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mvvmWpf="clr-namespace:CoreMvvmLib.WPF;assembly=CoreMvvmLib.WPF"
     xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:converters="clr-namespace:WpfTest1.Converter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfTest1.Views"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mvvmWpf="clr-namespace:CoreMvvmLib.WPF;assembly=CoreMvvmLib.WPF"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
     Title="MainWindowView"
@@ -96,13 +96,13 @@
                             <Trigger Property="IsChecked" Value="{x:Null}">
                                 <Setter TargetName="ControlIcon" Property="Icon" Value="None" />
                                 <Setter TargetName="ControlIcon" Property="Visibility" Value="Visible" />
-                                
+
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="ControlIcon" Property="Icon" Value="Check" />
                                 <Setter TargetName="ControlIcon" Property="Visibility" Value="Visible" />
                                 <Setter TargetName="StrokeBorder" Property="Background" Value="#FF58B6EC" />
-                                
+
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -191,9 +191,9 @@
         <Color x:Key="ControlFillColorSecondary">#15FFFFFF</Color>
         <Color x:Key="ControlFillColorDisabled">#0BFFFFFF</Color>
 
-        
+
         <Color x:Key="ControlStrokeColorSecondary">#18FFFFFF</Color>
-        
+
         <LinearGradientBrush x:Key="TextControlElevationBorderBrush" MappingMode="RelativeToBoundingBox" StartPoint="0,0" EndPoint="0,2">
             <LinearGradientBrush.GradientStops>
                 <GradientStop Offset="0.0" Color="{StaticResource ControlStrokeColorDefault}" />
@@ -201,7 +201,7 @@
             </LinearGradientBrush.GradientStops>
         </LinearGradientBrush>
         <Style x:Key="DefaultTextBoxScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
-            <Setter Property="Margin" Value="0" />
+            <Setter Property="Margin" Value="2" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="SnapsToDevicePixels" Value="True" />
             <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -230,7 +230,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Top" />
             <Setter Property="Foreground" Value="#FFFFFFFF" />
-            <Setter Property="CaretBrush" Value="#0FFFFFFF" />
+            <Setter Property="CaretBrush" Value="#FFFFFFFF" />
             <Setter Property="Background" Value="#0FFFFFFF" />
             <Setter Property="BorderBrush" Value="#C5FFFFFF" />
             <Setter Property="BorderThickness" Value="{StaticResource TextBoxBorderThemeThickness}" />
@@ -250,7 +250,7 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding Border.CornerRadius}">
+                                CornerRadius="4">
                                 <Grid
                                     Margin="{TemplateBinding Padding}"
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -271,7 +271,7 @@
                                 x:Name="AccentBorder"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                BorderBrush="Red"
+                                BorderBrush="#FF58B6EC"
                                 BorderThickness="{StaticResource TextBoxAccentBorderThemeThickness}"
                                 CornerRadius="{TemplateBinding Border.CornerRadius}" />
                         </Grid>
@@ -294,7 +294,7 @@
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter TargetName="ContentBorder" Property="Background" Value="#0FFFFFFF" />
                                 <Setter TargetName="ContentBorder" Property="BorderBrush" Value="#0FFFFFFF" />
-                
+
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -323,7 +323,7 @@
                 Command="{Binding TestCommandAsync}"
                 Content="CommandAsync" />
             <local:ToggleSwitch Width="60" Height="20" />
-            <TextBox Style="{StaticResource DefaultTextBoxStyle}" Width="100" Height="30"/>
+            <TextBox Style="{StaticResource DefaultTextBoxStyle}" />
         </StackPanel>
 
     </Grid>

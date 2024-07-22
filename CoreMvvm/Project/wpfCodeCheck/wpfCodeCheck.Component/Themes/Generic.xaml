@@ -3,7 +3,10 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/wpfCodeCheck.Component;Component/Themes/Views/LoadingDialogView.xaml"/>
         <ResourceDictionary Source="/wpfCodeCheck.Component;Component/Themes/Views/CircularProgressBarView.xaml"/>
+        
         <ResourceDictionary Source="/wpfCodeCheck.Component;Component/Themes/Units/BaseButton.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.Component;Component/Themes/Units/LocatorTextBox.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.Component;Component/Themes/Units/DarkTextBox.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

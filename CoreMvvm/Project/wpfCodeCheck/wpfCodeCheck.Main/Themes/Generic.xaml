@@ -8,7 +8,6 @@
         <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Units/CommonControl.xaml"/>
 
         <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Units/FolderListView.xaml"/>
-        <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Units/LocatorTextBox.xaml"/>
         <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Units/FileListBox.xaml"/>
         <ResourceDictionary Source="/wpfCodeCheck.Main;Component/Themes/Units/FileListItem.xaml"/>
     </ResourceDictionary.MergedDictionaries>

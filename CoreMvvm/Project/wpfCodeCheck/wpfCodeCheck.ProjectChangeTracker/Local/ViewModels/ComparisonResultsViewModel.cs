@@ -5,6 +5,7 @@ using System.IO;
 using wpfCodeCheck.ProjectChangeTracker.Local.Services;
 using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Domain.Helpers;
 
 namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
 {
@@ -12,20 +13,28 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
     {
         private readonly IBaseService _baseService;
         private readonly IDialogService _dialogService;
-
-        public ComparisonResultsViewModel(IBaseService baseService, IDialogService dialogService)
+        private readonly ISettingService _settingService;
+        public ComparisonResultsViewModel(IBaseService baseService, IDialogService dialogService, ISettingService settingService)
         {
             _baseService = baseService;
             _dialogService = dialogService;
+            _settingService = settingService;            
+            ExportOutputPath = _settingService.GeneralSetting!.OutputExcelPath == string.Empty ? DirectoryHelper.GetLocalDirectory("EXPROT") : _settingService.GeneralSetting.OutputExcelPath;
+            ExportOutputFileName = _settingService.GeneralSetting!.OutputExcelFileName == string.Empty ? "SW_Change" : _settingService.GeneralSetting.OutputExcelFileName;
         }
+        [Property]
+        private string _exportOutputPath =string.Empty;
+        [Property]
+        private string _exportOutputFileName = string.Empty;
         [AsyncRelayCommand]
         private async Task AsyncExport()
         {
-            string Excel_DATA_PATH = Path.Combine(Environment.CurrentDirectory, @"ExportExcel\");
+            string Excel_DATA_PATH = ExportOutputPath;
+            DirectoryHelper.IsCreateDirectory(Excel_DATA_PATH);
             string baseExcelFilepath = Path.Combine(Environment.CurrentDirectory, "SW_Chage.xlsx");
-            string copyExcelFilePath = Excel_DATA_PATH + Path.GetFileName("SW_Chage_Test.xlsx");
+            string copyExcelFilePath = Path.Combine(ExportOutputPath , ExportOutputFileName +".xlsx");
+            
 
-            CreatePathFolder(Excel_DATA_PATH);
             if (File.Exists(copyExcelFilePath) == true)
             {
                 File.Delete(copyExcelFilePath);
@@ -41,17 +50,9 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
             await excelPaser.WriteExcel();
 
             _dialogService.Close(nameof(LoadingDialogView));
-        }
-        private void CreatePathFolder(string path)
-        {
-            string[] folderNames = path.Split('\\');
-            string fullPath = string.Empty;
-            for (int i = 0; i < folderNames.Length - 1; i++)
-            {
-                fullPath += folderNames[i] + '\\';
-                DirectoryInfo di = new DirectoryInfo(fullPath);
-                if (!di.Exists) di.Create();
-            }
-        }
+            _settingService.GeneralSetting!.OutputExcelPath = ExportOutputPath;
+            _settingService.GeneralSetting!.OutputExcelFileName = ExportOutputFileName;
+            _settingService.SaveSetting();
+        }       
     }
 }
