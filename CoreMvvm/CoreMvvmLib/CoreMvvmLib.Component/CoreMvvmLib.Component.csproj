@@ -10,13 +10,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="Local\**" />
-		<EmbeddedResource Remove="Local\**" />
-		<None Remove="Local\**" />
-		<Page Remove="Local\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
 	</ItemGroup>
 

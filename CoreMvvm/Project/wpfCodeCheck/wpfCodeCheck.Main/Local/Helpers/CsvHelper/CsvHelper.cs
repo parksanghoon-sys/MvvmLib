@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using System.Text;
+using wpfCodeCheck.Domain.Helpers;
 
 namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
 {
@@ -11,7 +12,8 @@ namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
         private StringBuilder sb = new StringBuilder();
         public CsvHelper()
         {
-            CreatePathFolder(CSV_DATA_PATH);
+            DirectoryHelper.CreateDirectory(CSV_DATA_PATH);
+            //CreatePathFolder(CSV_DATA_PATH);
         }
         /// <summary>
         /// 경로에 폴더가 없으면 생성
@@ -45,7 +47,7 @@ namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
                 {                    
                     path = Path.Combine(CSV_DATA_PATH, path);
                     sb.Length = 0;
-                    CreatePathFolder(path);
+                    DirectoryHelper.CreateDirectory(path);
                     path += ".csv";
                     if (!File.Exists(path) || overwrite)
                     {

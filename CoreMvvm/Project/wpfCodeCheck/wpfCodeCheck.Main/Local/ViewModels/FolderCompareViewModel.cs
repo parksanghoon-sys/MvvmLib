@@ -11,14 +11,15 @@ using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.ProjectChangeTracker.Local.ViewModels;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
     public partial class FolderCompareViewModel : ViewModelBase
     {
         private List<DirectorySearchResult> _codeInfos = new List<DirectorySearchResult>(2);
-        private List<CodeInfoModel> _code1 = new List<CodeInfoModel>();
-        private List<CodeInfoModel> _code2 = new List<CodeInfoModel>();
+        private IList<CodeInfo> _code1 = new List<CodeInfo>();
+        private IList<CodeInfo> _code2 = new List<CodeInfo>();
         private CodeDiffModel _codeCompareModel = new CodeDiffModel();
 
         private readonly ICsvHelper _csvHelper;
@@ -58,12 +59,13 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             await CompareModelCollections(inputItems!.fileDatas, outputItems!.fileDatas);
             
             _baseService.SetDirectoryCompareReuslt(_codeCompareModel);
+            //WeakReferenceMessenger.Default.Send<CodeDiffModel, ComparisonResultsViewModel>(_codeCompareModel);
             WeakReferenceMessenger.Default.Send<EMainViewType>(EMainViewType.EXPORT_EXCEL);
         }
         [RelayCommand]
         private void Export()
         {
-            _csvHelper.CreateCSVFile<CodeInfoModel>(_code2, "codeinfo2");
+            _csvHelper.CreateCSVFile<CodeInfo>(_code2, "codeinfo2");
             MessageBox.Show("완료");
         }
         [RelayCommand]
@@ -127,7 +129,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                             {
                                 _codeCompareModel.CompareResults.Add(model1.ProjectName,new List<CodeComparer> {compareResult});
                             }
-                            _code1.Add(model1);
+                            _code1.Add((CodeInfo)model1);
                             _code2.Add(model2);
 
                             model1.ComparisonResult = false;

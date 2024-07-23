@@ -44,12 +44,13 @@ namespace wpfCodeCheck.Component.UI.Units
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
+                // 만약 파일을 드레그 했을 경우 파일 명 제외 폴더 경로 추출
+                var filePath  = string.Join('\\',files.First().Split('\\').Where(p => p.Contains('.') == false).ToList());
                 // 파일 경로들을 개행 문자로 결합하여 문자열 생성
-                string filePaths = string.Join("\n", files);
+                //string filePaths = string.Join("\n", files);
 
                 // TextBox에 파일 경로 문자열 할당
-                this.Text = filePaths;
+                this.Text = filePath;
             }
         }
     }

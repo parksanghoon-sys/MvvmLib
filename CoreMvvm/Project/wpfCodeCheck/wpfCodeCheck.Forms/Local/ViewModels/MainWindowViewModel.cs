@@ -106,8 +106,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
             {
                 EMainViewType.HOME => 0,
                 EMainViewType.FILE_CHECKSUM => 1,
-                EMainViewType.EXPORT_EXCEL => 2,
-                _ =>  3
+                _ =>1
             };
             SliderMenuList[(int)type].IsEnable = true;
         }

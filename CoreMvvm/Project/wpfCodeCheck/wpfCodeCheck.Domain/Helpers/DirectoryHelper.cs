@@ -13,7 +13,7 @@
         public static string GetLocalDirectory(string fileName) => $"{AppDomain.CurrentDomain.BaseDirectory}{fileName}\\";
         public static string GetLocalSettingDirectory() => $"{AppDomain.CurrentDomain.BaseDirectory}\\SettingData";
         public static string GetLocaDirectory(string subDir, string fileName) => $"{AppDomain.CurrentDomain.BaseDirectory}\\{subDir}\\{fileName}";
-        public static bool IsCreateDirectory(string directoryPath)
+        public static bool CreateDirectory(string directoryPath)
         {
             if (Directory.Exists(directoryPath) is false)
             {
