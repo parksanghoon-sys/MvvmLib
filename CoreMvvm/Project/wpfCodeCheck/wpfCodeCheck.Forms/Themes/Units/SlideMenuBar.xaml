@@ -74,7 +74,7 @@
                 <ControlTemplate TargetType="{x:Type units:SlideMenuBar}">
                     <Border
                         x:Name="border"
-                        Width="80"
+                        Width="70"
                         Margin="0,0,0,0"
                         Padding="0,0"
                         Background="{TemplateBinding Background}"
@@ -87,13 +87,13 @@
                                 Style="{StaticResource ListBosStyle}" 
                                 SelectedIndex="{TemplateBinding SelectedIndex}"
                                 Margin="0 5 0 0"/>
-                            <Line
-                                Grid.Column="1"
-                                Stroke="White"
-                                X1="10"
-                                X2="10"
-                                Y1="-30"
-                                Y2="1700" />
+                            <Border Grid.Column="1" 
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    BorderThickness="1 0 0 0"
+                                    BorderBrush="#FFFFFF"
+                                    CornerRadius="2"/>
+
                         </control:CustomAutoGrid>
 
 
@@ -106,9 +106,10 @@
                                         <DoubleAnimation
                                             Storyboard.TargetName="border"
                                             Storyboard.TargetProperty="Width"
-                                            From="80"
+                                            From="70"
                                             To="250"
-                                            Duration="0:0:0.2">
+                                            Duration="0:0:0.2"
+                                            BeginTime="0:0:0.2">
                                             <DoubleAnimation.EasingFunction>
                                                 <CubicEase EasingMode="EaseIn" />
                                             </DoubleAnimation.EasingFunction>
@@ -123,8 +124,9 @@
                                             Storyboard.TargetName="border"
                                             Storyboard.TargetProperty="Width"
                                             From="250"
-                                            To="80"
-                                            Duration="0:0:0.12">
+                                            To="70"
+                                            Duration="0:0:0.2"
+                                            BeginTime="0:0:0.2">
                                             <DoubleAnimation.EasingFunction>
                                                 <CubicEase EasingMode="EaseInOut" />
                                             </DoubleAnimation.EasingFunction>

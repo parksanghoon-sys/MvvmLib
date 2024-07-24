@@ -19,7 +19,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
     {
         private List<DirectorySearchResult> _codeInfos = new List<DirectorySearchResult>(2);
         private IList<CodeInfo> _code1 = new List<CodeInfo>();
-        private IList<CodeInfo> _code2 = new List<CodeInfo>();
+        private ICollection<CodeInfo> _code2 = new List<CodeInfo>();
         private CodeDiffModel _codeCompareModel = new CodeDiffModel();
 
         private readonly ICsvHelper _csvHelper;
@@ -59,6 +59,14 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             await CompareModelCollections(inputItems!.fileDatas, outputItems!.fileDatas);
             
             _baseService.SetDirectoryCompareReuslt(_codeCompareModel);
+            //var groupedByProjectName = _code2
+            //                .GroupBy(codeInfo => codeInfo.ProjectName)
+            //                .Select(group => new
+            //                {
+            //                    ProjectName = group.Key,
+            //                    CodeInfos = group.ToList()
+            //                });
+
             //WeakReferenceMessenger.Default.Send<CodeDiffModel, ComparisonResultsViewModel>(_codeCompareModel);
             WeakReferenceMessenger.Default.Send<EMainViewType>(EMainViewType.EXPORT_EXCEL);
         }
