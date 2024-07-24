@@ -73,7 +73,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [RelayCommand]
         private void Export()
         {
-            _csvHelper.CreateCSVFile<CodeInfo>(_code2, "codeinfo2");
+            _csvHelper.CreateCSVFile<CodeInfo>(_code2, "CompareProject");
             MessageBox.Show("완료");
         }
         [RelayCommand]
@@ -130,14 +130,17 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         {
                             var compareResult = GetCompareResult(model1.FilePath, model2.FilePath, model1.FileName);
                             if (_codeCompareModel.CompareResults.ContainsKey(model1.ProjectName) == true)
-                            {
-                                _codeCompareModel.CompareResults[model1.ProjectName].Add(compareResult);
+                            {   
+                                if(_codeCompareModel.CompareResults[model1.ProjectName].Contains(compareResult) == false)
+                                {
+                                    _codeCompareModel.CompareResults[model1.ProjectName].Add(compareResult);
+                                }                                
                             }
                             else
                             {
                                 _codeCompareModel.CompareResults.Add(model1.ProjectName,new List<CodeComparer> {compareResult});
                             }
-                            _code1.Add((CodeInfo)model1);
+                            _code1.Add(model1);
                             _code2.Add(model2);
 
                             model1.ComparisonResult = false;
@@ -150,7 +153,10 @@ namespace wpfCodeCheck.Main.Local.ViewModels
 
                         if (_codeCompareModel.CompareResults.ContainsKey(model1.ProjectName) == true)
                         {
-                            _codeCompareModel.CompareResults[model1.ProjectName].Add(compareResult);
+                            if (_codeCompareModel.CompareResults[model1.ProjectName].Contains(compareResult) == false)
+                            {
+                                _codeCompareModel.CompareResults[model1.ProjectName].Add(compareResult);
+                            }
                         }
                         else
                         {
@@ -164,13 +170,16 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     {
                         var compareResult = GetCompareResult("", model2.FilePath, model2.FileName);
 
-                        if (_codeCompareModel.CompareResults.ContainsKey(model1.ProjectName) == true)
+                        if (_codeCompareModel.CompareResults.ContainsKey(model2.ProjectName) == true)
                         {
-                            _codeCompareModel.CompareResults[model1.ProjectName].Add(compareResult);
+                            if (_codeCompareModel.CompareResults[model2.ProjectName].Contains(compareResult) == false)
+                            {
+                                _codeCompareModel.CompareResults[model2.ProjectName].Add(compareResult);
+                            }
                         }
                         else
                         {
-                            _codeCompareModel.CompareResults.Add(model1.ProjectName, new List<CodeComparer> { compareResult });
+                            _codeCompareModel.CompareResults.Add(model2.ProjectName, new List<CodeComparer> { compareResult });
                         }                        
 
                         model2.ComparisonResult = false;
@@ -212,6 +221,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 //        _code2.Add(item);
                 //    }
                 //}
+                _code2.Distinct();
+                _code1.Distinct();                
             });
                 
         }

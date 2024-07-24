@@ -6,13 +6,11 @@ using wpfCodeCheck.Domain.Helpers;
 namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
 {
     public class CsvHelper : ICsvHelper
-    {
-        public string CSV_DATA_PATH = Path.Combine(Environment.CurrentDirectory, "Data");
+    {        
 
         private StringBuilder sb = new StringBuilder();
         public CsvHelper()
-        {
-            DirectoryHelper.CreateDirectory(CSV_DATA_PATH);
+        {            
             //CreatePathFolder(CSV_DATA_PATH);
         }
         /// <summary>
@@ -39,16 +37,16 @@ namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
         /// <param name="overwrite">덮어쓰기 여부</param>
         /// <param name="writeHeader">헤더 작성 여부</param>
         /// <returns>작업 완료 여부</returns>
-        public bool CreateCSVFile<T>(ICollection<T> collection, string path, bool overwrite = true, bool writeHeader = true)
+        public bool CreateCSVFile<T>(ICollection<T> collection, string filename, bool overwrite = true, bool writeHeader = true)
         {
             try
             {
                 if (collection.Count > 0)
-                {                    
-                    path = Path.Combine(CSV_DATA_PATH, path);
-                    sb.Length = 0;
-                    DirectoryHelper.CreateDirectory(path);
-                    path += ".csv";
+                {
+                    var exportPath = DirectoryHelper.GetLocalExportDirectory();
+                    DirectoryHelper.CreateDirectory(exportPath);
+                    filename += ".csv";
+                    var path = Path.Combine(exportPath, filename);
                     if (!File.Exists(path) || overwrite)
                     {
                         // 텍스트 파일 생성
@@ -60,7 +58,7 @@ namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
                                 // 1. 헤더 입력
                                 if (enumerator.MoveNext())
                                 {
-                                    FieldInfo[] fieldInfos = typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+                                    FieldInfo[] fieldInfos = GetAllFields(typeof(T));
                                     for (int i = 0; i < fieldInfos.Length; i++)
                                     {
                                         if (sb.Length > 0)
@@ -75,7 +73,7 @@ namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
                             enumerator = collection.GetEnumerator();
                             while (enumerator.MoveNext())
                             {
-                                FieldInfo[] fieldInfos = typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+                                FieldInfo[] fieldInfos = GetAllFields(typeof(T));
                                 for (int i = 0; i < fieldInfos.Length; i++)
                                 {
                                     if (i > 0) sb.Append(',');
@@ -106,7 +104,16 @@ namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
             }
             return false;
         }
-
+        private FieldInfo[] GetAllFields(Type t)
+        {
+            List<FieldInfo> fieldInfos = new List<FieldInfo>();
+            while (t != null)
+            {
+                fieldInfos.AddRange(t.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly));
+                t = t.BaseType;
+            }
+            return fieldInfos.ToArray();
+        }
         /// <summary>
         /// 텍스트 파일 열기
         /// </summary>
