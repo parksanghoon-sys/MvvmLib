@@ -6,7 +6,6 @@ using wpfCodeCheck.ProjectChangeTracker.Local.Services;
 using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Helpers;
-using CoreMvvmLib.Core.Messenger;
 using wpfCodeCheck.Domain.Datas;
 
 namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels

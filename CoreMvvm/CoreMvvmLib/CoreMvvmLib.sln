@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wpfCodeCheck.Domain", "..\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wpfCodeCheck.ProjectChangeTracker", "..\Project\wpfCodeCheck\wpfCodeCheck.ProjectChangeTracker\wpfCodeCheck.ProjectChangeTracker.csproj", "{6EAE1C98-7F4E-4724-A68E-D33983AC6562}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpfCodeCheck.SDDExport", "..\Project\wpfCodeCheck\wpfCodeCheck.SDDExport\wpfCodeCheck.SDDExport.csproj", "{4BAE1FDE-0E4E-468B-9F6B-FE8A601FDBA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{6EAE1C98-7F4E-4724-A68E-D33983AC6562}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EAE1C98-7F4E-4724-A68E-D33983AC6562}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EAE1C98-7F4E-4724-A68E-D33983AC6562}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BAE1FDE-0E4E-468B-9F6B-FE8A601FDBA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BAE1FDE-0E4E-468B-9F6B-FE8A601FDBA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BAE1FDE-0E4E-468B-9F6B-FE8A601FDBA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BAE1FDE-0E4E-468B-9F6B-FE8A601FDBA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,6 +151,7 @@ Global
 		{E806801F-7B5D-4612-9EA2-CCB4D42FCAB5} = {CDCA6496-78CA-41A7-B767-E4E89F5542C6}
 		{9D390EBE-614E-43EC-A92C-9BFF1B045BCA} = {CDCA6496-78CA-41A7-B767-E4E89F5542C6}
 		{6EAE1C98-7F4E-4724-A68E-D33983AC6562} = {CDCA6496-78CA-41A7-B767-E4E89F5542C6}
+		{4BAE1FDE-0E4E-468B-9F6B-FE8A601FDBA3} = {CDCA6496-78CA-41A7-B767-E4E89F5542C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D8BD4F46-BB87-4C2E-BB07-041D1617D5C1}
