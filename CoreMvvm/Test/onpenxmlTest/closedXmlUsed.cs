@@ -3,12 +3,6 @@ using CompareEngine;
 
 namespace onpenxmlTest
 {
-    internal interface IExcelPaser
-    {        
-        void SetExcelDate(CompareResult dataList);
-        Task WriteExcel();
-        void SetStartCellName(string cellName);
-    }
     internal class ClosedXmlUsed : IExcelPaser
     {
         private readonly string _filePath = string.Empty;

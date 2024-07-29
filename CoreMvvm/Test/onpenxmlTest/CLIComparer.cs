@@ -177,12 +177,8 @@ namespace onpenxmlTest
                     case CompareResultSpanStatus.AddDestination:
                         for (int i = 0; i < compareResultSpan.Length; i++)
                         {
-
                             string rewrite = "";
-
                             rewrite += lineCounter.ToString(numberMask);
-
-
                             rewrite += " > " + destinationDiffList.GetByIndex(compareResultSpan.DestinationIndex + i).Line + "";
                             rewrite += "Source Line : " + (compareResultSpan.DestinationIndex + i + 1).ToString();
                             CLIComparer.DiffLines.Add(rewrite);
