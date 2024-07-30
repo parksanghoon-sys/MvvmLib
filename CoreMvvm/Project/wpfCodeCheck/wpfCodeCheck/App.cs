@@ -14,6 +14,7 @@ using wpfCodeCheck.Main.UI.Views;
 using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Main.Local.Models;
+using wpfCodeCheck.Domain.Datas;
 
 namespace wpfCodeCheck
 {
@@ -40,7 +41,7 @@ namespace wpfCodeCheck
             services.AddTransient<IProjectSourceExtractor<CodeInfoModel>, SourceExtractorService>();
             services.AddTransient<ICsvHelper, CsvHelper>();
 
-            services.AddSingleton<IBaseService, BaseService>();
+            services.AddSingleton<IBaseService<CustomCodeComparer>, CustomBaseService<CustomCodeComparer>>();
             services.AddSingleton<ISettingService, SettingService>();
 
             base.ConfigureServiceCollection(services);

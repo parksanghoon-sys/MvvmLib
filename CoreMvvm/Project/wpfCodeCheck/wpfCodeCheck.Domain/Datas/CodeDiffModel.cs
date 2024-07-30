@@ -2,20 +2,23 @@
 
 namespace wpfCodeCheck.Domain.Datas
 {
-    using ProjectName = string;
-    public record CodeDiffModel
+    // TODO : 급해서 혹시몰라서 Generic으로 대처하였는데 추후 리펙토링 예정
+    // 무조건 Beyond 형식으로 요청으로 인한 변경
+    public record CodeDiffReulstModel<T>
     {
-        private IDictionary<ProjectName, IList<CodeComparer>>? _compareResults = new Dictionary<ProjectName, IList<CodeComparer>>();
+        public string InputFilePath { get; set; } = string.Empty;
+        public string OutoutFilePath { get; set; } = string.Empty;
+        private IList<T>? _compareResults = new List<T>();
 
-        public IDictionary<ProjectName, IList<CodeComparer>> CompareResults
+        public IList<T> CompareResults
         {
-            get => _compareResults ?? throw new ArgumentNullException(nameof(CodeDiffModel), "CompareResults cannot be null");
+            get => _compareResults ?? throw new ArgumentNullException(nameof(T), "CompareResults cannot be null");
             set => _compareResults = value ?? throw new ArgumentNullException(nameof(value), "CompareResults cannot be null");
         }
     }
-    public record CodeComparer
+    public record CustomCodeComparer
     {
-        public CodeComparer()
+        public CustomCodeComparer()
         {
             CompareResultSpans = new List<CompareResultSpan>();
             InputCompareText = new();
@@ -24,6 +27,6 @@ namespace wpfCodeCheck.Domain.Datas
         public IList<CompareResultSpan> CompareResultSpans { get; set; }
         public CompareText InputCompareText { get; set; }
         public CompareText OutputCompareText { get; set; }
-        public string FileName { get; set; } = string.Empty;
+        public string FileName { get; set; }
     }
 }

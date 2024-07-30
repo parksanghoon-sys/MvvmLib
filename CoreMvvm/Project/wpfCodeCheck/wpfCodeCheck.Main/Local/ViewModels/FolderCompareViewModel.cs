@@ -19,13 +19,13 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private List<DirectorySearchResult> _codeInfos = new List<DirectorySearchResult>(2);
         private IList<CodeInfo> _code1 = new List<CodeInfo>();
         private ICollection<CodeInfo> _code2 = new List<CodeInfo>();
-        private CodeDiffModel _codeCompareModel = new CodeDiffModel();
+        private CodeDiffReulstModel<CustomCodeComparer> _codeCompareModel = new ();
 
         private readonly ICsvHelper _csvHelper;
-        private readonly IBaseService _baseService;
+        private readonly IBaseService<CustomCodeComparer> _baseService;
         private readonly ISettingService _settingService;
 
-        public FolderCompareViewModel(ICsvHelper csvHelper, IBaseService baseService, ISettingService settingService)
+        public FolderCompareViewModel(ICsvHelper csvHelper, IBaseService<CustomCodeComparer> baseService, ISettingService settingService)
         {
             _csvHelper = csvHelper;
             _baseService = baseService;
@@ -66,7 +66,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             //                    CodeInfos = group.ToList()
             //                });
 
-            //WeakReferenceMessenger.Default.Send<CodeDiffModel, ComparisonResultsViewModel>(_codeCompareModel);
+            //WeakReferenceMessenger.Default.Send<CodeDiffReulstModel, ComparisonResultsViewModel>(_codeCompareModel);
             WeakReferenceMessenger.Default.Send<EMainViewType>(EMainViewType.EXPORT_EXCEL);
         }
         [RelayCommand]
@@ -80,9 +80,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         {
             WeakReferenceMessenger.Default.Send<EFolderCompareList, FolderListViewModel>(EFolderCompareList.CLEAR);
         }
-        private CodeDiffModel GetCodeCompareModels(IEnumerable<CodeInfoModel> codeInfos)
+        private CodeDiffReulstModel<T> GetCodeCompareModels<T>(IEnumerable<CodeInfoModel> codeInfos)
         {
-            var diffFileModel = new CodeDiffModel();
+            var diffFileModel = new CodeDiffReulstModel<T>();
             List<string> classFile = new List<string>();
             List<string> classFilePath = new List<string>();
             foreach (var item in codeInfos)
@@ -128,17 +128,12 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         if (comparisonResult == false)
                         {
                             var compareResult = GetCompareResult(model1.FilePath, model2.FilePath, model1.FileName);
-                            if (_codeCompareModel.CompareResults.ContainsKey(model1.ProjectName) == true)
-                            {   
-                                if(_codeCompareModel.CompareResults[model1.ProjectName].Contains(compareResult) == false)
-                                {
-                                    _codeCompareModel.CompareResults[model1.ProjectName].Add(compareResult);
-                                }                                
-                            }
-                            else
-                            {
-                                _codeCompareModel.CompareResults.Add(model1.ProjectName,new List<CodeComparer> {compareResult});
-                            }
+                            if (_codeCompareModel.CompareResults.Contains(compareResult) == false)
+                            {                                   
+                                _codeCompareModel.CompareResults.Add(compareResult);
+                                _codeCompareModel.InputFilePath = model1.FilePath;
+                                _codeCompareModel.OutoutFilePath = model2.FilePath;
+                            }                            
                             _code1.Add(model1);
                             _code2.Add(model2);
 
@@ -149,18 +144,14 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     else if (comparison < 0)
                     {
                         var compareResult = GetCompareResult(model1.FilePath, "", model1.FileName);
+                        
+                        if (_codeCompareModel.CompareResults.Contains(compareResult) == false)
+                        {
+                            _codeCompareModel.CompareResults.Add(compareResult);
+                            _codeCompareModel.InputFilePath = model1.FilePath;
+                            _codeCompareModel.OutoutFilePath = string.Empty;
+                        }
 
-                        if (_codeCompareModel.CompareResults.ContainsKey(model1.ProjectName) == true)
-                        {
-                            if (_codeCompareModel.CompareResults[model1.ProjectName].Contains(compareResult) == false)
-                            {
-                                _codeCompareModel.CompareResults[model1.ProjectName].Add(compareResult);
-                            }
-                        }
-                        else
-                        {
-                            _codeCompareModel.CompareResults.Add(model1.ProjectName, new List<CodeComparer> { compareResult });
-                        }
                         model1.ComparisonResult = false;
                         _code1.Add(model1);
                         i++;
@@ -168,18 +159,12 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     else
                     {
                         var compareResult = GetCompareResult("", model2.FilePath, model2.FileName);
-
-                        if (_codeCompareModel.CompareResults.ContainsKey(model2.ProjectName) == true)
+                        if (_codeCompareModel.CompareResults.Contains(compareResult) == false)
                         {
-                            if (_codeCompareModel.CompareResults[model2.ProjectName].Contains(compareResult) == false)
-                            {
-                                _codeCompareModel.CompareResults[model2.ProjectName].Add(compareResult);
-                            }
+                            _codeCompareModel.CompareResults.Add(compareResult);
+                            _codeCompareModel.InputFilePath = string.Empty; 
+                            _codeCompareModel.OutoutFilePath = model2.FilePath;
                         }
-                        else
-                        {
-                            _codeCompareModel.CompareResults.Add(model2.ProjectName, new List<CodeComparer> { compareResult });
-                        }                        
 
                         model2.ComparisonResult = false;
                         _code2.Add(model2);
@@ -225,7 +210,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             });
                 
         }
-        private CodeComparer GetCompareResult(string sourcePath, string destinationPath, string fileName)
+        private CustomCodeComparer GetCompareResult(string sourcePath, string destinationPath, string fileName)
         {
             CompareText sourceDiffList;
             CompareText destinationDiffList;
@@ -244,12 +229,12 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             compareEngine.StartDiff(sourceDiffList, destinationDiffList);
 
             ArrayList resultLines = compareEngine.DiffResult();
-            CodeComparer compareResult = new CodeComparer();
+            CustomCodeComparer compareResult = new CustomCodeComparer();
             compareResult.InputCompareText = sourceDiffList;
             compareResult.OutputCompareText = destinationDiffList;
-            compareResult.CompareResultSpans = GetArrayListToList<CompareResultSpan>(resultLines);
+            compareResult.CompareResultSpans = GetArrayListToList<CompareResultSpan>(resultLines);            
             compareResult.FileName = fileName;
-            
+
             return compareResult;
         }
 

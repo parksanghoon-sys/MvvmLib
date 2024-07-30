@@ -12,21 +12,21 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
 {
     public partial class ComparisonResultsViewModel : ViewModelBase
     {
-        private readonly IBaseService _baseService;
+        private readonly IBaseService<CustomCodeComparer> _baseService;
         private readonly IDialogService _dialogService;
         private readonly ISettingService _settingService;
-        private CodeDiffModel _diffModel;
-        public ComparisonResultsViewModel(IBaseService baseService, IDialogService dialogService, ISettingService settingService)
+        private CodeDiffReulstModel<CustomCodeComparer> _diffModel;
+        public ComparisonResultsViewModel(IBaseService<CustomCodeComparer> baseService, IDialogService dialogService, ISettingService settingService)
         {
             _baseService = baseService;
             _dialogService = dialogService;
             _settingService = settingService;            
             ExportOutputPath = _settingService.GeneralSetting!.OutputExcelPath == string.Empty ? DirectoryHelper.GetLocalDirectory("EXPROT") : _settingService.GeneralSetting.OutputExcelPath;
             ExportOutputFileName = _settingService.GeneralSetting!.OutputExcelFileName == string.Empty ? "SW_Change" : _settingService.GeneralSetting.OutputExcelFileName;
-            //WeakReferenceMessenger.Default.Register<ComparisonResultsViewModel, CodeDiffModel>(this, OnReceiveCodeInfos);
+            //WeakReferenceMessenger.Default.Register<ComparisonResultsViewModel, CodeDiffReulstModel>(this, OnReceiveCodeInfos);
         }
 
-        private void OnReceiveCodeInfos(ComparisonResultsViewModel model1, CodeDiffModel model2)
+        private void OnReceiveCodeInfos(ComparisonResultsViewModel model1, CodeDiffReulstModel<CustomCodeComparer> model2)
         {
             if(model2 is not null)
             {
@@ -55,7 +55,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
             File.Copy(baseExcelFilepath, copyExcelFilePath);
 
             IExcelPaser excelPaser = new ClosedXmlUsedExcelParser(copyExcelFilePath);
-            excelPaser.SetExcelDate(_baseService.CompareResult);
+            excelPaser.SetExcelData(_baseService.CompareResult);
 
             _dialogService.Show(this, nameof(LoadingDialogView), 300, 300);
             

@@ -9,14 +9,14 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
     {
         private readonly string _filePath = string.Empty;
         private readonly string _sheetName = "4.소스코드";
-        private CodeDiffModel? _dataList;
+        private CodeDiffReulstModel<CustomCodeComparer>? _dataList;
         private int _startRowIndex;
         private int _startCellIndex;
         public ClosedXmlUsedExcelParser(string filePath)
         {
             _filePath = filePath;
         }
-        public void SetExcelDate(CodeDiffModel dataList)
+        public void SetExcelData(CodeDiffReulstModel<CustomCodeComparer> dataList)
         {
             this._dataList = dataList;            
         }
@@ -38,12 +38,11 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                     _startCellIndex = lastCell.Address.ColumnNumber + 1;
                     _startRowIndex = lastCell.Address.RowNumber + 1;                    
 
-                    foreach (var projectName in _dataList.CompareResults)
+                    foreach (var project in _dataList.CompareResults)
                     {                        
-                        foreach (var value in projectName.Value)
-                        {
+                   
                             int mergeStartRow = _startRowIndex;
-                            foreach (var data in value.CompareResultSpans)
+                            foreach (var data in project.CompareResultSpans)
                             {
                                 switch (data.Status)
                                 {
@@ -52,7 +51,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                                         {
                                             var diffColor = XLColor.FromArgb(255, 227, 227);
                                             var inputDelteCodeIndex = (data.SourceIndex + i + 1).ToString();
-                                            var inputDeleteCodeLine = value.InputCompareText.GetByIndex(data.SourceIndex + i).Line;
+                                            var inputDeleteCodeLine = project.InputCompareText.GetByIndex(data.SourceIndex + i).Line;
                                             ws.Cell(_startRowIndex, (int)(_startCellIndex + ECELL.INPUT_LINE)).Value = inputDelteCodeIndex;
                                             ws.Cell(_startRowIndex, (int)(_startCellIndex + ECELL.INPUT_CODE)).Value = inputDeleteCodeLine;
                                             ws.Cell(_startRowIndex, (int)(_startCellIndex + ECELL.INPUT_CODE)).Style.Fill.BackgroundColor = diffColor;
@@ -69,7 +68,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 
                                             var diffColor = XLColor.FromArgb(255, 227, 227);
                                             var outputAddCodeIndex = (data.DestinationIndex + i + 1).ToString();
-                                            var outputAddCodeLine = value.OutputCompareText.GetByIndex(data.DestinationIndex + i).Line;
+                                            var outputAddCodeLine = project.OutputCompareText.GetByIndex(data.DestinationIndex + i).Line;
                                             ws.Cell(_startRowIndex, (int)(_startCellIndex + ECELL.INPUT_LINE)).Value = "";
                                             ws.Cell(_startRowIndex, (int)(_startCellIndex + ECELL.INPUT_CODE)).Value = "";
 
@@ -86,9 +85,9 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 
                                             var diffColor = XLColor.FromArgb(255, 227, 227);
                                             var inputDelteCodeIndex = (data.SourceIndex + i + 1).ToString();
-                                            var inputDeleteCodeLine = value.InputCompareText.GetByIndex(data.SourceIndex + i).Line;
+                                            var inputDeleteCodeLine = project.InputCompareText.GetByIndex(data.SourceIndex + i).Line;
                                             var outputAddCodeIndex = (data.DestinationIndex + i + 1).ToString();
-                                            var outputAddCodeLine = value.OutputCompareText.GetByIndex(data.DestinationIndex + i).Line;
+                                            var outputAddCodeLine = project.OutputCompareText.GetByIndex(data.DestinationIndex + i).Line;
 
                                             ws.Cell(_startRowIndex, (int)(_startCellIndex + ECELL.INPUT_LINE)).Value = inputDelteCodeIndex;
                                             ws.Cell(_startRowIndex, (int)(_startCellIndex + ECELL.INPUT_CODE)).Value = inputDeleteCodeLine;
@@ -110,9 +109,8 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                             IXLCell mergeSummeryCellEnd = ws.Cell(mergeEndRow - 1, (int)ECELL.SUMMARY_CELL);
                             ws.Range(mergeCellStart, mergeCellEnd).Merge();
                             ws.Range(mergeSummeryCellStart, mergeSummeryCellEnd).Merge();
-                            ws.Cell(mergeStartRow, (int)ECELL.CLASS_CELL).Value = value.FileName;
-                            ws.Cell(mergeStartRow, (int)ECELL.SUMMARY_CELL).Value = "o 기능개선\r\n : ICD v5.3a 적용";
-                        }                        
+                            ws.Cell(mergeStartRow, (int)ECELL.CLASS_CELL).Value = project.FileName;
+                            ws.Cell(mergeStartRow, (int)ECELL.SUMMARY_CELL).Value = "o 기능개선\r\n : ICD v5.3a 적용";                                                
                     
                     }
                     wb.SaveAs(_filePath);
