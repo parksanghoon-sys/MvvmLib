@@ -15,6 +15,7 @@ using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Main.Local.Servies.CodeCompare;
 
 namespace wpfCodeCheck
 {
@@ -37,6 +38,7 @@ namespace wpfCodeCheck
             services.AddTransient<FolderListViewModel>();            
 
             services.AddTransient<IFileCheckSum, Crc32FileChecSum>();
+            services.AddTransient<CodeCompareService>();
             
             services.AddTransient<IProjectSourceExtractor<CodeInfoModel>, SourceExtractorService>();
             services.AddTransient<ICsvHelper, CsvHelper>();

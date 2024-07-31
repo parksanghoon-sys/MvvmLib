@@ -6,8 +6,6 @@ namespace wpfCodeCheck.Domain.Datas
     // 무조건 Beyond 형식으로 요청으로 인한 변경
     public record CodeDiffReulstModel<T>
     {
-        public string InputFilePath { get; set; } = string.Empty;
-        public string OutoutFilePath { get; set; } = string.Empty;
         private IList<T>? _compareResults = new List<T>();
 
         public IList<T> CompareResults
@@ -15,7 +13,7 @@ namespace wpfCodeCheck.Domain.Datas
             get => _compareResults ?? throw new ArgumentNullException(nameof(T), "CompareResults cannot be null");
             set => _compareResults = value ?? throw new ArgumentNullException(nameof(value), "CompareResults cannot be null");
         }
-    }
+    }    
     public record CustomCodeComparer
     {
         public CustomCodeComparer()
@@ -28,5 +26,7 @@ namespace wpfCodeCheck.Domain.Datas
         public CompareText InputCompareText { get; set; }
         public CompareText OutputCompareText { get; set; }
         public string FileName { get; set; }
+        public string InputFilePath { get; set; } = string.Empty;
+        public string OutoutFilePath { get; set; } = string.Empty;
     }
 }

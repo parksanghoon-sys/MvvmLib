@@ -11,6 +11,7 @@ using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Main.Local.Servies.CodeCompare;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -24,12 +25,17 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private readonly ICsvHelper _csvHelper;
         private readonly IBaseService<CustomCodeComparer> _baseService;
         private readonly ISettingService _settingService;
+        private readonly CodeCompareService _codeCompareService;
 
-        public FolderCompareViewModel(ICsvHelper csvHelper, IBaseService<CustomCodeComparer> baseService, ISettingService settingService)
+        public FolderCompareViewModel(ICsvHelper csvHelper, 
+            IBaseService<CustomCodeComparer> baseService, 
+            ISettingService settingService, 
+            CodeCompareService codeCompareService)
         {
             _csvHelper = csvHelper;
             _baseService = baseService;
             _settingService = settingService;
+            _codeCompareService = codeCompareService;
             IsEnableInputDirectoryList = true;
             IsEnableOutputDirectoryList = false;
             InputDirectoryPath = _settingService.GeneralSetting?.InputPath ?? string.Empty;
@@ -108,7 +114,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private async Task CompareModelCollections(IList<CodeInfoModel> inputItems, IList<CodeInfoModel> outputItems)
         {
             await Task.Run(() =>
-            {
+            {                
                 int i = 0, j = 0;
                 while (i < inputItems.Count && j < outputItems.Count)
                 {
@@ -127,12 +133,10 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         j++;
                         if (comparisonResult == false)
                         {
-                            var compareResult = GetCompareResult(model1.FilePath, model2.FilePath, model1.FileName);
+                            var compareResult = _codeCompareService.GetCompareResult(model1, model2);
                             if (_codeCompareModel.CompareResults.Contains(compareResult) == false)
                             {                                   
-                                _codeCompareModel.CompareResults.Add(compareResult);
-                                _codeCompareModel.InputFilePath = model1.FilePath;
-                                _codeCompareModel.OutoutFilePath = model2.FilePath;
+                                _codeCompareModel.CompareResults.Add(compareResult);                                
                             }                            
                             _code1.Add(model1);
                             _code2.Add(model2);
@@ -143,13 +147,11 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     }
                     else if (comparison < 0)
                     {
-                        var compareResult = GetCompareResult(model1.FilePath, "", model1.FileName);
+                        var compareResult = _codeCompareService.GetCompareResult(model1,model2);
                         
                         if (_codeCompareModel.CompareResults.Contains(compareResult) == false)
                         {
-                            _codeCompareModel.CompareResults.Add(compareResult);
-                            _codeCompareModel.InputFilePath = model1.FilePath;
-                            _codeCompareModel.OutoutFilePath = string.Empty;
+                            _codeCompareModel.CompareResults.Add(compareResult);                            
                         }
 
                         model1.ComparisonResult = false;
@@ -158,12 +160,10 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     }
                     else
                     {
-                        var compareResult = GetCompareResult("", model2.FilePath, model2.FileName);
+                        var compareResult = _codeCompareService.GetCompareResult(model1, model2);
                         if (_codeCompareModel.CompareResults.Contains(compareResult) == false)
                         {
-                            _codeCompareModel.CompareResults.Add(compareResult);
-                            _codeCompareModel.InputFilePath = string.Empty; 
-                            _codeCompareModel.OutoutFilePath = model2.FilePath;
+                            _codeCompareModel.CompareResults.Add(compareResult);                            
                         }
 
                         model2.ComparisonResult = false;
@@ -210,47 +210,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             });
                 
         }
-        private CustomCodeComparer GetCompareResult(string sourcePath, string destinationPath, string fileName)
-        {
-            CompareText sourceDiffList;
-            CompareText destinationDiffList;
+      
 
-            if (File.Exists(sourcePath))
-                sourceDiffList = new CompareText(sourcePath);
-            else
-                sourceDiffList = new CompareText();
-
-            if (File.Exists(destinationPath))
-                destinationDiffList = new CompareText(destinationPath);
-            else
-                destinationDiffList = new CompareText();
-             
-            CompareEngine.CompareEngine compareEngine = new CompareEngine.CompareEngine();
-            compareEngine.StartDiff(sourceDiffList, destinationDiffList);
-
-            ArrayList resultLines = compareEngine.DiffResult();
-            CustomCodeComparer compareResult = new CustomCodeComparer();
-            compareResult.InputCompareText = sourceDiffList;
-            compareResult.OutputCompareText = destinationDiffList;
-            compareResult.CompareResultSpans = GetArrayListToList<CompareResultSpan>(resultLines);            
-            compareResult.FileName = fileName;
-
-            return compareResult;
-        }
-
-        private IList<T> GetArrayListToList<T>(ArrayList list)
-        {            
-            List<T> result = new List<T>();
-
-            foreach (var item in list)
-            {
-                if (item is T)
-                {
-                    result.Add((T)item);
-                }
-            }
-
-            return result;
-        }
+       
     }
 }
