@@ -425,3 +425,6 @@ FodyWeavers.xsd
 /CoreMvvm/CoreMvvmLib/CoreMvvmLib/obj/Debug/net8.0/CoreMvvmLib.assets.cache
 /CoreMvvm/CoreMvvmLib/CoreMvvmLib/obj/Debug/net8.0/CoreMvvmLib.GeneratedMSBuildEditorConfig.editorconfig
 /CoreMvvm/CoreMvvmLib/.vs/CoreMvvmLib/v17/.suo
+/CoreMvvm/CoreMvvmLib/CoreMvvmLib.WPF/obj/Debug/net6.0-windows/CoreMvvmLib.WPF.AssemblyInfo.cs
+/CoreMvvm/CoreMvvmLib/CoreMvvmLib.Core/obj/Debug/netstandard2.0/CoreMvvmLib.Core.AssemblyInfo.cs
+/CoreMvvm/CoreMvvmLib/CoreMvvmLib.WPF/obj/Debug/net6.0-windows/CoreMvvmLib.WPF.sourcelink.json

@@ -171,7 +171,6 @@ namespace CoreMvvmLib.Core.IOC
             }
             catch (Exception ex)
             {
-
                 throw new InvalidOperationException("Unknown", ex);
             }
         }

@@ -57,11 +57,11 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
             IExcelPaser excelPaser = new ClosedXmlUsedExcelParser(copyExcelFilePath);
             excelPaser.SetExcelData(_baseService.CompareResult);
 
-            _dialogService.Show(this, nameof(LoadingDialogView), 300, 300);
+            _dialogService.Show(this, typeof(LoadingDialogView), 300, 300);
             
             await excelPaser.WriteExcel();
 
-            _dialogService.Close(nameof(LoadingDialogView));
+            _dialogService.Close(typeof(LoadingDialogView));
             _settingService.GeneralSetting!.OutputExcelPath = ExportOutputPath;
             _settingService.GeneralSetting!.OutputExcelFileName = ExportOutputFileName;
             _settingService.SaveSetting();

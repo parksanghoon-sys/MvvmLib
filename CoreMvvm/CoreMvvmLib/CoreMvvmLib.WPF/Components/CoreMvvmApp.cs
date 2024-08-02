@@ -38,8 +38,7 @@ namespace CoreMvvmLib.WPF.Components
 
             serviceProvider.AddDialogServiceLocator();
             serviceProvider.AddViewModelLocator();
-
-            ConfigureServiceLocator();
+            
             //Service 초기화 
             ConfigureServiceProvider(serviceProvider);
 

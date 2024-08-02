@@ -67,7 +67,7 @@ namespace wpfCodeCheck
         /// </summary>       
         protected override void ConfigureServiceLocator()
         {            
-            ServiceLocator.DialogService.RegisterDialog<LoadingDialogView>();            
+            ServiceLocator.DialogService.RegisterSingleDialog<LoadingDialogView>(true);            
         }      
         protected override Window CreateWindow(IServiceContainer serviceProvider)
         {

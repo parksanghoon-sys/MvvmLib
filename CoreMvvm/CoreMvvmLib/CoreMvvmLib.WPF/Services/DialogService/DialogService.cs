@@ -7,11 +7,7 @@ namespace CoreMvvmLib.WPF.Services;
 
 internal class DialogService : IDialogService
 {
-    private IServiceContainer _serviceContainer;
-    public DialogService()
-    {
-        
-    }
+    private IServiceContainer _serviceContainer;  
     protected virtual Window FindOwnerWindow(INotifyPropertyChanged viewModel)
     {
        
@@ -38,6 +34,28 @@ internal class DialogService : IDialogService
     public void RegisterDialog(Type type)
     {
         DialogStorage.RegisterDialog(type);
+    }
+    public void RegisterDialog<TWindow>() where TWindow : class
+    {
+        var type = typeof(TWindow);
+        if (!type.IsSubclassOf(typeof(Window)))
+            throw new ArgumentException(nameof(type));
+
+        this.RegisterDialog(typeof(TWindow));
+    }
+
+    public void RegisterDialog(Type type, bool isSingle)
+    {
+        DialogStorage.RegisterDialog(type, isSingle);
+    }
+
+    public void RegisterSingleDialog<TWindow>(bool isSingle = false) where TWindow : class
+    {
+        var type = typeof(TWindow);
+        if (!type.IsSubclassOf(typeof(Window)))
+            throw new ArgumentException(nameof(type));
+
+        this.RegisterDialog(typeof(TWindow), isSingle);
     }
     public bool Activate(INotifyPropertyChanged viewModel)
     {
@@ -77,125 +95,130 @@ internal class DialogService : IDialogService
         }
         return chekck;
     }
-    public bool Close(string windowName)
-    {            
+    public bool Close(Type dialogType)
+    {
         bool chekck = false;
-        foreach (Window? window in Application.Current.Windows)
+
+        var dialogConatiner = DialogStorage._dialogTypes[dialogType];
+        if (dialogConatiner.IsActivate == true)
         {
-            if (window == null || windowName.Equals(window.Name) == false)
-                continue;
-            try
+            if (dialogConatiner.IsOnlySingle == true)
             {
-                window.Owner = null;
-                window.Close();
-                chekck = true;                    
+                if(dialogConatiner.CallCount == 1)
+                {
+                    dialogConatiner.Window.Close();
+                    chekck = true;
+                }                    
+                dialogConatiner.CallCount--;
             }
-            catch (Exception e)
+            else
             {
-                System.Diagnostics.Debug.WriteLine(e);
-                break;
+                dialogConatiner.Window.Close();    
+                chekck = true;
             }
         }
+              
         return chekck;
     }
 
-    public void RegisterDialog<TWindow>() where TWindow : class
+   
+    public bool ShowDialog(INotifyPropertyChanged ownerViewModel, Type windwoType, string title, int width, int height)
     {
-        var type = typeof(TWindow);
-        if (!type.IsSubclassOf(typeof(Window)))
-            throw new ArgumentException(nameof(type));
-
-        this.RegisterDialog(typeof(TWindow));
-    }
-
-    public bool ShowDialog(INotifyPropertyChanged ownerViewModel, string windowName, string title, int width, int height)
-    {
-        var window = DialogStorage.CreateDialog(windowName);
-        var name = windowName.Replace("View", "ViewModel");
+        var dialogContainer = DialogStorage.CreateDialog(windwoType);
+        var name = windwoType.Name.Replace("View", "ViewModel");
         var viewModelType = _serviceContainer.TypeGet(name);
         if (viewModelType != null)
         {
             var viewModel = _serviceContainer.GetService(viewModelType) as IModalDialogViewModel;
             viewModel.Title = title;
-            window.DataContext = viewModel;
+            dialogContainer.Window.DataContext = viewModel;
         }
       
         var onwerWindow = this.FindOwnerWindow(ownerViewModel);
-        window.Name = windowName;
-        window.Owner = onwerWindow;
-        window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        window.Width = width;
-        window.Height = height;
-        window.ShowDialog();
+        dialogContainer.Window.Name = windwoType.Name;
+        dialogContainer.Window.Owner = onwerWindow;
+        dialogContainer.Window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        dialogContainer.Window.Width = width;
+        dialogContainer.Window.Height = height;
+        if(dialogContainer.IsOnlySingle)
+        {
+            dialogContainer.CallCount++;
+            dialogContainer.Window.ShowDialog();
+        }
+        dialogContainer.Window.ShowDialog();
 
         return true;
     }
 
     public bool ShowDialog(INotifyPropertyChanged ownerViewModel, IModalDialogViewModel viewModel, string title, int width, int height)
     {
-        var viewModelName = viewModel.GetType().Name;
-        var name = viewModelName.Replace("ViewModel", "View");
-        Window window = DialogStorage.CreateDialog(name);
+        var viewModelType = viewModel.GetType();
+        var name = viewModelType.Name.Replace("ViewModel", "View");
+        var dialogContainer = DialogStorage.CreateDialog(Type.GetType(name));
 
-        window.DataContext = viewModel;
+        dialogContainer.Window.DataContext = viewModel;
         var ownerWindow = this.FindOwnerWindow(ownerViewModel);
 
-        window.Owner = ownerWindow;
-        window.Width = width;
-        window.Height = height;
-        window.ShowDialog();
+        dialogContainer.Window.Owner = ownerWindow;
+        dialogContainer.Window.Width = width;
+        dialogContainer.Window.Height = height;
+
+        if (dialogContainer.IsOnlySingle)
+        {
+            dialogContainer.CallCount++;
+            dialogContainer.Window.ShowDialog();
+        }
+        dialogContainer.Window.ShowDialog();
 
 
         return viewModel.DialogResult;
     }
     // TODO : Dialog 제어 관련 추후 다른 방안 생각해봄
-    public void Show(INotifyPropertyChanged ownerViewModel, string windowName, int width, int height)
+    public void Show(INotifyPropertyChanged ownerViewModel, Type windowType, int width, int height)
     {
-        foreach (Window? w in Application.Current.Windows)
-        {
-            if (w == null || windowName.Equals(w.Name) == false)
-                continue;
-            try
-            {
-                return;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e);
-                break;
-            }
-        }            
-        var window = DialogStorage.CreateDialog(windowName);
-        var name = windowName.Replace("View", "ViewModel");
+        var dialogContainer = DialogStorage.CreateDialog(windowType);
+        var name = windowType.Name.Replace("View", "ViewModel");
         var viewModelType = _serviceContainer.TypeGet(name);
+
         if (viewModelType != null)
         {
             var viewModel = _serviceContainer.GetService(viewModelType) as IModalDialogViewModel;
-
-            window.DataContext = viewModel;
+            dialogContainer.Window.DataContext = viewModel;
         }
         var onwerWindow = this.FindOwnerWindow(ownerViewModel);
-        window.Owner = Application.Current.MainWindow;
-        window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        window.Width = width;
-        window.Height = height;
-        window.Name = windowName;
-        window.Show();
-        
+        dialogContainer.Window.Owner = Application.Current.MainWindow;
+        dialogContainer.Window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        dialogContainer.Window.Width = width;
+        dialogContainer.Window.Height = height;
+        dialogContainer.Window.Name = windowType.Name;
+
+        if (dialogContainer.IsOnlySingle)
+        {
+            if (dialogContainer.CallCount == 1)
+            {
+                dialogContainer.Window.Show();
+            }             
+        }
+        else
+        {
+            dialogContainer.Window.Show();
+        }        
     }
 
     public void Show(INotifyPropertyChanged ownerViewModel, IModalDialogViewModel viewModel, int width, int height)
     {
-        var viewModelName = viewModel.GetType().Name;
-        var name = viewModelName.Replace("ViewModel", "View");
-        Window window = DialogStorage.CreateDialog(name);
+        var viewModelType = viewModel.GetType();
+        var name = viewModelType.Name.Replace("ViewModel", "View");
+        var conatiner = DialogStorage.CreateDialog(Type.GetType(name));
 
-        window.DataContext = viewModel;
+        conatiner.Window.DataContext = viewModel;
         var ownerWindow = this.FindOwnerWindow(ownerViewModel);
 
-        window.Owner = ownerWindow;
-        window.Width = width;
-        window.Height = height;
-        window.Show();            
-    }      
+        conatiner.Window.Owner = ownerWindow;
+        conatiner.Window.Width = width;
+        conatiner.Window.Height = height;
+        conatiner.Window.Show();
+    }
+
+   
 }

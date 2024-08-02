@@ -1,32 +1,68 @@
 ﻿using System.Windows;
-
+using IsSingleton = bool;
 namespace CoreMvvmLib.WPF.Services;
 
 internal class DialogStorage
 {
-    internal static Dictionary<string, Type> _dialogTypes = new Dictionary<string, Type>();
-    internal static void RegisterDialog(Type type)
+    internal static Dictionary<Type, DialogConatiner> _dialogTypes = new Dictionary<Type, DialogConatiner>();
+    
+    internal static void RegisterDialog(Type type, bool isSingle = false)
     {
-        if(_dialogTypes.ContainsKey(type.Name) == false)
+        var container = new DialogConatiner
         {
-            _dialogTypes.Add(type.Name, type);
+            Type = type,
+            CallCount = 0,
+            IsOnlySingle = isSingle
+        };
+        if (_dialogTypes.ContainsKey(type) == false)
+        {
+            _dialogTypes.Add(type, container);            
         }
     }
-    internal static Type Dialog(string name)
+    internal static DialogConatiner Dialog(Type type)
     {
-        if(_dialogTypes.ContainsKey(name) == true)
-            return _dialogTypes[name];
+        if (_dialogTypes.ContainsKey(type) == true)
+            return _dialogTypes[type];
         return null;
     }
-    internal static Window CreateDialog(string name)
+    internal static DialogConatiner CreateDialog(Type type)
     {
-        var type = DialogStorage.Dialog(name);
-        if (type is null)
+        var item = DialogStorage.Dialog(type);
+        if (item.Type is null)
         {
             return null;
         }
+        if(item.IsOnlySingle == false)
+        {
+            _dialogTypes[type].IsActivate = true;
+            _dialogTypes[type].Window = (Window)Activator.CreateInstance(item.Type);
+            
+            return _dialogTypes[type];
+        }            
+        else
+        {
+            if (_dialogTypes[type].IsActivate is false && _dialogTypes[type].CallCount == 0)
+            {
+                _dialogTypes[type].Window = (Window)Activator.CreateInstance(item.Type);
 
-        var windwow = (Window)Activator.CreateInstance(type);
-        return windwow;
+                _dialogTypes[type].CallCount++;
+                _dialogTypes[type].IsActivate = true;
+            }
+            else
+            {
+                _dialogTypes[type].CallCount++;
+            }
+            
+            return _dialogTypes[type];
+        }                    
     }
 }
+internal record DialogConatiner
+{
+    public Type? Type { get; set; }
+    public bool IsOnlySingle { get; set; }
+    public int CallCount { get; set; }
+    public bool IsActivate { get; set; }
+    public Window Window { get; set; }
+}
+
