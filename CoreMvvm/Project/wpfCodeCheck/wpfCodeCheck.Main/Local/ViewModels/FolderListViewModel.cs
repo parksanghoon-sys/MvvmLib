@@ -39,9 +39,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [Property]
         private EFolderListType _folderLIstType;
         [Property]
-        private CustomObservableCollection<CodeInfoModel> _fileDatas;
+        private CustomObservableCollection<CodeInfoModel> _fileDatas = new();
         [Property]
-        private CodeInfoModel _fileData;      
+        private CodeInfoModel _fileData = new();      
         private void OnReceiveClearMessage(FolderListViewModel model, EFolderCompareList list)
         {
             if (EFolderCompareList.CLEAR == list)

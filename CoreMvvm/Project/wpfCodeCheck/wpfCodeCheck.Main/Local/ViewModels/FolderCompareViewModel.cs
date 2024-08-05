@@ -1,9 +1,6 @@
-﻿using CompareEngine;
-using CoreMvvmLib.Core.Attributes;
+﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
-using System.Collections;
-using System.IO;
 using System.Windows;
 using wpfCodeCheck.Main.Local.Exceptions;
 using wpfCodeCheck.Main.Local.Helpers.CsvHelper;

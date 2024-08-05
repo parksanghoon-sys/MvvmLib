@@ -55,6 +55,15 @@ namespace onpenxmlTest
                 cell.Select();
                 worksheet.Paste();
 
+                Excel.Range columnRange = worksheet.Columns["A"];
+
+                // 지정된 열에서 마지막 사용된 행 찾기
+                int lastUsedRow = columnRange.Cells.Find("*", System.Reflection.Missing.Value,
+                    Excel.XlFindLookIn.xlFormulas, Excel.XlLookAt.xlPart, Excel.XlSearchOrder.xlByRows,
+                    Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, System.Reflection.Missing.Value).Row;
+
+                Console.WriteLine("A열의 마지막 사용된 행: " + lastUsedRow);
+
                 // 엑셀 파일 저장 (경로는 원하는 경로로 수정)
                 workbook.SaveAs(@"D:\Temp\output.xlsx");
             }

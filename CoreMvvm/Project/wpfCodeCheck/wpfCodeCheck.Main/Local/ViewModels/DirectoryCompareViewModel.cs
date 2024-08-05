@@ -18,9 +18,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             OutputDirectoryPath = _settingService.GeneralSetting!.OutputPath ?? "";
         }
         [Property]
-        private string _inputDirectoryPath;
+        private string _inputDirectoryPath = string.Empty;
         [Property]
-        private string _outputDirectoryPath;
+        private string _outputDirectoryPath = string.Empty;
         [RelayCommand]
         private void Compare()
         {
