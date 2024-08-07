@@ -106,7 +106,7 @@ internal class DialogService : IDialogService
             {
                 if(dialogConatiner.CallCount == 1)
                 {
-                    dialogConatiner.Window.Close();
+                    dialogConatiner.Window.Hide();
                     chekck = true;
                 }                    
                 dialogConatiner.CallCount--;

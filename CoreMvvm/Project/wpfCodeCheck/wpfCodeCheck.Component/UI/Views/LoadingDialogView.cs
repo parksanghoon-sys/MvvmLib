@@ -60,10 +60,17 @@ namespace wpfCodeCheck.Component.UI.Views
             {
                 WeakReferenceMessenger.Default.Send<EMainViewDimming>(EMainViewDimming.DIMMING);
             };
-            this.Closed += (s, e) =>
+            this.IsVisibleChanged += (s, e) =>
             {
-                WeakReferenceMessenger.Default.Send<EMainViewDimming>(EMainViewDimming.NONE);                
-                loadingTimer = null;
+                if(this.Visibility == Visibility.Hidden)
+                {
+                    WeakReferenceMessenger.Default.Send<EMainViewDimming>(EMainViewDimming.NONE);
+                    loadingTimer = null;
+                }
+                else
+                {
+                    WeakReferenceMessenger.Default.Send<EMainViewDimming>(EMainViewDimming.DIMMING);
+                }
             };
         }
         TextBlock? text;
