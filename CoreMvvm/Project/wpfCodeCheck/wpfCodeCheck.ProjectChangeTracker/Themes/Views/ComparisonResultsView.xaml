@@ -46,7 +46,7 @@
                                     Height="20"
                                     Text="{Binding ExportOutputFileName}" />
                                 <componentUnits:BaseButton
-                                    Command="{Binding AsyncExportCommand}"
+                                    Command="{Binding ExportAsyncCommand}"
                                     Content="Export"
                                     IconType="ArrowAll" />
                             </units:CustomStackPannel>

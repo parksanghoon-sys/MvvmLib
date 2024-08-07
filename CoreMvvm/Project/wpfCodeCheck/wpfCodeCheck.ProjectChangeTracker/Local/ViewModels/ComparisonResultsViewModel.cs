@@ -43,23 +43,23 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
         {
             DirectoryHelper.CreateDirectory(ExportOutputPath);
             string Excel_DATA_PATH = ExportOutputPath;
-            string baseExcelFilepath = Path.Combine(Environment.CurrentDirectory, "SW_Chage.xlsx");
+            //string baseExcelFilepath = Path.Combine(Environment.CurrentDirectory, "SW_Chage.xlsx");
             string copyExcelFilePath = Path.Combine(ExportOutputPath , ExportOutputFileName +".xlsx");
             
 
-            if (File.Exists(copyExcelFilePath) == true)
-            {
-                File.Delete(copyExcelFilePath);
-            }
+            //if (File.Exists(copyExcelFilePath) == true)
+            //{
+            //    File.Delete(copyExcelFilePath);
+            //}
 
-            File.Copy(baseExcelFilepath, copyExcelFilePath);
+            //File.Copy(baseExcelFilepath, copyExcelFilePath);
 
-            IExcelPaser excelPaser = new ClosedXmlUsedExcelParser(copyExcelFilePath);
+            IExcelPaser excelPaser = new InteropExcelParsser(copyExcelFilePath);
             excelPaser.SetExcelData(_baseService.CompareResult);
 
             _dialogService.Show(this, typeof(LoadingDialogView), 300, 300);
             
-            await excelPaser.WriteExcel();
+            await excelPaser.WriteExcelAync();
 
             _dialogService.Close(typeof(LoadingDialogView));
             _settingService.GeneralSetting!.OutputExcelPath = ExportOutputPath;
