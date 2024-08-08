@@ -72,7 +72,11 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="AccentBorder" Property="BorderThickness" Value="0,0,0,2" />
+                            <Setter TargetName="AccentBorder" Property="BorderBrush" Value="#FF58B6EC" />
                             <Setter TargetName="ContentBorder" Property="Background" Value="#B31E1E1E" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="False">
+                            <Setter TargetName="AccentBorder" Property="BorderBrush" Value="#B31E1E1E" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
