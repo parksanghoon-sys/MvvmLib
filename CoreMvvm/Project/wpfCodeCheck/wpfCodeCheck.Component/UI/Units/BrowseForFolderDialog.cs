@@ -1,13 +1,14 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows.Interop;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 
-namespace wpfCodeCheck.Main.UI.Units
+namespace wpfCodeCheck.Component.UI.Units
 {
-    /// <summary>
-    /// Represents a common dialog box (Win32::SHBrowseForFolder()) that allows a user to select a folder.
-    /// </summary>
     public class BrowseForFolderDialog
     {
         #region Public Properties
