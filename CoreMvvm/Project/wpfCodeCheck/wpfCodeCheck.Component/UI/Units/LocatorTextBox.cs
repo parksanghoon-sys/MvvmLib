@@ -1,6 +1,8 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
+using CoreMvvmLib.Component.UI.Units;
+using wpfCodeCheck.Domain.Helpers;
 
 namespace wpfCodeCheck.Component.UI.Units
 {
@@ -29,13 +31,31 @@ namespace wpfCodeCheck.Component.UI.Units
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LocatorTextBox), new FrameworkPropertyMetadata(typeof(LocatorTextBox)));
         }
+        Button button;
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+            button = this.GetTemplateChild("PART_btnPath") as Button;
 
+            button.Click += (s, e) =>
+            {
+                BrowseForFolderDialog dlg = new BrowseForFolderDialog();
+                dlg.Title = "Select a folder and click OK!";
+                dlg.InitialExpandedFolder = DirectoryHelper.GetMyDocumentsDirectory();
+                dlg.OKButtonText = "OK!";
+                if (true == dlg.ShowDialog())
+                {
+                    this.Text = dlg.SelectedFolder;
+                    //if (string.Equals(type, "Input"))
+                    //    InputDirectoryPath = dlg.SelectedFolder;
+                    //else
+                    //    OutputDirectoryPath = dlg?.SelectedFolder;
+                }
+            };
             this.PreviewDragOver += (s, e) => { e.Handled = true; };
 
             this.Drop += textBlock_Drop;
+            
 
         }
         private void textBlock_Drop(object sender, DragEventArgs e)

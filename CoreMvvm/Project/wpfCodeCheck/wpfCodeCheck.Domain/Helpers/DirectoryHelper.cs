@@ -1,4 +1,6 @@
-﻿namespace wpfCodeCheck.Domain.Helpers
+﻿using System;
+
+namespace wpfCodeCheck.Domain.Helpers
 {
     public class DirectoryHelper
     {
@@ -14,6 +16,7 @@
         public static string GetLocalSettingDirectory() => $"{AppDomain.CurrentDomain.BaseDirectory}\\SettingData";
         public static string GetLocalExportDirectory() => $"{AppDomain.CurrentDomain.BaseDirectory}\\EXPORT";
         public static string GetLocaDirectory(string subDir, string fileName) => $"{AppDomain.CurrentDomain.BaseDirectory}\\{subDir}\\{fileName}";
+        public static string GetMyDocumentsDirectory() => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static bool CreateDirectory(string directoryPath)
         {
             if (Directory.Exists(directoryPath) is false)

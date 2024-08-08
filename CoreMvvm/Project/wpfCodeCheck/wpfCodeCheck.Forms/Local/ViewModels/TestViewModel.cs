@@ -1,8 +1,8 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
 using System.Windows;
+using wpfCodeCheck.Component.UI.Units;
 using wpfCodeCheck.Domain.Services;
-using wpfCodeCheck.Main.UI.Units;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {
