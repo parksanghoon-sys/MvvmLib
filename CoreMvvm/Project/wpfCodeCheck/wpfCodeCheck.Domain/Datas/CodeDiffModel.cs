@@ -25,8 +25,9 @@ namespace wpfCodeCheck.Domain.Datas
         public IList<CompareResultSpan> CompareResultSpans { get; set; }
         public CompareText InputCompareText { get; set; }
         public CompareText OutputCompareText { get; set; }
-        public string FileName { get; set; }
         public string InputFilePath { get; set; } = string.Empty;
         public string OutoutFilePath { get; set; } = string.Empty;
+        public string InputFileName { get; set; } = string.Empty;
+        public string OutoutFileName { get; set; } = string.Empty;
     }
 }

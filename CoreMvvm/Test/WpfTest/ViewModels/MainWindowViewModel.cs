@@ -3,6 +3,7 @@ using CoreMvvmLib.Core.Commands;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Services.DialogService;
 using System.Windows.Input;
+using WpfTest1.Views;
 
 namespace WpfTest1.ViewModels
 {
@@ -29,7 +30,7 @@ namespace WpfTest1.ViewModels
         [RelayCommand]
         private void Test()
         {
-            _dialogService.Show(this, "TestDialogView", 300, 200);
+            _dialogService.Show(this, typeof(TestDialogView), 300, 200);
         }
         public ICommand TestCommandAsync => new RelayCommandAsync(async () =>
         {

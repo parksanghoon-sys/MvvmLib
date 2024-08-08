@@ -8,6 +8,7 @@
     <UseWPF>true</UseWPF>
     <AnalysisLevel>none</AnalysisLevel>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

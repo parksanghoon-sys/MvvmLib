@@ -42,8 +42,7 @@
                                         <componentUnits:LocatorTextBox
                                             x:Name="PART_InputTextBlock"
                                             MinWidth="500"
-                                            MaxWidth="800"
-                                            FileOpenCommand="{Binding FileDialogOpenCommand}"
+                                            MaxWidth="800"                                            
                                             FileOpenCommandParameter="Input"
                                             FontSize="15"
                                             Text="{Binding InputDirectoryPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -58,8 +57,7 @@
                                         <componentUnits:LocatorTextBox
                                             x:Name="PART_OutputTextBlock"
                                             MinWidth="500"
-                                            MaxWidth="800"
-                                            FileOpenCommand="{Binding FileDialogOpenCommand}"
+                                            MaxWidth="800"                                            
                                             FileOpenCommandParameter="Output"
                                             FontSize="15"
                                             Text="{Binding OutputDirectoryPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
