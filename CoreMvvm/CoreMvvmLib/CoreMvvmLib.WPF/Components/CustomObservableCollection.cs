@@ -11,6 +11,14 @@ namespace CoreMvvmLib.WPF.Components
             : base()
         {
         }
+        public async Task AddItemsAsync(IEnumerable<T> items)
+        {
+            foreach (var item in items)
+            {
+                Add(item);
+                await Task.Yield(); // 컨텍스트 스위칭을 통해 UI 업데이트를 반영
+            }
+        }
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             if (_suppressNotification == false)
