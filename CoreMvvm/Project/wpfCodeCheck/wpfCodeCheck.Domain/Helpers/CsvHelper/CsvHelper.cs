@@ -3,31 +3,10 @@ using System.Reflection;
 using System.Text;
 using wpfCodeCheck.Domain.Helpers;
 
-namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
+namespace wpfCodeCheck.Domain.Local.Helpers
 {
     public class CsvHelper : ICsvHelper
-    {        
-
-        private StringBuilder sb = new StringBuilder();
-        public CsvHelper()
-        {            
-            //CreatePathFolder(CSV_DATA_PATH);
-        }
-        /// <summary>
-        /// 경로에 폴더가 없으면 생성
-        /// </summary>
-        /// <param name="path"></param>
-        public void CreatePathFolder(string path)
-        {
-            string[] folderNames = path.Split('\\');
-            string fullPath = string.Empty;
-            for (int i = 0; i < folderNames.Length - 1; i++)
-            {
-                fullPath += folderNames[i] + '\\';
-                DirectoryInfo di = new DirectoryInfo(fullPath);
-                if (!di.Exists) di.Create();
-            }
-        }
+    {           
         /// <summary>
         /// 컬렉션 CSV 파일 만들기
         /// </summary>
@@ -41,6 +20,8 @@ namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
         {
             try
             {
+                StringBuilder sb = new StringBuilder();
+
                 if (collection.Count > 0)
                 {
                     var exportPath = DirectoryHelper.GetLocalExportDirectory();
@@ -152,33 +133,34 @@ namespace wpfCodeCheck.Main.Local.Helpers.CsvHelper
 
             return null;
         }
-
         /// <summary>
-        /// 경로상의 모든 폴더 및 하위 파일 삭제 시도
+        /// 소프트웨어 변경사항 Excel Export시 Paste 동작 중
+        /// System.Runtime.InteropServices.COMException: '0x800A03EC'  
+        /// 오류 사항으로 인해 수작업으로 해야하는 경우에 Exception Log 기록 추출
         /// </summary>
-        public void DeleteDirectory(string path)
+        /// <param name="path"></param>
+        /// <param name="colunms"></param>
+        public void ExcepCOMExceptionToCsv(string path, params string[] colunms)
         {
+            bool fileExists = File.Exists(path);
             try
             {
-                foreach (string directory in Directory.GetDirectories(path))
+                using (StreamWriter sw = new StreamWriter(path, true))  // true: 이어쓰기 모드
                 {
-                    DeleteDirectory(directory);
-                }
+                    // 파일이 없었을 경우 헤더 작성
+                    if (!fileExists)
+                    {
+                        sw.WriteLine("Timestamp,InputClass,OutputClass");
+                    }
 
-                try
-                {
-                    Directory.Delete(path, true);
-                }
-                catch (IOException)
-                {
-                    Directory.Delete(path, true);
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    Directory.Delete(path, true);
+                    // 예외 로그 작성
+                    sw.WriteLine($"{DateTime.Now},{colunms[0]},{colunms[1]}");
                 }
             }
-            catch { }
+            catch (Exception logEx)
+            {
+                Console.WriteLine("CSV 파일에 로그를 기록하는 중 오류가 발생했습니다: " + logEx.Message);
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Enums;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -51,7 +52,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         {
             if (string.IsNullOrEmpty(FolderPath) == false)
             {
-                await GetDirectoryFilesInfoAsync();
+                await GetDirectoryFilesInfoAsync();                
             }
         }
         private async Task GetDirectoryFilesInfoAsync()
@@ -62,7 +63,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 _dialogService.Show(this, typeof(LoadingDialogView), 300, 300);
                 var folderInfoList = await _dierctoryFileInfoService.GetDirectoryCodeFileInfosAsync(FolderPath);
 
-                FileDatas.AddRange(folderInfoList);
+                await FileDatas.AddItemsAsync(folderInfoList);
+                //folderInfoList.ForEach(item =>  FileDatas.Add(item));
                 _dialogService.Close(typeof(LoadingDialogView));
                 WeakReferenceMessenger.Default.Send<DirectorySearchResult, FolderCompareViewModel>(new DirectorySearchResult(FolderLIstType, FileDatas));
             }

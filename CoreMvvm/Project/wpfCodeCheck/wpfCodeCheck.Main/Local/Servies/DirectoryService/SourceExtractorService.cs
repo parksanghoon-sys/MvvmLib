@@ -54,7 +54,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                                     sr.DiscardBufferedData();
                                     while (sr.EndOfStream == false)
                                     {
-                                        string text = sr.ReadLine();
+                                        string text = sr.ReadLine()??string.Empty;
                                         lineCnt++;
                                     }
                                 }

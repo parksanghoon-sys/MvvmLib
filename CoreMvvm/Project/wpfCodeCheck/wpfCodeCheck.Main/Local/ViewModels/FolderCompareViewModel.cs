@@ -3,12 +3,12 @@ using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
 using System.Windows;
 using wpfCodeCheck.Main.Local.Exceptions;
-using wpfCodeCheck.Main.Local.Helpers.CsvHelper;
 using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Main.Local.Servies.CodeCompare;
+using wpfCodeCheck.Domain.Local.Helpers;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -144,7 +144,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     }
                     else if (comparison < 0)
                     {
-                        var compareResult = _codeCompareService.GetCompareResult(model1,model2);
+                        var compareResult = _codeCompareService.GetCompareResult(model1, new CodeInfoModel());
                         
                         if (_codeCompareModel.CompareResults.Contains(compareResult) == false)
                         {
@@ -157,7 +157,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     }
                     else
                     {
-                        var compareResult = _codeCompareService.GetCompareResult(model1, model2);
+                        var compareResult = _codeCompareService.GetCompareResult(new CodeInfoModel(), model2);
                         if (_codeCompareModel.CompareResults.Contains(compareResult) == false)
                         {
                             _codeCompareModel.CompareResults.Add(compareResult);                            

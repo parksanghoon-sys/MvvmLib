@@ -6,7 +6,6 @@ using wpfCodeCheck.ProjectChangeTracker.Local.ViewModels;
 using wpfCodeCheck.ProjectChangeTracker.UI.Views;
 using wpfCodeCheck.Forms.Local.ViewModels;
 using wpfCodeCheck.Forms.UI.Views;
-using wpfCodeCheck.Main.Local.Helpers.CsvHelper;
 using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 using wpfCodeCheck.Main.Local.ViewModels;
@@ -16,6 +15,7 @@ using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Main.Local.Servies.CodeCompare;
+using wpfCodeCheck.Domain.Local.Helpers;
 
 namespace wpfCodeCheck
 {
