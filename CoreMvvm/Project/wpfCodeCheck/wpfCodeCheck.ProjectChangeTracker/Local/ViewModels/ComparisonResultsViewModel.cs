@@ -45,12 +45,12 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
             string Excel_DATA_PATH = ExportOutputPath;
             //string baseExcelFilepath = Path.Combine(Environment.CurrentDirectory, "SW_Chage.xlsx");
             string copyExcelFilePath = Path.Combine(ExportOutputPath , ExportOutputFileName +".xlsx");
-            
 
-            //if (File.Exists(copyExcelFilePath) == true)
-            //{
-            //    File.Delete(copyExcelFilePath);
-            //}
+
+            if (File.Exists(copyExcelFilePath) == true)
+            {
+                File.Delete(copyExcelFilePath);
+            }
 
             //File.Copy(baseExcelFilepath, copyExcelFilePath);
 

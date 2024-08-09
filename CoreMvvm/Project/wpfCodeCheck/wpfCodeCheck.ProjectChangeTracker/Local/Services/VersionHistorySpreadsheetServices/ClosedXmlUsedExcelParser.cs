@@ -109,7 +109,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                         IXLCell mergeSummeryCellEnd = ws.Cell(mergeEndRow - 1, (int)ECELL.SUMMARY_CELL);
                         ws.Range(mergeCellStart, mergeCellEnd).Merge();
                         ws.Range(mergeSummeryCellStart, mergeSummeryCellEnd).Merge();
-                        ws.Cell(mergeStartRow, (int)ECELL.CLASS_CELL).Value = project.FileName;
+                        ws.Cell(mergeStartRow, (int)ECELL.CLASS_CELL).Value = project.InputFileName == string.Empty ? project.OutoutFileName : project.InputFileName;
                         ws.Cell(mergeStartRow, (int)ECELL.SUMMARY_CELL).Value = "o 기능개선\r\n : ICD v5.3a 적용";
 
                     }

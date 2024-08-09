@@ -37,7 +37,9 @@ namespace wpfCodeCheck.Main.Local.Servies.CodeCompare
             compareResult.OutputCompareText = destinationDiffList;
             compareResult.CompareResultSpans = GetArrayListToList<CompareResultSpan>(resultLines);
 
-            compareResult.FileName = inputModel.FileName == string.Empty ? outputModel.FileName : inputModel.FileName;
+            compareResult.InputFileName = inputModel.FileName;
+            compareResult.OutoutFileName = outputModel.FileName;
+
             compareResult.InputFilePath = inputModel.FilePath;
             compareResult.OutoutFilePath = outputModel.FilePath;
 

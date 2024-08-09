@@ -26,6 +26,33 @@ namespace wpfCodeCheck.Domain.Helpers
             }
             return false ;
         }
-        
+        /// <summary>
+        /// 경로상의 모든 폴더 및 하위 파일 삭제 시도
+        /// </summary>
+
+        public static void DeleteDirectory(string path)
+        {
+            try
+            {
+                foreach (string directory in Directory.GetDirectories(path))
+                {
+                    DeleteDirectory(directory);
+                }
+
+                try
+                {
+                    Directory.Delete(path, true);
+                }
+                catch (IOException)
+                {
+                    Directory.Delete(path, true);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    Directory.Delete(path, true);
+                }
+            }
+            catch { }
+        }
     }
 }
