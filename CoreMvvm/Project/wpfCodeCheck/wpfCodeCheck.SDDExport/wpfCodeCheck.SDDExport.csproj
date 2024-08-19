@@ -1,25 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Platforms>AnyCPU;x86</Platforms>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Platforms>AnyCPU;x86</Platforms>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Themes\Units\" />
-    <Folder Include="UI\Units\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Themes\Units\" />
+		<Folder Include="UI\Units\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Component\CoreMvvmLib.Component.csproj" />
-    <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
-    <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
-    <ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
-    <ProjectReference Include="..\wpfCodeCheck.Component\wpfCodeCheck.Component.csproj" />
-    <ProjectReference Include="..\wpfCodeCheck.Domain\wpfCodeCheck.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Component\CoreMvvmLib.Component.csproj" />
+		<ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+			<OutputItemType>Analyzer</OutputItemType>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
+		<ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
+		<ProjectReference Include="..\wpfCodeCheck.Component\wpfCodeCheck.Component.csproj" />
+		<ProjectReference Include="..\wpfCodeCheck.Domain\wpfCodeCheck.Domain.csproj" />
+	</ItemGroup>
 
 </Project>
