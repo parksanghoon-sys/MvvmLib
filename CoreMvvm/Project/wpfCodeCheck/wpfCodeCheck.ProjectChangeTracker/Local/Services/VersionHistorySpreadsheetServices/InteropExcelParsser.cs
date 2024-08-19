@@ -79,7 +79,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 
                         _queue.Enqueue(project);
                         //_fileWrittenEvent.WaitOne();
-                        Thread.Sleep(300);
+                        await Task.Delay(300);
                         WriteExcelAsync();
                         
                     }
