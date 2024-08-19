@@ -14,7 +14,6 @@ namespace wpfCodeCheck.Domain.Services
     public interface IExcelPaser
     {
         void SetFilePath(string FilePath);
-        void SetExcelData(CodeDiffReulstModel<CustomCodeComparer> dataList);
         Task  WriteExcelAync();
     }
 }

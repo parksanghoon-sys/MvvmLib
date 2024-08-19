@@ -9,18 +9,13 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
     {
         private string _filePath = string.Empty;
         private readonly string _sheetName = "4.소스코드";
-        private CodeDiffReulstModel<CustomCodeComparer>? _dataList;
+        private readonly IBaseService<CustomCodeComparer> _baseService;
         private int _startRowIndex;
         private int _startCellIndex;
-        public ClosedXmlUsedExcelParser()
+        public ClosedXmlUsedExcelParser(IBaseService<CustomCodeComparer> baseService)
         {
-            
-        }
-        public void SetExcelData(CodeDiffReulstModel<CustomCodeComparer> dataList)
-        {
-            _dataList = dataList;
-        }
-
+            _baseService = baseService;
+        }   
         public void SetFilePath(string FilePath)
         {
             _filePath = FilePath; 
@@ -30,7 +25,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         {
             await Task.Run(() =>
             {
-                if (_dataList is null)
+                if (_baseService.CompareResult is null)
                 {
                     Console.WriteLine("Not Data");
                     return;
@@ -44,7 +39,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                     _startCellIndex = lastCell.Address.ColumnNumber + 1;
                     _startRowIndex = lastCell.Address.RowNumber + 1;
 
-                    foreach (var project in _dataList.CompareResults)
+                    foreach (var project in _baseService.CompareResult.CompareResults)
                     {
 
                         int mergeStartRow = _startRowIndex;

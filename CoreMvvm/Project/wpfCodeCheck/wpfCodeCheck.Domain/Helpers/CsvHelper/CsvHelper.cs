@@ -152,9 +152,8 @@ namespace wpfCodeCheck.Domain.Local.Helpers
                     {
                         sw.WriteLine("Timestamp,InputClass,OutputClass");
                     }
-
                     // 예외 로그 작성
-                    sw.WriteLine($"{DateTime.Now},{colunms[0]},{colunms[1]}");
+                    sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")},{colunms[0]},{colunms[1]}");
                 }
             }
             catch (Exception logEx)

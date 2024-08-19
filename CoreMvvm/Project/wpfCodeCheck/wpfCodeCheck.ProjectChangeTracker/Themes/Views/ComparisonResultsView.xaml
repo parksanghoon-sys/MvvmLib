@@ -31,6 +31,8 @@
     </Style>
     <Style TargetType="{x:Type views:ComparisonResultsView}">
         <Setter Property="wpfLib:ViewModelLocator.AutoWireViewModel" Value="True" />
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Margin" Value="10,10,10,10" />
         <Setter Property="Template">
             <Setter.Value>

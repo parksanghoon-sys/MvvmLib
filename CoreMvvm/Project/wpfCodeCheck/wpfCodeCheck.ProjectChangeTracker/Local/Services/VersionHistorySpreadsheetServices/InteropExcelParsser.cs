@@ -1,10 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows.Markup.Localizer;
 using TextCopy;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Helpers;
@@ -16,28 +14,25 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 {
     public class InteropExcelParsser : IExcelPaser
     {
-        private string _filePath;
-        private CodeDiffReulstModel<CustomCodeComparer>? _dataList;
+        private string _filePath;        
         private Excel.Application excelApp = null;
         private Excel.Workbook workbook = null;
         private Excel.Worksheet worksheet = null;
         private int _startRowIndex;
         private int _startCellIndex;
-        private string _resultFilePath = @"D:\Temp\result.txt";
+        private string _resultFilePath = @"D:\Test1\result.txt";
         private static ConcurrentQueue<CustomCodeComparer> _queue = new();
         private static FileSystemWatcher _watcher;
         private static AutoResetEvent _fileWrittenEvent = new AutoResetEvent(false);
         private static SemaphoreSlim _fileSemaphore = new SemaphoreSlim(1, 1);
         private readonly ICsvHelper? _csvHelper;
+        private readonly IBaseService<CustomCodeComparer> _baseService;
 
-        public InteropExcelParsser(ICsvHelper? csvHelper)
+        public InteropExcelParsser(ICsvHelper? csvHelper, IBaseService<CustomCodeComparer> baseService)
         {            
             _csvHelper = csvHelper;
-        }
-        public void SetExcelData(CodeDiffReulstModel<CustomCodeComparer> dataList)
-        {
-            _dataList = dataList;
-        }
+            _baseService = baseService;
+        }  
 
         public async Task WriteExcelAync()
         {
@@ -48,7 +43,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
             {
                 try
                 {
-                    if (_dataList is null)
+                    if (_baseService.CompareResult is null)
                     {
                         Console.WriteLine("Not Data");
                         return;
@@ -69,7 +64,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 
                     // 지정된 열에서 마지막 사용된 행 찾기
                     _startCellIndex = 1;
-                    foreach (var project in _dataList.CompareResults)
+                    foreach (var project in _baseService.CompareResult.CompareResults)
                     {
                         ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
                         startInfo.WindowStyle = ProcessWindowStyle.Minimized;
@@ -107,7 +102,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 
                         _queue.Enqueue(project);
                         //_fileWrittenEvent.WaitOne();
-                        await Task.Delay(300);
+                        //Thread.Sleep(100);
                         await WriteExcelAsync();
                         
 
@@ -161,57 +156,50 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                         {
                             if (customCodeComparer != null)
                             {
-                                //_fileSemaphore.Wait();
                                 StringBuilder htmlContent = new StringBuilder();
-                                string[] excludeStrs = { "<tr class=\"SectionGap\"><td colspan=\"5\">&nbsp;</td></tr>", "<br>", "Left file:", "Right file:", "Mode:&nbsp; Differences &nbsp;", "Text Compare", "Produced:" };
-                                //string[] strs = File.ReadAllLines(_resultFilePath);
+                                string[] excludeStrs = { "<tr class=\"SectionGap\"><td colspan=\"5\">&nbsp;</td></tr>", "<br>","File:", "Left file:", "Right file:", "Mode:&nbsp; Differences &nbsp;", "Text Compare", "Produced:" };
 
                                 var strs = SafeReadFromFile(_resultFilePath);
                                 foreach (string str in strs)
                                 {
+                                    if (str == "&nbsp; &nbsp;")
+                                        continue;
                                     if (!excludeStrs.Any(excludeStr => str.Contains(excludeStr)))
                                     {
                                         htmlContent.Append(str);
                                     }
+                                    else
+                                    {
+                                        Debug.Print(str);
+                                    }
                                 }
-
-                                //foreach (string str in strs)
-                                //{
-                                //    if (!excludeStrs.Any(excludeStr => str.Contains(excludeStr)))
-                                //    {
-                                //        htmlContent.Append(str + Environment.NewLine);
-                                //    }
-                                //    //htmlContent.Append(str);
-                                //}
-
+                                int lastcell = _startCellIndex;
                                 // Copy HTML data to clipboard
                                 ClipboardService.SetText(htmlContent.ToString());
-                                //Debug.WriteLine($"input file: {customCodeComparer.InputFileName}");
-                                //Debug.WriteLine($"output file: {customCodeComparer.OutoutFileName}");
+                                Thread.Sleep(10);
                                 // Paste content to Excel
                                 Excel.Range cell = worksheet.Cells[_startCellIndex, 2];
                                 cell.Select();
                                 worksheet.Paste();
                                 Thread.Sleep(10);
 
-                                Excel.Range cellinputClass = worksheet.Cells[_startCellIndex, 1];
-                                Excel.Range cellOutputClass = worksheet.Cells[_startCellIndex, 7];
+                                //Excel.Range cellinputClass = worksheet.Cells[_startCellIndex, 1];
+                                //Excel.Range cellOutputClass = worksheet.Cells[_startCellIndex, 7];
 
+      
 
-                                cellinputClass.Value = customCodeComparer.InputFileName;
-                                cellOutputClass.Value = customCodeComparer.OutoutFileName;
+                                //cellinputClass.Value = customCodeComparer.InputFileName;
+                                //cellOutputClass.Value = customCodeComparer.OutoutFileName;
                                 // Remove processed item from queue
                                 _startCellIndex = FindACellLastRowIndes();
-                                if (_startCellIndex <= 0)
-                                {
-                                    Debug.WriteLine($"start Index is under zero");
-                                }
-                                else
-                                {
-                                    //Debug.WriteLine($"start Index is {_startCellIndex}");
-                                }
-
-
+                                Excel.Range rg1 = worksheet.Range[worksheet.Cells[lastcell , 1], worksheet.Cells[_startCellIndex -2  , 1]];
+                                Excel.Range rg7 = worksheet.Range[worksheet.Cells[lastcell , 7], worksheet.Cells[_startCellIndex -2 , 7]];
+                                rg1.Merge();
+                                rg7.Merge();
+                                rg1.Value = customCodeComparer.InputFileName == string.Empty ? customCodeComparer.OutoutFileName : customCodeComparer.InputFileName;
+                                rg7.Value = "o 기능개선\r\n : ICD v5.3a 적용";
+                                Marshal.ReleaseComObject(rg1);
+                                Marshal.ReleaseComObject(rg7);
                             }
 
                         }
@@ -221,12 +209,13 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                     }
                     catch (Exception ex)
                     {
-                        _csvHelper.ExcepCOMExceptionToCsv(_filePath + ".csv", new string[] { customCodeComparer.InputFileName, customCodeComparer.OutoutFileName });
+                        _csvHelper!.ExcepCOMExceptionToCsv(_filePath + ".csv", new string[] { customCodeComparer.InputFileName, customCodeComparer.OutoutFileName });
                         Debug.WriteLine($"File read error: {ex.Message} Error Input : {customCodeComparer.InputFileName} , {customCodeComparer.OutoutFileName}");
                     }
                     finally
                     {
-                        await Task.Delay(300);
+                      
+                        Thread.Sleep(50);
                     }
                 }
             });
@@ -246,7 +235,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                     {
                         _fileSemaphore.Wait();
                         StringBuilder htmlContent = new StringBuilder();
-                        string[] excludeStrs = { "<tr class=\"SectionGap\"><td colspan=\"5\">&nbsp;</td></tr>", "<br>", "Left file:", "Right file:", "Mode:&nbsp; Differences &nbsp;", "Text Compare", "Produced:" };
+                        string[] excludeStrs = { "<tr class=\"SectionGap\"><td colspan=\"5\">&nbsp;</td></tr>", "<br>", "Left file:", "File:", "Right file:", "Mode:&nbsp; Differences &nbsp;", "Text Compare", "Produced:" };
                         //string[] strs = File.ReadAllLines(_resultFilePath);
 
                         //using (StreamReader reader = new StreamReader(_resultFilePath))
@@ -264,6 +253,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                         var strs = SafeReadFromFile(_resultFilePath);
                         foreach (string str in strs)
                         {
+
                             if (!excludeStrs.Any(excludeStr => str.Contains(excludeStr)))
                             {
                                 htmlContent.Append(str);
@@ -328,7 +318,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 
             try
             {
-                int lastRow = Math.Max(Math.Max(lastRowA, lastRowB), Math.Max(lastRowD, lastRowE));
+                int lastRow = Math.Max(Math.Max(lastRowA, lastRowB), Math.Max(lastRowD, lastRowE)) + 2;
                 return lastRow;
 
             }
