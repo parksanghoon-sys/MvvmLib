@@ -51,7 +51,7 @@ public class RegionManager : IRegionManager
                         region.OnContentUpdate -= OnContentUpdate;
                         region.OnContentUpdate += OnContentUpdate;
 
-                        region.NavigateView();
+                        //region.NavigateView();
                     }
                     catch (Exception ex)
                     {

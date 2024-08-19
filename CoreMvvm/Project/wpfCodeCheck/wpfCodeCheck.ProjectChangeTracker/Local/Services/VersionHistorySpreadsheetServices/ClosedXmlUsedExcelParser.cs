@@ -7,19 +7,25 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 {
     public class ClosedXmlUsedExcelParser : IExcelPaser
     {
-        private readonly string _filePath = string.Empty;
+        private string _filePath = string.Empty;
         private readonly string _sheetName = "4.소스코드";
         private CodeDiffReulstModel<CustomCodeComparer>? _dataList;
         private int _startRowIndex;
         private int _startCellIndex;
-        public ClosedXmlUsedExcelParser(string filePath)
+        public ClosedXmlUsedExcelParser()
         {
-            _filePath = filePath;
+            
         }
         public void SetExcelData(CodeDiffReulstModel<CustomCodeComparer> dataList)
         {
             _dataList = dataList;
         }
+
+        public void SetFilePath(string FilePath)
+        {
+            _filePath = FilePath; 
+        }
+
         public async Task WriteExcelAync()
         {
             await Task.Run(() =>

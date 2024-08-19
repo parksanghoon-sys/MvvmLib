@@ -2,7 +2,6 @@
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Services.DialogService;
 using System.IO;
-using wpfCodeCheck.ProjectChangeTracker.Local.Services;
 using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Helpers;
@@ -15,12 +14,14 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
         private readonly IBaseService<CustomCodeComparer> _baseService;
         private readonly IDialogService _dialogService;
         private readonly ISettingService _settingService;
+        private readonly IExcelPaser _excelPaser;
         private CodeDiffReulstModel<CustomCodeComparer> _diffModel;
-        public ComparisonResultsViewModel(IBaseService<CustomCodeComparer> baseService, IDialogService dialogService, ISettingService settingService)
+        public ComparisonResultsViewModel(IBaseService<CustomCodeComparer> baseService, IDialogService dialogService, ISettingService settingService, IExcelPaser excelPaser)
         {
             _baseService = baseService;
             _dialogService = dialogService;
-            _settingService = settingService;            
+            _settingService = settingService;
+            _excelPaser = excelPaser;
             ExportOutputPath = _settingService.GeneralSetting!.OutputExcelPath == string.Empty ? DirectoryHelper.GetLocalDirectory("EXPROT") : _settingService.GeneralSetting.OutputExcelPath;
             ExportOutputFileName = _settingService.GeneralSetting!.OutputExcelFileName == string.Empty ? "SW_Change" : _settingService.GeneralSetting.OutputExcelFileName;
             //WeakReferenceMessenger.Default.Register<ComparisonResultsViewModel, CodeDiffReulstModel>(this, OnReceiveCodeInfos);
@@ -54,12 +55,12 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
 
             //File.Copy(baseExcelFilepath, copyExcelFilePath);
 
-            IExcelPaser excelPaser = new InteropExcelParsser(copyExcelFilePath);
-            excelPaser.SetExcelData(_baseService.CompareResult);
+            _excelPaser.SetFilePath(copyExcelFilePath);
+            _excelPaser.SetExcelData(_baseService.CompareResult);
 
             _dialogService.Show(this, typeof(LoadingDialogView), 300, 300);
             
-            await excelPaser.WriteExcelAync();
+            await _excelPaser.WriteExcelAync();
 
             _dialogService.Close(typeof(LoadingDialogView));
             _settingService.GeneralSetting!.OutputExcelPath = ExportOutputPath;

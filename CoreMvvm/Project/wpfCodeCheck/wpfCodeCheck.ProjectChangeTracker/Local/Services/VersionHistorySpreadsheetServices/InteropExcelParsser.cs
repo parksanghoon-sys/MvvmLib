@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Markup.Localizer;
 using TextCopy;
 using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Domain.Helpers;
 using wpfCodeCheck.Domain.Local.Helpers;
 using wpfCodeCheck.Domain.Services;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -15,7 +16,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 {
     public class InteropExcelParsser : IExcelPaser
     {
-        private readonly string _filePath;
+        private string _filePath;
         private CodeDiffReulstModel<CustomCodeComparer>? _dataList;
         private Excel.Application excelApp = null;
         private Excel.Workbook workbook = null;
@@ -27,10 +28,11 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         private static FileSystemWatcher _watcher;
         private static AutoResetEvent _fileWrittenEvent = new AutoResetEvent(false);
         private static SemaphoreSlim _fileSemaphore = new SemaphoreSlim(1, 1);
+        private readonly ICsvHelper? _csvHelper;
 
-        public InteropExcelParsser(string filePath)
-        {
-            _filePath = filePath;
+        public InteropExcelParsser(ICsvHelper? csvHelper)
+        {            
+            _csvHelper = csvHelper;
         }
         public void SetExcelData(CodeDiffReulstModel<CustomCodeComparer> dataList)
         {
@@ -39,6 +41,9 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 
         public async Task WriteExcelAync()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             await Task.Run(async () =>
             {
                 try
@@ -69,19 +74,43 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                         ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
                         startInfo.WindowStyle = ProcessWindowStyle.Minimized;
                         startInfo.Arguments = $"""
-                                                "@D:\temp\a.txt" "{project.InputFilePath}" "{project.OutoutFilePath}" "{_resultFilePath}"
+                                                "@{DirectoryHelper.GetLocalSettingDirectory()}\beyondCli.txt" "{project.InputFilePath}" "{project.OutoutFilePath}" "{_resultFilePath}"
                                                """;
 
+                        // 출력 캡처를 위한 설정
+                        startInfo.RedirectStandardOutput = true;
+                        startInfo.RedirectStandardError = true;
+                        startInfo.UseShellExecute = false;
+                        startInfo.CreateNoWindow = true;
 
-                        _fileSemaphore.Wait();
-                        Process.Start(startInfo);
-                        _fileSemaphore.Release();
+                        //_fileSemaphore.Wait();
+                        // 프로세스 시작
+                        using (Process process = new Process())
+                        {
+                            process.StartInfo = startInfo;
+                            process.Start();
+
+                            // 표준 출력 및 표준 오류 출력 읽기
+                            string output = process.StandardOutput.ReadToEnd();
+                            string error = process.StandardError.ReadToEnd();
+
+                            process.WaitForExit();
+
+                            if (!string.IsNullOrEmpty(error))
+                            {
+                                Debug.WriteLine("Error:");
+                                Debug.WriteLine(error);
+                            }
+                        }
+                                                
+                        //_fileSemaphore.Release();
 
                         _queue.Enqueue(project);
                         //_fileWrittenEvent.WaitOne();
                         await Task.Delay(300);
-                        WriteExcelAsync();
+                        await WriteExcelAsync();
                         
+
                     }
                     // Wait until all files are processed
                     //while (!_queue.IsEmpty)
@@ -110,91 +139,99 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 
                     // 가비지 컬렉션 강제 호출
                     GC.Collect();
-                    GC.WaitForPendingFinalizers();
+                    GC.WaitForPendingFinalizers();                    
+
                 }
 
             });
+            stopwatch.Stop();
+            // 경과 시간 출력 (시:분:초:밀리초)
+            Debug.WriteLine($"Elapsed time: {stopwatch.Elapsed}");
         }
-        private void WriteExcelAsync()
+        private async Task WriteExcelAsync()
         {
-            if (File.Exists(_resultFilePath))
+            await Task.Run(async() =>
             {
-                CustomCodeComparer customCodeComparer = null;
-                try
-                {                    
-                    if (_queue.TryDequeue(out customCodeComparer) == true)
+                if (File.Exists(_resultFilePath))
+                {
+                    CustomCodeComparer customCodeComparer = null;
+                    try
                     {
-                        if (customCodeComparer != null)
+                        if (_queue.TryDequeue(out customCodeComparer) == true)
                         {
-                            //_fileSemaphore.Wait();
-                            StringBuilder htmlContent = new StringBuilder();
-                            string[] excludeStrs = { "<tr class=\"SectionGap\"><td colspan=\"5\">&nbsp;</td></tr>", "<br>", "Left file:", "Right file:", "Mode:&nbsp; Differences &nbsp;", "Text Compare", "Produced:" };
-                            //string[] strs = File.ReadAllLines(_resultFilePath);
-
-                            var strs = SafeReadFromFile(_resultFilePath);
-                            foreach (string str in strs)
+                            if (customCodeComparer != null)
                             {
-                                if (!excludeStrs.Any(excludeStr => str.Contains(excludeStr)))
+                                //_fileSemaphore.Wait();
+                                StringBuilder htmlContent = new StringBuilder();
+                                string[] excludeStrs = { "<tr class=\"SectionGap\"><td colspan=\"5\">&nbsp;</td></tr>", "<br>", "Left file:", "Right file:", "Mode:&nbsp; Differences &nbsp;", "Text Compare", "Produced:" };
+                                //string[] strs = File.ReadAllLines(_resultFilePath);
+
+                                var strs = SafeReadFromFile(_resultFilePath);
+                                foreach (string str in strs)
                                 {
-                                    htmlContent.Append(str);
+                                    if (!excludeStrs.Any(excludeStr => str.Contains(excludeStr)))
+                                    {
+                                        htmlContent.Append(str);
+                                    }
                                 }
+
+                                //foreach (string str in strs)
+                                //{
+                                //    if (!excludeStrs.Any(excludeStr => str.Contains(excludeStr)))
+                                //    {
+                                //        htmlContent.Append(str + Environment.NewLine);
+                                //    }
+                                //    //htmlContent.Append(str);
+                                //}
+
+                                // Copy HTML data to clipboard
+                                ClipboardService.SetText(htmlContent.ToString());
+                                //Debug.WriteLine($"input file: {customCodeComparer.InputFileName}");
+                                //Debug.WriteLine($"output file: {customCodeComparer.OutoutFileName}");
+                                // Paste content to Excel
+                                Excel.Range cell = worksheet.Cells[_startCellIndex, 2];
+                                cell.Select();
+                                worksheet.Paste();
+                                Thread.Sleep(10);
+
+                                Excel.Range cellinputClass = worksheet.Cells[_startCellIndex, 1];
+                                Excel.Range cellOutputClass = worksheet.Cells[_startCellIndex, 7];
+
+
+                                cellinputClass.Value = customCodeComparer.InputFileName;
+                                cellOutputClass.Value = customCodeComparer.OutoutFileName;
+                                // Remove processed item from queue
+                                _startCellIndex = FindACellLastRowIndes();
+                                if (_startCellIndex <= 0)
+                                {
+                                    Debug.WriteLine($"start Index is under zero");
+                                }
+                                else
+                                {
+                                    //Debug.WriteLine($"start Index is {_startCellIndex}");
+                                }
+
+
                             }
-
-                            //foreach (string str in strs)
-                            //{
-                            //    if (!excludeStrs.Any(excludeStr => str.Contains(excludeStr)))
-                            //    {
-                            //        htmlContent.Append(str + Environment.NewLine);
-                            //    }
-                            //    //htmlContent.Append(str);
-                            //}
-
-                            // Copy HTML data to clipboard
-                            ClipboardService.SetText(htmlContent.ToString());
-                            Debug.WriteLine($"input file: {customCodeComparer.InputFileName}");
-                            Debug.WriteLine($"output file: {customCodeComparer.OutoutFileName}");
-                            // Paste content to Excel
-                            Excel.Range cell = worksheet.Cells[_startCellIndex, 2];
-                            cell.Select();
-                            worksheet.Paste();
-                            Thread.Sleep(10);
-
-                            Excel.Range cellinputClass = worksheet.Cells[_startCellIndex, 1];
-                            Excel.Range cellOutputClass = worksheet.Cells[_startCellIndex, 7];
-
-
-                            cellinputClass.Value = customCodeComparer.InputFileName;
-                            cellOutputClass.Value = customCodeComparer.OutoutFileName;
-                            // Remove processed item from queue
-                            _startCellIndex = FindACellLastRowIndes();
-                            if (_startCellIndex <= 0)
-                            {
-                                Debug.WriteLine($"start Index is under zero");
-                            }
-                            else
-                            {
-                                Debug.WriteLine($"start Index is {_startCellIndex}");
-                            }
-
 
                         }
+                        //_fileWrittenEvent.Set();
+                        //_fileSemaphore.Release();
 
                     }
-                    //_fileWrittenEvent.Set();
-                    //_fileSemaphore.Release();
+                    catch (Exception ex)
+                    {
+                        _csvHelper.ExcepCOMExceptionToCsv(_filePath + ".csv", new string[] { customCodeComparer.InputFileName, customCodeComparer.OutoutFileName });
+                        Debug.WriteLine($"File read error: {ex.Message} Error Input : {customCodeComparer.InputFileName} , {customCodeComparer.OutoutFileName}");
+                    }
+                    finally
+                    {
+                        await Task.Delay(300);
+                    }
+                }
+            });
 
-                }
-                catch (Exception ex)
-                {
-                    ICsvHelper csvHelper = new CsvHelper();
-                    csvHelper.ExcepCOMExceptionToCsv(_filePath+".csv", new string[] { customCodeComparer.InputFileName, customCodeComparer.OutoutFileName });
-                    Debug.WriteLine($"File read error: {ex.Message} Error Input : {customCodeComparer.InputFileName} , {customCodeComparer.OutoutFileName}");
-                }
-                finally
-                {
-
-                }
-            }
+            
 
 
         }
@@ -337,6 +374,11 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                 }                
             }
             return files.ToArray();
+        }
+
+        public void SetFilePath(string FilePath)
+        {
+            _filePath = FilePath;
         }
     }
 }
