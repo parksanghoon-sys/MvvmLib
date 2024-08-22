@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x86</Platforms>
+    <ApplicationIcon>file-compare.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,14 @@
     <EmbeddedResource Remove="Properties\**" />
     <None Remove="Properties\**" />
     <Page Remove="Properties\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="file-compare.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="file-compare.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +35,10 @@
     <ProjectReference Include="..\wpfCodeCheck.Main\wpfCodeCheck.Main.csproj" />
     <ProjectReference Include="..\wpfCodeCheck.Component\wpfCodeCheck.Component.csproj" />
     <ProjectReference Include="..\wpfCodeCheck.ProjectChangeTracker\wpfCodeCheck.ProjectChangeTracker.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="file-compare.ico" />
   </ItemGroup>
 
 </Project>
