@@ -65,7 +65,7 @@
                                Grid.RowSpan="2"
                                Background="{TemplateBinding DimmingColor}"
                                Opacity="{TemplateBinding DimmingOpacity}"
-                               Visibility="Collapsed" />    
+                               Visibility="Collapsed" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>

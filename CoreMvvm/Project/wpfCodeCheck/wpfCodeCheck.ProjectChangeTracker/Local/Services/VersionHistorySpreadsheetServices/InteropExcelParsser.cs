@@ -20,6 +20,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         private Excel.Worksheet worksheet = null;
         private int _startRowIndex;
         private int _startCellIndex;
+        private int _excelIndex = 1;             
         private string _resultFilePath = @"D:\Test1\result.txt";
         private static ConcurrentQueue<CustomCodeComparer> _queue = new();
         private static FileSystemWatcher _watcher;
@@ -178,7 +179,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                                 ClipboardService.SetText(htmlContent.ToString());
                                 Thread.Sleep(10);
                                 // Paste content to Excel
-                                Excel.Range cell = worksheet.Cells[_startCellIndex, 2];
+                                Excel.Range cell = worksheet.Cells[_startCellIndex, ECELL.COL_INPUT_LINE];
                                 cell.Select();
                                 worksheet.Paste();
                                 Thread.Sleep(10);
@@ -192,14 +193,45 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                                 //cellOutputClass.Value = customCodeComparer.OutoutFileName;
                                 // Remove processed item from queue
                                 _startCellIndex = FindACellLastRowIndes();
-                                Excel.Range rg1 = worksheet.Range[worksheet.Cells[lastcell , 1], worksheet.Cells[_startCellIndex -2  , 1]];
-                                Excel.Range rg7 = worksheet.Range[worksheet.Cells[lastcell , 7], worksheet.Cells[_startCellIndex -2 , 7]];
-                                rg1.Merge();
-                                rg7.Merge();
-                                rg1.Value = customCodeComparer.InputFileName == string.Empty ? customCodeComparer.OutoutFileName : customCodeComparer.InputFileName;
-                                rg7.Value = "o 기능개선\r\n : ICD v5.3a 적용";
-                                Marshal.ReleaseComObject(rg1);
-                                Marshal.ReleaseComObject(rg7);
+                                Excel.Range rgIndex = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_INDEX], worksheet.Cells[_startCellIndex - 1, ECELL.COL_INDEX]];
+                                Excel.Range rgDataName = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_DATA_NAME], worksheet.Cells[_startCellIndex - 1, ECELL.COL_DATA_NAME]];
+                                Excel.Range rgDatasheetNumber = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_DATASHEET_NUMBER], worksheet.Cells[_startCellIndex - 1, ECELL.COL_DATASHEET_NUMBER]];
+
+                                Excel.Range rgName = worksheet.Range[worksheet.Cells[lastcell , ECELL.COL_CLASSNAME], worksheet.Cells[_startCellIndex -1  , ECELL.COL_CLASSNAME]];
+                                Excel.Range rgSummery = worksheet.Range[worksheet.Cells[lastcell , ECELL.COL_SUMMARY_CELL+  1], worksheet.Cells[_startCellIndex -1 , ECELL.COL_SUMMARY_CELL +1]];
+
+                                rgIndex.Merge();
+                                rgDataName.Merge();
+                                rgDatasheetNumber.Merge();
+                                rgName.Merge();
+                                rgSummery.Merge();
+
+                                rgIndex.Value = _excelIndex.ToString();
+                                rgName.Value = customCodeComparer.InputFileName == string.Empty ? customCodeComparer.OutoutFileName : customCodeComparer.InputFileName;
+                                rgSummery.Value = "o 기능개선\r\n : ICD v5.3a 적용";
+
+                                rgIndex.Borders.LineStyle =Excel.XlLineStyle.xlContinuous;
+                                rgIndex.Borders.Weight = Excel.XlBorderWeight.xlThin;
+
+                                rgDataName.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                                rgDataName.Borders.Weight = Excel.XlBorderWeight.xlThin;
+
+                                rgDatasheetNumber.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                                rgDatasheetNumber.Borders.Weight = Excel.XlBorderWeight.xlThin;
+
+                                rgName.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                                rgName.Borders.Weight = Excel.XlBorderWeight.xlThin;
+
+                                rgSummery.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                                rgSummery.Borders.Weight = Excel.XlBorderWeight.xlThin;
+
+                                Marshal.ReleaseComObject(rgIndex);
+                                Marshal.ReleaseComObject(rgName);
+                                Marshal.ReleaseComObject(rgSummery);
+                                Marshal.ReleaseComObject(rgDataName);
+                                Marshal.ReleaseComObject(rgDatasheetNumber);
+
+                                _excelIndex++;
                             }
 
                         }
@@ -311,14 +343,14 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 
         private int FindACellLastRowIndes()
         {
-            int lastRowA = GetLastUsedRow(worksheet, "B");
-            int lastRowB = GetLastUsedRow(worksheet, "C");
-            int lastRowD = GetLastUsedRow(worksheet, "E");
-            int lastRowE = GetLastUsedRow(worksheet, "F");
+            int lastRowA = GetLastUsedRow(worksheet, ECELL.COL_INPUT_LINE);
+            int lastRowB = GetLastUsedRow(worksheet, ECELL.COL_INPUT_CODE);
+            int lastRowD = GetLastUsedRow(worksheet, ECELL.COL_OUTPUT_LINE +1);
+            int lastRowE = GetLastUsedRow(worksheet, ECELL.COL_OUTPUT_CODE +1);
 
             try
             {
-                int lastRow = Math.Max(Math.Max(lastRowA, lastRowB), Math.Max(lastRowD, lastRowE)) + 2;
+                int lastRow = Math.Max(Math.Max(lastRowA, lastRowB), Math.Max(lastRowD, lastRowE)) + 1;
                 return lastRow;
 
             }
@@ -328,7 +360,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                 return 1;
             }
         }
-        private int GetLastUsedRow(Excel.Worksheet worksheet, string column)
+        private int GetLastUsedRow(Excel.Worksheet worksheet, ECELL column)
         {
             Excel.Range columnRange = worksheet.Columns[column];
 
