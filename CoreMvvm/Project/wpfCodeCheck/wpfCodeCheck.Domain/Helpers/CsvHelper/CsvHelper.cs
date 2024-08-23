@@ -150,10 +150,10 @@ namespace wpfCodeCheck.Domain.Local.Helpers
                     // 파일이 없었을 경우 헤더 작성
                     if (!fileExists)
                     {
-                        sw.WriteLine("Timestamp,InputClass,OutputClass");
+                        sw.WriteLine("Timestamp,InputClass,OutputClass,InputFilePath,OutputFilePath");
                     }
                     // 예외 로그 작성
-                    sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")},{colunms[0]},{colunms[1]}");
+                    sw.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")},{colunms[0]},{colunms[1]},{colunms[2]},{colunms[3]}");
                 }
             }
             catch (Exception logEx)

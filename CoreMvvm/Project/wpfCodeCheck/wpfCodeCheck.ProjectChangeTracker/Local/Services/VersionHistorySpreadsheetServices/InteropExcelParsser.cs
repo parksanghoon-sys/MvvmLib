@@ -14,339 +14,323 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 {
     public class InteropExcelParsser : IExcelPaser
     {
-        private string _filePath;        
+        private string _filePath;
         private Excel.Application excelApp = null;
         private Excel.Workbook workbook = null;
         private Excel.Worksheet worksheet = null;
         private int _startRowIndex;
         private int _startCellIndex;
-        private int _excelIndex = 1;             
+        private int _excelIndex = 1;
         private string _resultFilePath = @"D:\Test1\result.txt";
         private static ConcurrentQueue<CustomCodeComparer> _queue = new();
-        private static FileSystemWatcher _watcher;
+        //private static FileSystemWatcher _watcher;
         private static AutoResetEvent _fileWrittenEvent = new AutoResetEvent(false);
-        private static SemaphoreSlim _fileSemaphore = new SemaphoreSlim(1, 1);
+        //private static SemaphoreSlim _fileSemaphore = new SemaphoreSlim(1, 1);
         private readonly ICsvHelper? _csvHelper;
         private readonly IBaseService<CustomCodeComparer> _baseService;
 
         public InteropExcelParsser(ICsvHelper? csvHelper, IBaseService<CustomCodeComparer> baseService)
-        {            
+        {
             _csvHelper = csvHelper;
             _baseService = baseService;
-        }  
+        }
 
         public async Task WriteExcelAync()
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            await Task.Run(async () =>
+            try
             {
-                try
+                if (_baseService.CompareResult is null)
                 {
-                    if (_baseService.CompareResult is null)
-                    {
-                        Console.WriteLine("Not Data");
-                        return;
-                    }
-                    excelApp = new Excel.Application();
-                    excelApp.Visible = false;
-                    excelApp.DisplayAlerts = false;
+                    Console.WriteLine("Not Data");
+                    return;
+                }
+                excelApp = new Excel.Application();
+                excelApp.Visible = false;
+                excelApp.DisplayAlerts = false;
 
-                    // 새 워크북 추가
-                    workbook = excelApp.Workbooks.Add();
-                    worksheet = (Excel.Worksheet)workbook.Worksheets[1];
+                // 새 워크북 추가
+                workbook = excelApp.Workbooks.Add();
+                worksheet = (Excel.Worksheet)workbook.Worksheets[1];
 
-                    //_watcher = new FileSystemWatcher(Path.GetDirectoryName(_resultFilePath));
-                    //_watcher.Filter = Path.GetFileName(_resultFilePath);
-                    //_watcher.NotifyFilter = NotifyFilters.LastWrite;
-                    //_watcher.Changed += OnFileWatchChanged;
-                    //_watcher.EnableRaisingEvents = true;
+                //_watcher = new FileSystemWatcher(Path.GetDirectoryName(_resultFilePath));
+                //_watcher.Filter = Path.GetFileName(_resultFilePath);
+                //_watcher.NotifyFilter = NotifyFilters.LastWrite;
+                //_watcher.Changed += OnFileWatchChanged;
+                //_watcher.EnableRaisingEvents = true;
 
-                    // 지정된 열에서 마지막 사용된 행 찾기
-                    _startCellIndex = 1;
-                    foreach (var project in _baseService.CompareResult.CompareResults)
-                    {
-                        ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
-                        startInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                        startInfo.Arguments = $"""
+                // 지정된 열에서 마지막 사용된 행 찾기
+                _startCellIndex = 1;
+                foreach (var project in _baseService.CompareResult.CompareResults)
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
+                    startInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                    startInfo.Arguments = $"""
                                                 "@{DirectoryHelper.GetLocalSettingDirectory()}\beyondCli.txt" "{project.InputFilePath}" "{project.OutoutFilePath}" "{_resultFilePath}"
                                                """;
 
-                        // 출력 캡처를 위한 설정
-                        startInfo.RedirectStandardOutput = true;
-                        startInfo.RedirectStandardError = true;
-                        startInfo.UseShellExecute = false;
-                        startInfo.CreateNoWindow = true;
+                    // 출력 캡처를 위한 설정
+                    startInfo.RedirectStandardOutput = true;
+                    startInfo.RedirectStandardError = true;
+                    startInfo.UseShellExecute = false;
+                    startInfo.CreateNoWindow = true;
 
-                        //_fileSemaphore.Wait();
-                        // 프로세스 시작
-                        using (Process process = new Process())
-                        {
-                            process.StartInfo = startInfo;
-                            process.Start();
-
-                            // 표준 출력 및 표준 오류 출력 읽기
-                            string output = process.StandardOutput.ReadToEnd();
-                            string error = process.StandardError.ReadToEnd();
-
-                            process.WaitForExit();
-
-                            if (!string.IsNullOrEmpty(error))
-                            {
-                                Debug.WriteLine("Error:");
-                                Debug.WriteLine(error);
-                            }
-                        }
-                                                
-                        //_fileSemaphore.Release();
-
-                        _queue.Enqueue(project);
-                        //_fileWrittenEvent.WaitOne();
-                        //Thread.Sleep(100);
-                        await WriteExcelAsync();
-                        
-
-                    }
-                    // Wait until all files are processed
-                    //while (!_queue.IsEmpty)
-                    //{
-                    //    OnFileWatchChanged(null, null);
-                    //    await Task.Delay(100); // Polling interval
-                    //}
-
-                    
-                }
-                catch (Exception)
-                {
-                          
-                }
-                finally
-                {
-                    workbook.SaveAs(_filePath);
-                    // COM 개체 해제
-                    if (worksheet != null) Marshal.ReleaseComObject(worksheet);
-                    if (workbook != null) Marshal.ReleaseComObject(workbook);
-                    if (excelApp != null)
+                    //_fileSemaphore.Wait();
+                    // 프로세스 시작
+                    using (Process process = new Process())
                     {
-                        excelApp.Quit();
-                        Marshal.ReleaseComObject(excelApp);
+                        process.StartInfo = startInfo;
+                        process.Start();
+
+                        // 표준 출력 및 표준 오류 출력 읽기
+                        string output = process.StandardOutput.ReadToEnd();
+                        string error = process.StandardError.ReadToEnd();
+
+                        process.WaitForExit();
+
+                        if (!string.IsNullOrEmpty(error))
+                        {
+                            Debug.WriteLine("Error:");
+                            Debug.WriteLine(error);
+                        }
                     }
 
-                    // 가비지 컬렉션 강제 호출
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();                    
+                    //_fileSemaphore.Release();
+
+                    _queue.Enqueue(project);
+                    //_fileWrittenEvent.WaitOne();
+                    //Thread.Sleep(100);
+                    await WriteExcelAsync();
+
 
                 }
+                // Wait until all files are processed
+                //while (!_queue.IsEmpty)
+                //{
+                //    OnFileWatchChanged(null, null);
+                //    await Task.Delay(100); // Polling interval
+                //}
 
-            });
+
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                workbook.SaveAs(_filePath);
+                // COM 개체 해제
+                if (worksheet != null) Marshal.ReleaseComObject(worksheet);
+                if (workbook != null) Marshal.ReleaseComObject(workbook);
+                if (excelApp != null)
+                {
+                    excelApp.Quit();
+                    Marshal.ReleaseComObject(excelApp);
+                }
+
+                // 가비지 컬렉션 강제 호출
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+            }
             stopwatch.Stop();
             // 경과 시간 출력 (시:분:초:밀리초)
             Debug.WriteLine($"Elapsed time: {stopwatch.Elapsed}");
         }
         private async Task WriteExcelAsync()
         {
-            await Task.Run(async() =>
-            {
-                if (File.Exists(_resultFilePath))
-                {
-                    CustomCodeComparer customCodeComparer = null;
-                    try
-                    {
-                        if (_queue.TryDequeue(out customCodeComparer) == true)
-                        {
-                            if (customCodeComparer != null)
-                            {
-                                StringBuilder htmlContent = new StringBuilder();
-                                string[] excludeStrs = { "<tr class=\"SectionGap\"><td colspan=\"5\">&nbsp;</td></tr>", "<br>","File:", "Left file:", "Right file:", "Mode:&nbsp; Differences &nbsp;", "Text Compare", "Produced:" };
-
-                                var strs = SafeReadFromFile(_resultFilePath);
-                                foreach (string str in strs)
-                                {
-                                    if (str == "&nbsp; &nbsp;")
-                                        continue;
-                                    if (!excludeStrs.Any(excludeStr => str.Contains(excludeStr)))
-                                    {
-                                        htmlContent.Append(str);
-                                    }
-                                    else
-                                    {
-                                        Debug.Print(str);
-                                    }
-                                }
-                                int lastcell = _startCellIndex;
-                                // Copy HTML data to clipboard
-                                ClipboardService.SetText(htmlContent.ToString());
-                                Thread.Sleep(10);
-                                // Paste content to Excel
-                                Excel.Range cell = worksheet.Cells[_startCellIndex, ECELL.COL_INPUT_LINE];
-                                cell.Select();
-                                worksheet.Paste();
-                                Thread.Sleep(10);
-
-                                //Excel.Range cellinputClass = worksheet.Cells[_startCellIndex, 1];
-                                //Excel.Range cellOutputClass = worksheet.Cells[_startCellIndex, 7];
-
-      
-
-                                //cellinputClass.Value = customCodeComparer.InputFileName;
-                                //cellOutputClass.Value = customCodeComparer.OutoutFileName;
-                                // Remove processed item from queue
-                                _startCellIndex = FindACellLastRowIndes();
-                                Excel.Range rgIndex = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_INDEX], worksheet.Cells[_startCellIndex - 1, ECELL.COL_INDEX]];
-                                Excel.Range rgDataName = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_DATA_NAME], worksheet.Cells[_startCellIndex - 1, ECELL.COL_DATA_NAME]];
-                                Excel.Range rgDatasheetNumber = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_DATASHEET_NUMBER], worksheet.Cells[_startCellIndex - 1, ECELL.COL_DATASHEET_NUMBER]];
-
-                                Excel.Range rgName = worksheet.Range[worksheet.Cells[lastcell , ECELL.COL_CLASSNAME], worksheet.Cells[_startCellIndex -1  , ECELL.COL_CLASSNAME]];
-                                Excel.Range rgSummery = worksheet.Range[worksheet.Cells[lastcell , ECELL.COL_SUMMARY_CELL+  1], worksheet.Cells[_startCellIndex -1 , ECELL.COL_SUMMARY_CELL +1]];
-
-                                rgIndex.Merge();
-                                rgDataName.Merge();
-                                rgDatasheetNumber.Merge();
-                                rgName.Merge();
-                                rgSummery.Merge();
-
-                                rgIndex.Value = _excelIndex.ToString();
-                                rgName.Value = customCodeComparer.InputFileName == string.Empty ? customCodeComparer.OutoutFileName : customCodeComparer.InputFileName;
-                                rgSummery.Value = "o 기능개선\r\n : ICD v5.3a 적용";
-
-                                rgIndex.Borders.LineStyle =Excel.XlLineStyle.xlContinuous;
-                                rgIndex.Borders.Weight = Excel.XlBorderWeight.xlThin;
-
-                                rgDataName.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
-                                rgDataName.Borders.Weight = Excel.XlBorderWeight.xlThin;
-
-                                rgDatasheetNumber.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
-                                rgDatasheetNumber.Borders.Weight = Excel.XlBorderWeight.xlThin;
-
-                                rgName.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
-                                rgName.Borders.Weight = Excel.XlBorderWeight.xlThin;
-
-                                rgSummery.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
-                                rgSummery.Borders.Weight = Excel.XlBorderWeight.xlThin;
-
-                                Marshal.ReleaseComObject(rgIndex);
-                                Marshal.ReleaseComObject(rgName);
-                                Marshal.ReleaseComObject(rgSummery);
-                                Marshal.ReleaseComObject(rgDataName);
-                                Marshal.ReleaseComObject(rgDatasheetNumber);
-
-                                _excelIndex++;
-                            }
-
-                        }
-                        //_fileWrittenEvent.Set();
-                        //_fileSemaphore.Release();
-
-                    }
-                    catch (Exception ex)
-                    {
-                        _csvHelper!.ExcepCOMExceptionToCsv(_filePath + ".csv", new string[] { customCodeComparer.InputFileName, customCodeComparer.OutoutFileName });
-                        Debug.WriteLine($"File read error: {ex.Message} Error Input : {customCodeComparer.InputFileName} , {customCodeComparer.OutoutFileName}");
-                    }
-                    finally
-                    {
-                      
-                        Thread.Sleep(50);
-                    }
-                }
-            });
-
-            
-
-
-        }
-        private void OnFileWatchChanged(object sender, FileSystemEventArgs e)
-        {
             if (File.Exists(_resultFilePath))
             {
+                CustomCodeComparer customCodeComparer = null;
                 try
                 {
-                    CustomCodeComparer customCodeComparer = null;
                     if (_queue.TryDequeue(out customCodeComparer) == true)
                     {
-                        _fileSemaphore.Wait();
-                        StringBuilder htmlContent = new StringBuilder();
-                        string[] excludeStrs = { "<tr class=\"SectionGap\"><td colspan=\"5\">&nbsp;</td></tr>", "<br>", "Left file:", "File:", "Right file:", "Mode:&nbsp; Differences &nbsp;", "Text Compare", "Produced:" };
-                        //string[] strs = File.ReadAllLines(_resultFilePath);
-
-                        //using (StreamReader reader = new StreamReader(_resultFilePath))
-                        //{
-                        //    string line;
-                        //    while ((line = reader.ReadLine()) != null)
-                        //    {
-                        //        if (!excludeStrs.Any(excludeStr => line.Contains(excludeStr)))
-                        //        {
-                        //            htmlContent.Append(line);
-                        //        }
-                        //        //htmlContent.Append(line);
-                        //    }
-                        //}
-                        var strs = SafeReadFromFile(_resultFilePath);
-                        foreach (string str in strs)
+                        if (customCodeComparer != null)
                         {
+                            StringBuilder htmlContent = new StringBuilder();
+                            string[] excludeStrs = { "<tr class=\"SectionGap\"><td colspan=\"5\">&nbsp;</td></tr>", "<br>", "File:", "Left file:", "Right file:", "Mode:&nbsp; Differences &nbsp;", "Text Compare", "Produced:" };
 
-                            if (!excludeStrs.Any(excludeStr => str.Contains(excludeStr)))
+                            var strs = await SafeReadFromFileAsync(_resultFilePath);
+                            foreach (string str in strs)
                             {
-                                htmlContent.Append(str);
+                                if (str == "&nbsp; &nbsp;")
+                                    continue;
+                                if (!excludeStrs.Any(excludeStr => str.Contains(excludeStr)))
+                                {
+                                    htmlContent.Append(str);
+                                }
+                                else
+                                {
+                                    Debug.Print(str);
+                                }
                             }
+                            int lastcell = _startCellIndex;
+                            // Copy HTML data to clipboard
+                            ClipboardService.SetText(htmlContent.ToString());
+                            Thread.Sleep(10);
+                            // Paste content to Excel
+                            Excel.Range cell = worksheet.Cells[_startCellIndex, ECELL.COL_INPUT_LINE];
+                            cell.Select();
+                            worksheet.Paste();
+                            Thread.Sleep(10);
+
+                            // Remove processed item from queue
+                            _startCellIndex = FindWriteCellLastRowIndes();
+                            Excel.Range rgIndex = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_INDEX], worksheet.Cells[_startCellIndex - 1, ECELL.COL_INDEX]];
+                            Excel.Range rgDataName = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_DATA_NAME], worksheet.Cells[_startCellIndex - 1, ECELL.COL_DATA_NAME]];
+                            Excel.Range rgDatasheetNumber = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_DATASHEET_NUMBER], worksheet.Cells[_startCellIndex - 1, ECELL.COL_DATASHEET_NUMBER]];
+
+                            Excel.Range rgName = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_CLASSNAME], worksheet.Cells[_startCellIndex - 1, ECELL.COL_CLASSNAME]];
+                            Excel.Range rgSummery = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_SUMMARY_CELL + 1], worksheet.Cells[_startCellIndex - 1, ECELL.COL_SUMMARY_CELL + 1]];
+
+                            rgIndex.Merge();
+                            rgDataName.Merge();
+                            rgDatasheetNumber.Merge();
+                            rgName.Merge();
+                            rgSummery.Merge();
+
+                            rgIndex.Value = _excelIndex.ToString();
+                            rgName.Value = customCodeComparer.InputFileName == string.Empty ? customCodeComparer.OutoutFileName : customCodeComparer.InputFileName;
+                            rgSummery.Value = "o 기능개선\r\n : ICD v5.3a 적용";
+
+                            rgIndex.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                            rgIndex.Borders.Weight = Excel.XlBorderWeight.xlThin;
+
+                            rgDataName.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                            rgDataName.Borders.Weight = Excel.XlBorderWeight.xlThin;
+
+                            rgDatasheetNumber.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                            rgDatasheetNumber.Borders.Weight = Excel.XlBorderWeight.xlThin;
+
+                            rgName.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                            rgName.Borders.Weight = Excel.XlBorderWeight.xlThin;
+
+                            rgSummery.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                            rgSummery.Borders.Weight = Excel.XlBorderWeight.xlThin;
+
+                            Marshal.ReleaseComObject(rgIndex);
+                            Marshal.ReleaseComObject(rgName);
+                            Marshal.ReleaseComObject(rgSummery);
+                            Marshal.ReleaseComObject(rgDataName);
+                            Marshal.ReleaseComObject(rgDatasheetNumber);
+
+                            _excelIndex++;
                         }
-                        // Copy HTML data to                        
-                        ClipboardService.SetText(htmlContent.ToString());
-                       
 
-                        // Paste content to Excel
-                        Excel.Range cell = worksheet.Cells[_startCellIndex, 2];
-                        cell.Select();                        
-                        worksheet.Paste();
-                        Thread.Sleep(50);
-                        Excel.Range cellinputClass = worksheet.Cells[_startCellIndex, 1];
-                        Excel.Range cellOutputClass = worksheet.Cells[_startCellIndex, 7];
-
-
-                        cellinputClass.Value = customCodeComparer.InputFileName;
-                        cellOutputClass.Value = customCodeComparer.OutoutFileName;
-                        // Remove processed item from queue
-                        
-                        _startCellIndex = FindACellLastRowIndes();
-                        Debug.WriteLine($"input file: {customCodeComparer.InputFileName}");
-                        Debug.WriteLine($"output file: {customCodeComparer.OutoutFileName}");
-
-                        if (_startCellIndex <= 0)
-                        {
-                            Debug.WriteLine($"start Index is under zero");
-                        }
-                        else
-                        {
-                            Debug.WriteLine($"start Index is {_startCellIndex}");
-                        }
-                        //_fileWrittenEvent.Set();
-                        _fileSemaphore.Release();
                     }
-                    
+                    //_fileWrittenEvent.Set();
+                    //_fileSemaphore.Release();
 
                 }
-                catch (IOException ex)
+                catch (Exception ex)
                 {
-                    Console.WriteLine($"File read error: {ex.Message}");
-                }
-                catch (System.Runtime.InteropServices.COMException ex)
-                {
-                    Console.WriteLine("COM 오류 발생: " + ex.Message);
+                    var csvExceptionData = new string[] { customCodeComparer!.InputFileName, customCodeComparer.OutoutFileName, customCodeComparer.InputFilePath, customCodeComparer.OutoutFilePath };
+                    _csvHelper!.ExcepCOMExceptionToCsv(_filePath + ".csv", csvExceptionData);
+                    Debug.WriteLine($"File read error: {ex.Message} Error Input : {customCodeComparer.InputFileName} , {customCodeComparer.OutoutFileName}");
                 }
                 finally
                 {
 
+                    Thread.Sleep(50);
                 }
             }
-        }
 
-        private int FindACellLastRowIndes()
+        }
+        //private async Task OnFileWatchChanged(object sender, FileSystemEventArgs e)
+        //{
+        //    if (File.Exists(_resultFilePath))
+        //    {
+        //        try
+        //        {
+        //            CustomCodeComparer customCodeComparer = null;
+        //            if (_queue.TryDequeue(out customCodeComparer) == true)
+        //            {
+        //                _fileSemaphore.Wait();
+        //                StringBuilder htmlContent = new StringBuilder();
+        //                string[] excludeStrs = { "<tr class=\"SectionGap\"><td colspan=\"5\">&nbsp;</td></tr>", "<br>", "Left file:", "File:", "Right file:", "Mode:&nbsp; Differences &nbsp;", "Text Compare", "Produced:" };
+        //                //string[] strs = File.ReadAllLines(_resultFilePath);
+
+        //                //using (StreamReader reader = new StreamReader(_resultFilePath))
+        //                //{
+        //                //    string line;
+        //                //    while ((line = reader.ReadLine()) != null)
+        //                //    {
+        //                //        if (!excludeStrs.Any(excludeStr => line.Contains(excludeStr)))
+        //                //        {
+        //                //            htmlContent.Append(line);
+        //                //        }
+        //                //        //htmlContent.Append(line);
+        //                //    }
+        //                //}
+        //                var strs = await SafeReadFromFileAsync(_resultFilePath);
+        //                foreach (string str in strs)
+        //                {
+
+        //                    if (!excludeStrs.Any(excludeStr => str.Contains(excludeStr)))
+        //                    {
+        //                        htmlContent.Append(str);
+        //                    }
+        //                }
+        //                // Copy HTML data to                        
+        //                ClipboardService.SetText(htmlContent.ToString());
+
+
+        //                // Paste content to Excel
+        //                Excel.Range cell = worksheet.Cells[_startCellIndex, 2];
+        //                cell.Select();
+        //                worksheet.Paste();
+        //                Thread.Sleep(50);
+        //                Excel.Range cellinputClass = worksheet.Cells[_startCellIndex, 1];
+        //                Excel.Range cellOutputClass = worksheet.Cells[_startCellIndex, 7];
+
+
+        //                cellinputClass.Value = customCodeComparer.InputFileName;
+        //                cellOutputClass.Value = customCodeComparer.OutoutFileName;
+        //                // Remove processed item from queue
+
+        //                _startCellIndex = FindWriteCellLastRowIndes();
+        //                Debug.WriteLine($"input file: {customCodeComparer.InputFileName}");
+        //                Debug.WriteLine($"output file: {customCodeComparer.OutoutFileName}");
+
+        //                if (_startCellIndex <= 0)
+        //                {
+        //                    Debug.WriteLine($"start Index is under zero");
+        //                }
+        //                else
+        //                {
+        //                    Debug.WriteLine($"start Index is {_startCellIndex}");
+        //                }
+        //                //_fileWrittenEvent.Set();
+        //                _fileSemaphore.Release();
+        //            }
+
+
+        //        }
+        //        catch (IOException ex)
+        //        {
+        //            Console.WriteLine($"File read error: {ex.Message}");
+        //        }
+        //        catch (System.Runtime.InteropServices.COMException ex)
+        //        {
+        //            Console.WriteLine("COM 오류 발생: " + ex.Message);
+        //        }
+        //        finally
+        //        {
+
+        //        }
+        //    }
+        //}
+
+        private int FindWriteCellLastRowIndes()
         {
             int lastRowA = GetLastUsedRow(worksheet, ECELL.COL_INPUT_LINE);
             int lastRowB = GetLastUsedRow(worksheet, ECELL.COL_INPUT_CODE);
-            int lastRowD = GetLastUsedRow(worksheet, ECELL.COL_OUTPUT_LINE +1);
-            int lastRowE = GetLastUsedRow(worksheet, ECELL.COL_OUTPUT_CODE +1);
+            int lastRowD = GetLastUsedRow(worksheet, ECELL.COL_OUTPUT_LINE + 1);
+            int lastRowE = GetLastUsedRow(worksheet, ECELL.COL_OUTPUT_CODE + 1);
 
             try
             {
@@ -370,7 +354,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 
             return lastCell != null ? lastCell.Row : 1; // 셀이 없으면 기본적으로 1행 반환
         }
-        private string[] SafeReadFromFile(string path)
+        private async Task<string[]> SafeReadFromFileAsync(string path)
         {
             int maxRetry = 3;
             int delay = 1000;
@@ -383,7 +367,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                     using (StreamReader reader = new StreamReader(fs))
                     {
                         string line;
-                        while ((line = reader.ReadLine()) != null)
+                        while ((line = await reader.ReadLineAsync()) != null)
                         {
                             files.Add(line);
                         }
@@ -393,7 +377,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                 catch (IOException)
                 {
                     Thread.Sleep(delay);
-                }                
+                }
             }
             return files.ToArray();
         }
