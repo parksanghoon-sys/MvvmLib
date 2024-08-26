@@ -6,6 +6,8 @@ using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Helpers;
 using wpfCodeCheck.Domain.Datas;
+using Newtonsoft.Json;
+using wpfCodeCheck.ProjectChangeTracker.Local.Models;
 
 namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
 {
@@ -19,9 +21,10 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
             _dialogService = dialogService;
             _settingService = settingService;
             _excelPaser = excelPaser;
+            
+            //WeakReferenceMessenger.Default.Register<ComparisonResultsViewModel, CodeDiffReulstModel>(this, OnReceiveCodeInfos);         
             ExportOutputPath = _settingService.GeneralSetting!.OutputExcelPath == string.Empty ? DirectoryHelper.GetLocalDirectory("EXPROT") : _settingService.GeneralSetting.OutputExcelPath;
             ExportOutputFileName = _settingService.GeneralSetting!.OutputExcelFileName == string.Empty ? "SW_Change" : _settingService.GeneralSetting.OutputExcelFileName;
-            //WeakReferenceMessenger.Default.Register<ComparisonResultsViewModel, CodeDiffReulstModel>(this, OnReceiveCodeInfos);
         }
 
         //private void OnReceiveCodeInfos(ComparisonResultsViewModel model1, CodeDiffReulstModel<CustomCodeComparer> model2)
@@ -56,13 +59,21 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
 
             _dialogService.Show(this, typeof(LoadingDialogView), 300, 300);
             
-            await _excelPaser.WriteExcelAync();
+            var isAllSuccess = await _excelPaser.WriteExcelAync();
+            if (isAllSuccess == false)
+            {
+                string jsonFilePath = copyExcelFilePath.Replace(".xlsx", ".json");
+                var jsonStr = File.ReadAllText(jsonFilePath);
+                List<FailClassAnalysisModel> people = JsonConvert.DeserializeObject<List<FailClassAnalysisModel>>(jsonStr);
+            }
 
             _dialogService.Close(typeof(LoadingDialogView));
 
             _settingService.GeneralSetting!.OutputExcelPath = ExportOutputPath;
             _settingService.GeneralSetting!.OutputExcelFileName = ExportOutputFileName;
             _settingService.SaveSetting();
+
+
         }       
     }
 }

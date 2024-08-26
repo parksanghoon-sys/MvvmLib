@@ -21,7 +21,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
             _filePath = FilePath; 
         }
 
-        public async Task WriteExcelAync()
+        public async Task<bool> WriteExcelAync()
         {
             await Task.Run(() =>
             {
@@ -117,7 +117,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                     wb.SaveAs(_filePath);
                 }
             });
-
+            return true;
         }
         private void InputOutputCodeCompaer(IXLWorksheet ws, string inputvalue, string outputvalue)
         {

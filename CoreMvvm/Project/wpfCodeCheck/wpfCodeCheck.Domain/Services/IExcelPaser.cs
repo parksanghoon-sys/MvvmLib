@@ -17,6 +17,6 @@ namespace wpfCodeCheck.Domain.Services
     public interface IExcelPaser
     {
         void SetFilePath(string FilePath);
-        Task  WriteExcelAync();
+        Task<bool>  WriteExcelAync();
     }
 }

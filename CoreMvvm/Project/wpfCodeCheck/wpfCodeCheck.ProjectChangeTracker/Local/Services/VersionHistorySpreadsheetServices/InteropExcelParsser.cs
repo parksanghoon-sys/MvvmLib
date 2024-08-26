@@ -1,13 +1,16 @@
-﻿using System.Collections.Concurrent;
+﻿using Newtonsoft.Json;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using TextCopy;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Helpers;
 using wpfCodeCheck.Domain.Local.Helpers;
 using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.ProjectChangeTracker.Local.Models;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
@@ -28,117 +31,133 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         //private static SemaphoreSlim _fileSemaphore = new SemaphoreSlim(1, 1);
         private readonly ICsvHelper? _csvHelper;
         private readonly IBaseService<CustomCodeComparer> _baseService;
+        private List<FailClassAnalysisModel> _failClassAnalysisModels = new();
 
         public InteropExcelParsser(ICsvHelper? csvHelper, IBaseService<CustomCodeComparer> baseService)
         {
             _csvHelper = csvHelper;
             _baseService = baseService;
         }
-
-        public async Task WriteExcelAync()
+        public void SetFilePath(string FilePath)
+        {
+            _filePath = FilePath;
+        }
+        public async Task<bool> WriteExcelAync()
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-
-            try
+            await Task.Run(async() =>
             {
-                if (_baseService.CompareResult is null)
+                try
                 {
-                    Console.WriteLine("Not Data");
-                    return;
-                }
-                excelApp = new Excel.Application();
-                excelApp.Visible = false;
-                excelApp.DisplayAlerts = false;
+                    if (_baseService.CompareResult is null)
+                    {
+                        Console.WriteLine("Not Data");
+                        return;
+                    }
+                    excelApp = new Excel.Application();
+                    excelApp.Visible = false;
+                    excelApp.DisplayAlerts = false;
 
-                // 새 워크북 추가
-                workbook = excelApp.Workbooks.Add();
-                worksheet = (Excel.Worksheet)workbook.Worksheets[1];
+                    // 새 워크북 추가
+                    workbook = excelApp.Workbooks.Add();
+                    worksheet = (Excel.Worksheet)workbook.Worksheets[1];
 
-                //_watcher = new FileSystemWatcher(Path.GetDirectoryName(_resultFilePath));
-                //_watcher.Filter = Path.GetFileName(_resultFilePath);
-                //_watcher.NotifyFilter = NotifyFilters.LastWrite;
-                //_watcher.Changed += OnFileWatchChanged;
-                //_watcher.EnableRaisingEvents = true;
+                    //_watcher = new FileSystemWatcher(Path.GetDirectoryName(_resultFilePath));
+                    //_watcher.Filter = Path.GetFileName(_resultFilePath);
+                    //_watcher.NotifyFilter = NotifyFilters.LastWrite;
+                    //_watcher.Changed += OnFileWatchChanged;
+                    //_watcher.EnableRaisingEvents = true;
 
-                // 지정된 열에서 마지막 사용된 행 찾기
-                _startCellIndex = 1;
-                foreach (var project in _baseService.CompareResult.CompareResults)
-                {
-                    ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
-                    startInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                    startInfo.Arguments = $"""
+                    // 지정된 열에서 마지막 사용된 행 찾기
+                    _startCellIndex = 1;
+                    foreach (var project in _baseService.CompareResult.CompareResults)
+                    {
+                        ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
+                        startInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                        startInfo.Arguments = $"""
                                                 "@{DirectoryHelper.GetLocalSettingDirectory()}\beyondCli.txt" "{project.InputFilePath}" "{project.OutoutFilePath}" "{_resultFilePath}"
                                                """;
 
-                    // 출력 캡처를 위한 설정
-                    startInfo.RedirectStandardOutput = true;
-                    startInfo.RedirectStandardError = true;
-                    startInfo.UseShellExecute = false;
-                    startInfo.CreateNoWindow = true;
+                        // 출력 캡처를 위한 설정
+                        startInfo.RedirectStandardOutput = true;
+                        startInfo.RedirectStandardError = true;
+                        startInfo.UseShellExecute = false;
+                        startInfo.CreateNoWindow = true;
 
-                    //_fileSemaphore.Wait();
-                    // 프로세스 시작
-                    using (Process process = new Process())
-                    {
-                        process.StartInfo = startInfo;
-                        process.Start();
-
-                        // 표준 출력 및 표준 오류 출력 읽기
-                        string output = process.StandardOutput.ReadToEnd();
-                        string error = process.StandardError.ReadToEnd();
-
-                        process.WaitForExit();
-
-                        if (!string.IsNullOrEmpty(error))
+                        //_fileSemaphore.Wait();
+                        // 프로세스 시작
+                        using (Process process = new Process())
                         {
-                            Debug.WriteLine("Error:");
-                            Debug.WriteLine(error);
+                            process.StartInfo = startInfo;
+                            process.Start();
+
+                            // 표준 출력 및 표준 오류 출력 읽기
+                            string output = process.StandardOutput.ReadToEnd();
+                            string error = process.StandardError.ReadToEnd();
+
+                            process.WaitForExit();
+
+                            if (!string.IsNullOrEmpty(error))
+                            {
+                                Debug.WriteLine("Error:");
+                                Debug.WriteLine(error);
+                            }
                         }
+
+                        //_fileSemaphore.Release();
+
+                        _queue.Enqueue(project);
+                        //_fileWrittenEvent.WaitOne();
+                        //Thread.Sleep(100);
+                        await WriteExcelAsync();
+
+
                     }
-
-                    //_fileSemaphore.Release();
-
-                    _queue.Enqueue(project);
-                    //_fileWrittenEvent.WaitOne();
-                    //Thread.Sleep(100);
-                    await WriteExcelAsync();
+                    // Wait until all files are processed
+                    //while (!_queue.IsEmpty)
+                    //{
+                    //    OnFileWatchChanged(null, null);
+                    //    await Task.Delay(100); // Polling interval
+                    //}
 
 
                 }
-                // Wait until all files are processed
-                //while (!_queue.IsEmpty)
-                //{
-                //    OnFileWatchChanged(null, null);
-                //    await Task.Delay(100); // Polling interval
-                //}
-
-
-            }
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
-                workbook.SaveAs(_filePath);
-                // COM 개체 해제
-                if (worksheet != null) Marshal.ReleaseComObject(worksheet);
-                if (workbook != null) Marshal.ReleaseComObject(workbook);
-                if (excelApp != null)
+                catch (Exception)
                 {
-                    excelApp.Quit();
-                    Marshal.ReleaseComObject(excelApp);
+
                 }
+                finally
+                {
+                    workbook.SaveAs(_filePath);
+                    // COM 개체 해제
+                    if (worksheet != null) Marshal.ReleaseComObject(worksheet);
+                    if (workbook != null) Marshal.ReleaseComObject(workbook);
+                    if (excelApp != null)
+                    {
+                        excelApp.Quit();
+                        Marshal.ReleaseComObject(excelApp);
+                    }
+                    
+                    // 가비지 컬렉션 강제 호출
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
 
-                // 가비지 컬렉션 강제 호출
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-
-            }
+                }
+            });            
             stopwatch.Stop();
             // 경과 시간 출력 (시:분:초:밀리초)
             Debug.WriteLine($"Elapsed time: {stopwatch.Elapsed}");
+                   
+            if (File.Exists(_filePath + ".csv") is true)
+            {
+                string json = JsonConvert.SerializeObject(_failClassAnalysisModels);
+                string jsonFilePath = _filePath.Replace(".xlsx", ".json");
+                File.WriteAllText(jsonFilePath, json);
+                return false;
+            }                            
+            return true;
+
         }
         private async Task WriteExcelAsync()
         {
@@ -165,7 +184,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                                 }
                                 else
                                 {
-                                    Debug.Print(str);
+                                    //Debug.Print(str);
                                 }
                             }
                             int lastcell = _startCellIndex;
@@ -229,6 +248,20 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                 catch (Exception ex)
                 {
                     var csvExceptionData = new string[] { customCodeComparer!.InputFileName, customCodeComparer.OutoutFileName, customCodeComparer.InputFilePath, customCodeComparer.OutoutFilePath };
+                    FailClassAnalysisModel fail = new FailClassAnalysisModel( 
+                        inputFile: new FileEntity()
+                        {
+                            FileName = customCodeComparer!.InputFileName,
+                            FilePath = customCodeComparer!.InputFilePath,
+                        },
+                        outputFile : new FileEntity()
+                        {
+                            FileName = customCodeComparer!.OutoutFileName,
+                            FilePath = customCodeComparer!.OutoutFilePath,
+                        }
+                        );
+                    _failClassAnalysisModels.Add(fail);
+                    
                     _csvHelper!.ExcepCOMExceptionToCsv(_filePath + ".csv", csvExceptionData);
                     Debug.WriteLine($"File read error: {ex.Message} Error Input : {customCodeComparer.InputFileName} , {customCodeComparer.OutoutFileName}");
                 }
@@ -382,9 +415,6 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
             return files.ToArray();
         }
 
-        public void SetFilePath(string FilePath)
-        {
-            _filePath = FilePath;
-        }
+     
     }
 }

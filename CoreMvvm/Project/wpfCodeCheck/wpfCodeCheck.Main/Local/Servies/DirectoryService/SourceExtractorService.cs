@@ -13,10 +13,8 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
         {
             _fileCheckSum = fileCheckSum;
         }
-        public Task<List<CodeInfoModel>> GetDirectoryCodeFileInfosAsync(string path)
-        {
-            return Task.Run(() =>
-            {
+        public async Task<List<CodeInfoModel>> GetDirectoryCodeFileInfosAsync(string path)
+        {     
                 if (!Directory.Exists(path))
                 {
                     throw new DirectoryNotFoundException($"The directory '{path}' does not exist.");
@@ -49,12 +47,12 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                             {
                                 using (StreamReader sr = new StreamReader(fs1))
                                 {                        
-                                    checkSum = _fileCheckSum.Calculate(sr.ReadToEnd());
+                                    checkSum = _fileCheckSum.Calculate(await sr.ReadToEndAsync());
                                     fs1.Position = 0;
                                     sr.DiscardBufferedData();
                                     while (sr.EndOfStream == false)
                                     {
-                                        string text = sr.ReadLine()??string.Empty;
+                                        string text = await sr.ReadLineAsync()??string.Empty;
                                         lineCnt++;
                                     }
                                 }
@@ -75,7 +73,6 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
 
                 }
                 return codeInfos.OrderBy(x => x.FileName).Distinct(new CodeInfoCompareer()).ToList();
-            });
 
         }
         private IEnumerable<FileInfo> GetFilesExcludingFolders(DirectoryInfo dir, string searchPattern, string[] excludeFiles)

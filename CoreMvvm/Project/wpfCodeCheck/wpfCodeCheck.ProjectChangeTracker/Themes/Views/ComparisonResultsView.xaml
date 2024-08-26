@@ -42,11 +42,15 @@
                             <units:CustomStackPannel ChildSpacing="8" Orientation="Vertical">
                                 <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="OutPut 폴더 경로" />
                                 <componentUnits:LocatorTextBox Text="{Binding ExportOutputPath}" />
+
                                 <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="OutPut 파일 이름" />
-                                <componentUnits:DarkTextBox
-                                    Width="120"
-                                    Height="20"
-                                    Text="{Binding ExportOutputFileName}" />
+                                <componentUnits:DarkTextBox Width="120"
+                                                            Height="25" 
+                                                            Text="{Binding ExportOutputFileName}" />
+                                <!--<TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="Fail Json 파일 이름" />
+                                <componentUnits:DarkTextBox Width="120"
+                                                            Height="25"
+                                                            Text="{Binding ExportFailReportFileName}" />-->
                                 <componentUnits:BaseButton
                                     Command="{Binding ExportAsyncCommand}"
                                     Content="Export"
