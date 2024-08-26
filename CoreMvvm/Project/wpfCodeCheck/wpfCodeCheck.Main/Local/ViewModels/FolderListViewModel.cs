@@ -42,7 +42,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [Property]
         private CustomObservableCollection<CodeInfoModel> _fileDatas = new();
         [Property]
-        private CodeInfoModel _fileData = new();      
+        private CodeInfoModel _fileData = new();
+        
         private void OnReceiveClearMessage(FolderListViewModel model, EFolderCompareList list)
         {
             if (EFolderCompareList.CLEAR == list)
@@ -67,7 +68,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 //folderInfoList.ForEach(item =>  FileDatas.Add(item));
                 _dialogService.Close(typeof(LoadingDialogView));
                 WeakReferenceMessenger.Default.Send<DirectorySearchResult, FolderCompareViewModel>(new DirectorySearchResult(FolderLIstType, FileDatas));
-            }
+            }            
         }
     }
    

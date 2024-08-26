@@ -36,7 +36,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             IsEnableInputDirectoryList = true;
             IsEnableOutputDirectoryList = false;
             InputDirectoryPath = _settingService.GeneralSetting?.InputPath ?? string.Empty;
-            OutputDirectoryPath = _settingService.GeneralSetting?.OutputPath ?? string.Empty;
+            OutputDirectoryPath = _settingService.GeneralSetting?.OutputPath ?? string.Empty;            
 
             WeakReferenceMessenger.Default.Register<FolderCompareViewModel, DirectorySearchResult>(this, OnReceiveCodeInfos);
         }
@@ -76,6 +76,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private void Export()
         {
             _csvHelper.CreateCSVFile<CodeInfo>(_code2, "CompareProject");
+           
             MessageBox.Show("완료");
         }
         [RelayCommand]
