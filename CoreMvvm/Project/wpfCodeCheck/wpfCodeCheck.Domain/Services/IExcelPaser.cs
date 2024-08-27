@@ -13,10 +13,13 @@ namespace wpfCodeCheck.Domain.Services
         COL_OUTPUT_LINE,
         COL_OUTPUT_CODE,         
         COL_SUMMARY_CELL,
+        COL_ISSUE,
+        COL_CODE
     }
     public interface IExcelPaser
     {
         void SetFilePath(string FilePath);
         Task<bool>  WriteExcelAync();
+        Task<bool> WriteExcelAync(FileEntity inputFile, FileEntity outputFile);
     }
 }

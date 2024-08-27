@@ -153,6 +153,11 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                 }
             }
         }
+
+        public Task<bool> WriteExcelAync(FileEntity inputFile, FileEntity outputFile)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
