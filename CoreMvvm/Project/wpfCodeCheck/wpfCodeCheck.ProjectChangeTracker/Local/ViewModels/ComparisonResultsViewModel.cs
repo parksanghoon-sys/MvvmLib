@@ -8,6 +8,7 @@ using wpfCodeCheck.Domain.Helpers;
 using wpfCodeCheck.Domain.Datas;
 using Newtonsoft.Json;
 using wpfCodeCheck.ProjectChangeTracker.Local.Models;
+using System.Diagnostics;
 
 namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
 {
@@ -22,23 +23,20 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
             _settingService = settingService;
             _excelPaser = excelPaser;
             
-            //WeakReferenceMessenger.Default.Register<ComparisonResultsViewModel, CodeDiffReulstModel>(this, OnReceiveCodeInfos);         
             ExportOutputPath = _settingService.GeneralSetting!.OutputExcelPath == string.Empty ? DirectoryHelper.GetLocalDirectory("EXPROT") : _settingService.GeneralSetting.OutputExcelPath;
             ExportOutputFileName = _settingService.GeneralSetting!.OutputExcelFileName == string.Empty ? "SW_Change" : _settingService.GeneralSetting.OutputExcelFileName;
         }
-
-        //private void OnReceiveCodeInfos(ComparisonResultsViewModel model1, CodeDiffReulstModel<CustomCodeComparer> model2)
-        //{
-        //    if(model2 is not null)
-        //    {
-        //        _diffModel = model2;
-        //    }
-        //}
-
         [Property]
         private string _exportOutputPath =string.Empty;
         [Property]
         private string _exportOutputFileName = string.Empty;
+        [RelayCommand]
+        private void FileOpen()
+        {
+            string filePath = Path.Combine(ExportOutputPath, $"{ExportOutputFileName}.xlsx");
+            //File.Open(filePath, FileMode.Open);
+            Process.Start(filePath);
+        }
         [AsyncRelayCommand]
         private async Task ExportAsync()
         {

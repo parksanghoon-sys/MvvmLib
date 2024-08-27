@@ -51,10 +51,16 @@
                                 <componentUnits:DarkTextBox Width="120"
                                                             Height="25"
                                                             Text="{Binding ExportFailReportFileName}" />-->
-                                <componentUnits:BaseButton
-                                    Command="{Binding ExportAsyncCommand}"
-                                    Content="Export"
-                                    IconType="ArrowAll" />
+                                <units:CustomStackPannel ChildSpacing="5"
+                                                         Orientation="Horizontal">
+                                    <componentUnits:BaseButton Command="{Binding ExportAsyncCommand}" 
+                                                               Content="Export" 
+                                                               IconType="ArrowAll" />
+                                    <componentUnits:BaseButton Command="{Binding FileOpenCommand}"
+                                                               Content="File Open"
+                                                               IconType="FolderOpen" />
+                                </units:CustomStackPannel>
+
                             </units:CustomStackPannel>
                         </Border>
                     </units:CustomAutoGrid>
