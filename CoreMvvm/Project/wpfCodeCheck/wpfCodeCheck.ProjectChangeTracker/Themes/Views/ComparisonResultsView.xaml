@@ -4,7 +4,8 @@
     xmlns:componentUnits="clr-namespace:wpfCodeCheck.Component.UI.Units;assembly=wpfCodeCheck.Component"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
     xmlns:views="clr-namespace:wpfCodeCheck.ProjectChangeTracker.UI.Views"
-    xmlns:wpfLib="clr-namespace:CoreMvvmLib.WPF;assembly=CoreMvvmLib.WPF">
+    xmlns:wpfLib="clr-namespace:CoreMvvmLib.WPF;assembly=CoreMvvmLib.WPF"
+    xmlns:localUnits="clr-namespace:wpfCodeCheck.ProjectChangeTracker.UI.Units">
 
     <Style x:Key="CONTNET.BORDER" TargetType="{x:Type Border}">
         <Setter Property="BorderBrush" Value="#FF272727" />
@@ -39,29 +40,37 @@
                 <ControlTemplate TargetType="{x:Type views:ComparisonResultsView}">
                     <units:CustomAutoGrid Columns="Auto" Rows="Auto,Auto">
                         <Border Style="{StaticResource CONTNET.BORDER}">
-                            <units:CustomStackPannel ChildSpacing="8" Orientation="Vertical">
-                                <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="OutPut 폴더 경로" />
-                                <componentUnits:LocatorTextBox Text="{Binding ExportOutputPath}" />
+                            <units:AutoGrid Rows="Auto,*">
+                                <units:CustomStackPannel ChildSpacing="8" Orientation="Vertical">
+                                    <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="OutPut 폴더 경로" />
+                                    <componentUnits:LocatorTextBox Text="{Binding ExportOutputPath}" />
 
-                                <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="OutPut 파일 이름" />
-                                <componentUnits:DarkTextBox Width="120"
-                                                            Height="25" 
-                                                            Text="{Binding ExportOutputFileName}" />
-                                <!--<TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="Fail Json 파일 이름" />
-                                <componentUnits:DarkTextBox Width="120"
-                                                            Height="25"
-                                                            Text="{Binding ExportFailReportFileName}" />-->
-                                <units:CustomStackPannel ChildSpacing="5"
-                                                         Orientation="Horizontal">
-                                    <componentUnits:BaseButton Command="{Binding ExportAsyncCommand}" 
-                                                               Content="Export" 
-                                                               IconType="ArrowAll" />
-                                    <componentUnits:BaseButton Command="{Binding FileOpenCommand}"
-                                                               Content="File Open"
-                                                               IconType="FolderOpen" />
+                                    <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="OutPut 파일 이름" />
+                                    <componentUnits:DarkTextBox Width="120"
+                                                                Height="25" 
+                                                                Text="{Binding ExportOutputFileName}" />
+                                    <units:CustomStackPannel ChildSpacing="5"
+                                                             Orientation="Horizontal">
+                                        <componentUnits:BaseButton Command="{Binding ExportAsyncCommand}" 
+                                                                   Content="Export" 
+                                                                   IconType="ArrowAll" />
+                                        <componentUnits:BaseButton Command="{Binding FileOpenCommand}"
+                                                                   Content="File Open"
+                                                                   IconType="FolderOpen" />
+                                    </units:CustomStackPannel>
                                 </units:CustomStackPannel>
-
-                            </units:CustomStackPannel>
+                                <units:AutoGrid Grid.Row="1" Columns="*,Auto">
+                                    <localUnits:FailFileListBox Grid.Column="0"/>
+                                    <Grid Grid.Column="1">
+                                        <units:CustomStackPannel ChildSpacing="5">
+                                            <componentUnits:BaseButton Command="{Binding RetryAsyncCommand}" 
+                                                                       Content="Re Try" 
+                                                                       IconType="CogRefreshOutline" />
+                                        </units:CustomStackPannel>
+                                    </Grid>
+                                </units:AutoGrid>
+                            </units:AutoGrid>
+                            
                         </Border>
                     </units:CustomAutoGrid>
                 </ControlTemplate>

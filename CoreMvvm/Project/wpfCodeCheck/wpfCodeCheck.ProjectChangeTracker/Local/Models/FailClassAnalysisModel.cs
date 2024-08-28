@@ -7,8 +7,10 @@ using wpfCodeCheck.Domain.Datas;
 
 namespace wpfCodeCheck.ProjectChangeTracker.Local.Models
 {
-    public record class FailClassAnalysisModel(FileEntity inputFile, FileEntity outputFile)
+    public record class FailClassAnalysisModel()
     {
+        public FileEntity InputFile { get; init; } = new FileEntity();
+        public FileEntity OutputFile { get; init; } = new FileEntity();
         public bool IsSelected { get; set; } = false;
     }
 

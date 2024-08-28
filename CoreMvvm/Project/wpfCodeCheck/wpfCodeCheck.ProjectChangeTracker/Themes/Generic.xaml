@@ -2,6 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:views="clr-namespace:wpfCodeCheck.ProjectChangeTracker.UI.Views">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/wpfCodeCheck.ProjectChangeTracker;Component/Themes/Units/FailFileListBox.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.ProjectChangeTracker;Component/Themes/Units/FailFileListItem.xaml"/>
+        
         <ResourceDictionary Source="/wpfCodeCheck.ProjectChangeTracker;Component/Themes/Views/ComparisonResultsView.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
