@@ -55,7 +55,7 @@ namespace wpfCodeCheck.Main.Local.Servies
         /// <param name="input">The input.</param>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public uint Calculate(string input)
+        public uint ComputeChecksum(byte[] input)
         {
             unchecked
             {

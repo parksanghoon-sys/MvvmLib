@@ -2,6 +2,6 @@
 {
     public interface IFileCheckSum
     {
-        uint Calculate(string input);
+        uint ComputeChecksum(byte[] input);
     }
 }

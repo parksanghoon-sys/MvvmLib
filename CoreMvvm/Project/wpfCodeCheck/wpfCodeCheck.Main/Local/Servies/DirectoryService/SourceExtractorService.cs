@@ -14,13 +14,15 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
             _fileCheckSum = fileCheckSum;
         }
         public async Task<List<CodeInfoModel>> GetDirectoryCodeFileInfosAsync(string path)
-        {     
+        {
+            IList<CodeInfoModel> codeInfos = new List<CodeInfoModel>();
+            await Task.Run(async() =>
+            {
                 if (!Directory.Exists(path))
                 {
                     throw new DirectoryNotFoundException($"The directory '{path}' does not exist.");
                 }
-                IList<CodeInfoModel> codeInfos = new List<CodeInfoModel>();
-
+                
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
 
                 DirectoryInfo[] infos = dirInfo.GetDirectories("*.*", SearchOption.TopDirectoryOnly);
@@ -40,19 +42,23 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                         var fileType = GetFileType(fi.Name);
                         int lineCnt = 0;
                         ulong checkSum = 0;
+                        byte[] inputBytes;
 
                         if (fileType != IconType.Image)
                         {
-                            using (FileStream fs1 = new FileStream(fi.FullName, FileMode.Open, FileAccess.Read))
+                            using (FileStream fs = new FileStream(fi.FullName, FileMode.Open, FileAccess.Read))
                             {
-                                using (StreamReader sr = new StreamReader(fs1))
-                                {                        
-                                    checkSum = _fileCheckSum.Calculate(await sr.ReadToEndAsync());
-                                    fs1.Position = 0;
+                                inputBytes = new byte[fs.Length];
+                                await fs.ReadAsync(inputBytes, 0, (int)fs.Length);
+                                checkSum = _fileCheckSum.ComputeChecksum(inputBytes);
+
+                                using (StreamReader sr = new StreamReader(fs))
+                                {                                    
+                                    fs.Position = 0;
                                     sr.DiscardBufferedData();
                                     while (sr.EndOfStream == false)
                                     {
-                                        string text = await sr.ReadLineAsync()??string.Empty;
+                                        string text = await sr.ReadLineAsync() ?? string.Empty;
                                         lineCnt++;
                                     }
                                 }
@@ -61,18 +67,21 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                         codeInfos.Add(new CodeInfoModel()
                         {
                             ProjectName = projectName,
-                            CreateDate = fi.LastWriteTime.ToString("yyyy-MM-dd"), //fi.CreationTime.ToString("yyyy-MM-dd"),
+                            CreateDate = fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm"), //fi.CreationTime.ToString("yyyy-MM-dd"),
                             FileName = fi.Name,
                             FilePath = fi.FullName.ToString(),
-                            FileSize = fi.Length > 1000 ? string.Format("{0}KB", (double)(fi.Length / 1000)) : string.Format("{0}B", fi.Length),
+                            //FileSize = fi.Length > 1000 ? string.Format("{0}KB", (double)(fi.Length / 1000)) : string.Format("{0}B", fi.Length),
+                            FileSize = fi.Length.ToString(),
                             LineCount = lineCnt,
                             FileType = fileType,
-                            Checksum = checkSum.ToString("x").ToUpper()
+                            Checksum = checkSum.ToString("x8").ToLower()
                         });
                     }
 
                 }
-                return codeInfos.OrderBy(x => x.FileName).Distinct(new CodeInfoCompareer()).ToList();
+                
+            });
+            return codeInfos.OrderBy(x => x.FileName).Distinct(new CodeInfoCompareer()).ToList();
 
         }
         private IEnumerable<FileInfo> GetFilesExcludingFolders(DirectoryInfo dir, string searchPattern, string[] excludeFiles)
