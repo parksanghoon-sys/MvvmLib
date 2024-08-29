@@ -22,7 +22,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private List<DirectorySearchResult> _codeInfos = new List<DirectorySearchResult>(2);
         private IList<FileItem> _code1 = new List<FileItem>();
         private ICollection<FileItem> _code2 = new List<FileItem>();
-        private CodeDiffReulstModel<CompareEntity> _codeCompareModel = new();
+        private DiffReulstModel<CompareEntity> _codeCompareModel = new();
 
         IList<SWDetailedItem> _detailStatementItems = new List<SWDetailedItem>();
 
@@ -94,9 +94,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         {
             WeakReferenceMessenger.Default.Send<EFolderCompareList, FolderListViewModel>(EFolderCompareList.CLEAR);
         }
-        private CodeDiffReulstModel<T> GetCodeCompareModels<T>(IEnumerable<CodeInfoModel> codeInfos)
+        private DiffReulstModel<T> GetCodeCompareModels<T>(IEnumerable<CodeInfoModel> codeInfos)
         {
-            var diffFileModel = new CodeDiffReulstModel<T>();
+            var diffFileModel = new DiffReulstModel<T>();
             List<string> classFile = new List<string>();
             List<string> classFilePath = new List<string>();
             foreach (var item in codeInfos)

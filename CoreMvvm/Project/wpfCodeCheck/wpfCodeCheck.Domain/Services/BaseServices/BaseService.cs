@@ -8,15 +8,15 @@ namespace wpfCodeCheck.Domain.Services
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private CodeDiffReulstModel<T>? _compareModel;    
+        private DiffReulstModel<T>? _compareModel;    
 
-        public CodeDiffReulstModel<T> CompareResult
+        public DiffReulstModel<T> CompareResult
         {
             get => _compareModel ?? throw new ArgumentNullException(nameof(T), "CompareResults cannot be null");
             private set => _compareModel = value;
         }
 
-        public void SetDirectoryCompareReuslt(CodeDiffReulstModel<T> compareResult)
+        public void SetDirectoryCompareReuslt(DiffReulstModel<T> compareResult)
         {
             CompareResult = compareResult;
             OnPropertyChanged(nameof(CompareResult));

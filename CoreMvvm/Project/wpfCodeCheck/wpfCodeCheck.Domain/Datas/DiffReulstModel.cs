@@ -2,7 +2,7 @@
 {
     // TODO : 급해서 혹시몰라서 Generic으로 대처하였는데 추후 리펙토링 예정
     // 무조건 Beyond 형식으로 요청으로 인한 변경
-    public record CodeDiffReulstModel<T>
+    public record DiffReulstModel<T>
     {
         private IList<T>? _compareResults = new List<T>();
 

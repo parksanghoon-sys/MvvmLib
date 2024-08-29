@@ -6,7 +6,6 @@ using wpfCodeCheck.ProjectChangeTracker.Local.ViewModels;
 using wpfCodeCheck.ProjectChangeTracker.UI.Views;
 using wpfCodeCheck.Forms.Local.ViewModels;
 using wpfCodeCheck.Forms.UI.Views;
-using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 using wpfCodeCheck.Main.Local.ViewModels;
 using wpfCodeCheck.Main.UI.Views;
@@ -14,7 +13,6 @@ using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Datas;
-using wpfCodeCheck.Main.Local.Servies.CodeCompare;
 using wpfCodeCheck.Domain.Local.Helpers;
 using wpfCodeCheck.ProjectChangeTracker.Local.Services;
 using wpfCodeCheck.Main.Local.Servies.CheckSumService;
@@ -40,13 +38,14 @@ namespace wpfCodeCheck
             services.AddTransient<FolderListViewModel>();            
 
             services.AddTransient<IFileCheckSum, FileCheckSumCRC32>();
-            services.AddTransient<CodeCompareService>();
-            
-            services.AddTransient<IProjectSourceExtractor<CodeInfoModel>, SourceExtractorService>();
+
+            services.AddTransient<CodeCompareService>();            
+            services.AddTransient<IProjectDirectoryCompare<CodeInfoModel>, SourceDirectoryService>();
+
             services.AddTransient<ICsvHelper, CsvHelper>();
             services.AddTransient<IExcelPaser, InteropExcelParsser>();
 
-            services.AddSingleton<IBaseService<CompareEntity>, CustomBaseService<CompareEntity>>();
+            services.AddSingleton<IBaseService<CompareEntity>, BaseService<CompareEntity>>();
             services.AddSingleton<ISettingService, SettingService>();
 
             base.ConfigureServiceCollection(services);
@@ -73,26 +72,7 @@ namespace wpfCodeCheck
             ServiceLocator.DialogService.RegisterSingleDialog<LoadingDialogView>(true);            
         }      
         protected override Window CreateWindow(IServiceContainer serviceProvider)
-        {
-            //// 실행 파일의 디렉토리 경로를 설정
-            //_settingService.UserAppDataPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            //// 어셈블리 이름을 가져와 프로그램 이름으로 사용
-            //string programName = Assembly.GetExecutingAssembly().GetName().Name;
-
-
-            //// UserAppDataPath를 설정하고, 마지막 8자를 제거
-            //string userAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            //var settingPath = Path.Combine(userAppDataPath.Remove(userAppDataPath.Length - 8), programName);
-
-            //Settings.UserAppDataPath = settingPath;
-
-            //if (Directory.Exists(Settings.UserAppDataPath) == false)
-            //{
-            //    Settings.UserAppDataPath = settingPath;
-            //}
-
-            //Settings.LoadSettings();
+        {          
             return new MainWindowView();            
         }
         public T GetService<T>() where T : class
