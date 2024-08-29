@@ -18,7 +18,7 @@ namespace wpfCodeCheck.Main.Local.Models
         {
             if (ReferenceEquals(null, other))
                 return false;
-            return (this.Checksum == other.Checksum && this.FileName == other.FileName);
+            return (this.Checksum == other.Checksum && this.FileName == other.FileName && this.CreateDate == other.CreateDate);
         }
         public override string ToString()
         {

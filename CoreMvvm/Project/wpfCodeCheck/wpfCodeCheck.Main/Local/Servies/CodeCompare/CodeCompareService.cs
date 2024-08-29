@@ -15,6 +15,9 @@ namespace wpfCodeCheck.Main.Local.Servies.CodeCompare
     {
         public CustomCodeComparer GetCompareResult(CodeInfoModel inputModel, CodeInfoModel outputModel)
         {
+            if (inputModel.FileSize == "0" && outputModel.FileSize == "0")
+                return null;
+
             CompareText sourceDiffList;
             CompareText destinationDiffList;
 
