@@ -23,9 +23,19 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [Property]
         private string _inputDirectoryPath = string.Empty;
         [Property]
-        private string _outputDirectoryPath = string.Empty;
-        [Property]
+        private string _outputDirectoryPath = string.Empty;        
         private EType _inputType;
+        public EType InputType
+        {
+            get => _inputType;
+            set
+            {
+                _inputType = value;
+                SetProperty(ref _inputType, value);
+                OnPropertyChanged(nameof(IsEnbaleComapre));
+            }
+        }
+
     
         public bool IsEnbaleComapre
         {

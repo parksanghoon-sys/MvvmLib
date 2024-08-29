@@ -69,7 +69,7 @@
                                         Content="File"
                                         FontSize="15"
                                         FontWeight="Bold" 
-                                        IsChecked="{Binding InputType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enums:EType.SW_CODE}}"/>
+                                        IsChecked="{Binding InputType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enums:EType.FILE}}"/>
                                 </units:CustomStackPannel>
                             </Border>
                         </Grid>
