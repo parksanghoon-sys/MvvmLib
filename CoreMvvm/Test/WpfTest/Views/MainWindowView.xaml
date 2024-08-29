@@ -301,6 +301,55 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="CustomRadioButton" TargetType="{x:Type RadioButton}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Border x:Name="PART_BackgroundBorder"
+                                BorderThickness="1"
+                                CornerRadius="3"
+                                BorderBrush="#FFA6E0F6">
+                            <Grid x:Name="PART_Grid" Background="Transparent">
+                                <ContentPresenter Margin="2"/>
+                            </Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CheckedStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_Grid" Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="#FF15A9F5"/>
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_Grid" Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="Transparent"/>
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
+                       
+                        <!--<ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="PART_Grid" Property="Background" Value="#FF15A9F5"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="PART_Grid" Property="Background" Value="Transparent"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>-->
+                    </ControlTemplate>
+                    
+                </Setter.Value>
+            </Setter>
+         
+        </Style>
     </Window.Resources>
     <behavior:Interaction.Behaviors>
         <mvvmWpf:EventToCommand Command="{Binding Loaded1Command}" EventName="Loaded" />
@@ -308,6 +357,14 @@
     <Grid>
         <StackPanel>
             <CheckBox Width="40" Content="Test" />
+            <Grid Margin="4 4 4 4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton Grid.Column="0" Style="{StaticResource CustomRadioButton}" Content="Test1" Foreground="#FFFFFF"/>
+                <RadioButton Grid.Column="1" Margin="4" Style="{StaticResource CustomRadioButton}" Content="Test2" Foreground="#FFFFFF"/>
+            </Grid>
             <TextBlock
                 FontSize="12"
                 Foreground="Black"
