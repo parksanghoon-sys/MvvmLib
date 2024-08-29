@@ -28,10 +28,11 @@ namespace wpfCodeCheck.Domain.Local.Helpers
                     DirectoryHelper.CreateDirectory(exportPath);
                     filename += ".csv";
                     var path = Path.Combine(exportPath, filename);
+
                     if (!File.Exists(path) || overwrite)
                     {
-                        // 텍스트 파일 생성
-                        using (var writer = File.CreateText(path + ".temp"))
+                        using (var writer = new FileStream(path, FileMode.Create, FileAccess.Write))
+                        using (StreamWriter streamWriter = new StreamWriter(writer, Encoding.UTF8))
                         {
                             var enumerator = collection.GetEnumerator();
                             if (writeHeader)
@@ -46,7 +47,7 @@ namespace wpfCodeCheck.Domain.Local.Helpers
                                             sb.Append(',');
                                         sb.Append(fieldInfos[i].Name);
                                     }
-                                    sb.Append('\n');                                    
+                                    sb.Append('\n');
                                 }
                             }
 
@@ -64,19 +65,15 @@ namespace wpfCodeCheck.Domain.Local.Helpers
                             }
                             sb.Length -= 1;
 
-                            writer.Write(sb);
-                            writer.Close();
+                            streamWriter.Write(sb.ToString());
                         }
-                        try
-                        {
-                            File.Delete(path);
-                        }
-                        catch { }
-                        File.Move(path + ".temp", path);
+
                         return true;
                     }
                     else
+                    {
                         Console.WriteLine("이미 파일이 존재합니다.");
+                    }
                 }
             }
             catch (Exception e)
