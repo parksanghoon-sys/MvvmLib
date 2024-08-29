@@ -7,6 +7,8 @@
         <ResourceDictionary Source="/wpfCodeCheck.Component;Component/Themes/Units/BaseButton.xaml"/>
         <ResourceDictionary Source="/wpfCodeCheck.Component;Component/Themes/Units/LocatorTextBox.xaml"/>
         <ResourceDictionary Source="/wpfCodeCheck.Component;Component/Themes/Units/DarkTextBox.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.Component;Component/Themes/Units/IConCheckbox.xaml"/>
+        <ResourceDictionary Source="/wpfCodeCheck.Component;Component/Themes/Units/BakcgroundRadioButton.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

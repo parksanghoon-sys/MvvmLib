@@ -1,4 +1,6 @@
-﻿namespace wpfCodeCheck.Domain.UseCases.Settings
+﻿using wpfCodeCheck.Domain.Enums;
+
+namespace wpfCodeCheck.Domain.UseCases.Settings
 {
     [Serializable]
     public class GeneralSetting
@@ -11,5 +13,7 @@
         public string OutputExcelPath { get; set; }
         [Setting("")]
         public string OutputExcelFileName { get; set; }
+        [Setting("Type")]
+        public EType CodeCheckType { get; set; }
     }
 }
