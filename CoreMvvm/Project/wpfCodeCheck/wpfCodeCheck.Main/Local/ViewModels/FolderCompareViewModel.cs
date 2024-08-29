@@ -141,12 +141,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     i++;
                     j++;
                     if (comparisonResult == false)
-                    {
-                        var compareResult = _codeCompareService.GetCompareResult(model1, model2);
-                        if (_codeCompareModel.CompareResults.Contains(compareResult) == false)
-                        {
-                            _codeCompareModel.CompareResults.Add(compareResult);
-                        }
+                    {                     
+                        AddCodeCompreResult(_codeCompareService.GetCompareResult(model1, model2));
+
                         _code1.Add(model1);
                         _code2.Add(model2);
 
@@ -154,39 +151,31 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         model2.ComparisonResult = false;
 
                         detailedItem.을Content = $"""
-                            표 24 서버,정보융합(운용통제용) 원본(소스)파일 목록 순번 00 파일명 {model1.FileName}버전 2 크기 {model1.FileSize}체크섬 {"0x" + model1.Checksum}생성일자 {model1.CreateDate} 라인수 {model1.LineCount} 기능설명 
+                            표 24 서버 정보융합(운용통제용) 원본(소스)파일 목록 순번 00 파일명 {model1.FileName}버전 2 크기 {model1.FileSize}체크섬 {"0x" + model1.Checksum}생성일자 {model1.CreateDate} 라인수 {model1.LineCount} 기능설명 
                             """;
                         detailedItem.으로Content = $"""
-                            표 24 서버,정보융합(운용통제용) 원본(소스)파일 목록 순번 00 파일명 {model2.FileName}버전 3 크기 {model2.FileSize}체크섬 {"0x" + model2.Checksum}생성일자 {model2.CreateDate} 라인수 {model2.LineCount} 기능설명 
+                            표 24 서버 정보융합(운용통제용) 원본(소스)파일 목록 순번 00 파일명 {model2.FileName}버전 3 크기 {model2.FileSize}체크섬 {"0x" + model2.Checksum}생성일자 {model2.CreateDate} 라인수 {model2.LineCount} 기능설명 
                             """;
+                        _detailStatementItems.Add(detailedItem);
                     }
                 }
                 else if (comparison < 0)
                 {
-                    var compareResult = _codeCompareService.GetCompareResult(model1, new CodeInfoModel());
-
-                    if (_codeCompareModel.CompareResults.Contains(compareResult) == false)
-                    {
-                        _codeCompareModel.CompareResults.Add(compareResult);
-                    }
-
+                    AddCodeCompreResult(_codeCompareService.GetCompareResult(model1, new CodeInfoModel()));
                     model1.ComparisonResult = false;
                     _code1.Add(model1);
                     i++;
                     detailedItem.을Content = $"""
-                            표 24 서버,정보융합(운용통제용) 원본(소스)파일 목록 순번 00 파일명 {model1.FileName}버전 2 크기 {model1.FileSize}체크섬 {"0x" + model1.Checksum}생성일자 {model1.CreateDate} 라인수 {model1.LineCount} 기능설명 
+                            표 24 서버 정보융합(운용통제용) 원본(소스)파일 목록 순번 00 파일명 {model1.FileName}버전 2 크기 {model1.FileSize}체크섬 {"0x" + model1.Checksum}생성일자 {model1.CreateDate} 라인수 {model1.LineCount} 기능설명 
                             """;
                     detailedItem.으로Content = $"""
                             -
                             """;
+                    _detailStatementItems.Add(detailedItem);
                 }
                 else
-                {
-                    var compareResult = _codeCompareService.GetCompareResult(new CodeInfoModel(), model2);
-                    if (_codeCompareModel.CompareResults.Contains(compareResult) == false)
-                    {
-                        _codeCompareModel.CompareResults.Add(compareResult);
-                    }
+                {                    
+                    AddCodeCompreResult(_codeCompareService.GetCompareResult(new CodeInfoModel(), model2));
 
                     model2.ComparisonResult = false;
                     _code2.Add(model2);
@@ -195,10 +184,11 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                             -
                             """;
                     detailedItem.으로Content = $"""
-                            표 24 서버,정보융합(운용통제용) 원본(소스)파일 목록 순번 00 파일명 {model2.FileName}버전 3 크기 {model2.FileSize}체크섬 {"0x" + model2.Checksum}생성일자 {model2.CreateDate} 라인수 {model2.LineCount} 기능설명 
+                            표 24 서버 정보융합(운용통제용) 원본(소스)파일 목록 순번 00 파일명 {model2.FileName}버전 3 크기 {model2.FileSize}체크섬 {"0x" + model2.Checksum}생성일자 {model2.CreateDate} 라인수 {model2.LineCount} 기능설명 
                             """;
+                    _detailStatementItems.Add(detailedItem);
                 }
-                _detailStatementItems.Add(detailedItem);
+                
             }
 
             // Remaining elements in collection1 are not in collection2
@@ -235,8 +225,17 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             //    }
             //}
             _code2.Distinct();
-            _code1.Distinct();
-
+            _code1.Distinct();            
+        }
+        private bool AddCodeCompreResult(CustomCodeComparer customCodeComparer)
+        {
+            if(customCodeComparer is null)
+                 return false;
+            if (_codeCompareModel.CompareResults.Contains(customCodeComparer) == false)
+            {
+                _codeCompareModel.CompareResults.Add(customCodeComparer);
+            }
+            return true;
         }
     }
 }
