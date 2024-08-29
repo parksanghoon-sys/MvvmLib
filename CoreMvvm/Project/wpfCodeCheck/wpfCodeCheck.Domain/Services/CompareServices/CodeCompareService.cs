@@ -1,19 +1,12 @@
 ﻿using CompareEngine;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wpfCodeCheck.Domain.Datas;
-using wpfCodeCheck.Main.Local.Models;
 
-namespace wpfCodeCheck.Main.Local.Servies.CodeCompare
+namespace wpfCodeCheck.Domain.Services
 {
-    public class CodeCompareService
+    public class CodeCompareService : ICompare
     {
-        public CompareEntity GetCompareResult(CodeInfoModel inputModel, CodeInfoModel outputModel)
+        public CompareEntity GetCompareResult(FileItem inputModel, FileItem outputModel)
         {
             if (inputModel.FileSize == "0" && outputModel.FileSize == "0")
                 return null;

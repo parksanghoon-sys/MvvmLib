@@ -1,6 +1,6 @@
 ﻿namespace wpfCodeCheck.Domain.Datas
 {
-    public class CodeInfo : FileEntity
+    public class FileItem : FileEntity
     {
         public string DirectoryPath { get; set; } = string.Empty;
         public string ProjectName { get; set; } = string.Empty;        
@@ -10,6 +10,6 @@
         public string Checksum { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Csc { get; set; } = string.Empty;
-               
+        public int Depth { get; set; }        
     }
 }

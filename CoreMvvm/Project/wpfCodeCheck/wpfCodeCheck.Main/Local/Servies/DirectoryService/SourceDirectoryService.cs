@@ -5,11 +5,11 @@ using wpfCodeCheck.Main.Local.Models;
 
 namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
 {
-    public class SourceExtractorService : IProjectSourceExtractor<CodeInfoModel>
+    public class SourceDirectoryService : IProjectDirectoryCompare<CodeInfoModel>
     {
         private readonly IFileCheckSum _fileCheckSum;
 
-        public SourceExtractorService(IFileCheckSum fileCheckSum)
+        public SourceDirectoryService(IFileCheckSum fileCheckSum)
         {
             _fileCheckSum = fileCheckSum;
         }
@@ -25,7 +25,7 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
                 
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
 
-                DirectoryInfo[] infos = dirInfo.GetDirectories("*.*", SearchOption.TopDirectoryOnly);
+                DirectoryInfo[] infos = dirInfo.GetDirectories("*.*", SearchOption.TopDirectoryOnly);                
 
                 foreach (DirectoryInfo info in infos)
                 {
@@ -39,52 +39,56 @@ namespace wpfCodeCheck.Main.Local.Servies.DirectoryService
 
                     foreach (var fi in fileInfos)
                     {
-                        var fileType = GetFileType(fi.Name);
-                        int lineCnt = 0;
-                        ulong checkSum = 0;
-                        byte[] inputBytes;
-
-                        if (fileType != IconType.Image)
-                        {
-                            using (FileStream fs = new FileStream(fi.FullName, FileMode.Open, FileAccess.Read))
-                            {
-                                inputBytes = new byte[fs.Length];
-                                await fs.ReadAsync(inputBytes, 0, (int)fs.Length);
-                                checkSum = _fileCheckSum.ComputeChecksum(inputBytes);
-
-                                using (StreamReader sr = new StreamReader(fs))
-                                {                                    
-                                    fs.Position = 0;
-                                    sr.DiscardBufferedData();
-                                    while (sr.EndOfStream == false)
-                                    {
-                                        string text = await sr.ReadLineAsync() ?? string.Empty;
-                                        lineCnt++;
-                                    }
-                                }
-                            }
-                        }
-                        codeInfos.Add(new CodeInfoModel()
-                        {
-                            ProjectName = projectName,
-                            CreateDate = fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm"), //fi.CreationTime.ToString("yyyy-MM-dd"),
-                            FileName = fi.Name,
-                            FilePath = fi.FullName.ToString(),
-                            //FileSize = fi.Length > 1000 ? string.Format("{0}KB", (double)(fi.Length / 1000)) : string.Format("{0}B", fi.Length),
-                            FileSize = fi.Length.ToString(),
-                            LineCount = lineCnt,
-                            FileType = fileType,
-                            Checksum = checkSum.ToString("x8").ToLower()
-                        });
+                        var codeInfo = await GetCodeInfoModelAsync(fi, projectName);
+                        codeInfos.Add(codeInfo);
                     }
-
-                }
-                
+                }                
             });
             return codeInfos.OrderBy(x => x.FileName).Distinct(new CodeInfoCompareer()).ToList();
 
         }
-        private IEnumerable<FileInfo> GetFilesExcludingFolders(DirectoryInfo dir, string searchPattern, string[] excludeFiles)
+        private async Task<CodeInfoModel> GetCodeInfoModelAsync(FileInfo fi, string projectName)
+        {
+            int lineCnt = 0;
+            ulong checkSum = 0;
+            byte[] inputBytes;
+
+            var fileType = GetFileType(fi.Name);
+
+            if (fileType != IconType.Image)
+            {
+                using (FileStream fs = new FileStream(fi.FullName, FileMode.Open, FileAccess.Read))
+                {
+                    inputBytes = new byte[fs.Length];
+                    await fs.ReadAsync(inputBytes, 0, (int)fs.Length);
+                    checkSum = _fileCheckSum.ComputeChecksum(inputBytes);
+
+                    fs.Position = 0;
+                    using (StreamReader sr = new StreamReader(fs))
+                    {
+                        sr.DiscardBufferedData();
+                        while (sr.EndOfStream == false)
+                        {
+                            string text = await sr.ReadLineAsync() ?? string.Empty;
+                            lineCnt++;
+                        }
+                    }
+                }
+            }
+
+            return new CodeInfoModel()
+            {
+                ProjectName = projectName,
+                CreateDate = fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm"),
+                FileName = fi.Name,
+                FilePath = fi.FullName,
+                FileSize = fi.Length.ToString(),
+                LineCount = lineCnt,
+                FileType = fileType,
+                Checksum = checkSum.ToString("x8").ToLower()
+            };
+        }
+        private IEnumerable<FileInfo> GetFilesExcludingFolders(DirectoryInfo dir, string searchPattern, string[] excludeFiles = null)
         {
             var excludeFolders = new[] { "Debug", "Release", "bin", "obj", ".svn", ".git", ".vs", "Properties", "LogHelper.Net.Framework" };
             return dir.EnumerateFiles(searchPattern, SearchOption.AllDirectories)

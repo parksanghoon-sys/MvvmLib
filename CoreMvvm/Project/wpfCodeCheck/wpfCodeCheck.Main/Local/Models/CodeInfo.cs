@@ -5,7 +5,7 @@ using wpfCodeCheck.Domain.Datas;
 
 namespace wpfCodeCheck.Main.Local.Models
 {
-    public class CodeInfoModel : CodeInfo  ,IEquatable<CodeInfo>, INotifyPropertyChanged
+    public class CodeInfoModel : FileItem  ,IEquatable<FileItem>, INotifyPropertyChanged
     {
         private bool _comparisonResult;        
         public bool ComparisonResult
@@ -14,7 +14,8 @@ namespace wpfCodeCheck.Main.Local.Models
             set { _comparisonResult = value; OnPropertyChanged(); }
         }
         public IconType FileType { get; set; }
-        public bool Equals(CodeInfo? other)
+        public List<CodeInfoModel>? Children { get; set; }
+        public bool Equals(FileItem? other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -22,7 +23,7 @@ namespace wpfCodeCheck.Main.Local.Models
         }
         public override string ToString()
         {
-            return $"{FileName} | {Checksum} | {LineCount}";
+            return $"{ComparisonResult}|{FileName} | {Checksum} | {LineCount}";
         }
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")

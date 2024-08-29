@@ -4,7 +4,7 @@ using wpfCodeCheck.Domain.Datas;
 
 namespace wpfCodeCheck.Domain.Services
 {
-    public class CustomBaseService<T> : IBaseService<T>
+    public class BaseService<T> : IBaseService<T>
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -7,7 +7,6 @@ using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Services;
-using wpfCodeCheck.Main.Local.Servies.CodeCompare;
 using wpfCodeCheck.Domain.Local.Helpers;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
@@ -21,8 +20,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
 
         }
         private List<DirectorySearchResult> _codeInfos = new List<DirectorySearchResult>(2);
-        private IList<CodeInfo> _code1 = new List<CodeInfo>();
-        private ICollection<CodeInfo> _code2 = new List<CodeInfo>();
+        private IList<FileItem> _code1 = new List<FileItem>();
+        private ICollection<FileItem> _code2 = new List<FileItem>();
         private CodeDiffReulstModel<CompareEntity> _codeCompareModel = new();
 
         IList<SWDetailedItem> _detailStatementItems = new List<SWDetailedItem>();
@@ -84,7 +83,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private void Export()
         {
 
-            _csvHelper.CreateCSVFile<CodeInfo>(_code2, "CompareProject");
+            _csvHelper.CreateCSVFile<FileItem>(_code2, "CompareProject");
             _csvHelper.CreateCSVFile<SWDetailedItem>(_detailStatementItems, "Detail");
 
 

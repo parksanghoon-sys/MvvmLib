@@ -9,16 +9,17 @@ using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Enums;
 using System.Windows;
 using System.Windows.Threading;
+using wpfCodeCheck.Domain.Datas;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
     internal record DirectorySearchResult(EFolderListType type, CustomObservableCollection<CodeInfoModel> fileDatas);
     public partial class FolderListViewModel : ViewModelBase
     {        
-        private readonly IProjectSourceExtractor<CodeInfoModel> _dierctoryFileInfoService;
+        private readonly IProjectDirectoryCompare<CodeInfoModel> _dierctoryFileInfoService;
         private readonly IDialogService _dialogService;
 
-        public FolderListViewModel(IProjectSourceExtractor<CodeInfoModel> dierctoryFileInfoService, IDialogService dialogService)
+        public FolderListViewModel(IProjectDirectoryCompare<CodeInfoModel> dierctoryFileInfoService, IDialogService dialogService)
         {           
             _dierctoryFileInfoService = dierctoryFileInfoService;
             _dialogService = dialogService;
@@ -42,7 +43,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [Property]
         private CustomObservableCollection<CodeInfoModel> _fileDatas = new();
         [Property]
-        private CodeInfoModel _fileData = new();
+        private FileItem _fileData = new();
         
         private void OnReceiveClearMessage(FolderListViewModel model, EFolderCompareList list)
         {

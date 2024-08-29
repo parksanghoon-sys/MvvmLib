@@ -34,13 +34,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 SetProperty(ref _inputType, value);
                 OnPropertyChanged(nameof(IsEnbaleComapre));
             }
-        }
-
-    
-        public bool IsEnbaleComapre
-        {
-            get { return InputType != EType.NONE; }          
-        }
+        }    
+        public bool IsEnbaleComapre  => InputType != EType.NONE;
 
         [RelayCommand]
         private void Compare()
@@ -51,22 +46,6 @@ namespace wpfCodeCheck.Main.Local.ViewModels
 
             _settingService.SaveSetting();
             WeakReferenceMessenger.Default.Send<EMainViewType>(EMainViewType.FILE_CHECKSUM);
-        }
-
-        //[RelayCommand]
-        //private void FileDialogOpen(string type)
-        //{
-        //    BrowseForFolderDialog dlg = new BrowseForFolderDialog();
-        //    dlg.Title = "Select a folder and click OK!";
-        //    dlg.InitialExpandedFolder = @"D:\Project\01.Program\2023\GcsProject\2.FlightSolution";
-        //    dlg.OKButtonText = "OK!";
-        //    if (true == dlg.ShowDialog())
-        //    {
-        //        if(string.Equals(type,"Input"))
-        //            InputDirectoryPath = dlg.SelectedFolder;
-        //        else
-        //            OutputDirectoryPath = dlg?.SelectedFolder;
-        //    }
-        //}
+        }    
     }
 }

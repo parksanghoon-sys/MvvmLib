@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmark", "benchmark", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "onpenxmlTest", "..\Test\onpenxmlTest\onpenxmlTest.csproj", "{FF563129-35BA-4821-845B-D0FEB1B5D432}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wpfCodeCheck.FilesCompare", "..\Test\wpfCodeCheck.FilesCompare\wpfCodeCheck.FilesCompare.csproj", "{E1B84B0A-7B0B-4663-9A12-A58E578F6E96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceCompare", "..\Test\wpfCodeCheck.FilesCompare\SourceCompare.csproj", "{E1B84B0A-7B0B-4663-9A12-A58E578F6E96}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompareEngine", "..\Test\CompareEngine\CompareEngine.csproj", "{FD59F651-04F1-435B-92E9-D6943D40C8A4}"
 EndProject
@@ -51,7 +51,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wpfCodeCheck.SDDExport", ".
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{81BCE53B-A8DD-4E5E-A47F-265511CBEAC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCSharpParsing", "..\Test\TestCSharpParsing\TestCSharpParsing.csproj", "{4D3A7C30-5B35-48F9-B8FB-D2EBD1503BAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCSharpParsing", "..\Test\TestCSharpParsing\TestCSharpParsing.csproj", "{4D3A7C30-5B35-48F9-B8FB-D2EBD1503BAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileCompare", "..\Test\FileCompare\FileCompare.csproj", "{7B0E478E-F740-49E2-BD42-ED06674CC8DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -213,6 +215,14 @@ Global
 		{4D3A7C30-5B35-48F9-B8FB-D2EBD1503BAF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D3A7C30-5B35-48F9-B8FB-D2EBD1503BAF}.Release|x86.ActiveCfg = Release|Any CPU
 		{4D3A7C30-5B35-48F9-B8FB-D2EBD1503BAF}.Release|x86.Build.0 = Release|Any CPU
+		{7B0E478E-F740-49E2-BD42-ED06674CC8DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B0E478E-F740-49E2-BD42-ED06674CC8DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B0E478E-F740-49E2-BD42-ED06674CC8DF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7B0E478E-F740-49E2-BD42-ED06674CC8DF}.Debug|x86.Build.0 = Debug|Any CPU
+		{7B0E478E-F740-49E2-BD42-ED06674CC8DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B0E478E-F740-49E2-BD42-ED06674CC8DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B0E478E-F740-49E2-BD42-ED06674CC8DF}.Release|x86.ActiveCfg = Release|Any CPU
+		{7B0E478E-F740-49E2-BD42-ED06674CC8DF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -239,6 +249,7 @@ Global
 		{6EAE1C98-7F4E-4724-A68E-D33983AC6562} = {CDCA6496-78CA-41A7-B767-E4E89F5542C6}
 		{4BAE1FDE-0E4E-468B-9F6B-FE8A601FDBA3} = {CDCA6496-78CA-41A7-B767-E4E89F5542C6}
 		{4D3A7C30-5B35-48F9-B8FB-D2EBD1503BAF} = {F4A6AE9B-1A5F-4CC3-BBD0-4D113B6466EA}
+		{7B0E478E-F740-49E2-BD42-ED06674CC8DF} = {F4A6AE9B-1A5F-4CC3-BBD0-4D113B6466EA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D8BD4F46-BB87-4C2E-BB07-041D1617D5C1}

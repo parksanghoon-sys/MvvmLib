@@ -1,6 +1,6 @@
 ﻿namespace wpfCodeCheck.Domain.Services
 {
-    public interface IProjectSourceExtractor<T>
+    public interface IProjectDirectoryCompare<T>
     {
         Task<List<T>> GetDirectoryCodeFileInfosAsync(string path);
     }
