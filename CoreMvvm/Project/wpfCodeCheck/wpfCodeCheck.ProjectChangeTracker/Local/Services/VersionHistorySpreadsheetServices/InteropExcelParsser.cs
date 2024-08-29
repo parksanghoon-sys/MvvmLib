@@ -28,15 +28,15 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         private int _startCellIndex;
         private int _excelIndex = 1;
         private string _resultFilePath = @"D:\Test1\result.txt";
-        private static ConcurrentQueue<CustomCodeComparer> _queue = new();
+        private static ConcurrentQueue<CompareEntity> _queue = new();
         //private static FileSystemWatcher _watcher;
         private static AutoResetEvent _fileWrittenEvent = new AutoResetEvent(false);
         //private static SemaphoreSlim _fileSemaphore = new SemaphoreSlim(1, 1);
         private readonly ICsvHelper? _csvHelper;
-        private readonly IBaseService<CustomCodeComparer> _baseService;
+        private readonly IBaseService<CompareEntity> _baseService;
         private List<FailClassAnalysisModel> _failClassAnalysisModels = new();
 
-        public InteropExcelParsser(ICsvHelper? csvHelper, IBaseService<CustomCodeComparer> baseService)
+        public InteropExcelParsser(ICsvHelper? csvHelper, IBaseService<CompareEntity> baseService)
         {
             _csvHelper = csvHelper;
             _baseService = baseService;
@@ -273,7 +273,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         {
             if (File.Exists(_resultFilePath))
             {
-                CustomCodeComparer customCodeComparer = null;
+                CompareEntity customCodeComparer = null;
                 try
                 {
                     if (_queue.TryDequeue(out customCodeComparer) == true)

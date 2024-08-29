@@ -2,7 +2,7 @@
 
 namespace wpfCodeCheck.Domain.Datas
 {
-    public record CustomCodeComparer : CodeCompareEntity
+    public record CustomCodeComparer : CompareEntity
     {
         public CustomCodeComparer()
         {

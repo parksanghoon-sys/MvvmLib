@@ -1,6 +1,6 @@
 ﻿namespace wpfCodeCheck.Domain.Datas
 {
-    public record CodeCompareEntity
+    public record CompareEntity
     {
         public string InputFilePath { get; set; } = string.Empty;
         public string OutoutFilePath { get; set; } = string.Empty;

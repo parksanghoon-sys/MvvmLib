@@ -23,17 +23,17 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private List<DirectorySearchResult> _codeInfos = new List<DirectorySearchResult>(2);
         private IList<CodeInfo> _code1 = new List<CodeInfo>();
         private ICollection<CodeInfo> _code2 = new List<CodeInfo>();
-        private CodeDiffReulstModel<CustomCodeComparer> _codeCompareModel = new();
+        private CodeDiffReulstModel<CompareEntity> _codeCompareModel = new();
 
         IList<SWDetailedItem> _detailStatementItems = new List<SWDetailedItem>();
 
         private readonly ICsvHelper _csvHelper;
-        private readonly IBaseService<CustomCodeComparer> _baseService;
+        private readonly IBaseService<CompareEntity> _baseService;
         private readonly ISettingService _settingService;
         private readonly CodeCompareService _codeCompareService;
 
         public FolderCompareViewModel(ICsvHelper csvHelper,
-            IBaseService<CustomCodeComparer> baseService,
+            IBaseService<CompareEntity> baseService,
             ISettingService settingService,
             CodeCompareService codeCompareService)
         {
@@ -227,7 +227,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             _code2.Distinct();
             _code1.Distinct();            
         }
-        private bool AddCodeCompreResult(CustomCodeComparer customCodeComparer)
+        private bool AddCodeCompreResult(CompareEntity customCodeComparer)
         {
             if(customCodeComparer is null)
                  return false;

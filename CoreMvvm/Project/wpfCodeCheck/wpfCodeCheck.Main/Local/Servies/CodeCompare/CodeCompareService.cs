@@ -13,7 +13,7 @@ namespace wpfCodeCheck.Main.Local.Servies.CodeCompare
 {
     public class CodeCompareService
     {
-        public CustomCodeComparer GetCompareResult(CodeInfoModel inputModel, CodeInfoModel outputModel)
+        public CompareEntity GetCompareResult(CodeInfoModel inputModel, CodeInfoModel outputModel)
         {
             if (inputModel.FileSize == "0" && outputModel.FileSize == "0")
                 return null;

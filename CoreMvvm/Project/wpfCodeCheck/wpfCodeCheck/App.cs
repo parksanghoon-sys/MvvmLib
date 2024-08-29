@@ -46,7 +46,7 @@ namespace wpfCodeCheck
             services.AddTransient<ICsvHelper, CsvHelper>();
             services.AddTransient<IExcelPaser, InteropExcelParsser>();
 
-            services.AddSingleton<IBaseService<CustomCodeComparer>, CustomBaseService<CustomCodeComparer>>();
+            services.AddSingleton<IBaseService<CompareEntity>, CustomBaseService<CompareEntity>>();
             services.AddSingleton<ISettingService, SettingService>();
 
             base.ConfigureServiceCollection(services);
