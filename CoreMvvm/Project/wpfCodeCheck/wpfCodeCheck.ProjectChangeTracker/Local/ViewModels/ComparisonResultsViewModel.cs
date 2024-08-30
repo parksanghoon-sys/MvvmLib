@@ -12,19 +12,20 @@ using CoreMvvmLib.WPF.Components;
 namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
 {
     public partial class ComparisonResultsViewModel : ViewModelBase
-    {        
+    {
         private readonly IDialogService _dialogService;
         private readonly ISettingService _settingService;
         private readonly IExcelPaser _excelPaser;
         private string _excelFilePath = string.Empty;
         public ComparisonResultsViewModel(IDialogService dialogService, ISettingService settingService, IExcelPaser excelPaser)
-        {            
+        {
             _dialogService = dialogService;
             _settingService = settingService;
             _excelPaser = excelPaser;
-            
+
             ExportOutputPath = _settingService.GeneralSetting!.OutputExcelPath == string.Empty ? DirectoryHelper.GetLocalExportDirectory() : _settingService.GeneralSetting.OutputExcelPath;
             ExportOutputFileName = _settingService.GeneralSetting!.OutputExcelFileName == string.Empty ? "SW_Change" : _settingService.GeneralSetting.OutputExcelFileName;
+            
         }
 
         //private void OnReceiveCodeInfos(ComparisonResultsViewModel model1, CodeDiffReulstModel<CustomCodeComparer> model2)
@@ -36,7 +37,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
         //}
 
         [Property]
-        private string _exportOutputPath =string.Empty;
+        private string _exportOutputPath = string.Empty;
         [Property]
         private string _exportOutputFileName = string.Empty;
         [Property]
@@ -47,7 +48,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
             DirectoryHelper.CreateDirectory(ExportOutputPath);
             string Excel_DATA_PATH = ExportOutputPath;
             //string baseExcelFilepath = Path.Combine(Environment.CurrentDirectory, "SW_Chage.xlsx");
-            _excelFilePath = Path.Combine(ExportOutputPath , ExportOutputFileName +".xlsx");
+            _excelFilePath = Path.Combine(ExportOutputPath, ExportOutputFileName + ".xlsx");
 
 
             if (File.Exists(_excelFilePath) == true)
@@ -57,17 +58,17 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
 
             //File.Copy(baseExcelFilepath, copyExcelFilePath);
 
-            _excelPaser.SetFilePath(_excelFilePath);            
+            _excelPaser.SetFilePath(_excelFilePath);
 
             _dialogService.Show(this, typeof(LoadingDialogView), 300, 300);
-            
+
             var isAllSuccess = await _excelPaser.WriteExcelAync();
             if (isAllSuccess == false)
             {
                 string jsonFilePath = _excelFilePath.Replace(".xlsx", ".json");
                 var jsonStr = File.ReadAllText(jsonFilePath);
                 FailFileDatas.AddRange(JsonConvert.DeserializeObject<List<FailClassAnalysisModel>>(jsonStr));
-                
+
             }
 
             _dialogService.Close(typeof(LoadingDialogView));
@@ -81,19 +82,26 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
         {
             string jsonFilePath = _excelFilePath.Replace(".xlsx", ".json");
 
-            FailFileDatas.Clear();
-
             File.Delete(jsonFilePath);
+            _dialogService.Show(this, typeof(LoadingDialogView), 300, 300);
+
             foreach (var failFile in _failFileDatas)
             {
                 var isSuccess = await _excelPaser.WriteExcelAync(failFile.InputFile, failFile.OutputFile);
-            }            
-            if (File.Exists(jsonFilePath))
-            {
-                var jsonStr = File.ReadAllText(jsonFilePath);
-                
-                FailFileDatas.AddRange(JsonConvert.DeserializeObject<List<FailClassAnalysisModel>>(jsonStr));
-            }                        
+            }
+            FailFileDatas.Clear();
+            //if (File.Exists(jsonFilePath))
+            //{
+            //    var jsonStr = File.ReadAllText(jsonFilePath);
+
+            //    FailFileDatas.AddRange(JsonConvert.DeserializeObject<List<FailClassAnalysisModel>>(jsonStr));
+            //}
+            _dialogService.Close(typeof(LoadingDialogView));
+        }
+        [RelayCommand]
+        private void FileOpen()
+        {
+
         }
     }
 }
