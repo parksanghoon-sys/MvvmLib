@@ -142,7 +142,7 @@ namespace wpfCodeCheck.Domain.Local.Helpers
             bool fileExists = File.Exists(path);
             try
             {
-                using (StreamWriter sw = new StreamWriter(path, true))  // true: 이어쓰기 모드
+                using (StreamWriter sw = new StreamWriter(path, true, Encoding.UTF8))  // true: 이어쓰기 모드
                 {
                     // 파일이 없었을 경우 헤더 작성
                     if (!fileExists)
