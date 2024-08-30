@@ -59,52 +59,15 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                         return;
                     }
                     excelApp = new Excel.Application();
+                    workbook = excelApp.Workbooks.Open(_filePath);
                     excelApp.Visible = false;
                     excelApp.DisplayAlerts = false;
 
-                    // 새 워크북 추가
-                    workbook = excelApp.Workbooks.Add();
+                    // 새 워크북 추가                    
                     worksheet = (Excel.Worksheet)workbook.Worksheets[1];
+                    _startCellIndex = FindWriteCellLastRowIndes();
 
-                    //_watcher = new FileSystemWatcher(Path.GetDirectoryName(_resultFilePath));
-                    //_watcher.Filter = Path.GetFileName(_resultFilePath);
-                    //_watcher.NotifyFilter = NotifyFilters.LastWrite;
-                    //_watcher.Changed += OnFileWatchChanged;
-                    //_watcher.EnableRaisingEvents = true;
-
-                    // 지정된 열에서 마지막 사용된 행 찾기                                        
-
-                    ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
-                    startInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                    startInfo.Arguments = $"""
-                                                "@{DirectoryHelper.GetLocalSettingDirectory()}\beyondCli.txt" "{inputFile.FilePath}" "{outputFile.FilePath}" "{_resultFilePath}"
-                                               """;
-
-                    // 출력 캡처를 위한 설정
-                    startInfo.RedirectStandardOutput = true;
-                    startInfo.RedirectStandardError = true;
-                    startInfo.UseShellExecute = false;
-                    startInfo.CreateNoWindow = true;
-
-                    //_fileSemaphore.Wait();
-                    // 프로세스 시작
-                    using (Process process = new Process())
-                    {
-                        process.StartInfo = startInfo;
-                        process.Start();
-
-                        // 표준 출력 및 표준 오류 출력 읽기
-                        string output = process.StandardOutput.ReadToEnd();
-                        string error = process.StandardError.ReadToEnd();
-
-                        process.WaitForExit();
-
-                        if (!string.IsNullOrEmpty(error))
-                        {
-                            Debug.WriteLine("Error:");
-                            Debug.WriteLine(error);
-                        }
-                    }
+                    var processResult = ProcessBeyondCompareCliExcuteion(inputFile.FilePath, outputFile.FilePath);
 
                     //_fileSemaphore.Release();
                     CustomCodeComparer project = new CustomCodeComparer()
@@ -126,7 +89,9 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                 }
                 finally
                 {
-                    workbook.SaveAs(_filePath);
+                    workbook.Save();
+                    workbook.Close();
+                    excelApp.Quit();
                     // COM 개체 해제
                     if (worksheet != null) Marshal.ReleaseComObject(worksheet);
                     if (workbook != null) Marshal.ReleaseComObject(workbook);
@@ -170,8 +135,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                     //_watcher.NotifyFilter = NotifyFilters.LastWrite;
                     //_watcher.Changed += OnFileWatchChanged;
                     //_watcher.EnableRaisingEvents = true;
-
-                    // 지정된 열에서 마지막 사용된 행 찾기
+                    
                     _startCellIndex = 1;
                     foreach (var project in _baseService.CompareResult.CompareResults)
                     {
@@ -189,38 +153,11 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 
                         //_fileSemaphore.Wait();
                         // 프로세스 시작
-                        using (Process process = new Process())
-                        {
-                            process.StartInfo = startInfo;
-                            process.Start();
-
-                            // 표준 출력 및 표준 오류 출력 읽기
-                            string output = process.StandardOutput.ReadToEnd();
-                            string error = process.StandardError.ReadToEnd();
-
-                            process.WaitForExit();
-
-                            if (!string.IsNullOrEmpty(error))
-                            {
-                                Debug.WriteLine("Error:");
-                                Debug.WriteLine(error);
-                            }
-                        }
-                        if (project.OutoutFileName.Contains("AutoGrid"))
-                        {
-                            Debug.WriteLine("Error:");
-                        }
-                        if (project.OutoutFileName.Contains("TcasControlComboboxStyle.xaml"))
-                        {
-                            Debug.WriteLine("Error:");                            
-                        }
+                        var processResult = ProcessBeyondCompareCliExcuteion(project.InputFilePath, project.OutoutFilePath);
                         //_fileSemaphore.Release();
-
                         _queue.Enqueue(project);
-                        //_fileWrittenEvent.WaitOne();
-                        //Thread.Sleep(100);
-                        await WriteExcelAsync();
 
+                        await WriteExcelAsync();
 
                     }
                     // Wait until all files are processed
@@ -250,7 +187,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 
                     // 가비지 컬렉션 강제 호출
                     GC.Collect();
-                    GC.WaitForPendingFinalizers();
+                    GC.WaitForPendingFinalizers(); 
 
                 }
             });
@@ -296,7 +233,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                                 {
                                     //Debug.Print(str);
                                 }
-                            }
+                            }                            
                             int lastcell = _startCellIndex;
                             // Copy HTML data to clipboard
                             ClipboardService.SetText(htmlContent.ToString());
@@ -401,6 +338,42 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                 return true;
             }
             return false;
+        }
+        private string ProcessBeyondCompareCliExcuteion(string inputFilePath, string outpuFilePath)
+        {
+            string processResult; 
+            ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
+            startInfo.WindowStyle = ProcessWindowStyle.Minimized;
+            startInfo.Arguments = $"""
+                                                "@{DirectoryHelper.GetLocalSettingDirectory()}\beyondCli.txt" "{inputFilePath}" "{outpuFilePath}" "{_resultFilePath}"
+                                               """;
+
+            // 출력 캡처를 위한 설정
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+
+            //_fileSemaphore.Wait();
+            // 프로세스 시작
+            using (Process process = new Process())
+            {
+                process.StartInfo = startInfo;
+                process.Start();
+
+                // 표준 출력 및 표준 오류 출력 읽기
+                string output = process.StandardOutput.ReadToEnd();
+                processResult = process.StandardError.ReadToEnd();
+
+                process.WaitForExit();
+
+                if (!string.IsNullOrEmpty(processResult))
+                {
+                    Debug.WriteLine("Error:");
+                    Debug.WriteLine(processResult);
+                }
+            }
+            return processResult;
         }
         //private async Task OnFileWatchChanged(object sender, FileSystemEventArgs e)
         //{
