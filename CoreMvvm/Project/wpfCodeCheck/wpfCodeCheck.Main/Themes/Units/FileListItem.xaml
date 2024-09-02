@@ -30,8 +30,8 @@
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
+                                Icon="{Binding FileType}"
                                 SnapsToDevicePixels="True"
-                                Icon="{Binding FileType}"                                
                                 UseLayoutRounding="True" />
                             <TextBlock
                                 x:Name="txtFileName"
@@ -40,18 +40,20 @@
                                 VerticalAlignment="Center"
                                 Foreground="#FFFFFF"
                                 Text="{Binding FileName}" />
-                            <TextBlock Grid.Column="2"
-                                       Margin="6,0,6,0"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Right"
-                                       Foreground="#FFFFFF"
-                                       Text="{Binding LineCount}" />
-                            <TextBlock Grid.Column="3"
-                                       Margin="6,0,6,0"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Right"
-                                       Foreground="#CCCCCC"
-                                       Text="{Binding Checksum}" />
+                            <TextBlock
+                                Grid.Column="2"
+                                Margin="6,0,6,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Foreground="#FFFFFF"
+                                Text="{Binding LineCount}" />
+                            <TextBlock
+                                Grid.Column="3"
+                                Margin="6,0,6,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Foreground="#CCCCCC"
+                                Text="{Binding Checksum}" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -61,10 +63,10 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="border" Property="Background" Value="#3256a7" />
                         </Trigger>
-                        <DataTrigger Binding="{Binding ComparisonResult}" Value="True">
+                        <DataTrigger Binding="{Binding IsComparison}" Value="True">
                             <Setter TargetName="txtFileName" Property="Foreground" Value="#F33F5F" />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding ComparisonResult}" Value="false">
+                        <DataTrigger Binding="{Binding IsComparison}" Value="false">
                             <Setter TargetName="txtFileName" Property="Foreground" Value="#FFFFFF" />
                         </DataTrigger>
                     </ControlTemplate.Triggers>
