@@ -16,16 +16,20 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
         private readonly IDialogService _dialogService;
         private readonly ISettingService _settingService;
         private readonly IExcelPaser _excelPaser;
+        private readonly IBaseService _baseService;
         private string _excelFilePath = string.Empty;
-        public ComparisonResultsViewModel(IDialogService dialogService, ISettingService settingService, IExcelPaser excelPaser)
+        public ComparisonResultsViewModel(IDialogService dialogService, 
+            ISettingService settingService, 
+            IExcelPaser excelPaser,
+            IBaseService baseService)
         {
             _dialogService = dialogService;
             _settingService = settingService;
             _excelPaser = excelPaser;
+            _baseService = baseService;
 
             ExportOutputPath = _settingService.GeneralSetting!.OutputExcelPath == string.Empty ? DirectoryHelper.GetLocalExportDirectory() : _settingService.GeneralSetting.OutputExcelPath;
-            ExportOutputFileName = _settingService.GeneralSetting!.OutputExcelFileName == string.Empty ? "SW_Change" : _settingService.GeneralSetting.OutputExcelFileName;
-            
+            ExportOutputFileName = _settingService.GeneralSetting!.OutputExcelFileName == string.Empty ? "SW_Change" : _settingService.GeneralSetting.OutputExcelFileName;            
         }
 
         //private void OnReceiveCodeInfos(ComparisonResultsViewModel model1, CodeDiffReulstModel<CustomCodeComparer> model2)

@@ -33,10 +33,10 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         private static AutoResetEvent _fileWrittenEvent = new AutoResetEvent(false);
         //private static SemaphoreSlim _fileSemaphore = new SemaphoreSlim(1, 1);
         private readonly ICsvHelper? _csvHelper;
-        private readonly IBaseService<CompareEntity> _baseService;
+        private readonly IBaseService _baseService;
         private List<FailClassAnalysisModel> _failClassAnalysisModels = new();
 
-        public InteropExcelParsser(ICsvHelper? csvHelper, IBaseService<CompareEntity> baseService)
+        public InteropExcelParsser(ICsvHelper? csvHelper, IBaseService baseService)
         {
             _csvHelper = csvHelper;
             _baseService = baseService;

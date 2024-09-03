@@ -18,7 +18,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             _settingService = settingService;
             InputDirectoryPath = _settingService.GeneralSetting!.InputPath ?? "";
             OutputDirectoryPath = _settingService.GeneralSetting!.OutputPath ?? "";
-            InputType = _settingService.GeneralSetting!.CodeCheckType;
+            InputType = _settingService.GeneralSetting!.CompareType;
         }
         [Property]
         private string _inputDirectoryPath = string.Empty;
@@ -42,7 +42,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         {
             _settingService.GeneralSetting!.InputPath = InputDirectoryPath;
             _settingService.GeneralSetting!.OutputPath= OutputDirectoryPath;
-            _settingService.GeneralSetting.CodeCheckType = InputType;
+            _settingService.GeneralSetting.CompareType = InputType;
 
             _settingService.SaveSetting();
             WeakReferenceMessenger.Default.Send<EMainViewType>(EMainViewType.FILE_CHECKSUM);

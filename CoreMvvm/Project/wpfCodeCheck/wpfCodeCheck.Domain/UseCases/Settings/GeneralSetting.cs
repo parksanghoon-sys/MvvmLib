@@ -14,6 +14,6 @@ namespace wpfCodeCheck.Domain.UseCases.Settings
         [Setting("")]
         public string OutputExcelFileName { get; set; }
         [Setting("Type")]
-        public EType CodeCheckType { get; set; }
+        public EType CompareType { get; set; }
     }
 }

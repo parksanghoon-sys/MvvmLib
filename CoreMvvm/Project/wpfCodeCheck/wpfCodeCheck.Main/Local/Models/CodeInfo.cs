@@ -3,33 +3,47 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using wpfCodeCheck.Domain.Datas;
 
-namespace wpfCodeCheck.Main.Local.Models
+namespace wpfCodeCheck.Main.Local.Models;
+
+public class CodeInfoModel : BaseNotifyModel
 {
-    public class CodeInfoModel : FileItem  ,IEquatable<FileItem>, INotifyPropertyChanged
+    public string FilePath { get; set; } = string.Empty;
+    public string FileName { get; set; } = string.Empty;
+    public string CreateDate { get; set; } = string.Empty;
+    public string FileSize { get; set; } = string.Empty;
+    public int LineCount { get; set; }
+    public string Checksum { get; set; } = string.Empty;
+    public IconType FileType => GetFileType(FileName);
+
+    private bool _isComparison;
+    public bool IsComparison
     {
-        private bool _comparisonResult;        
-        public bool ComparisonResult
+        get => _isComparison;
+        set
         {
-            get { return _comparisonResult; }
-            set { _comparisonResult = value; OnPropertyChanged(); }
+            _isComparison = value;
+            OnPropertyChanged();
         }
-        public IconType FileType { get; set; }
-        public List<CodeInfoModel>? Children { get; set; }
-        public bool Equals(FileItem? other)
-        {
-            if (ReferenceEquals(null, other))
-                return false;
-            return (this.Checksum == other.Checksum && this.FileName == other.FileName && this.CreateDate == other.CreateDate);
-        }
-        public override string ToString()
-        {
-            return $"{ComparisonResult}|{FileName} | {Checksum} | {LineCount}";
-        }
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
+    }
+    private IconType GetFileType(string fileName)
+    {
+        IconType type = IconType.File;
+        if (fileName.ToLower().EndsWith(".cs") || fileName.ToLower().EndsWith(".cpp") || fileName.ToLower().EndsWith(".cxx"))
+            type = IconType.ConsoleLine;
+        else if (fileName.ToLower().EndsWith(".h"))
+            type = IconType.File;
+        else if (fileName.ToLower().EndsWith(".xaml"))
+            type = IconType.File;
+        else if (fileName.ToLower().EndsWith(".png"))
+            type = IconType.Image;
+        else if (fileName.ToLower().EndsWith(".exe"))
+            type = IconType.File;
+        else if (fileName.ToLower().EndsWith(".dll"))
+            type = IconType.File;
+        else
+            type = IconType.Comment;
+
+        return type;
+
     }
 }

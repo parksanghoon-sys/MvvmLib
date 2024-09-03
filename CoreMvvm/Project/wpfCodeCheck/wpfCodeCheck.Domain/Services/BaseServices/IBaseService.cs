@@ -1,11 +1,14 @@
 ﻿using System.ComponentModel;
 using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Domain.Enums;
 
 namespace wpfCodeCheck.Domain.Services
 {
-    public interface IBaseService<T> : INotifyPropertyChanged
+    public interface IBaseService : INotifyPropertyChanged
     {
-        DiffReulstModel<T> CompareResult { get; }
-        void SetDirectoryCompareReuslt(DiffReulstModel<T> compareResult);
+        DiffReulstModel<CompareEntity> CompareResult { get; }
+        void SetDirectoryCompareReuslt(List<CompareEntity> compareResult);
+        void SetFolderTypeDictionaryFiles(EFolderListType eFolderListType, List<FileCompareModel> fileCompareModels);
+        Dictionary<EFolderListType,List<FileCompareModel>> FolderTypeDirectoryFiles { get; }
     }
 }

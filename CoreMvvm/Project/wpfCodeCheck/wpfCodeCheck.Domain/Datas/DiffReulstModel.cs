@@ -4,9 +4,9 @@
     // 무조건 Beyond 형식으로 요청으로 인한 변경
     public record DiffReulstModel<T>
     {
-        private IList<T>? _compareResults = new List<T>();
+        private List<T>? _compareResults = new List<T>();
 
-        public IList<T> CompareResults
+        public List<T> CompareResults
         {
             get => _compareResults ?? throw new ArgumentNullException(nameof(T), "CompareResults cannot be null");
             set => _compareResults = value ?? throw new ArgumentNullException(nameof(value), "CompareResults cannot be null");

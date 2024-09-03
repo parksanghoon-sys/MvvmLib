@@ -39,13 +39,14 @@ namespace wpfCodeCheck
 
             services.AddTransient<IFileCheckSum, FileCheckSumCRC32>();
 
-            services.AddTransient<CodeCompareService>();            
-            services.AddTransient<IProjectDirectoryCompare<CodeInfoModel>, SourceDirectoryService>();
+            services.AddTransient<CodeCompareService>();
+            services.AddTransient<CompareFactoryService>();
+            services.AddTransient<IProjectDirectoryCompare<FileCompareModel>, SourceDirectoryService>();
 
             services.AddTransient<ICsvHelper, CsvHelper>();
             services.AddTransient<IExcelPaser, InteropExcelParsser>();
 
-            services.AddSingleton<IBaseService<CompareEntity>, BaseService<CompareEntity>>();
+            services.AddSingleton<IBaseService, BaseService>();
             services.AddSingleton<ISettingService, SettingService>();
 
             base.ConfigureServiceCollection(services);
