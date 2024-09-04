@@ -248,7 +248,25 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                             _startCellIndex = FindWriteCellLastRowIndes();
 
                             if (lastcell == _startCellIndex)
+                            {
+                                FailClassAnalysisModel fail = new FailClassAnalysisModel()
+                                {
+                                    InputFile = new FileEntity()
+                                    {
+                                        FileName = customCodeComparer!.InputFileName,
+                                        FilePath = customCodeComparer!.InputFilePath,
+                                    },
+                                    OutputFile = new FileEntity()
+                                    {
+                                        FileName = customCodeComparer.OutoutFileName,
+                                        FilePath = customCodeComparer.OutoutFilePath
+                                    }
+                                };
+
+                                _failClassAnalysisModels.Add(fail);
                                 return true;
+                            }
+                                
                             Excel.Range rgIndex = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_INDEX], worksheet.Cells[_startCellIndex - 1, ECELL.COL_INDEX]];
                             Excel.Range rgDataName = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_DATA_NAME], worksheet.Cells[_startCellIndex - 1, ECELL.COL_DATA_NAME]];
                             Excel.Range rgDatasheetNumber = worksheet.Range[worksheet.Cells[lastcell, ECELL.COL_DATASHEET_NUMBER], worksheet.Cells[_startCellIndex - 1, ECELL.COL_DATASHEET_NUMBER]];

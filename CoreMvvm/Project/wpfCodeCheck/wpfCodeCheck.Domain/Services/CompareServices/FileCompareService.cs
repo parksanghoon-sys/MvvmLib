@@ -35,12 +35,12 @@ namespace wpfCodeCheck.Domain.Services.CompareServices
 
             var dictInput = inputItems?.ToDictionary(item => GetRelativePath(item.FilePath, inputBasePath)) ?? new Dictionary<string, FileCompareModel>();
             var dictOutput = outputItems?.ToDictionary(item => GetRelativePath(item.FilePath, outputBasePath)) ?? new Dictionary<string, FileCompareModel>();
-            
+            allPaths = dictInput?.Keys.Union(dictOutput?.Keys).ToList();
 
-            if (dictOutput is not null && dictInput is not null )            
-                allPaths = dictInput?.Keys.Union(dictOutput?.Keys).ToList();            
-            else            
-                allPaths = dictInput.Keys.ToList() ?? dictOutput.Keys.ToList();            
+            //if (dictOutput is not null && dictInput is not null )            
+                
+            //else            
+            //    allPaths = dictInput.Keys.ToList() ?? dictOutput.Keys.ToList();            
             
 
 
@@ -131,20 +131,21 @@ namespace wpfCodeCheck.Domain.Services.CompareServices
             {
                 diffReulstModel.Add(new CompareEntity
                 {
-                    InputFileName = item1.FileName,
-                    InputFilePath = item1.FilePath,
-                    OutoutFilePath = string.Empty,
-                    OutoutFileName = string.Empty,
+                    InputFileName = string.Empty,
+                    InputFilePath = string.Empty,
+                    OutoutFilePath = item2.FilePath,
+                    OutoutFileName = item2.FileName,
                 });
+                
             }
             else
             {
                 diffReulstModel.Add(new CompareEntity
                 {
-                    InputFileName = string.Empty,
-                    InputFilePath = string.Empty,
-                    OutoutFilePath = item2.FilePath,
-                    OutoutFileName = item2.FileName,
+                    InputFileName = item1.FileName,
+                    InputFilePath = item1.FilePath,
+                    OutoutFilePath = string.Empty,
+                    OutoutFileName = string.Empty,
                 });
             }
         }

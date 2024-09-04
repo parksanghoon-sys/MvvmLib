@@ -12,12 +12,12 @@ internal class Program
 {
     private async static Task Main(string[] args)
     {        
-        string filePath1 = @"D:\Temp\SW변경이력작성\이전실행파일\HDEV-001\PSPC\FlightDisplayManager";
-        string filePath2 = @"D:\Temp\SW변경이력작성\현재실행파일\HDEV-001\PSPC\FlightDisplayManager";
+        string filePath1 = @"D:\Temp\SW변경이력작성\이전소스파일\HDEV-001\DevTargetManagement";
+        string filePath2 = @"D:\Temp\SW변경이력작성\현재소스파일\HDEV-001\DevTargetManagement";
 
         FileCompare fileCompare = new FileCompare();
         var (list1, list2) = await fileCompare.CompareDirectories(filePath1, filePath2);
-        var index = PrintList(list2, 0);
+        //var index = PrintList(list2, 0);
 
         var test = FlattenHierarchy(list1);
 
@@ -25,11 +25,11 @@ internal class Program
         //{
         //    Console.WriteLine(item.FilePath);
         //}
-        //foreach (var item in test)
-        //{
-        //    Console.WriteLine($"INDEX : {item.Index.ToString()} PATH : {item.FilePath} ");
-        //}
-        Console.WriteLine(index.ToString());
+        foreach (var item in test)
+        {
+            Console.WriteLine($"INDEX : {item.Index.ToString()} PATH : {item.FilePath} ");
+        }
+        //Console.WriteLine(index.ToString());
 
     }
     private static int PrintList(List<FileCompareModel> list, int index)
@@ -49,7 +49,7 @@ internal class Program
         }
         return index;
     }
-    private static int Index = 310;
+    private static int Index = 1;
     private static List<FileData> FlattenHierarchy(List<FileCompareModel> list)
     {
         
@@ -96,10 +96,12 @@ public class FileCompare
         var test1 = await dierctoryFileInfo1.GetDirectoryCodeFileInfosAsync(path1);
         var test2 = await dierctoryFileInfo2.GetDirectoryCodeFileInfosAsync(path2);
 
-
+        List<string> extensionOrder = new List<string> { "exe", "dll" }; 
         CompareFileItems(test1, test2, path1, path2);
+        var sortedFiles1 = SortFilesWithChildren(test1, extensionOrder);
+        var sortedFiles2 = SortFilesWithChildren(test2, extensionOrder);
 
-        return (test1, test2);
+        return (sortedFiles1, sortedFiles2);
     }
 
     private string GetRelativePath(string fullPath, string basePath)
@@ -156,7 +158,30 @@ public class FileCompare
             }
         }
     }
-
+    private List<FileCompareModel> SortFilesWithChildren(List<FileCompareModel> files, List<string> extensionOrder)
+    {
+        return files
+            .OrderByDescending(file => file.Children != null && file.Children.Any())            
+            .ThenBy(file =>
+                {
+                    if(file.Checksum != "")
+                    {
+                        int index = extensionOrder.IndexOf(file.FileName.Split(".").Last().ToLower());
+                        return index == -1 ? int.MaxValue : index;
+                    }
+                    return int.MinValue;
+                })
+            .ThenBy(file => file.FileName)            
+            .Select(file =>
+            {
+                if (file.Children != null && file.Children.Any())
+                {
+                    file.Children = SortFilesWithChildren(file.Children, extensionOrder);
+                }
+                return file;
+            })
+            .ToList();
+    }
     private bool CompareFileItemDetails(FileCompareModel item1, FileCompareModel item2)
     {
         return item1.Checksum == item2.Checksum &&
