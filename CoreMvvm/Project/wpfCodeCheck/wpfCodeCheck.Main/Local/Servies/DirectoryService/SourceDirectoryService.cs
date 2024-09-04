@@ -11,7 +11,7 @@ public class SourceDirectoryService : IProjectDirectoryCompare<FileCompareModel>
 {
     private readonly IFileCheckSum _fileCheckSum;
     private readonly ISettingService _settingService;
-    private int _fileIndex = 310;
+    private int _fileIndex = 1;
 
     public SourceDirectoryService(IFileCheckSum fileCheckSum, ISettingService settingService)
     {
@@ -34,17 +34,35 @@ public class SourceDirectoryService : IProjectDirectoryCompare<FileCompareModel>
         });
         //return codeInfos.OrderBy(x => x.FileName).Distinct(new CodeInfoCompareer()).ToList();
 
-        var sortedFiles = codeInfos
-            .OrderBy(file => file.FileName.EndsWith(".exe") ? 0 :
-                             file.FileName.EndsWith(".dll") ? 1 :
-                             file.FileName.EndsWith(".") ? 2 : 3)
-            .ThenBy(file => file.FileName)
-            .ToList();
+        //var sortedFiles = codeInfos
+        //    .OrderBy(file => file.FileName.EndsWith(".exe") ? 0 :
+        //                     file.FileName.EndsWith(".dll") ? 1 :
+        //                     file.FileName.EndsWith(".") ? 2 : 3)
+        //    .ThenBy(file => file.FileName)
+        //    .ToList();
+
+        var sortedFiles = SortFilesWithChildren(codeInfos);
 
         return sortedFiles;
 
     }
-
+    private List<FileCompareModel> SortFilesWithChildren(List<FileCompareModel> files)
+    {
+        return files
+            .OrderBy(file => file.FileName.EndsWith(".exe") ? 0 :
+                             file.FileName.EndsWith(".dll") ? 1 :
+                             file.FileName.EndsWith(".") ? 2 : 3)
+            .ThenBy(file => file.FileName)
+            .Select(file =>
+            {
+                if (file.Children != null && file.Children.Any())
+                {
+                    file.Children = SortFilesWithChildren(file.Children);
+                }
+                return file;
+            })
+            .ToList();
+    }
     private async Task GetFiles(string root, List<FileCompareModel> source, int depth)
     {
         string[] dirs = Directory.GetDirectories(root);
@@ -55,7 +73,7 @@ public class SourceDirectoryService : IProjectDirectoryCompare<FileCompareModel>
             string[] excludeFiles = { "App.xaml.cs", "App.xaml", "AssemblyInfo.cs", "Resources.Designer.cs", "Settings.Designer.cs", "AssemblyAttributes.cs", "ms-persist.xml", "packages.config" };
             var excludeFolders = new[] { "Debug", "Release", "bin", "obj", ".svn", ".git", ".vs", "Properties", "LogHelper.Net.Framework" };
 
-            fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", "*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" }
+            fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", /*"*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" */}
                         .SelectMany(i => GetFilesExcludingFolders(new DirectoryInfo(root), i, excludeFiles, excludeFolders))
                         .ToArray();
 
