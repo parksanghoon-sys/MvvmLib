@@ -1,6 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
 using wpfCodeCheck.Main.Local.Servies;
-using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 
 namespace wpfCodeCheck.FilesCompare
 {

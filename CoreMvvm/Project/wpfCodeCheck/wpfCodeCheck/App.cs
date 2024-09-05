@@ -6,16 +6,17 @@ using wpfCodeCheck.ProjectChangeTracker.Local.ViewModels;
 using wpfCodeCheck.ProjectChangeTracker.UI.Views;
 using wpfCodeCheck.Forms.Local.ViewModels;
 using wpfCodeCheck.Forms.UI.Views;
-using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 using wpfCodeCheck.Main.Local.ViewModels;
 using wpfCodeCheck.Main.UI.Views;
 using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Services;
-using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Local.Helpers;
 using wpfCodeCheck.ProjectChangeTracker.Local.Services;
 using wpfCodeCheck.Main.Local.Servies.CheckSumService;
+using wpfCodeCheck.Main.Local.Servies;
+using wpfCodeCheck.Main.Services;
+using wpfCodeCheck.Domain.Services.DirectoryServices;
 
 namespace wpfCodeCheck
 {
@@ -39,9 +40,9 @@ namespace wpfCodeCheck
 
             services.AddTransient<IFileCheckSum, FileCheckSumCRC32>();
 
-            services.AddTransient<CodeCompareService>();
+            //services.AddTransient<CodeCompareService>();
             services.AddTransient<CompareFactoryService>();
-            services.AddTransient<IProjectDirectoryCompare<FileCompareModel>, SourceDirectoryService>();
+            services.AddTransient<IDirectoryCompare, SourceDirectoryService>();
 
             services.AddTransient<ICsvHelper, CsvHelper>();
             services.AddTransient<IExcelPaser, InteropExcelParsser>();
