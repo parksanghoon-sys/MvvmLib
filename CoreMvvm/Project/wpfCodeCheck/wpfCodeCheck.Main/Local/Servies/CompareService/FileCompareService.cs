@@ -1,9 +1,12 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Local.Helpers;
+using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Domain.Services.CompareServices;
 
 
-namespace wpfCodeCheck.Domain.Services.CompareServices
+namespace wpfCodeCheck.Main.Local.Servies
 {
     public class FileCompareService : CompareBaseService
     {

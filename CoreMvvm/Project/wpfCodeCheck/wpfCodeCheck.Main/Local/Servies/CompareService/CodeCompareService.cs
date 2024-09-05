@@ -1,10 +1,13 @@
 ﻿using CompareEngine;
 using System.Collections;
+using System.IO;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Local.Helpers;
+using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Services.CompareServices;
 
-namespace wpfCodeCheck.Domain.Services
+
+namespace wpfCodeCheck.Main.Local.Servies
 {
     public class CodeCompareService : CompareBaseService
     {
@@ -14,7 +17,7 @@ namespace wpfCodeCheck.Domain.Services
         }
 
         #region Override Method
-        public override Task<List<CompareEntity>> CompareModelCollections(IList<FileCompareModel> inputItems, IList<FileCompareModel> outputItems)
+        public override async Task<List<CompareEntity>> CompareModelCollections(IList<FileCompareModel> inputItems, IList<FileCompareModel> outputItems)
         {
             List<CompareEntity> diffReulstModel = new();
             int i = 0, j = 0;
@@ -50,6 +53,10 @@ namespace wpfCodeCheck.Domain.Services
                             OutoutFileName = item2.FilePath,
                         });
                     }
+                    if (item1.Children != null && item2.Children != null)
+                    {
+                        diffReulstModel.AddRange(await CompareModelCollections(item1.Children, item2.Children));
+                    }
                 }
                 else if (comparison < 0)
                 {
@@ -65,7 +72,10 @@ namespace wpfCodeCheck.Domain.Services
                         OutoutFileName = string.Empty,
                     });
                     i++;
-                  
+                    if (item1.Children != null)
+                    {
+                        diffReulstModel.AddRange(await CompareModelCollections(item1.Children, new List<FileCompareModel>()));
+                    }
                 }
                 else
                 {
@@ -83,6 +93,10 @@ namespace wpfCodeCheck.Domain.Services
                         OutoutFileName = item2.FilePath,
                     });
                     j++;
+                    if (item2.Children != null)
+                    {
+                        diffReulstModel.AddRange(await CompareModelCollections(new List<FileCompareModel>(), item2.Children));
+                    }
                 }
 
             }
@@ -104,7 +118,7 @@ namespace wpfCodeCheck.Domain.Services
             _code2.Distinct();
             _code1.Distinct();
 
-            return Task.FromResult(diffReulstModel);
+            return diffReulstModel;
         }
     
         #endregion
