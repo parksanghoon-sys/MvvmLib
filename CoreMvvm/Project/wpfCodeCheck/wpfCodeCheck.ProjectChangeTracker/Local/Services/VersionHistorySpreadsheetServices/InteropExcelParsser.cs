@@ -27,7 +27,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         private int _startRowIndex;
         private int _startCellIndex;
         private int _excelIndex = 1;
-        private string _resultFilePath = @"D:\Test1\result.txt";
+        private string _resultFilePath = @"D:\Temp\result.txt";
         private static ConcurrentQueue<CompareEntity> _queue = new();
         //private static FileSystemWatcher _watcher;
         private static AutoResetEvent _fileWrittenEvent = new AutoResetEvent(false);
