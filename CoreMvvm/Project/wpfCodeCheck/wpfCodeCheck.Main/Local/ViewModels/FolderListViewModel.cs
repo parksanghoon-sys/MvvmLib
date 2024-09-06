@@ -10,22 +10,27 @@ using wpfCodeCheck.Domain.Enums;
 using System.Windows;
 using wpfCodeCheck.Domain.Datas;
 using System.ComponentModel;
+using wpfCodeCheck.Domain.Services.DirectoryServices;
+using wpfCodeCheck.Main.Services;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
     public partial class FolderListViewModel : ViewModelBase, IDisposable
     {        
-        private readonly IProjectDirectoryCompare<FileCompareModel> _dierctoryFileInfoService;
+        private readonly IDirectoryCompare _dierctoryFileInfoService;
+        private readonly CompareFactoryService _compareFactoryService;
         private readonly IDialogService _dialogService;
         private readonly IBaseService _baseService;
 
-        public FolderListViewModel(IProjectDirectoryCompare<FileCompareModel> dierctoryFileInfoService, 
+        public FolderListViewModel(CompareFactoryService compareFactoryService, 
             IDialogService dialogService,
             IBaseService baseService)
-        {           
-            _dierctoryFileInfoService = dierctoryFileInfoService;
+        {                       
+            _compareFactoryService = compareFactoryService;
             _dialogService = dialogService;
             _baseService = baseService;
+            _dierctoryFileInfoService = compareFactoryService.CreateIDirectoryCompareService();
+
             FileDatas = new();
 
             WeakReferenceMessenger.Default.Register<FolderListViewModel, EFolderCompareList>(this, OnReceiveClearMessage);            

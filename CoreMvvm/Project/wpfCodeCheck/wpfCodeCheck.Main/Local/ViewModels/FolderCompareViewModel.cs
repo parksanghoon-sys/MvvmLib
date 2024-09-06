@@ -7,7 +7,7 @@ using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Services;
-using wpfCodeCheck.Domain.Local.Helpers;
+using wpfCodeCheck.Main.Services;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {

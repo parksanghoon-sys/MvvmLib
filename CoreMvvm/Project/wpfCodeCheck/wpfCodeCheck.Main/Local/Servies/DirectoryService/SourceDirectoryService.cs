@@ -3,20 +3,20 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using System.IO;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Domain.Services.DirectoryServices;
 using wpfCodeCheck.Main.Local.Models;
 
-namespace wpfCodeCheck.Main.Local.Servies.DirectoryService;
+namespace wpfCodeCheck.Main.Local.Servies;
 
-public class SourceDirectoryService : IProjectDirectoryCompare<FileCompareModel>
+public class SourceDirectoryService : IDirectoryCompare
 {
     private readonly IFileCheckSum _fileCheckSum;
-    private readonly ISettingService _settingService;
+
     private int _fileIndex = 1;
 
-    public SourceDirectoryService(IFileCheckSum fileCheckSum, ISettingService settingService)
+    public SourceDirectoryService(IFileCheckSum fileCheckSum)
     {
         _fileCheckSum = fileCheckSum;
-        _settingService = settingService;
     }
     public async Task<List<FileCompareModel>> GetDirectoryCodeFileInfosAsync(string path)
     {
@@ -30,7 +30,7 @@ public class SourceDirectoryService : IProjectDirectoryCompare<FileCompareModel>
             }
             await GetFiles(path, codeInfos, 0);
 
-      
+
         });
         //return codeInfos.OrderBy(x => x.FileName).Distinct(new CodeInfoCompareer()).ToList();
 
@@ -51,7 +51,7 @@ public class SourceDirectoryService : IProjectDirectoryCompare<FileCompareModel>
         return files
             .OrderBy(file => file.FileName.EndsWith(".exe") ? 0 :
                              file.FileName.EndsWith(".dll") ? 1 :
-                             file.FileName.EndsWith(".") ? 2 : 3)
+                             file.FileName.EndsWith("") ? 2 : 3)
             .ThenBy(file => file.FileName)
             .Select(file =>
             {
@@ -68,24 +68,16 @@ public class SourceDirectoryService : IProjectDirectoryCompare<FileCompareModel>
         string[] dirs = Directory.GetDirectories(root);
         FileInfo[] fileInfos;
 
-        if (_settingService.GeneralSetting!.CompareType == Domain.Enums.EType.SW_CODE)
-        {
-            string[] excludeFiles = { "App.xaml.cs", "App.xaml", "AssemblyInfo.cs", "Resources.Designer.cs", "Settings.Designer.cs", "AssemblyAttributes.cs", "ms-persist.xml", "packages.config" };
-            var excludeFolders = new[] { "Debug", "Release", "bin", "obj", ".svn", ".git", ".vs", "Properties", "LogHelper.Net.Framework" };
 
-            fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", /*"*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" */}
-                        .SelectMany(i => GetFilesExcludingFolders(new DirectoryInfo(root), i, excludeFiles, excludeFolders))
-                        .ToArray();
+        string[] excludeFiles = { "App.xaml.cs", "App.xaml", "AssemblyInfo.cs", "Resources.Designer.cs", "Settings.Designer.cs", "AssemblyAttributes.cs", "ms-persist.xml", "packages.config" };
+        var excludeFolders = new[] { "Debug", "Release", "bin", "obj", ".svn", ".git", ".vs", "Properties", "LogHelper.Net.Framework" };
 
-        }
-        else
-        {
-            string[] excludeFiles = { "" };
-            var excludeFolders = new[] { "Debug", "Release", "bin", "obj", ".svn", ".git", ".vs", "Properties" };
-            fileInfos = new string[] { "*.*" }
-              .SelectMany(i => GetFilesExcludingFolders(new DirectoryInfo(root), i, excludeFiles, excludeFolders))
-              .ToArray();
-        }
+        fileInfos = new string[] { "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", /*"*.config", "*.resx", "*.settings", "*.exe", "*.exe.config", "*.xml", "*.csv", "*.wav" */}
+                    .SelectMany(i => GetFilesExcludingFolders(new DirectoryInfo(root), i, excludeFiles, excludeFolders))
+                    .ToArray();
+
+
+
 
 
         foreach (string dir in dirs)
