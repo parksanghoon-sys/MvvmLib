@@ -35,6 +35,7 @@
     <ProjectReference Include="..\wpfCodeCheck.Main\wpfCodeCheck.Main.csproj" />
     <ProjectReference Include="..\wpfCodeCheck.Component\wpfCodeCheck.Component.csproj" />
     <ProjectReference Include="..\wpfCodeCheck.ProjectChangeTracker\wpfCodeCheck.ProjectChangeTracker.csproj" />
+    <ProjectReference Include="..\wpfCodeCheck.SDDExport\wpfCodeCheck.SDDExport.csproj" />
   </ItemGroup>
 
   <ItemGroup>

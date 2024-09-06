@@ -17,6 +17,8 @@ using wpfCodeCheck.Main.Local.Servies.CheckSumService;
 using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.Services;
 using wpfCodeCheck.Domain.Services.DirectoryServices;
+using wpfCodeCheck.SDDExport.UI.Views;
+using wpfCodeCheck.SDDExport.Local.ViewModels;
 
 namespace wpfCodeCheck
 {
@@ -36,6 +38,7 @@ namespace wpfCodeCheck
             services.AddSingleton<ComparisonResultsViewModel>();
             services.AddSingleton<DirectoryCompareViewModel>();
 
+            services.AddTransient<SddExportViewModel>();
             services.AddTransient<FolderListViewModel>();            
 
             services.AddTransient<IFileCheckSum, FileCheckSumCRC32>();
@@ -64,6 +67,7 @@ namespace wpfCodeCheck
             ServiceLocator.RegionManager.RegisterAddView<FolderCompareView>();            
             ServiceLocator.RegionManager.RegisterAddView<ComparisonResultsView>();   
             ServiceLocator.RegionManager.RegisterAddView<DirectoryCompareView>();   
+            ServiceLocator.RegionManager.RegisterAddView<SddExprotView>();   
             
         }
         /// <summary>
