@@ -113,6 +113,8 @@ namespace CoreMvvmLib.Component.UI.Units
         ClipboardCheck,
         FormatListBulleted,
         Cog,
+        Code,
+        Music,
         AccountBox,
         CogOutline,
         Security,
