@@ -15,7 +15,7 @@ namespace wpfCodeCheck.Domain.Services
             get => _compareModel ?? throw new ArgumentNullException(nameof(CompareEntity), "CompareResults cannot be null");
             private set => _compareModel = value;
         }
-        private Dictionary<EFolderListType, List<FileCompareModel>> _folderTypeDirectoryFiles = new();
+        private Dictionary<EFolderListType, List<FileCompareModel>> _folderTypeDirectoryFiles = new(2);
 
         public Dictionary<EFolderListType, List<FileCompareModel>> FolderTypeDirectoryFiles
         {
