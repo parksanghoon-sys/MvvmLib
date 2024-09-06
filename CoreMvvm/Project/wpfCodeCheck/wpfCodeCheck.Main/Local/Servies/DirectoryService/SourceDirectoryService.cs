@@ -85,7 +85,7 @@ public class SourceDirectoryService : IDirectoryCompare
             FileCompareModel item = new();
             item.ProjectName = Path.GetFileNameWithoutExtension(dir);
             item.FilePath = dir;
-            item.FileSize = "";
+            item.FileSize = null;
             item.Depth = depth;
             item.Children = new();
 
@@ -100,7 +100,7 @@ public class SourceDirectoryService : IDirectoryCompare
             item.ProjectName = Path.GetFileNameWithoutExtension(file.FullName);
             item.FileName = file.Name;
             item.FilePath = file.FullName;
-            item.FileSize = file.Length.ToString();
+            item.FileSize = file.Length;
             item.Depth = depth;
             item.CreateDate = file.LastWriteTime.ToString("yyyy-MM-dd HH:mm");
             item.FileIndex = _fileIndex++;

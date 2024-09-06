@@ -5,13 +5,13 @@ namespace wpfCodeCheck.Domain.UseCases.Settings
     [Serializable]
     public class GeneralSetting
     {
-        [Setting("")]
+        [Setting("~ 을 경로")]        
         public string InputPath { get; set; }
-        [Setting("")]
+        [Setting("~ 으로 변경 경로")]
         public string OutputPath { get; set; }
-        [Setting("")]
+        [Setting("EXCEL 출력 경로")]
         public string OutputExcelPath { get; set; }
-        [Setting("")]
+        [Setting("EXCEL 출력 파일 이름")]
         public string OutputExcelFileName { get; set; }
         [Setting("Type")]
         public EType CompareType { get; set; }

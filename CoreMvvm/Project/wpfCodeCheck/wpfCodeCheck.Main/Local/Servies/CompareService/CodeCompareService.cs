@@ -124,7 +124,7 @@ namespace wpfCodeCheck.Main.Local.Servies
         #endregion
         public CompareEntity GetCompareResult(FileItem inputModel, FileItem outputModel)
         {
-            if (inputModel.FileSize == "0" && outputModel.FileSize == "0")
+            if (inputModel.FileSize == null && outputModel.FileSize == null)
                 return null;
 
             CompareText sourceDiffList;

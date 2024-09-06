@@ -1,12 +1,7 @@
 ﻿using CoreMvvmLib.Component.UI.Units;
-using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.EMMA;
-using DocumentFormat.OpenXml.Office.CustomUI;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Services;
-using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Main.Local.Servies;
-using wpfCodeCheck.Main.Local.Servies.DirectoryService;
 
 internal class Program
 {
@@ -37,7 +32,7 @@ internal class Program
 
         foreach (var item in list)
         {
-            if (item.IsComparison == false && item.FileSize != "")
+            if (item.IsComparison == false && item.FileSize != 0)
             {
                 index++;
                 Console.WriteLine(item.FilePath);
@@ -222,7 +217,7 @@ public class FileCompare
                 FileCompareModel item = new();
                 item.ProjectName = Path.GetFileNameWithoutExtension(dir);
                 item.FilePath = dir;
-                item.FileSize = "";                
+                item.FileSize = null;                
                 item.Depth = depth;
                 item.Children = new();
 
@@ -237,7 +232,7 @@ public class FileCompare
                 item.ProjectName = Path.GetFileNameWithoutExtension(file.FullName);
                 item.FileName = file.Name;
                 item.FilePath = file.FullName;
-                item.FileSize = file.Length.ToString();                
+                item.FileSize = file.Length;                
                 item.Depth = depth;
                 item.CreateDate = file.LastWriteTime.ToString("yyyy-MM-dd HH:mm");
                 byte[] inputBytes;
@@ -301,7 +296,7 @@ public class FileCompare
                 CreateDate = fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm"),
                 FileName = fi.Name,
                 FilePath = fi.FullName,
-                FileSize = fi.Length.ToString(),
+                FileSize = fi.Length,
                 LineCount = lineCnt,                
                 Checksum = checkSum.ToString("x8").ToLower()
             };

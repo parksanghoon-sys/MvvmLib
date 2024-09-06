@@ -10,7 +10,7 @@ public class CodeInfoModel : BaseNotifyModel
     public string FilePath { get; set; } = string.Empty;
     public string FileName { get; set; } = string.Empty;
     public string CreateDate { get; set; } = string.Empty;
-    public string FileSize { get; set; } = string.Empty;
+    public long? FileSize { get; set; }
     public int LineCount { get; set; }
     public string Checksum { get; set; } = string.Empty;
     public IconType FileType => GetFileType(FileName);
@@ -29,11 +29,11 @@ public class CodeInfoModel : BaseNotifyModel
     {
         IconType type = IconType.File;
         if (fileName.ToLower().EndsWith(".cs") || fileName.ToLower().EndsWith(".cpp") || fileName.ToLower().EndsWith(".cxx"))
-            type = IconType.ConsoleLine;
+            type = IconType.Code;
         else if (fileName.ToLower().EndsWith(".h"))
             type = IconType.File;
         else if (fileName.ToLower().EndsWith(".xaml"))
-            type = IconType.File;
+            type = IconType.ConsoleLine;
         else if (fileName.ToLower().EndsWith(".png"))
             type = IconType.Image;
         else if (fileName.ToLower().EndsWith(".exe"))
