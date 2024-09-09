@@ -28,8 +28,7 @@ namespace CoreMvvmLib.Component.UI.Units
         Checkbold,
         Menu,
         CheckCircle,
-        CheckDecagram,
-        ChevronDown,
+        CheckDecagram,        
         ChevronRight,
         Close,
         Cloud,
@@ -155,6 +154,7 @@ namespace CoreMvvmLib.Component.UI.Units
         MenuDown,
         cardsplayingspademultipleoutline,
         broadcast,
+        ChevronUp,        
     }
     public enum IconMode
     {
