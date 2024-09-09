@@ -18,6 +18,7 @@
                         <Grid Margin="5,0,10,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="B" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="C" />
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="D" />
@@ -34,21 +35,28 @@
                                 SnapsToDevicePixels="True"
                                 UseLayoutRounding="True" />
                             <TextBlock
-                                x:Name="txtFileName"
+                                x:Name="txtIndex"
                                 Grid.Column="1"
+                                Margin="6,0,6,0"
+                                VerticalAlignment="Center"
+                                Foreground="#FFFFFF"
+                                Text="{Binding FileIndex}" />
+                            <TextBlock
+                                x:Name="txtFileName"
+                                Grid.Column="2"
                                 Margin="6,0,6,0"
                                 VerticalAlignment="Center"
                                 Foreground="#FFFFFF"
                                 Text="{Binding FileName}" />
                             <TextBlock
-                                Grid.Column="2"
+                                Grid.Column="3"
                                 Margin="6,0,6,0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 Foreground="#FFFFFF"
                                 Text="{Binding LineCount}" />
                             <TextBlock
-                                Grid.Column="3"
+                                Grid.Column="4"
                                 Margin="6,0,6,0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"

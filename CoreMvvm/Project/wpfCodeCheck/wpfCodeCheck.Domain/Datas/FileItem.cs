@@ -6,6 +6,7 @@
         public long? FileSize { get; set; }
         public int LineCount { get; set; }
         public string Checksum { get; set; } = string.Empty;
-        public int Depth { get; set; }        
+        public int Depth { get; set; }       
+        public string Description { get; set; } = string.Empty;
     }
 }

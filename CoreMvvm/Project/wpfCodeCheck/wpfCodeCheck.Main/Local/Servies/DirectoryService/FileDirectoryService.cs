@@ -32,9 +32,9 @@ namespace wpfCodeCheck.Main.Local.Servies
 
 
             });
-            var sortedFiles = SortFilesWithChildren(codeInfos);
+            //var sortedFiles = SortFilesWithChildren(codeInfos);
 
-            return sortedFiles;
+            return codeInfos;
         }
         private List<FileCompareModel> SortFilesWithChildren(List<FileCompareModel> files)
         {

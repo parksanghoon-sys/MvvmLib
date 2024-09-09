@@ -7,6 +7,7 @@ namespace wpfCodeCheck.Main.Local.Models;
 
 public class CodeInfoModel : BaseNotifyModel
 {
+    public int FileIndex { get; set; }
     public string FilePath { get; set; } = string.Empty;
     public string FileName { get; set; } = string.Empty;
     public string CreateDate { get; set; } = string.Empty;

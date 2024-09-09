@@ -36,24 +36,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             WeakReferenceMessenger.Default.Register<FolderListViewModel, EFolderCompareList>(this, OnReceiveClearMessage);            
             _baseService.PropertyChanged += OnPropertyChanged;
         }
-
-        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            var baseService = sender as IBaseService;
-            if (baseService != null)
-            {
-                if (e.PropertyName == "FolderTypeDirectoryFiles")
-                {
-                    List<FileCompareModel> files;
-                    if(baseService.FolderTypeDirectoryFiles.TryGetValue(FolderLIstType, out files))
-                    {
-                        FileDatas.Clear();
-                        FileDatas.AddRange(FlattenHierarchy(files));
-                    }
-                }
-            }
-        }
-
+    
         private string? _folerPath;
 
         public string? FolderPath
@@ -70,8 +53,24 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [Property]
         private CustomObservableCollection<CodeInfoModel> _fileDatas = new();
         [Property]
-        private FileItem _fileData = new();
+        private CodeInfoModel _fileData = new();
         private bool _disposedValue;
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            var baseService = sender as IBaseService;
+            if (baseService != null)
+            {
+                if (e.PropertyName == "FolderTypeDirectoryFiles")
+                {
+                    List<FileCompareModel> files;
+                    if (baseService.FolderTypeDirectoryFiles.TryGetValue(FolderLIstType, out files))
+                    {
+                        FileDatas.Clear();
+                        FileDatas.AddRange(FlattenHierarchy(files));
+                    }
+                }
+            }
+        }
 
         private void OnReceiveClearMessage(FolderListViewModel model, EFolderCompareList list)
         {
@@ -117,6 +116,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         LineCount = item.LineCount,
                         IsComparison = item.IsComparison,
                         FileSize = item.FileSize,
+                        FileIndex = item.FileIndex,
                      });
                 }
 

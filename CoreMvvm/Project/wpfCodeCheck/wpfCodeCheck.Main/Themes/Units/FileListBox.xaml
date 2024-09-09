@@ -28,14 +28,16 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition SharedSizeGroup="A" Width="Auto"/>
+                            <ColumnDefinition SharedSizeGroup="B" Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition SharedSizeGroup="C" Width="Auto"/>
                             <ColumnDefinition SharedSizeGroup="D" Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Style="{StaticResource IN.HEADER}" Content=""/>
-                        <Label Grid.Column="1" Style="{StaticResource IN.HEADER}" Content="Name"/>
-                        <Label Grid.Column="2" Style="{StaticResource IN.HEADER}" Content="Line Count"/>
-                        <Label Grid.Column="3" Style="{StaticResource IN.HEADER}" Content="CheckSum"/>
+                        <Label Grid.Column="1" Style="{StaticResource IN.HEADER}" Content="INDEX"/>
+                        <Label Grid.Column="2" Style="{StaticResource IN.HEADER}" Content="Name"/>
+                        <Label Grid.Column="3" Style="{StaticResource IN.HEADER}" Content="Line Count"/>
+                        <Label Grid.Column="4" Style="{StaticResource IN.HEADER}" Content="CheckSum"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
