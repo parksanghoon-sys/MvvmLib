@@ -145,5 +145,6 @@
         public static string MenuUp => GeometryConverter.GetData();
         public static string cardsplayingspademultipleoutline => GeometryConverter.GetData();
         public static string broadcast => GeometryConverter.GetData();
+        public static string ChevronUp => GeometryConverter.GetData();
     }
 }

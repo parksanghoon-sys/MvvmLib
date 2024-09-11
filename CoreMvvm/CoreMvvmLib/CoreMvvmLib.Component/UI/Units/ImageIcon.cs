@@ -154,7 +154,8 @@ namespace CoreMvvmLib.Component.UI.Units
         MenuDown,
         cardsplayingspademultipleoutline,
         broadcast,
-        ChevronUp,        
+        ChevronUp,
+        ChevronDown
     }
     public enum IconMode
     {

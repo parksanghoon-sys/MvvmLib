@@ -9,6 +9,7 @@ namespace wpfCodeCheck.Domain.Datas
 
         public int FileIndex { get; set; }
         public string ProjectName { get; set; } = string.Empty;
+        public int Depth { get; set; }
         public List<FileCompareModel>? Children { get; set; }
 
         public bool Equals(FileItem? other)
