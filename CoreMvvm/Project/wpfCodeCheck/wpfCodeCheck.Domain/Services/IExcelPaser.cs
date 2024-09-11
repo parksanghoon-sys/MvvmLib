@@ -17,9 +17,8 @@ namespace wpfCodeCheck.Domain.Services
         COL_CODE
     }
     public interface IExcelPaser
-    {
-        void SetFilePath(string FilePath);
-        Task<bool>  WriteExcelAync();
+    {        
+        Task<bool>  WriteExcelAync(string fileFullName);
         Task<bool> WriteExcelAync(FileEntity inputFile, FileEntity outputFile);
     }
 }

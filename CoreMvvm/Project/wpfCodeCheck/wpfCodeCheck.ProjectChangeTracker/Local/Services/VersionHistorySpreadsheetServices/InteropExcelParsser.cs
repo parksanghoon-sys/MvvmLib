@@ -40,11 +40,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         {
             _csvHelper = csvHelper;
             _baseService = baseService;
-        }
-        public void SetFilePath(string FilePath)
-        {
-            _filePath = FilePath;
-        }
+        }     
         public async Task<bool> WriteExcelAync(FileEntity inputFile, FileEntity outputFile)
         {
             bool isResult = false;
@@ -109,8 +105,9 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
             });
             return isResult;
         }
-        public async Task<bool> WriteExcelAync()
+        public async Task<bool> WriteExcelAync(string fileFullName)
         {
+            _filePath = fileFullName;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             await Task.Run(async () =>

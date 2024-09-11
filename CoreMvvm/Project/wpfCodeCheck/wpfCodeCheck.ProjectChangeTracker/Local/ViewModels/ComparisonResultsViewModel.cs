@@ -60,13 +60,11 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
                 File.Delete(_excelFilePath);
             }
 
-            //File.Copy(baseExcelFilepath, copyExcelFilePath);
-
-            _excelPaser.SetFilePath(_excelFilePath);
+            //File.Copy(baseExcelFilepath, copyExcelFilePath);            
 
             _dialogService.Show(this, typeof(LoadingDialogView), 300, 300);
 
-            var isAllSuccess = await _excelPaser.WriteExcelAync();
+            var isAllSuccess = await _excelPaser.WriteExcelAync(_excelFilePath);
             if (isAllSuccess == false)
             {
                 string jsonFilePath = _excelFilePath.Replace(".xlsx", ".json");
