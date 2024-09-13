@@ -9,6 +9,7 @@ using wpfCodeCheck.ProjectChangeTracker.UI.Views;
 using wpfCodeCheck.Forms.Local.Models;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Enums;
+using wpfCodeCheck.SDDExport.UI.Views;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {
@@ -78,7 +79,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
                     break;
                 case IconType.FileWord:
                     {
-                        this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(ComparisonResultsView));
+                        this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(SddExprotView));
                         SelectedIndex = 3;
                     }
                     break;
@@ -108,7 +109,12 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
                 EMainViewType.FILE_CHECKSUM => 1,
                 _ =>1
             };
-            SliderMenuList[(int)type].IsEnable = true;
+            if(type == EMainViewType.EXPORT_EXCEL)
+            {
+                SliderMenuList[(int)type].IsEnable = true;
+                SliderMenuList[(int)type + 1].IsEnable = true;
+            }
+            
         }
 
         private void OnReceiveDimming(MainWindowViewModel model, EMainViewDimming isDImming)
