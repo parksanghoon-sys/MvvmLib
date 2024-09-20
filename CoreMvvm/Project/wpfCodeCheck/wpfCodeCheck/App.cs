@@ -67,7 +67,7 @@ namespace wpfCodeCheck
             ServiceLocator.RegionManager.RegisterAddView<FolderCompareView>();            
             ServiceLocator.RegionManager.RegisterAddView<ComparisonResultsView>();   
             ServiceLocator.RegionManager.RegisterAddView<DirectoryCompareView>();   
-            ServiceLocator.RegionManager.RegisterAddView<SddExprotView>();   
+            ServiceLocator.RegionManager.RegisterAddView<SddExportView>();   
             
         }
         /// <summary>

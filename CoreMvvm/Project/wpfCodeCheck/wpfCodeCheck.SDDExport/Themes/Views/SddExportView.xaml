@@ -4,18 +4,21 @@
     xmlns:componentUnits="clr-namespace:wpfCodeCheck.Component.UI.Units;assembly=wpfCodeCheck.Component"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
     xmlns:views="clr-namespace:wpfCodeCheck.SDDExport.UI.Views"
-    xmlns:wpfLib="clr-namespace:CoreMvvmLib.WPF;assembly=CoreMvvmLib.WPF">
+    xmlns:wpfLib="clr-namespace:CoreMvvmLib.WPF;assembly=CoreMvvmLib.WPF"
+    xmlns:localUnits="clr-namespace:wpfCodeCheck.SDDExport.UI.Units">
 
 
-    <Style TargetType="{x:Type views:SddExprotView}">
+    <Style TargetType="{x:Type views:SddExportView}">
         <Setter Property="wpfLib:ViewModelLocator.AutoWireViewModel" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type views:SddExprotView}">
-                    <units:AutoGrid />
+                <ControlTemplate TargetType="{x:Type views:SddExportView}">
+                    <units:AutoGrid  Rows="*">
+                        <localUnits:FileTreeView ItemsSource="{Binding FileDatas}" />
+                    </units:AutoGrid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

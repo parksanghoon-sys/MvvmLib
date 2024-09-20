@@ -79,7 +79,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
                     break;
                 case IconType.FileWord:
                     {
-                        this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(SddExprotView));
+                        this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(SddExportView));
                         SelectedIndex = 3;
                     }
                     break;
