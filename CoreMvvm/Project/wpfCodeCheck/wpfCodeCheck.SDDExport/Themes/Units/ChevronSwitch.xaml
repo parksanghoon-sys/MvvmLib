@@ -24,12 +24,12 @@
                         BorderThickness="{TemplateBinding BorderThickness}">
                         <units:ImageIcon
                             x:Name="PART_Icon"
-                            Icon="ChevronUp"
+                            Icon="ChevronDown"
                             Style="{StaticResource PathStyle}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="PART_Icon" Property="Icon" Value="ChevronDown" />
+                            <Setter TargetName="PART_Icon" Property="Icon" Value="ChevronUp" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

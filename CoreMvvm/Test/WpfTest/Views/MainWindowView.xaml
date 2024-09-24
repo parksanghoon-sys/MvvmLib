@@ -379,7 +379,7 @@
                 Height="20"
                 Command="{Binding TestCommandAsync}"
                 Content="CommandAsync" />
-            <local:ToggleSwitch Width="60" Height="20" />
+            <local:ToggleSwitch Width="60" Height="20" IsChecked="{Binding IsChecked}" IsEnabled="False" />
             <TextBox Style="{StaticResource DefaultTextBoxStyle}" />
         </StackPanel>
 

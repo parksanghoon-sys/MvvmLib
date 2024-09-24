@@ -41,17 +41,18 @@
                                 <TextBlock
                                     Grid.Column="1"
                                     Margin="10"
-                                    Text="{Binding FileName}" />
+                                    FontSize="9"
+                                    Text="{Binding ProjectName}" />
                             </units:AutoGrid>
                             <ItemsPresenter x:Name="Items" Visibility="Collapsed" />
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="ItemsControl.AlternationIndex" Value="0">
-                            <Setter TargetName="ItemBorder" Property="Background" Value="#F0F0F0" />
+                            <Setter TargetName="ItemBorder" Property="Background" Value="#252525" />
                         </Trigger>
                         <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                            <Setter TargetName="ItemBorder" Property="Background" Value="White" />
+                            <Setter TargetName="ItemBorder" Property="Background" Value="#FF3C3C3C" />
                         </Trigger>
                         <Trigger Property="IsExpanded" Value="True">
                             <Setter TargetName="Items" Property="Visibility" Value="Visible" />
@@ -64,6 +65,9 @@
                             <Setter TargetName="PART_Item" Property="TextBlock.Foreground" Value="#FFFFFF" />
                         </Trigger>
                         <DataTrigger Binding="{Binding FileType}" Value="File">
+                            <Setter TargetName="PART_Chevron" Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding FileType}" Value="Code">
                             <Setter TargetName="PART_Chevron" Property="Visibility" Value="Hidden" />
                         </DataTrigger>
                     </ControlTemplate.Triggers>

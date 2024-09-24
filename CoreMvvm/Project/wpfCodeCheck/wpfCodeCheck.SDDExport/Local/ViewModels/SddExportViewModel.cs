@@ -31,6 +31,8 @@ namespace wpfCodeCheck.SDDExport.Local.ViewModels
                     FileName = file.FileName,
                     FilePath = file.FilePath,
                     FileSize = file.FileSize,                    
+                    ProjectName = file.ProjectName,
+                    Children = file.Children,
                 });
             }
         }

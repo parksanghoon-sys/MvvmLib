@@ -20,7 +20,8 @@ namespace WpfTest1.ViewModels
 
         [Property]
         private string _TestText = "tt";
-
+        [Property]
+        private bool _isChecked = false;
         [Property]
         private bool _TestA = false;
         //public ICommand TestCommand => new RelayCommand(new Action(() =>
@@ -31,9 +32,11 @@ namespace WpfTest1.ViewModels
         private void Test()
         {
             _dialogService.Show(this, typeof(TestDialogView), 300, 200);
+            IsChecked = !IsChecked;
         }
         public ICommand TestCommandAsync => new RelayCommandAsync(async () =>
         {
+            IsChecked = !IsChecked;
         });
         public ICommand Loaded1Command => new RelayCommand(new Action(() =>
         {

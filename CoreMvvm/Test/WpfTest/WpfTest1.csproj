@@ -13,7 +13,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CoreMvvmLib\CoreMvvmLib.Component\CoreMvvmLib.Component.csproj" />
-    <ProjectReference Include="..\..\CoreMvvmLib\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
+	  <ProjectReference Include="..\..\CoreMvvmLib\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" >
+		  <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		  <OutputItemType>Analyzer</OutputItemType>
+	  </ProjectReference>
     <ProjectReference Include="..\..\CoreMvvmLib\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
     <ProjectReference Include="..\..\CoreMvvmLib\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
   </ItemGroup>

@@ -8,9 +8,9 @@ using wpfCodeCheck.Domain.Datas;
 
 namespace wpfCodeCheck.SDDExport.Local.Models
 {
-    public class FileInfoModel : FileItem
+    public class FileInfoModel : FileCompareModel
     {
-        public IconType FileType => GetFileType(FileName);
+        public IconType FileType => GetFileType(FileName);        
         private IconType GetFileType(string fileName)
         {
             IconType type = IconType.File;

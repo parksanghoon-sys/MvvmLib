@@ -22,7 +22,7 @@ namespace wpfCodeCheck.SDDExport.UI.Units
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectionCommandProperty =
-            DependencyProperty.Register("SelectionCommand", typeof(int), typeof(FileTreeItem), new PropertyMetadata(null));
+            DependencyProperty.Register("SelectionCommand", typeof(ICommand), typeof(FileTreeItem), new PropertyMetadata(null));
 
 
         static FileTreeItem()
