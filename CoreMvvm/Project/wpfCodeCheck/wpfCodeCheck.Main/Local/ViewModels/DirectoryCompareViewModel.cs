@@ -1,14 +1,14 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
-using DocumentFormat.OpenXml.Presentation;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Services;
-using wpfCodeCheck.Main.UI.Units;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
-
+    /// <summary>
+    /// 디렉토리 비교 ListView 뷰모델
+    /// </summary>
     public partial class DirectoryCompareViewModel : ViewModelBase
     {
         private readonly ISettingService _settingService;
