@@ -9,6 +9,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="AutoMapper" Version="13.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Component\CoreMvvmLib.Component.csproj" />
 		<ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>

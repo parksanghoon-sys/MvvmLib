@@ -8,8 +8,12 @@ using wpfCodeCheck.Domain.Datas;
 
 namespace wpfCodeCheck.SDDExport.Local.Models
 {
-    public class FileInfoModel : FileCompareModel
+    public class FileInfoModel 
     {
+        public string FilePath { get; set; } = string.Empty;
+        public string FileName { get; set; } = string.Empty;        
+        public int Depth { get; set; }
+        public List<FileInfoModel> Children { get; set; } = new();
         public IconType FileType => GetFileType(FileName);        
         private IconType GetFileType(string fileName)
         {

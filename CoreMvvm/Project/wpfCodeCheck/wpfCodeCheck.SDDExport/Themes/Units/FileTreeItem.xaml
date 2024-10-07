@@ -42,7 +42,8 @@
                                     Grid.Column="1"
                                     Margin="10"
                                     FontSize="9"
-                                    Text="{Binding ProjectName}" />
+                                    Foreground="#F0F0F0"
+                                    Text="{Binding FileName}" />
                             </units:AutoGrid>
                             <ItemsPresenter x:Name="Items" Visibility="Collapsed" />
                         </StackPanel>
