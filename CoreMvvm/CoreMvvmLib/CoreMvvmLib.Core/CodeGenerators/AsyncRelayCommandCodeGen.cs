@@ -14,13 +14,6 @@ namespace CoreMvvmLib.Core.CodeGenerators
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
 
-            //#if DEBUG
-            //            if (!Debugger.IsAttached)
-            //            {
-            //                Debugger.Launch();
-            //            }
-            //#endif
-
             var classDeclarations = context.SyntaxProvider
                                            .CreateSyntaxProvider(predicate: static (s, _) => AsyncRelayCommandCodeGen.IsSyntaxForCodeGen(s),
                                                                  transform: static (ctx, _) => AsyncRelayCommandCodeGen.GetTargetForCodeGen(ctx))
