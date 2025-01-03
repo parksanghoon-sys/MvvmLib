@@ -10,7 +10,7 @@ namespace CoreMvvmLib.WPF.Components
         public CustomObservableCollection()
             : base()
         {
-        }
+        }       
         public async Task AddItemsAsync(IEnumerable<T> items)
         {
             foreach (var item in items)

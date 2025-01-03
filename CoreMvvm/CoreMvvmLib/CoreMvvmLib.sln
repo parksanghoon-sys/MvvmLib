@@ -53,7 +53,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{81BCE53B-A8D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCSharpParsing", "..\Test\TestCSharpParsing\TestCSharpParsing.csproj", "{4D3A7C30-5B35-48F9-B8FB-D2EBD1503BAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileCompare", "..\Test\FileCompare\FileCompare.csproj", "{7B0E478E-F740-49E2-BD42-ED06674CC8DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileCompare", "..\Test\FileCompare\FileCompare.csproj", "{7B0E478E-F740-49E2-BD42-ED06674CC8DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

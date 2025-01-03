@@ -67,6 +67,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     {
                         FileDatas.Clear();
                         FileDatas.AddRange(FlattenHierarchy(files));
+                                            
                     }
                 }
             }
