@@ -9,11 +9,13 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
     public partial class TestViewModel : ViewModelBase
     {
         private readonly IFileCheckSum _fileCheckSum;
-        
+        [Property]
+        private string _export = string.Empty;
 
         public TestViewModel(IFileCheckSum fileCheckSum)
         {
             _fileCheckSum = fileCheckSum;
+            Export = "Test";
         }        
         [RelayCommand]
         public void FileDialogOpen()

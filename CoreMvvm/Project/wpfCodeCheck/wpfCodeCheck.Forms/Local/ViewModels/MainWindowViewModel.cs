@@ -48,7 +48,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
             WindowLeft = _settingService.WindowSetting!.XPos ?? 500;
             WindowTop = _settingService.WindowSetting!.YPos ??500;
             WindowWidth = 1200;
-            WindowHeight = _settingService.WindowSetting!.Height ?? 600;
+            WindowHeight = _settingService.WindowSetting!.Height ?? 600;            
 
             this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(DirectoryCompareView));
             WeakReferenceMessenger.Default.Register<MainWindowViewModel, EMainViewDimming>(this, OnReceiveDimming);

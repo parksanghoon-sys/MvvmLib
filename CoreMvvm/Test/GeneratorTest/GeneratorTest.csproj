@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="3.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
+  </ItemGroup>
+	<!-- 👇 기본 템플릿에 추가 -->
+	<ItemGroup>
+		<PackageReference Include="Verify.XUnit" Version="14.7.0" />
+		<PackageReference Include="Verify.SourceGenerators" Version="1.2.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.8" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\CoreMvvmLib\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
+	</ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>
