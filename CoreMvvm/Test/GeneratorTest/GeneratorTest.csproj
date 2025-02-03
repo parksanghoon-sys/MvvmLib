@@ -4,9 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+	  <LangVersion>latest</LangVersion>
+	  <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +25,10 @@
 		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.8" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\CoreMvvmLib\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
+		<ProjectReference Include="..\..\..\CoreMvvmLib\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+			<OutputItemType>Analyzer</OutputItemType>
+		</ProjectReference>
 	</ItemGroup>
   <ItemGroup>
     <Using Include="Xunit" />

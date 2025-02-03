@@ -26,6 +26,7 @@ namespace CoreMvvmLib.WPF.Components
         private IServiceContainer? ConfigureService()
         {
             var services = ServiceCollection.Create();
+            ContainerProvider.Initialize(services);
             // TODO : 추후 필요 서비스 추가
             services.AddDialogService();
             services.AddRegionManager();

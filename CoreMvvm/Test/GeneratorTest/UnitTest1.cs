@@ -68,7 +68,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
 
 
             // EnumGenerator 증분 소스 생성기의 인스턴스 생성
-            var generator = new PropertyCodeGen();
+            var generator = new RelayCommandCodeGen();
 
             // GeneratorDriver는 컴파일에 대해 생성기를 실행하는데 사용됨
             GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);

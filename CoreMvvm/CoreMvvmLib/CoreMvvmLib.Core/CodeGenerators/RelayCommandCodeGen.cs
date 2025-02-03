@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.CSharp;
 namespace CoreMvvmLib.Core.CodeGenerators
 {
     [Generator]
-    internal class RelayCommandCodeGen : IIncrementalGenerator
+    public class RelayCommandCodeGen : IIncrementalGenerator
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
