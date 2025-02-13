@@ -23,8 +23,9 @@ namespace CoreMvvmLib.Core.IOC
         /// </summary>
         public static object? Resolve(Type? type, object? serviceKey = null)
         {
-            if(type is not null)
-                return Provider.CreateContainer().GetService(type);
+            if (Provider is not null)
+                if (Provider.CheckType(type: type) == true)
+                    return Provider.CreateContainer().GetService(type);
             return null;
         }
     }
