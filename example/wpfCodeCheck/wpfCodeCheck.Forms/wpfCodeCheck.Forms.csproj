@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x86</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\CoreMvvmLib.Component\CoreMvvmLib.Component.csproj" />	  
+     <ProjectReference Include="..\..\..\src\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
+	 <ProjectReference Include="..\..\..\src\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj">
+		 <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		 <OutputItemType>Analyzer</OutputItemType>
+	 </ProjectReference>
+	 <ProjectReference Include="..\wpfCodeCheck.ProjectChangeTracker\wpfCodeCheck.ProjectChangeTracker.csproj" />
+	 <ProjectReference Include="..\wpfCodeCheck.Main\wpfCodeCheck.Main.csproj" />
+	 <ProjectReference Include="..\wpfCodeCheck.Component\wpfCodeCheck.Component.csproj" />
+	 <ProjectReference Include="..\wpfCodeCheck.SDDExport\wpfCodeCheck.SDDExport.csproj" />
+  </ItemGroup>
+
+</Project>
