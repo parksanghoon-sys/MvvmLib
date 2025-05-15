@@ -5,8 +5,8 @@
 3. ViewModel간 데이터 전송을 위한 Message전송 구현
 4. Region기능 개발
 5. Module 제작 
-6. 외부에서 Get Service 하도록 보안
-ㅅ
+6. 외부에서 Get Service 하여 Service 주입 받을수 있도록 제작
+7. App 로그아웃 시 덤프파일 제작 예정
 
 ### Test Project
 1. 파일 체크섬 계산 프로그램 (l List)
