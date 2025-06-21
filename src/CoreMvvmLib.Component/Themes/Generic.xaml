@@ -1,13 +1,12 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/CoreMvvmLib.Component;Component/Themes/Units/ImageI    con.xaml"/>
+        <ResourceDictionary Source="/CoreMvvmLib.Component;Component/Themes/Units/ImageIcon.xaml" />
 
-        <ResourceDictionary Source="/CoreMvvmLib.Component;Component/Themes/Units/CloseButton.xaml"/>
-        <ResourceDictionary Source="/CoreMvvmLib.Component;Component/Themes/Units/MaximizeButton.xaml"/>
-        <ResourceDictionary Source="/CoreMvvmLib.Component;Component/Themes/Units/MinimizeButton.xaml"/>
-        <ResourceDictionary Source="/CoreMvvmLib.Component;Component/Themes/Units/DarkScrollViewer.xaml"/>
+        <ResourceDictionary Source="/CoreMvvmLib.Component;Component/Themes/Units/CloseButton.xaml" />
+        <ResourceDictionary Source="/CoreMvvmLib.Component;Component/Themes/Units/MaximizeButton.xaml" />
+        <ResourceDictionary Source="/CoreMvvmLib.Component;Component/Themes/Units/MinimizeButton.xaml" />
+        <ResourceDictionary Source="/CoreMvvmLib.Component;Component/Themes/Units/DarkScrollViewer.xaml" />
 
-        <ResourceDictionary Source="/CoreMvvmLib.Component;Component/Themes/Views/DarkThemeWindow.xaml"/>
+        <ResourceDictionary Source="/CoreMvvmLib.Component;Component/Themes/Views/DarkThemeWindow.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

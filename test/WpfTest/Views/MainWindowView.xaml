@@ -220,6 +220,19 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <SolidColorBrush x:Key="BackgroundBrush" Color="#F0F0F0" />
+        <SolidColorBrush x:Key="SurfaceBrush" Color="#F0F0F0" />
+
+        <SolidColorBrush x:Key="PrimaryMouseHoverBrush" Color="#FFAEAEAE" />
+        <SolidColorBrush x:Key="PrimaryMousePressBrush" Color="#FFF44336" />
+
+        <SolidColorBrush x:Key="PrimaryTextBrush" Color="#0F0F0F" />
+        <SolidColorBrush x:Key="SecondaryTextBrush" Color="#666666" />
+        <!--  보더 색상  -->
+        <SolidColorBrush x:Key="BorderBrush" Color="#CCCCCC" />
+
+
         <Style x:Key="DefaultTextBoxStyle" TargetType="{x:Type TextBox}">
             <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
@@ -229,10 +242,10 @@
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Top" />
-            <Setter Property="Foreground" Value="#FFFFFFFF" />
-            <Setter Property="CaretBrush" Value="#FFFFFFFF" />
-            <Setter Property="Background" Value="#0FFFFFFF" />
-            <Setter Property="BorderBrush" Value="#C5FFFFFF" />
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+            <Setter Property="CaretBrush" Value="{StaticResource SecondaryTextBrush}" />
+            <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
             <Setter Property="BorderThickness" Value="{StaticResource TextBoxBorderThemeThickness}" />
             <Setter Property="SnapsToDevicePixels" Value="True" />
             <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -250,7 +263,7 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="4">
+                                CornerRadius="1">
                                 <Grid
                                     Margin="{TemplateBinding Padding}"
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -278,7 +291,6 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsFocused" Value="True">
                                 <Setter TargetName="AccentBorder" Property="BorderThickness" Value="0,0,0,2" />
-                                <Setter TargetName="ContentBorder" Property="Background" Value="#B31E1E1E" />
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
@@ -302,40 +314,41 @@
             </Setter>
         </Style>
         <Style x:Key="CustomRadioButton" TargetType="{x:Type RadioButton}">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border x:Name="PART_BackgroundBorder"
-                                BorderThickness="1"
-                                CornerRadius="3"
-                                BorderBrush="#FFA6E0F6">
+                        <Border
+                            x:Name="PART_BackgroundBorder"
+                            BorderBrush="#FFA6E0F6"
+                            BorderThickness="1"
+                            CornerRadius="3">
                             <Grid x:Name="PART_Grid" Background="Transparent">
-                                <ContentPresenter Margin="2"/>
+                                <ContentPresenter Margin="2" />
                             </Grid>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CheckedStates">
                                     <VisualState x:Name="Checked">
                                         <Storyboard>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_Grid" Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)">
-                                                <EasingColorKeyFrame KeyTime="0" Value="#FF15A9F5"/>
+                                                <EasingColorKeyFrame KeyTime="0" Value="#FF15A9F5" />
                                             </ColorAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Unchecked">
                                         <Storyboard>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_Grid" Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)">
-                                                <EasingColorKeyFrame KeyTime="0" Value="Transparent"/>
+                                                <EasingColorKeyFrame KeyTime="0" Value="Transparent" />
                                             </ColorAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                         </Border>
-                       
+
                         <!--<ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="PART_Grid" Property="Background" Value="#FF15A9F5"/>
@@ -345,10 +358,10 @@
                             </Trigger>
                         </ControlTemplate.Triggers>-->
                     </ControlTemplate>
-                    
+
                 </Setter.Value>
             </Setter>
-         
+
         </Style>
     </Window.Resources>
     <behavior:Interaction.Behaviors>
@@ -357,13 +370,22 @@
     <Grid>
         <StackPanel>
             <CheckBox Width="40" Content="Test" />
-            <Grid Margin="4 4 4 4">
+            <Grid Margin="4,4,4,4">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <RadioButton Grid.Column="0" Style="{StaticResource CustomRadioButton}" Content="Test1" Foreground="#FFFFFF"/>
-                <RadioButton Grid.Column="1" Margin="4" Style="{StaticResource CustomRadioButton}" Content="Test2" Foreground="#FFFFFF"/>
+                <RadioButton
+                    Grid.Column="0"
+                    Content="Test1"
+                    Foreground="#FFFFFF"
+                    Style="{StaticResource CustomRadioButton}" />
+                <RadioButton
+                    Grid.Column="1"
+                    Margin="4"
+                    Content="Test2"
+                    Foreground="#FFFFFF"
+                    Style="{StaticResource CustomRadioButton}" />
             </Grid>
             <TextBlock
                 FontSize="12"
@@ -379,7 +401,11 @@
                 Height="20"
                 Command="{Binding TestCommandAsync}"
                 Content="CommandAsync" />
-            <local:ToggleSwitch Width="60" Height="20" IsChecked="{Binding IsChecked}" IsEnabled="False" />
+            <local:ToggleSwitch
+                Width="60"
+                Height="20"
+                IsChecked="{Binding IsChecked}"
+                IsEnabled="False" />
             <TextBox Style="{StaticResource DefaultTextBoxStyle}" />
         </StackPanel>
 

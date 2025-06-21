@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace CoreMvvmLib.Component.UI.Units
 {
-    public class CustomStackPannel : StackPanel
+    public class UniformSpacingPanel : StackPanel
     {
         public double ChildSpacing
         {
@@ -13,7 +13,7 @@ namespace CoreMvvmLib.Component.UI.Units
 
         // Using a DependencyProperty as the backing store for ChildSpacing.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ChildSpacingProperty =
-            DependencyProperty.Register("ChildSpacing", typeof(double), typeof(CustomStackPannel), new FrameworkPropertyMetadata(10.0, FrameworkPropertyMetadataOptions.AffectsArrange));
+            DependencyProperty.Register("ChildSpacing", typeof(double), typeof(UniformSpacingPanel), new FrameworkPropertyMetadata(10.0, FrameworkPropertyMetadataOptions.AffectsArrange));
         protected override Size MeasureOverride(Size availableSize)
         {
             var num = 0.0;
