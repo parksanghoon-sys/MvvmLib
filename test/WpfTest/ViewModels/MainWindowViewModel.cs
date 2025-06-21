@@ -37,6 +37,8 @@ namespace WpfTest1.ViewModels
         public ICommand TestCommandAsync => new RelayCommandAsync(async () =>
         {
             IsChecked = !IsChecked;
+
+            await Task.Delay(1000);
         });
         public ICommand Loaded1Command => new RelayCommand(new Action(() =>
         {

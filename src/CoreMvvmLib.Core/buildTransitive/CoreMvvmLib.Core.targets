@@ -1,0 +1,4 @@
+<!-- buildTransitive/CoreMvvmLib.Core.targets -->
+<Project>
+  <Import Project="../build/CoreMvvmLib.Core.targets" />
+</Project>

@@ -27,7 +27,8 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                        UseLayoutRounding="{TemplateBinding UseLayoutRounding}">
+                        UseLayoutRounding="{TemplateBinding UseLayoutRounding}"
+                        CornerRadius="5 5 5 5">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>

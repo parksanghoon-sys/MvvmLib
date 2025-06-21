@@ -1,24 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-    <AnalysisLevel>none</AnalysisLevel>
-    <EnableNETAnalyzers>True</EnableNETAnalyzers>
-    <Platforms>AnyCPU;x86</Platforms>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>				
+		<Platforms>AnyCPU;x86</Platforms>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\CoreMvvmLib.Component\CoreMvvmLib.Component.csproj" />
-	  <ProjectReference Include="..\..\src\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" >
-		  <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-		  <OutputItemType>Analyzer</OutputItemType>
-	  </ProjectReference>
-    <ProjectReference Include="..\..\src\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
-    <ProjectReference Include="..\..\src\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\CoreMvvmLib.Component\CoreMvvmLib.Component.csproj" />
+		<ProjectReference Include="..\..\src\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" >
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+			<OutputItemType>Analyzer</OutputItemType>
+		</ProjectReference>
+		<ProjectReference Include="..\..\src\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
+		<ProjectReference Include="..\..\src\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
+	</ItemGroup>
 
 </Project>

@@ -1,0 +1,46 @@
+<!-- build/CoreMvvmLib.Core.targets -->
+<Project>
+
+  <!-- Source Generator 자동 참조 설정 -->
+  <ItemGroup Condition="'$(CoreMvvmLibEnabled)' == 'true'">
+    <Analyzer Include="$(MSBuildThisFileDirectory)..\analyzers\dotnet\cs\CoreMvvmLib.Core.dll" 
+              Condition="Exists('$(MSBuildThisFileDirectory)..\analyzers\dotnet\cs\CoreMvvmLib.Core.dll')">
+      <OutputItemType>Analyzer</OutputItemType>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </Analyzer>
+  </ItemGroup>
+
+  <!-- MVVM 어트리뷰트를 컴파일에 포함 -->
+  <ItemGroup Condition="'$(CoreMvvmLibEnabled)' == 'true'">
+    <Compile Include="$(MSBuildThisFileDirectory)..\content\CoreMvvmAttributes.cs" 
+             Condition="Exists('$(MSBuildThisFileDirectory)..\content\CoreMvvmAttributes.cs')" 
+             Visible="false"
+             Link="CoreMvvmLib\CoreMvvmAttributes.cs" />
+  </ItemGroup>
+
+  <!-- 디버그 정보 출력 -->
+  <Target Name="ShowCoreMvvmLibInfo" 
+          BeforeTargets="CoreCompile" 
+          Condition="'$(CoreMvvmLibDebug)' == 'true'">
+    
+    <Message Text="CoreMvvmLib.Core: Source Generator 활성화됨 (버전: $(CoreMvvmLibVersion))" Importance="high" />
+    <Message Text="CoreMvvmLib.Core: 어셈블리 경로 - $(MSBuildThisFileDirectory)..\analyzers\dotnet\cs\CoreMvvmLib.Core.dll" Importance="high" />
+    <Message Text="CoreMvvmLib.Core: 디버그 모드 - $(CoreMvvmLibDebug)" Importance="high" />
+    
+  </Target>
+
+  <!-- 빌드 후 생성된 파일 정보 출력 -->
+  <Target Name="ShowGeneratedFiles" 
+          AfterTargets="CoreCompile" 
+          Condition="'$(CoreMvvmLibVerbose)' == 'true'">
+    
+    <ItemGroup>
+      <GeneratedFiles Include="$(IntermediateOutputPath)**\*.g.cs" />
+    </ItemGroup>
+    
+    <Message Text="CoreMvvmLib.Core: 생성된 파일들:" Importance="high" />
+    <Message Text="  - %(GeneratedFiles.Identity)" Importance="high" />
+    
+  </Target>
+
+</Project>

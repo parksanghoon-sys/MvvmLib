@@ -16,7 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
+		<ProjectReference Include="..\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="Properties\WpfHelper.png">
