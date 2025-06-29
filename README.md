@@ -405,13 +405,6 @@ dotnet test
 
 이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 
-## 📞 지원 및 문의
-
-- 🐛 **버그 리포트**: [Issues](https://github.com/parksanghoon-sys/MvvmLib/issues)
-- 💡 **기능 요청**: [Issues](https://github.com/parksanghoon-sys/MvvmLib/issues)
-- 📧 **이메일**: parksanghoon.sys@example.com
-- 💬 **토론**: [Discussions](https://github.com/parksanghoon-sys/MvvmLib/discussions)
-
 ## 🙏 감사의 말
 
 이 프로젝트는 다음 오픈소스 프로젝트들에서 영감을 받았습니다:
