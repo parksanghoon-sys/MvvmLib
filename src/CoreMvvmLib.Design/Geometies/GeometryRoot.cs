@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using YamlDotNet.Serialization;
 
 namespace CoreMvvmLib.Design.Geometies
 {
     internal class GeometryRoot
     {
-        [JsonProperty("geometries")]
+        [YamlMember(Alias = "geometries")]
         public List<GeometryItem> Items { get; set; }
     }
 }

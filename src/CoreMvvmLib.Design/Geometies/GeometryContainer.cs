@@ -19,27 +19,22 @@ namespace CoreMvvmLib.Design.Geometies
         private static void Build()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "CoreMvvmLib.Design.Properties.Resources.geometries.yaml";
+            var resourceName = "EmployManager.Component.Properties.Resources.geometries.yaml";
 
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
+            using Stream stream = assembly.GetManifestResourceStream(resourceName);
+            using StreamReader reader = new StreamReader(stream);
+
+            var deserializer = new DeserializerBuilder()
+                .IgnoreUnmatchedProperties()
+                .Build();
+
+            GeometryRoot _data = deserializer.Deserialize<GeometryRoot>(reader);
+
+            _items = new Dictionary<string, GeometryItem>();
+            foreach (var item in _data.Items)
             {
-                StringReader r = new StringReader(reader.ReadToEnd());
-                Deserializer deserializer = new Deserializer();
-                object yamlObject = deserializer.Deserialize<object>(r);
-
-                JsonSerializer js = new JsonSerializer();
-                StringWriter w = new StringWriter();
-                js.Serialize(w, yamlObject);
-                string jsonText = w.ToString();
-                _data = JsonConvert.DeserializeObject<GeometryRoot>(jsonText);
-                _items = new Dictionary<string, GeometryItem>();
-
-                foreach (var item in _data.Items)
-                {
-                    _items.Add(item.Name, item);
-                }
+                if (!string.IsNullOrEmpty(item.Name))
+                    _items[item.Name] = item;
             }
         }
-    }
 }

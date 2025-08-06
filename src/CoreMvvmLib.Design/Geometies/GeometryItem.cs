@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
+using YamlDotNet.Serialization;
 
 namespace CoreMvvmLib.Design.Geometies
 {
     internal class GeometryItem
     {
-        [JsonProperty("name")]
+        [YamlMember(Alias = "name")]
         public string Name { get; set; } = string.Empty;
-        [JsonProperty("data")]
+        [YamlMember(Alias = "data")]
         public string Data { get; set; } = string.Empty;
     }
 }
