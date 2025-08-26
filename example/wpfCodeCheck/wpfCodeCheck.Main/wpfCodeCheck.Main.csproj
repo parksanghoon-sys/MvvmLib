@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Local\Helpers\**" />
+    <EmbeddedResource Remove="Local\Helpers\**" />
+    <None Remove="Local\Helpers\**" />
+    <Page Remove="Local\Helpers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Local\ViewModels\mirq52wa.tvi~" />
   </ItemGroup>
 
@@ -28,10 +35,6 @@
     <ProjectReference Include="..\wpfCodeCheck.Component\wpfCodeCheck.Component.csproj" />
     <ProjectReference Include="..\wpfCodeCheck.Domain\wpfCodeCheck.Domain.csproj" />
     <ProjectReference Include="..\wpfCodeCheck.ProjectChangeTracker\wpfCodeCheck.ProjectChangeTracker.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Local\Helpers\" />
   </ItemGroup>
 
 </Project>

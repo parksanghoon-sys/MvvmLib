@@ -12,4 +12,9 @@ namespace wpfCodeCheck.Domain.Enums
         SW_CODE,
         FILE
     }
+    public enum EFileType
+    {
+        DIRECTORY,
+        SOURCECODE
+    }
 }

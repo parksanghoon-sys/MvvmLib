@@ -15,7 +15,7 @@
                         Margin="15,10,10,10"
                         Background="{TemplateBinding Background}"
                         CornerRadius="10">
-                        <control:CustomStackPannel
+                        <control:UniformSpacingPanel
                             Margin="10,0,0,0"
                             HorizontalAlignment="Left"
                             ChildSpacing="12"
@@ -31,7 +31,7 @@
                                 FontWeight="Bold"
                                 Foreground="{TemplateBinding Foreground}"
                                 Text="{Binding Name}" />
-                        </control:CustomStackPannel>
+                        </control:UniformSpacingPanel>
                     </Border>
                     <ControlTemplate.Triggers>
                         <!--<MultiTrigger>

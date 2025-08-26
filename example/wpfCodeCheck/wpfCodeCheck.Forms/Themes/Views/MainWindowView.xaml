@@ -37,7 +37,7 @@
         <Setter Property="IsShowTaskBar" Value="True" />
         <Setter Property="Title">
             <Setter.Value>
-                <units:CustomStackPannel ChildSpacing="5" Orientation="Horizontal">
+                <units:UniformSpacingPanel ChildSpacing="5" Orientation="Horizontal">
                     <units:ImageIcon
                         Width="20"
                         Height="20"
@@ -48,7 +48,7 @@
                         FontWeight="Bold"
                         Foreground="White"
                         Text="SW Compare" />
-                </units:CustomStackPannel>
+                </units:UniformSpacingPanel>
             </Setter.Value>
         </Setter>
         <Setter Property="Content">

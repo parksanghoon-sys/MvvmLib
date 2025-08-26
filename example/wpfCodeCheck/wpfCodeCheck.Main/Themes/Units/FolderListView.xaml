@@ -24,7 +24,7 @@
 
                     <Border Style="{StaticResource CONTENT.BORDER}">
                         <units:CustomAutoGrid Rows="Auto , *">
-                            <units:CustomStackPannel
+                            <units:UniformSpacingPanel
                                 Grid.Row="0"
                                 ChildSpacing="10"
                                 Orientation="Horizontal">
@@ -54,7 +54,7 @@
                                     FileOpenCommand="{Binding AsyncFileDialogOpenCommand}"
                                     FontSize="15"
                                     Text="{Binding FolderPath, Mode=OneWay}" />-->
-                            </units:CustomStackPannel>
+                            </units:UniformSpacingPanel>
                             <Grid Grid.Row="1" Margin="0,10,0,0">
                                 <localUnits:FileListBox />
                             </Grid>

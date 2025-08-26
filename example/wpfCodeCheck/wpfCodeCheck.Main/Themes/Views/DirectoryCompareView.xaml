@@ -55,7 +55,7 @@
                         </Grid>
                         <Grid Grid.Row="1">
                             <Border Margin="0" Style="{StaticResource DEFALUT.BORDER}">
-                                <units:CustomStackPannel ChildSpacing="10" Orientation="Horizontal">
+                                <units:UniformSpacingPanel ChildSpacing="10" Orientation="Horizontal">
                                     <TextBlock
                                         FontSize="16"
                                         FontWeight="Bold"
@@ -74,13 +74,13 @@
                                         FontSize="15"
                                         FontWeight="Bold"
                                         IsChecked="{Binding InputType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enums:EType.FILE}}" />
-                                </units:CustomStackPannel>
+                                </units:UniformSpacingPanel>
                             </Border>
                         </Grid>
                         <Grid Grid.Row="2">
                             <units:AutoGrid Columns="Auto, Auto">
-                                <units:CustomStackPannel Grid.Column="0" ChildSpacing="5">
-                                    <units:CustomStackPannel ChildSpacing="5" Orientation="Horizontal">
+                                <units:UniformSpacingPanel Grid.Column="0" ChildSpacing="5">
+                                    <units:UniformSpacingPanel ChildSpacing="5" Orientation="Horizontal">
                                         <TextBlock
                                             Margin="0,5,0,5"
                                             DockPanel.Dock="Top"
@@ -94,8 +94,8 @@
                                             FileOpenCommandParameter="Input"
                                             FontSize="15"
                                             Text="{Binding InputDirectoryPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    </units:CustomStackPannel>
-                                    <units:CustomStackPannel ChildSpacing="5" Orientation="Horizontal">
+                                    </units:UniformSpacingPanel>
+                                    <units:UniformSpacingPanel ChildSpacing="5" Orientation="Horizontal">
                                         <TextBlock
                                             Margin="0,5,0,5"
                                             DockPanel.Dock="Top"
@@ -109,9 +109,9 @@
                                             FileOpenCommandParameter="Output"
                                             FontSize="15"
                                             Text="{Binding OutputDirectoryPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    </units:CustomStackPannel>
+                                    </units:UniformSpacingPanel>
 
-                                </units:CustomStackPannel>
+                                </units:UniformSpacingPanel>
                                 <Grid Grid.Column="1">
                                     <componentUnits:BaseButton
                                         Margin="10"

@@ -19,7 +19,7 @@ namespace CoreMvvmLib.Design.Geometies
         private static void Build()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "EmployManager.Component.Properties.Resources.geometries.yaml";
+            var resourceName = "CoreMvvmLib.Design.Properties.Resources.geometries.yaml";
 
             using Stream stream = assembly.GetManifestResourceStream(resourceName);
             using StreamReader reader = new StreamReader(stream);
@@ -37,4 +37,5 @@ namespace CoreMvvmLib.Design.Geometies
                     _items[item.Name] = item;
             }
         }
+    }
 }

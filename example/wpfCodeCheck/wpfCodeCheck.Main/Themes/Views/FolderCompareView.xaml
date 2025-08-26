@@ -54,7 +54,7 @@
                         </Grid>
                         <Grid Grid.Row="1" Grid.ColumnSpan="2">
                             <Border Style="{StaticResource DEFALUT.BORDER}">
-                                <units:CustomStackPannel
+                                <units:UniformSpacingPanel
                                     HorizontalAlignment="Left"
                                     ChildSpacing="10"
                                     Orientation="Horizontal">
@@ -71,7 +71,7 @@
                                         Command="{Binding ExportCommand}"
                                         Content="Export"
                                         IconType="Export" />
-                                </units:CustomStackPannel>
+                                </units:UniformSpacingPanel>
                             </Border>
                         </Grid>
                         <DockPanel Grid.Row="2" Grid.Column="0">
