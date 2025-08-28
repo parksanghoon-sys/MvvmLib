@@ -7,6 +7,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
+using System.Windows;
 using TextCopy;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Helpers;
@@ -136,17 +137,17 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                     _startCellIndex = 1;
                     foreach (var project in _baseService.CompareResult.CompareResults)
                     {
-                        ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
-                        startInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                        startInfo.Arguments = $"""
-                                                "@{DirectoryHelper.GetLocalSettingDirectory()}\beyondCli.txt" "{project.InputFilePath}" "{project.OutoutFilePath}" "{_resultFilePath}"
-                                               """;
+                        //ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
+                        //startInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                        //startInfo.Arguments = $"""
+                        //                        "@{DirectoryHelper.GetLocalSettingDirectory()}\beyondCli.txt" "{project.InputFilePath}" "{project.OutoutFilePath}" "{_resultFilePath}"
+                        //                       """;
 
-                        // 출력 캡처를 위한 설정
-                        startInfo.RedirectStandardOutput = true;
-                        startInfo.RedirectStandardError = true;
-                        startInfo.UseShellExecute = false;
-                        startInfo.CreateNoWindow = true;
+                        //// 출력 캡처를 위한 설정
+                        //startInfo.RedirectStandardOutput = true;
+                        //startInfo.RedirectStandardError = true;
+                        //startInfo.UseShellExecute = false;
+                        //startInfo.CreateNoWindow = true;                        
 
                         //_fileSemaphore.Wait();
                         // 프로세스 시작
@@ -233,13 +234,40 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                             }                            
                             int lastcell = _startCellIndex;
                             // Copy HTML data to clipboard
-                            ClipboardService.SetText(htmlContent.ToString());
-                            Thread.Sleep(10);
-                            // Paste content to Excel
-                            Excel.Range cell = worksheet.Cells[_startCellIndex, ECELL.COL_INPUT_LINE];
-                            cell.Select();
-                            worksheet.Paste();
-                            Thread.Sleep(10);
+                            //ClipboardService.SetText(htmlContent.ToString());
+
+                            //var data = new DataObject();
+                            //data.SetData(DataFormats.Html, htmlContent.ToString());
+                            //System.Windows.Clipboard.SetDataObject(data, true);
+
+                            ////ClipboardHelper.SetHtml(htmlContent);
+                            //Thread.Sleep(10);
+                            //// Paste content to Excel
+                            //Excel.Range cell = worksheet.Cells[_startCellIndex, ECELL.COL_INPUT_LINE];
+                            //cell.Select();                            
+                            //worksheet.Paste();
+
+                            ///System.Windows.Clipboard 와 Excel.Interop 은 STA 스레드에서만 호출 가능
+                            await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
+                            {
+                                // HTML 클립보드 데이터 준비
+                                //var data = new DataObject();
+                                //data.SetData(DataFormats.Html, htmlContent.ToString());
+                                //System.Windows.Clipboard.SetDataObject(data, true);
+                                ClipboardService.SetText(htmlContent.ToString());
+                                Thread.Sleep(10);
+                                // Excel 셀 선택 후 붙여넣기
+                                Excel.Range cell = worksheet.Cells[_startCellIndex, ECELL.COL_INPUT_LINE];
+                                cell.Select();
+                                Thread.Sleep(10);
+                                worksheet.Paste();
+                                Thread.Sleep(10);
+                                while (excelApp.CutCopyMode != 0)
+                                {
+                                    Thread.Sleep(10);
+                                }
+                            });
+                                           
 
                             // Remove processed item from queue
                             _startCellIndex = FindWriteCellLastRowIndes();
@@ -284,12 +312,12 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                             rgIndex.Value = _excelIndex.ToString();
                             rgName.Value = customCodeComparer.InputFileName == string.Empty ? customCodeComparer.OutoutFileName : customCodeComparer.InputFileName;
                             rgDataName.Value = """
-                                                                B6체계 MQ-105K
+                                                                MUAV체계 MQ-105K
                                 주부조종사운용장치
                                 소프트웨어산출물명세서
-                                (80445501SPS)
+                                (80541551SPS)
                                 """;
-                            rgDatasheetNumber.Value = "80445501SPS";
+                            rgDatasheetNumber.Value = "80541551SPS";
                             rgSummery.Value = "o 기능개선\r\n : 항전개조 1단계 적용 \r\n OT보완 개선사항 반영";
                             rgIssue.Value = "영향없음";
                             rgCode.Value = "A6";
@@ -356,7 +384,22 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         }
         private string ProcessBeyondCompareCliExcuteion(string inputFilePath, string outpuFilePath)
         {
-            string processResult; 
+            string processResult = string.Empty;
+            
+            // 폴더인지 파일인지 검증
+            if (Directory.Exists(inputFilePath) || Directory.Exists(outpuFilePath))
+            {
+                Debug.WriteLine($"Error: Directory path provided to file comparison. Input: {inputFilePath}, Output: {outpuFilePath}");
+                return "Error: Directory path provided to file comparison";
+            }
+            
+            // 파일 존재 여부 확인
+            if (!File.Exists(inputFilePath) && !File.Exists(outpuFilePath))
+            {
+                Debug.WriteLine($"Error: Neither input nor output file exists. Input: {inputFilePath}, Output: {outpuFilePath}");
+                return "Error: Files do not exist";
+            }
+            
             ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
             startInfo.WindowStyle = ProcessWindowStyle.Minimized;
             startInfo.Arguments = $"""
@@ -369,25 +412,33 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
 
-            //_fileSemaphore.Wait();
-            // 프로세스 시작
-            using (Process process = new Process())
+            try
             {
-                process.StartInfo = startInfo;
-                process.Start();
-
-                // 표준 출력 및 표준 오류 출력 읽기
-                string output = process.StandardOutput.ReadToEnd();
-                processResult = process.StandardError.ReadToEnd();
-
-                process.WaitForExit();
-
-                if (!string.IsNullOrEmpty(processResult))
+                // 프로세스 시작
+                using (Process process = new Process())
                 {
-                    Debug.WriteLine("Error:");
-                    Debug.WriteLine(processResult);
+                    process.StartInfo = startInfo;
+                    process.Start();
+
+                    // 표준 출력 및 표준 오류 출력 읽기
+                    string output = process.StandardOutput.ReadToEnd();
+                    processResult = process.StandardError.ReadToEnd();
+
+                    process.WaitForExit();
+
+                    if (!string.IsNullOrEmpty(processResult))
+                    {
+                        Debug.WriteLine("Error:");
+                        Debug.WriteLine(processResult);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Beyond Compare execution error: {ex.Message}");
+                processResult = $"Beyond Compare execution error: {ex.Message}";
+            }
+            
             return processResult;
         }
         //private async Task OnFileWatchChanged(object sender, FileSystemEventArgs e)

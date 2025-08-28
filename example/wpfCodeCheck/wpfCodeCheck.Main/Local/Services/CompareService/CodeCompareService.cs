@@ -37,6 +37,8 @@ namespace wpfCodeCheck.Main.Local.Servies
 
                     i++;
                     j++;
+                    
+                    // 평면화된 리스트이므로 모든 항목이 SOURCECODE 파일임
                     if (comparisonResult == false)
                     {
                         AddCodeCompreResult(GetCompareResult(item1, item2));
@@ -50,16 +52,13 @@ namespace wpfCodeCheck.Main.Local.Servies
                             InputFileName = item1.FileName,
                             InputFilePath = item1.FilePath,
                             OutoutFilePath = item2.FilePath,
-                            OutoutFileName = item2.FilePath,
+                            OutoutFileName = item2.FileName,
                         });
-                    }
-                    if (item1.Children != null && item2.Children != null)
-                    {
-                        diffReulstModel.AddRange(await CompareModelCollections(item1.Children, item2.Children));
                     }
                 }
                 else if (comparison < 0)
                 {
+                    // INPUT에만 있는 파일
                     AddCodeCompreResult(GetCompareResult(item1, new FileCompareModel()));
                     item1.IsComparison = false;
                     _code1.Add(item1);
@@ -72,13 +71,10 @@ namespace wpfCodeCheck.Main.Local.Servies
                         OutoutFileName = string.Empty,
                     });
                     i++;
-                    if (item1.Children != null)
-                    {
-                        diffReulstModel.AddRange(await CompareModelCollections(item1.Children, new List<FileCompareModel>()));
-                    }
                 }
                 else
                 {
+                    // OUTPUT에만 있는 파일
                     AddCodeCompreResult(GetCompareResult(new FileCompareModel(), item2));
 
                     item2.IsComparison = false;
@@ -90,29 +86,44 @@ namespace wpfCodeCheck.Main.Local.Servies
                         InputFileName = string.Empty,
                         InputFilePath = string.Empty,
                         OutoutFilePath = item2.FilePath,
-                        OutoutFileName = item2.FilePath,
+                        OutoutFileName = item2.FileName,
                     });
                     j++;
-                    if (item2.Children != null)
-                    {
-                        diffReulstModel.AddRange(await CompareModelCollections(new List<FileCompareModel>(), item2.Children));
-                    }
                 }
 
             }
 
+            // 남은 INPUT 파일들 처리
             while (i < inputItems.Count)
             {
                 inputItems[i].IsComparison = false;
                 _code1.Add(inputItems[i]);
+                AddCodeCompreResult(GetCompareResult(inputItems[i], new FileCompareModel()));
+                AddSwDetailItem(inputItems[i], null);
+                diffReulstModel.Add(new CompareEntity
+                {
+                    InputFileName = inputItems[i].FileName,
+                    InputFilePath = inputItems[i].FilePath,
+                    OutoutFilePath = string.Empty,
+                    OutoutFileName = string.Empty,
+                });
                 i++;
-
             }
 
+            // 남은 OUTPUT 파일들 처리
             while (j < outputItems.Count)
             {
                 outputItems[j].IsComparison = false;
                 _code2.Add(outputItems[j]);
+                AddCodeCompreResult(GetCompareResult(new FileCompareModel(), outputItems[j]));
+                AddSwDetailItem(null, outputItems[j]);
+                diffReulstModel.Add(new CompareEntity
+                {
+                    InputFileName = string.Empty,
+                    InputFilePath = string.Empty,
+                    OutoutFilePath = outputItems[j].FilePath,
+                    OutoutFileName = outputItems[j].FileName,
+                });
                 j++;
             }
             _code2.Distinct();
@@ -130,12 +141,12 @@ namespace wpfCodeCheck.Main.Local.Servies
             CompareText sourceDiffList;
             CompareText destinationDiffList;
 
-            if (File.Exists(inputModel.FilePath))
+            if (File.Exists(inputModel.FilePath) && !Directory.Exists(inputModel.FilePath))
                 sourceDiffList = new CompareText(inputModel.FilePath);
             else
                 sourceDiffList = new CompareText();
 
-            if (File.Exists(outputModel.FilePath))
+            if (File.Exists(outputModel.FilePath) && !Directory.Exists(outputModel.FilePath))
                 destinationDiffList = new CompareText(outputModel.FilePath);
             else
                 destinationDiffList = new CompareText();

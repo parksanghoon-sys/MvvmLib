@@ -81,10 +81,10 @@ namespace wpfCodeCheck
         {          
             return new MainWindowView();            
         }
-        public T GetService<T>() where T : class
-        {
-            return Services.GetService<T>();
-        }
+        //public T GetService<T>() where T : class
+        //{
+        //    return Services.GetService<T>();
+        //}
         protected override void OnExit(ExitEventArgs e)
         {            
             base.OnExit(e);

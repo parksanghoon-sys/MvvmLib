@@ -88,7 +88,7 @@ public class SourceDirectoryService : IDirectoryCompare
             item.FileSize = null;
             item.Depth = depth;
             item.Children = new();
-
+            item.FileType = Domain.Enums.EFileType.DIRECTORY;
             source.Add(item);
 
             await GetFiles(dir, item.Children, depth + 1);
@@ -104,6 +104,7 @@ public class SourceDirectoryService : IDirectoryCompare
             item.Depth = depth;
             item.CreateDate = file.LastWriteTime.ToString("yyyy-MM-dd HH:mm");
             item.FileIndex = _fileIndex++;
+            item.FileType = Domain.Enums.EFileType.SOURCECODE;
             byte[] inputBytes;
             ulong checkSum = 0;
             int lineCnt = 0;

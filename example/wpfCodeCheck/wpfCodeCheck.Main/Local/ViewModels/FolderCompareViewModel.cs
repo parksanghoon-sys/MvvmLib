@@ -45,15 +45,26 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             {
                 throw new InsufficientDataException($"파일 데이터가 부족 합니다.");
             }
-            var inputItems = _codeInfos.Where(p => p.type == EFolderListType.INPUT).FirstOrDefault(); ;
-            var outputItems = _codeInfos.Where(p => p.type == EFolderListType.OUTPUT).FirstOrDefault();
+            var inputData = _codeInfos.Where(p => p.type == EFolderListType.INPUT).FirstOrDefault();
+            var outputData = _codeInfos.Where(p => p.type == EFolderListType.OUTPUT).FirstOrDefault();
 
+            // 비교를 위해 평면화된 파일 리스트 생성
+            var inputItems = inputData.fileDatas.Flatten()
+                                               .Where(f => f.FileType == EFileType.SOURCECODE)
+                                               .ToList();
+            var outputItems = outputData.fileDatas.Flatten()
+                                                 .Where(f => f.FileType == EFileType.SOURCECODE)
+                                                 .ToList();
 
-            var compareResult = await _compareService.CompareModelCollections(inputItems.fileDatas, outputItems.fileDatas);            
+            var compareResult = await _compareService.CompareModelCollections(inputItems, outputItems);            
             
+            // 비교 결과를 원본 계층구조에 반영
+            UpdateComparisonResults(inputData.fileDatas, inputItems);
+            UpdateComparisonResults(outputData.fileDatas, outputItems);
             
-            _baseService.SetFolderTypeDictionaryFiles(EFolderListType.INPUT, inputItems.fileDatas);
-            _baseService.SetFolderTypeDictionaryFiles(EFolderListType.OUTPUT, outputItems.fileDatas);
+            // 뷰 바인딩을 위해 원본 계층구조 유지 (업데이트된 IsComparison 포함)
+            _baseService.SetFolderTypeDictionaryFiles(EFolderListType.INPUT, inputData.fileDatas);
+            _baseService.SetFolderTypeDictionaryFiles(EFolderListType.OUTPUT, outputData.fileDatas);
 
             _baseService.SetDirectoryCompareReuslt(compareResult);
             //var groupedByProjectName = _code2
@@ -100,6 +111,19 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 _codeInfos.Clear();
             }            
             _codeInfos.Add(directorySearchResult);
+        }
+
+        private void UpdateComparisonResults(IList<FileCompareModel> hierarchyItems, IList<FileCompareModel> flatItems)
+        {
+            var flatLookup = flatItems.ToDictionary(f => f.FilePath, f => f.IsComparison);
+            
+            foreach (var item in hierarchyItems.Flatten())
+            {
+                if (item.FileType == EFileType.SOURCECODE && flatLookup.ContainsKey(item.FilePath))
+                {
+                    item.IsComparison = flatLookup[item.FilePath];
+                }
+            }
         }
     
         //private bool AddCodeCompreResult(CompareEntity customCodeComparer)

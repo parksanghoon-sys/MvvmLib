@@ -118,6 +118,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         IsComparison = item.IsComparison,
                         FileSize = item.FileSize,
                         FileIndex = item.FileIndex,
+                        FileType = item.FileType,
                      });
                 }
 

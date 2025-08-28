@@ -29,7 +29,7 @@ namespace wpfCodeCheck.Domain.Services
         }     
         public void SetFolderTypeDictionaryFiles(EFolderListType eFolderListType, List<FileCompareModel> fileCompareModels)
         {
-            this._folderTypeDirectoryFiles.Add(eFolderListType, fileCompareModels);
+            this._folderTypeDirectoryFiles[eFolderListType] = fileCompareModels;
             OnPropertyChanged(nameof(FolderTypeDirectoryFiles));
         }
      

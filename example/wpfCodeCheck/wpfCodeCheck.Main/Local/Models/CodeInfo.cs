@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Domain.Enums;
 
 namespace wpfCodeCheck.Main.Local.Models;
 
@@ -14,7 +15,8 @@ public class CodeInfoModel : BaseNotifyModel
     public long? FileSize { get; set; }
     public int LineCount { get; set; }
     public string Checksum { get; set; } = string.Empty;
-    public IconType FileType => GetFileType(FileName);
+    public IconType FileIcon => GetFileType(FileName);
+    public EFileType FileType {  get; set; }
 
     private bool _isComparison;
     public bool IsComparison
