@@ -49,8 +49,9 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
         [AsyncRelayCommand]
         private async Task ExportAsync()
         {
-            DirectoryHelper.CreateDirectory(ExportOutputPath);
-            string Excel_DATA_PATH = ExportOutputPath;
+            if(Directory.Exists(ExportOutputPath) == false)
+                DirectoryHelper.CreateDirectory(ExportOutputPath);
+            
             //string baseExcelFilepath = Path.Combine(Environment.CurrentDirectory, "SW_Chage.xlsx");
             _excelFilePath = Path.Combine(ExportOutputPath, ExportOutputFileName + ".xlsx");
 
@@ -87,7 +88,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
             File.Delete(jsonFilePath);
             _dialogService.Show(this, typeof(LoadingDialogView), 300, 300);
 
-            foreach (var failFile in _failFileDatas)
+            foreach (var failFile in FailFileDatas)
             {
                 var isSuccess = await _excelPaser.WriteExcelAync(failFile.InputFile, failFile.OutputFile);
             }

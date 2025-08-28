@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using wpfCodeCheck.Domain.Enums;
 
 namespace wpfCodeCheck.Domain.Datas
 {
@@ -10,6 +11,7 @@ namespace wpfCodeCheck.Domain.Datas
         public int FileIndex { get; set; }
         public string ProjectName { get; set; } = string.Empty;
         public int Depth { get; set; }
+        public EFileType FileType { get; set; }
         public virtual List<FileCompareModel>? Children { get; set; }
 
         public bool Equals(FileItem? other)

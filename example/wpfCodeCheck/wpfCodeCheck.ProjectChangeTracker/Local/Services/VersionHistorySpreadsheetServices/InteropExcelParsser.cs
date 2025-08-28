@@ -136,17 +136,18 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                     _startCellIndex = 1;
                     foreach (var project in _baseService.CompareResult.CompareResults)
                     {
-                        ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
-                        startInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                        startInfo.Arguments = $"""
-                                                "@{DirectoryHelper.GetLocalSettingDirectory()}\beyondCli.txt" "{project.InputFilePath}" "{project.OutoutFilePath}" "{_resultFilePath}"
-                                               """;
+                        //ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
+                        //startInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                        //startInfo.Arguments = $"""
+                        //                        "@{DirectoryHelper.GetLocalSettingDirectory()}\beyondCli.txt" "{project.InputFilePath}" "{project.OutoutFilePath}" "{_resultFilePath}"
+                        //                       """;
 
-                        // 출력 캡처를 위한 설정
-                        startInfo.RedirectStandardOutput = true;
-                        startInfo.RedirectStandardError = true;
-                        startInfo.UseShellExecute = false;
-                        startInfo.CreateNoWindow = true;
+                        //// 출력 캡처를 위한 설정
+                        //startInfo.RedirectStandardOutput = true;
+                        //startInfo.RedirectStandardError = true;
+                        //startInfo.UseShellExecute = false;
+                        //startInfo.CreateNoWindow = true;
+
 
                         //_fileSemaphore.Wait();
                         // 프로세스 시작
