@@ -10,6 +10,7 @@ using System.Windows;
 using System.ComponentModel;
 using wpfCodeCheck.Main.Services;
 using wpfCodeCheck.Domain.Models;
+using wpfCodeCheck.Main.Local.Models;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -49,9 +50,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [Property]
         private EFolderListType _folderLIstType;
         [Property]
-        private CustomObservableCollection<FileTreeModel> _fileDatas = new();
+        private CustomObservableCollection<CodeInfoModel> _fileDatas = new();
         [Property]
-        private FileTreeModel _fileData = new();
+        private CodeInfoModel _fileData = new();
         private bool _disposedValue;
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -64,7 +65,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     if (baseService.FolderTypeDirectoryFiles.TryGetValue(FolderLIstType, out files))
                     {
                         FileDatas.Clear();
-                        FileDatas.AddRange(FlattenFileTree(files));                                            
+                        FileDatas.AddRange(ConvertToCodeInfoModels(files));                                            
                     }
                 }
             }
@@ -92,31 +93,47 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 var folderInfoList = await _dierctoryFileInfoService.GetDirectoryCodeFileInfosAsync(FolderPath);
 
 
-                await FileDatas.AddItemsAsync(FlattenFileTree(folderInfoList));
+                await FileDatas.AddItemsAsync(ConvertToCodeInfoModels(folderInfoList));
                 //folderInfoList.ForEach(item =>  FileDatas.Add(item));
                 _dialogService.Close(typeof(LoadingDialogView));
                 WeakReferenceMessenger.Default.Send<DirectorySearchResult, FolderCompareViewModel>(new DirectorySearchResult(FolderLIstType, folderInfoList));
             }            
         }
         private int _fileIndex = 1;
-        private List<FileTreeModel> FlattenFileTree(List<FileTreeModel> list)
+        private List<CodeInfoModel> ConvertToCodeInfoModels(List<FileTreeModel> list)
         {
-            var flattenedList = new List<FileTreeModel>();
+            var flattenedList = new List<CodeInfoModel>();
+            _fileIndex = 1; // 인덱스 초기화
+            FlattenAndConvert(list, flattenedList);
+            return flattenedList;
+        }
+
+        private void FlattenAndConvert(List<FileTreeModel> list, List<CodeInfoModel> result)
+        {
             foreach (var item in list)
             {
                 if (!item.IsDirectory)
                 {
-                    // 파일인 경우만 평탄화된 리스트에 추가
-                    flattenedList.Add(item);
+                    // 파일인 경우만 CodeInfoModel로 변환하여 추가
+                    result.Add(new CodeInfoModel()
+                    {
+                        Checksum = item.Checksum,
+                        FilePath = item.FilePath,
+                        FileName = item.FileName,
+                        CreateDate = item.CreateDate,
+                        LineCount = item.LineCount,
+                        IsComparison = item.IsComparison,
+                        FileSize = item.FileSize,
+                        FileIndex = _fileIndex++,
+                        FileType = item.FileType,
+                    });
                 }
 
                 if (item.Children != null && item.Children.Any())
                 {
-                    flattenedList.AddRange(FlattenFileTree(item.Children));
+                    FlattenAndConvert(item.Children, result);
                 }
             }
-
-            return flattenedList;
         }
 
         protected virtual void Dispose(bool disposing)
