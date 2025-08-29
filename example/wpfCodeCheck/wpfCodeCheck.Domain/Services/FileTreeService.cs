@@ -102,7 +102,7 @@ namespace wpfCodeCheck.Domain.Services
                     {
                         // 양쪽에 있는 파일 - 내용 비교
                         var outputFile = outputFiles[inputFile.Key];
-                        var isDifferent = await CompareFilesAsync(inputFile.Value, outputFile);
+                        var isDifferent = CompareFiles(inputFile.Value, outputFile);
                         
                         inputFile.Value.CompareTarget = outputFile;
                         outputFile.CompareTarget = inputFile.Value;
@@ -170,7 +170,7 @@ namespace wpfCodeCheck.Domain.Services
         /// <summary>
         /// 두 파일의 내용 비교
         /// </summary>
-        private async Task<bool> CompareFilesAsync(FileTreeModel file1, FileTreeModel file2)
+        private bool CompareFiles(FileTreeModel file1, FileTreeModel file2)
         {
             // 크기가 다르면 다른 파일
             if (file1.FileSize != file2.FileSize)

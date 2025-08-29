@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Windows;
 using TextCopy;
-using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Helpers;
 using wpfCodeCheck.Domain.Local.Helpers;
 using wpfCodeCheck.Domain.Services;
@@ -42,7 +42,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
             _csvHelper = csvHelper;
             _baseService = baseService;
         }     
-        public async Task<bool> WriteExcelAync(FileEntity inputFile, FileEntity outputFile)
+        public async Task<bool> WriteExcelAync(FileTreeModel inputFile, FileTreeModel outputFile)
         {
             bool isResult = false;
             
@@ -276,12 +276,12 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                             {
                                 FailClassAnalysisModel fail = new FailClassAnalysisModel()
                                 {
-                                    InputFile = new FileEntity()
+                                    InputFile = new FileTreeModel()
                                     {
                                         FileName = customCodeComparer!.InputFileName,
                                         FilePath = customCodeComparer!.InputFilePath,
                                     },
-                                    OutputFile = new FileEntity()
+                                    OutputFile = new FileTreeModel()
                                     {
                                         FileName = customCodeComparer.OutoutFileName,
                                         FilePath = customCodeComparer.OutoutFilePath
@@ -356,12 +356,12 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                     var csvExceptionData = new string[] { customCodeComparer!.InputFileName, customCodeComparer.OutoutFileName, customCodeComparer.InputFilePath, customCodeComparer.OutoutFilePath };
                     FailClassAnalysisModel fail = new FailClassAnalysisModel()
                     {
-                        InputFile = new FileEntity()
+                        InputFile = new FileTreeModel()
                         {
                             FileName = customCodeComparer!.InputFileName,
                             FilePath = customCodeComparer!.InputFilePath,
                         },
-                        OutputFile = new FileEntity()
+                        OutputFile = new FileTreeModel()
                         {
                             FileName = customCodeComparer.OutoutFileName,
                             FilePath = customCodeComparer.OutoutFilePath

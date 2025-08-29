@@ -1,6 +1,6 @@
 ﻿using ClosedXML.Excel;
 using CompareEngine;
-using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Services;
 
 namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
@@ -163,7 +163,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
             }
         }
 
-        public Task<bool> WriteExcelAync(FileEntity inputFile, FileEntity outputFile)
+        public Task<bool> WriteExcelAync(FileTreeModel inputFile, FileTreeModel outputFile)
         {
             throw new NotImplementedException();
         }

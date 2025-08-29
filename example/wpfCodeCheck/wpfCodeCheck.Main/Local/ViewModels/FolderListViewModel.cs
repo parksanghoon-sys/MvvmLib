@@ -4,13 +4,10 @@ using CoreMvvmLib.WPF.Components;
 using CoreMvvmLib.Core.Services.DialogService;
 using wpfCodeCheck.Component.UI.Views;
 using CoreMvvmLib.Core.Messenger;
-using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Enums;
 using System.Windows;
-using wpfCodeCheck.Domain.Datas;
 using System.ComponentModel;
-using wpfCodeCheck.Domain.Services.DirectoryServices;
 using wpfCodeCheck.Main.Services;
 using wpfCodeCheck.Domain.Models;
 
@@ -52,9 +49,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [Property]
         private EFolderListType _folderLIstType;
         [Property]
-        private CustomObservableCollection<CodeInfoModel> _fileDatas = new();
+        private CustomObservableCollection<FileTreeModel> _fileDatas = new();
         [Property]
-        private CodeInfoModel _fileData = new();
+        private FileTreeModel _fileData = new();
         private bool _disposedValue;
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -67,7 +64,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     if (baseService.FolderTypeDirectoryFiles.TryGetValue(FolderLIstType, out files))
                     {
                         FileDatas.Clear();
-                        FileDatas.AddRange(FlattenHierarchy(files));                                            
+                        FileDatas.AddRange(FlattenFileTree(files));                                            
                     }
                 }
             }
@@ -95,37 +92,27 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 var folderInfoList = await _dierctoryFileInfoService.GetDirectoryCodeFileInfosAsync(FolderPath);
 
 
-                await FileDatas.AddItemsAsync(FlattenHierarchy(folderInfoList));
+                await FileDatas.AddItemsAsync(FlattenFileTree(folderInfoList));
                 //folderInfoList.ForEach(item =>  FileDatas.Add(item));
                 _dialogService.Close(typeof(LoadingDialogView));
                 WeakReferenceMessenger.Default.Send<DirectorySearchResult, FolderCompareViewModel>(new DirectorySearchResult(FolderLIstType, folderInfoList));
             }            
         }
         private int _fileIndex = 1;
-        private List<CodeInfoModel> FlattenHierarchy(List<FileTreeModel> list)
+        private List<FileTreeModel> FlattenFileTree(List<FileTreeModel> list)
         {
-            var flattenedList = new List<CodeInfoModel>();
+            var flattenedList = new List<FileTreeModel>();
             foreach (var item in list)
             {
-                if (item.FileType == EFileType.FILE)
+                if (!item.IsDirectory)
                 {
-                    flattenedList.Add(new CodeInfoModel()
-                    {
-                        Checksum = item.Checksum,
-                        FilePath = item.FilePath,
-                        FileName = item.FileName,
-                        CreateDate = item.CreateDate,
-                        LineCount = item.LineCount,
-                        IsComparison = item.IsComparison,
-                        FileSize = item.FileSize,
-                        FileIndex = _fileIndex ++,
-                        FileType = item.FileType,
-                    });
+                    // 파일인 경우만 평탄화된 리스트에 추가
+                    flattenedList.Add(item);
                 }
 
-                if (item.Children != null)
+                if (item.Children != null && item.Children.Any())
                 {
-                    flattenedList.AddRange(FlattenHierarchy(item.Children));
+                    flattenedList.AddRange(FlattenFileTree(item.Children));
                 }
             }
 

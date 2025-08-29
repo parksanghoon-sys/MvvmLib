@@ -3,10 +3,10 @@ using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
 using System.Windows;
 using wpfCodeCheck.Main.Local.Exceptions;
-using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Enums;
-using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Domain.Models;
+using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Main.Services;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
@@ -49,11 +49,11 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             var outputData = _codeInfos.Where(p => p.type == EFolderListType.OUTPUT).FirstOrDefault();
 
             // 비교를 위해 평면화된 파일 리스트 생성
-            var inputItems = inputData.fileDatas.Flatten()
-                                               .Where(f => f.FileType == EFileType.FILE)
+            var inputItems = inputData.fileDatas.SelectMany(f => f.GetAllDescendants())
+                                               .Where(f => !f.IsDirectory)
                                                .ToList();
-            var outputItems = outputData.fileDatas.Flatten()
-                                                 .Where(f => f.FileType == EFileType.FILE)
+            var outputItems = outputData.fileDatas.SelectMany(f => f.GetAllDescendants())
+                                                 .Where(f => !f.IsDirectory)
                                                  .ToList();
 
             var compareResult = await _compareService.CompareModelCollections(inputItems, outputItems);            
@@ -89,21 +89,21 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         {
             WeakReferenceMessenger.Default.Send<EFolderCompareList, FolderListViewModel>(EFolderCompareList.CLEAR);
         }
-        private DiffReulstModel<T> GetCodeCompareModels<T>(IEnumerable<CodeInfoModel> codeInfos)
-        {
-            var diffFileModel = new DiffReulstModel<T>();
-            List<string> classFile = new List<string>();
-            List<string> classFilePath = new List<string>();
-            foreach (var item in codeInfos)
-            {
-                if (item.IsComparison == false)
-                {
-                    classFile.Add(item.FileName);
-                    classFilePath.Add(item.FilePath);
-                }
-            }
-            return diffFileModel;
-        }
+        //private DiffReulstModel<T> GetCodeCompareModels<T>(IEnumerable<CodeInfoModel> codeInfos)
+        //{
+        //    var diffFileModel = new DiffReulstModel<T>();
+        //    List<string> classFile = new List<string>();
+        //    List<string> classFilePath = new List<string>();
+        //    foreach (var item in codeInfos)
+        //    {
+        //        if (item.IsComparison == false)
+        //        {
+        //            classFile.Add(item.FileName);
+        //            classFilePath.Add(item.FilePath);
+        //        }
+        //    }
+        //    return diffFileModel;
+        //}
         private void OnReceiveCodeInfos(FolderCompareViewModel model, DirectorySearchResult directorySearchResult)
         {
             if (_codeInfos.Count >= 2)
@@ -113,13 +113,13 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             _codeInfos.Add(directorySearchResult);
         }
 
-        private void UpdateComparisonResults(IList<FileCompareModel> hierarchyItems, IList<FileCompareModel> flatItems)
+        private void UpdateComparisonResults(IList<FileTreeModel> hierarchyItems, IList<FileTreeModel> flatItems)
         {
             var flatLookup = flatItems.ToDictionary(f => f.FilePath, f => f.IsComparison);
             
-            foreach (var item in hierarchyItems.Flatten())
+            foreach (var item in hierarchyItems.SelectMany(h => h.GetAllDescendants()))
             {
-                if (item.FileType == EFileType.FILE && flatLookup.ContainsKey(item.FilePath))
+                if (!item.IsDirectory && flatLookup.ContainsKey(item.FilePath))
                 {
                     item.IsComparison = flatLookup[item.FilePath];
                 }

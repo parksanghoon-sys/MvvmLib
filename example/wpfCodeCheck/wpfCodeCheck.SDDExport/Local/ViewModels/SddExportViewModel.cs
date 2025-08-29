@@ -1,7 +1,7 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.WPF.Components;
-using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.SDDExport.Local.Models;
 
@@ -35,7 +35,7 @@ namespace wpfCodeCheck.SDDExport.Local.ViewModels
                 }
             }
         }
-        private void AddFileDatas(FileInfoModel file, FileCompareModel model)
+        private void AddFileDatas(FileInfoModel file, FileTreeModel model)
         {
             if (model.Children != null)
             {
