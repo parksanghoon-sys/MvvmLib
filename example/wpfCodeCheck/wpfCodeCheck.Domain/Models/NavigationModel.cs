@@ -1,5 +1,5 @@
-﻿using wpfCodeCheck.Domain.Models.Base;
-using wpfCodeCheck.Domain.Enums;
+﻿using CoreMvvmLib.Design.Enums;
+using wpfCodeCheck.Domain.Models.Base;
 
 namespace wpfCodeCheck.Domain.Models
 {

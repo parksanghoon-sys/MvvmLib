@@ -50,10 +50,10 @@ namespace wpfCodeCheck.Main.Local.ViewModels
 
             // 비교를 위해 평면화된 파일 리스트 생성
             var inputItems = inputData.fileDatas.Flatten()
-                                               .Where(f => f.FileType == EFileType.SOURCECODE)
+                                               .Where(f => f.FileType == EFileType.FILE)
                                                .ToList();
             var outputItems = outputData.fileDatas.Flatten()
-                                                 .Where(f => f.FileType == EFileType.SOURCECODE)
+                                                 .Where(f => f.FileType == EFileType.FILE)
                                                  .ToList();
 
             var compareResult = await _compareService.CompareModelCollections(inputItems, outputItems);            
@@ -119,7 +119,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             
             foreach (var item in hierarchyItems.Flatten())
             {
-                if (item.FileType == EFileType.SOURCECODE && flatLookup.ContainsKey(item.FilePath))
+                if (item.FileType == EFileType.FILE && flatLookup.ContainsKey(item.FilePath))
                 {
                     item.IsComparison = flatLookup[item.FilePath];
                 }

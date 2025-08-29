@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
+		<ImplicitUsings>enable</ImplicitUsings>		
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
 		<Platforms>AnyCPU;x86</Platforms>
@@ -11,6 +11,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\lib\CompareEngine\CompareEngine.csproj" />
 	  <ProjectReference Include="..\..\..\src\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
+	  <ProjectReference Include="..\..\..\src\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
 	</ItemGroup>
 
 </Project>

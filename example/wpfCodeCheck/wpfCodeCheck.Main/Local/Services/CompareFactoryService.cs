@@ -26,11 +26,11 @@ namespace wpfCodeCheck.Main.Services
 
             switch (inputType)
             {
-                case EType.NONE:
+                case ECompareType.NONE:
                     return null;
-                case EType.SW_CODE:
+                case ECompareType.SW_CODE:
                     return new CodeCompareService(_csvHelper);
-                case EType.FILE:
+                case ECompareType.FILE:
                     return new FileCompareService(_csvHelper, _settingService);
                 default:
                     break;
@@ -43,11 +43,11 @@ namespace wpfCodeCheck.Main.Services
 
             switch (inputType)
             {
-                case EType.NONE:
+                case ECompareType.NONE:
                     return null;
-                case EType.SW_CODE:
+                case ECompareType.SW_CODE:
                     return new SourceDirectoryService(_fileCheckSum);
-                case EType.FILE:
+                case ECompareType.FILE:
                     return new FileDirectoryService(_fileCheckSum);
                 default:
                     break;

@@ -1,200 +1,99 @@
 ﻿using CompareEngine;
-using System.Collections;
-using System.IO;
-using wpfCodeCheck.Domain.Datas;
-using wpfCodeCheck.Domain.Models.Compare;
-using wpfCodeCheck.Domain.Local.Helpers;
+using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Services;
-using wpfCodeCheck.Domain.Services.CompareServices;
 
-
-namespace wpfCodeCheck.Main.Local.Servies
+namespace wpfCodeCheck.Main.Local.Services.CompareService
 {
-    public class CodeCompareService : CompareBaseService
+    /// <summary>
+    /// 코드 파일 비교를 위한 서비스 (FileTreeService 기반)
+    /// </summary>
+    public class CodeCompareService
     {
-        public CodeCompareService(ICsvHelper csvHelper)
-            :base(csvHelper) 
-        {            
+        private readonly FileTreeService _fileTreeService;
+
+        public CodeCompareService()
+        {
+            _fileTreeService = new FileTreeService();
         }
 
-        #region Override Method
-        public override async Task<List<FileCompareModel>> CompareModelCollections(IList<FileCompareModel> inputItems, IList<FileCompareModel> outputItems)
+        /// <summary>
+        /// 두 디렉토리를 비교하여 차이점을 반환
+        /// </summary>
+        public async Task<List<FileTreeModel>> CompareDirectoriesAsync(string inputPath, string outputPath)
         {
-            List<FileCompareModel> diffResultModel = new();
-            int i = 0, j = 0;
-            while (i < inputItems.Count && j < outputItems.Count)
-            {
-                
-                FileCompareModel item1 = inputItems[i];
-                FileCompareModel item2 = outputItems[j];
+            var inputTree = await _fileTreeService.BuildFileTreeAsync(inputPath);
+            var outputTree = await _fileTreeService.BuildFileTreeAsync(outputPath);
 
-                int comparison = string.Compare(item1.FileName, item2.FileName);
-                if (comparison == 0)
-                {
-                    bool comparisonResult = item1.Equals(item2);
-
-                    item1.IsComparison = comparisonResult;
-                    item2.IsComparison = comparisonResult;
-
-                    i++;
-                    j++;
-                    
-                    // 평면화된 리스트이므로 모든 항목이 SOURCECODE 파일임
-                    if (comparisonResult == false)
-                    {
-                        AddCodeCompreResult(GetCompareResult(item1, item2));
-
-                        _code1.Add(item1);
-                        _code2.Add(item2);
-
-                        AddSwDetailItem(item1, item2 );
-                        diffReulstModel.Add(new CompareEntity
-                        {
-                            InputFileName = item1.FileName,
-                            InputFilePath = item1.FilePath,
-                            OutoutFilePath = item2.FilePath,
-                            OutoutFileName = item2.FileName,
-                        });
-                    }
-                }
-                else if (comparison < 0)
-                {
-                    // INPUT에만 있는 파일
-                    AddCodeCompreResult(GetCompareResult(item1, new FileCompareModel()));
-                    item1.IsComparison = false;
-                    _code1.Add(item1);
-                    AddSwDetailItem(item1, null);
-                    diffReulstModel.Add(new CompareEntity
-                    {
-                        InputFileName = item1.FileName,
-                        InputFilePath = item1.FilePath,
-                        OutoutFilePath = string.Empty,
-                        OutoutFileName = string.Empty,
-                    });
-                    i++;
-                }
-                else
-                {
-                    // OUTPUT에만 있는 파일
-                    AddCodeCompreResult(GetCompareResult(new FileCompareModel(), item2));
-
-                    item2.IsComparison = false;
-                    _code2.Add(item2);
-                    AddSwDetailItem(null, item2);
-
-                    diffReulstModel.Add(new CompareEntity
-                    {
-                        InputFileName = string.Empty,
-                        InputFilePath = string.Empty,
-                        OutoutFilePath = item2.FilePath,
-                        OutoutFileName = item2.FileName,
-                    });
-                    j++;
-                }
-
-            }
-
-            // 남은 INPUT 파일들 처리
-            while (i < inputItems.Count)
-            {
-                inputItems[i].IsComparison = false;
-                _code1.Add(inputItems[i]);
-                AddCodeCompreResult(GetCompareResult(inputItems[i], new FileCompareModel()));
-                AddSwDetailItem(inputItems[i], null);
-                diffReulstModel.Add(new CompareEntity
-                {
-                    InputFileName = inputItems[i].FileName,
-                    InputFilePath = inputItems[i].FilePath,
-                    OutoutFilePath = string.Empty,
-                    OutoutFileName = string.Empty,
-                });
-                i++;
-            }
-
-            // 남은 OUTPUT 파일들 처리
-            while (j < outputItems.Count)
-            {
-                outputItems[j].IsComparison = false;
-                _code2.Add(outputItems[j]);
-                AddCodeCompreResult(GetCompareResult(new FileCompareModel(), outputItems[j]));
-                AddSwDetailItem(null, outputItems[j]);
-                diffReulstModel.Add(new CompareEntity
-                {
-                    InputFileName = string.Empty,
-                    InputFilePath = string.Empty,
-                    OutoutFilePath = outputItems[j].FilePath,
-                    OutoutFileName = outputItems[j].FileName,
-                });
-                j++;
-            }
-            _code2.Distinct();
-            _code1.Distinct();
-
-            return diffReulstModel;
+            return await _fileTreeService.CompareFileTreesAsync(inputTree, outputTree);
         }
-    
-        #endregion
-        public CompareEntity GetCompareResult(FileItem inputModel, FileItem outputModel)
+
+        /// <summary>
+        /// 두 개별 파일의 상세 차이점 비교 (Beyond Compare 스타일)
+        /// </summary>
+        public async Task<CompareResult> CompareFilesDetailAsync(FileTreeModel file1, FileTreeModel file2)
         {
-            if (inputModel.FileSize == null && outputModel.FileSize == null)
-                return null;
+            if (file1.FileSize == null && file2.FileSize == null)
+                return new CompareResult { HasDifferences = false };
 
-            CompareText sourceDiffList;
-            CompareText destinationDiffList;
+            CompareText sourceText;
+            CompareText destinationText;
 
-            if (File.Exists(inputModel.FilePath) && !Directory.Exists(inputModel.FilePath))
-                sourceDiffList = new CompareText(inputModel.FilePath);
+            // 첫 번째 파일 처리
+            if (File.Exists(file1.FilePath) && !Directory.Exists(file1.FilePath))
+                sourceText = new CompareText(file1.FilePath);
             else
-                sourceDiffList = new CompareText();
+                sourceText = new CompareText();
 
-            if (File.Exists(outputModel.FilePath) && !Directory.Exists(outputModel.FilePath))
-                destinationDiffList = new CompareText(outputModel.FilePath);
+            // 두 번째 파일 처리
+            if (File.Exists(file2.FilePath) && !Directory.Exists(file2.FilePath))
+                destinationText = new CompareText(file2.FilePath);
             else
-                destinationDiffList = new CompareText();
+                destinationText = new CompareText();
 
-            CompareEngine.CompareEngine compareEngine = new CompareEngine.CompareEngine();
-            compareEngine.StartDiff(sourceDiffList, destinationDiffList);
+            // CompareEngine을 사용하여 비교
+            var compareEngine = new CompareEngine.CompareEngine();
+            compareEngine.StartDiff(sourceText, destinationText);
 
-            ArrayList resultLines = compareEngine.DiffResult();
-            CustomCodeComparer compareResult = new CustomCodeComparer();
-            compareResult.InputCompareText = sourceDiffList;
-            compareResult.OutputCompareText = destinationDiffList;
-            compareResult.CompareResultSpans = GetArrayListToList<CompareResultSpan>(resultLines);
+            var resultLines = compareEngine.DiffResult();
 
-            compareResult.InputFileName = inputModel.FileName;
-            compareResult.OutoutFileName = outputModel.FileName;
-
-            compareResult.InputFilePath = inputModel.FilePath;
-            compareResult.OutoutFilePath = outputModel.FilePath;
-
-            return compareResult;
+            return new CompareResult
+            {
+                HasDifferences = resultLines.Count > 0,
+                SourceText = sourceText,
+                DestinationText = destinationText,
+                DiffResults = ConvertArrayListToList<CompareResultSpan>(resultLines),
+                File1 = file1,
+                File2 = file2
+            };
         }
-        private IList<T> GetArrayListToList<T>(ArrayList list)
-        {
-            List<T> result = new List<T>();
 
+        /// <summary>
+        /// ArrayList을 Generic List로 변환
+        /// </summary>
+        private List<T> ConvertArrayListToList<T>(ArrayList list)
+        {
+            var result = new List<T>();
             foreach (var item in list)
             {
-                if (item is T)
+                if (item is T typedItem)
                 {
-                    result.Add((T)item);
+                    result.Add(typedItem);
                 }
             }
-
             return result;
         }
+    }
 
-        private bool AddCodeCompreResult(CompareEntity customCodeComparer)
-        {
-            if (customCodeComparer is null)
-                return false;
-            if (_codeCompareModel.CompareResults.Contains(customCodeComparer) == false)
-            {
-                _codeCompareModel.CompareResults.Add(customCodeComparer);
-            }
-            return true;
-        }
-
-        
+    /// <summary>
+    /// 파일 비교 결과
+    /// </summary>
+    public class CompareResult
+    {
+        public bool HasDifferences { get; set; }
+        public CompareText? SourceText { get; set; }
+        public CompareText? DestinationText { get; set; }
+        public List<CompareResultSpan> DiffResults { get; set; } = new List<CompareResultSpan>();
+        public FileTreeModel? File1 { get; set; }
+        public FileTreeModel? File2 { get; set; }
     }
 }

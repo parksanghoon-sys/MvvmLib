@@ -12,6 +12,7 @@ using wpfCodeCheck.Domain.Datas;
 using System.ComponentModel;
 using wpfCodeCheck.Domain.Services.DirectoryServices;
 using wpfCodeCheck.Main.Services;
+using wpfCodeCheck.Domain.Models;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -62,12 +63,11 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             {
                 if (e.PropertyName == "FolderTypeDirectoryFiles")
                 {
-                    List<FileCompareModel> files;
+                    List<FileTreeModel> files;
                     if (baseService.FolderTypeDirectoryFiles.TryGetValue(FolderLIstType, out files))
                     {
                         FileDatas.Clear();
-                        FileDatas.AddRange(FlattenHierarchy(files));
-                                            
+                        FileDatas.AddRange(FlattenHierarchy(files));                                            
                     }
                 }
             }
@@ -101,12 +101,13 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 WeakReferenceMessenger.Default.Send<DirectorySearchResult, FolderCompareViewModel>(new DirectorySearchResult(FolderLIstType, folderInfoList));
             }            
         }
-        private List<CodeInfoModel> FlattenHierarchy(List<FileCompareModel> list)
+        private int _fileIndex = 1;
+        private List<CodeInfoModel> FlattenHierarchy(List<FileTreeModel> list)
         {
             var flattenedList = new List<CodeInfoModel>();
             foreach (var item in list)
             {
-                if (item.Checksum is not "")
+                if (item.FileType == EFileType.FILE)
                 {
                     flattenedList.Add(new CodeInfoModel()
                     {
@@ -117,9 +118,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                         LineCount = item.LineCount,
                         IsComparison = item.IsComparison,
                         FileSize = item.FileSize,
-                        FileIndex = item.FileIndex,
+                        FileIndex = _fileIndex ++,
                         FileType = item.FileType,
-                     });
+                    });
                 }
 
                 if (item.Children != null)

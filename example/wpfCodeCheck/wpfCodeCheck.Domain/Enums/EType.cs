@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wpfCodeCheck.Domain.Enums
 {
-    public enum EType
+    public enum ECompareType
     {
         NONE,
         SW_CODE,
@@ -15,6 +15,6 @@ namespace wpfCodeCheck.Domain.Enums
     public enum EFileType
     {
         DIRECTORY,
-        SOURCECODE
+        FILE
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Services.DirectoryServices;
 
@@ -18,9 +19,9 @@ namespace wpfCodeCheck.Main.Local.Servies
         {
             _fileCheckSum = fileCheckSum;            
         }
-        public async Task<List<FileCompareModel>> GetDirectoryCodeFileInfosAsync(string path)
+        public async Task<List<FileTreeModel>> GetDirectoryCodeFileInfosAsync(string path)
         {
-            List<FileCompareModel> codeInfos = new List<FileCompareModel>();
+            List<FileTreeModel> codeInfos = new ();
 
             await Task.Run(async () =>
             {
@@ -36,7 +37,7 @@ namespace wpfCodeCheck.Main.Local.Servies
 
             return codeInfos;
         }
-        private List<FileCompareModel> SortFilesWithChildren(List<FileCompareModel> files)
+        private List<FileTreeModel> SortFilesWithChildren(List<FileTreeModel> files)
         {
             return files
                 .OrderBy(file => file.FileName.EndsWith(".exe") ? 0 :
@@ -114,7 +115,7 @@ namespace wpfCodeCheck.Main.Local.Servies
         //        source.Add(item);
         //    }
         //}
-        private async Task GetFiles(string root, List<FileCompareModel> source, int depth)
+        private async Task GetFiles(string root, List<FileTreeModel> source, int depth)
         {
             string[] dirs = Directory.GetDirectories(root);
             string[] excludeFiles = { "" };
@@ -127,7 +128,7 @@ namespace wpfCodeCheck.Main.Local.Servies
             // 폴더 처리 (재귀는 직렬 처리 유지)
             foreach (string dir in dirs)
             {
-                FileCompareModel item = new()
+                FileTreeModel item = new()
                 {
                     ProjectName = Path.GetFileNameWithoutExtension(dir),
                     FilePath = dir,

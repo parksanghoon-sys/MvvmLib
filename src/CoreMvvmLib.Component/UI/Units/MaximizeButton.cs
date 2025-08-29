@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using CoreMvvmLib.Design.Enums;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace CoreMvvmLib.Component.UI.Units

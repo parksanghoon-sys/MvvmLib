@@ -24,8 +24,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private string _inputDirectoryPath = string.Empty;
         [Property]
         private string _outputDirectoryPath = string.Empty;        
-        private EType _inputType;
-        public EType InputType
+        private ECompareType _inputType;
+        public ECompareType InputType
         {
             get => _inputType;
             set
@@ -35,7 +35,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 OnPropertyChanged(nameof(IsEnbaleComapre));
             }
         }    
-        public bool IsEnbaleComapre  => InputType != EType.NONE;
+        public bool IsEnbaleComapre  => InputType != ECompareType.NONE;
 
         [RelayCommand]
         private void Compare()

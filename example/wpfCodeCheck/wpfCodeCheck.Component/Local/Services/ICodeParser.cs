@@ -1,4 +1,4 @@
-﻿using wpfCodeCheck.Domain.Models.Code;
+﻿using wpfCodeCheck.Domain.Models;
 
 namespace wpfCodeCheck.Component.Local.Services
 {

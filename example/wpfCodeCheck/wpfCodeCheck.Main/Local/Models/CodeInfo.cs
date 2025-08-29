@@ -1,12 +1,10 @@
-﻿using CoreMvvmLib.Component.UI.Units;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using wpfCodeCheck.Domain.Datas;
+﻿using CoreMvvmLib.Design.Enums;
 using wpfCodeCheck.Domain.Enums;
+using wpfCodeCheck.Domain.Models.Base;
 
 namespace wpfCodeCheck.Main.Local.Models;
 
-public class CodeInfoModel : BaseNotifyModel
+public class CodeInfoModel : BaseModel
 {
     public int FileIndex { get; set; }
     public string FilePath { get; set; } = string.Empty;

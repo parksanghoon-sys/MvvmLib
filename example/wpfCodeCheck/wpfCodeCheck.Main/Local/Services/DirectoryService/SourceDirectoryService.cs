@@ -104,7 +104,7 @@ public class SourceDirectoryService : IDirectoryCompare
             item.Depth = depth;
             item.CreateDate = file.LastWriteTime.ToString("yyyy-MM-dd HH:mm");
             item.FileIndex = _fileIndex++;
-            item.FileType = Domain.Enums.EFileType.SOURCECODE;
+            item.FileType = Domain.Enums.EFileType.FILE;
             byte[] inputBytes;
             ulong checkSum = 0;
             int lineCnt = 0;

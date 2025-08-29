@@ -179,7 +179,7 @@ namespace wpfCodeCheck.Domain.Services
             // 체크섬이 다르면 다른 파일
             if (file1.Checksum != file2.Checksum)
                 return true;
-
+            
             // 추가적인 내용 비교가 필요한 경우 여기서 수행
             return false;
         }
