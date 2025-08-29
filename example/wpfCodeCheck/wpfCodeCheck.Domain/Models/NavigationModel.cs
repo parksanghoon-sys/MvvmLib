@@ -1,7 +1,7 @@
 ﻿using wpfCodeCheck.Domain.Models.Base;
 using wpfCodeCheck.Domain.Enums;
 
-namespace wpfCodeCheck.Domain.Models.UI
+namespace wpfCodeCheck.Domain.Models
 {
     public class NavigationModel : BaseModel
     {

@@ -1,38 +1,49 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Models.Base;
-using wpfCodeCheck.Domain.Models.Compare;
+using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Enums;
 
 namespace wpfCodeCheck.Domain.Services
 {
     public class BaseService : BaseModel, IBaseService        
     {        
-        private DiffResultModel<CompareEntityModel>? _compareModel = new(); 
+        private List<FileTreeModel> _inputFiles = new();
+        private List<FileTreeModel> _outputFiles = new();
+        private List<FileTreeModel> _differenceFiles = new();
 
-        public DiffResultModel<CompareEntityModel> CompareResult
+        public List<FileTreeModel> InputFiles
         {
-            get => _compareModel ?? throw new ArgumentNullException(nameof(CompareEntityModel), "CompareResults cannot be null");
-            private set => _compareModel = value;
-        }
-        private Dictionary<EFolderListType, List<Models.Compare.FileCompareModel>> _folderTypeDirectoryFiles = new(2);
-
-        public Dictionary<EFolderListType, List<Models.Compare.FileCompareModel>> FolderTypeDirectoryFiles
-        {
-            get => _folderTypeDirectoryFiles;            
+            get => _inputFiles;
+            private set => SetProperty(ref _inputFiles, value);
         }
 
-        public void SetDirectoryCompareReuslt(List<CompareEntityModel> compareResult)
+        public List<FileTreeModel> OutputFiles
         {
-            CompareResult.CompareResults = compareResult;
-            OnPropertyChanged(nameof(CompareResult));
-        }     
-        public void SetFolderTypeDictionaryFiles(EFolderListType eFolderListType, List<Models.Compare.FileCompareModel> fileCompareModels)
+            get => _outputFiles;
+            private set => SetProperty(ref _outputFiles, value);
+        }
+
+        public List<FileTreeModel> DifferenceFiles
         {
-            this._folderTypeDirectoryFiles[eFolderListType] = fileCompareModels;
-            OnPropertyChanged(nameof(FolderTypeDirectoryFiles));
+            get => _differenceFiles;
+            private set => SetProperty(ref _differenceFiles, value);
+        }
+
+        public void SetInputFiles(List<FileTreeModel> files)
+        {
+            InputFiles = files;
+        }
+
+        public void SetOutputFiles(List<FileTreeModel> files)
+        {
+            OutputFiles = files;
+        }
+
+        public void SetDifferenceFiles(List<FileTreeModel> files)
+        {
+            DifferenceFiles = files;
         }
      
     }

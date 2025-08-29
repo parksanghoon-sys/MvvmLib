@@ -1,4 +1,5 @@
 ﻿using CoreMvvmLib.Component.UI.Units;
+using DomainIconType = wpfCodeCheck.Domain.Enums.IconType;
 using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Services.RegionManager;
@@ -6,7 +7,7 @@ using wpfCodeCheck.Main.UI.Views;
 using CoreMvvmLib.Core.Services.DialogService;
 using CoreMvvmLib.Core.Messenger;
 using wpfCodeCheck.ProjectChangeTracker.UI.Views;
-using wpfCodeCheck.Domain.Models.UI;
+using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.SDDExport.UI.Views;
@@ -21,10 +22,10 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         [Property]
         private List<NavigationModel> _sliderMenuList = new List<NavigationModel>()
         {
-            new NavigationModel(IconType.Home, "Compare Directory", true),
-            new NavigationModel(IconType.FileCheck, "File CheckSum",false),
-            new NavigationModel(IconType.Export, "Excel Output",false),
-            new NavigationModel(IconType.FileWord, "SDD Output",false)
+            new NavigationModel(DomainIconType.Home, "Compare Directory", true),
+            new NavigationModel(DomainIconType.FileCheck, "File CheckSum",false),
+            new NavigationModel(DomainIconType.Export, "Excel Output",false),
+            new NavigationModel(DomainIconType.FileWord, "SDD Output",false)
         };
         [Property]
         private bool _isDImming = false;
@@ -59,25 +60,25 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         {
             switch (model.IconType)
             {
-                case IconType.Home:
+                case DomainIconType.Home:
                     {
                         this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(DirectoryCompareView));
                         SelectedIndex = 0;
                     }
                     break;
-                case IconType.FileCheck:
+                case DomainIconType.FileCheck:
                     {
                         this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(FolderCompareView));                        
                         SelectedIndex = 1;
                     }
                     break;
-                case IconType.Export:
+                case DomainIconType.Export:
                     {                        
                         this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(ComparisonResultsView));
                         SelectedIndex = 2;
                     }
                     break;
-                case IconType.FileWord:
+                case DomainIconType.FileWord:
                     {
                         this._regionManager.NavigateView(ERegionManager.MAINCONTENT.ToString(), nameof(SddExportView));
                         SelectedIndex = 3;
