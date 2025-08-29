@@ -8,9 +8,9 @@ using CoreMvvmLib.Core.Services.DialogService;
 using CoreMvvmLib.Core.Messenger;
 using wpfCodeCheck.ProjectChangeTracker.UI.Views;
 using wpfCodeCheck.Domain.Models;
-using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.SDDExport.UI.Views;
+using wpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {

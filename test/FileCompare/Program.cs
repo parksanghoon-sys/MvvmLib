@@ -1,6 +1,6 @@
 ﻿using CoreMvvmLib.Component.UI.Units;
 using wpfCodeCheck.Domain.Datas;
-using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Domain.Services.Interfaces;
 using wpfCodeCheck.Main.Local.Servies;
 
 internal class Program

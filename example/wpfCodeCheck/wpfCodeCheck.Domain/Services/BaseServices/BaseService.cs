@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using wpfCodeCheck.Domain.Models.Base;
 using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Enums;
+using wpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.Domain.Services
 {

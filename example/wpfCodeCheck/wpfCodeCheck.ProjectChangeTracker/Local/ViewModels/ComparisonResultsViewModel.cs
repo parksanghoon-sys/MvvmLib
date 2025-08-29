@@ -8,6 +8,7 @@ using wpfCodeCheck.Domain.Helpers;
 using Newtonsoft.Json;
 using wpfCodeCheck.ProjectChangeTracker.Local.Models;
 using CoreMvvmLib.WPF.Components;
+using wpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.ProjectChangeTracker.Local.ViewModels
 {

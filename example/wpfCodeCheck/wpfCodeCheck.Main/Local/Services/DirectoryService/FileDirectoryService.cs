@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using wpfCodeCheck.Domain.Datas;
 using wpfCodeCheck.Domain.Models;
-using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Services.DirectoryServices;
+using wpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.Main.Local.Servies
 {

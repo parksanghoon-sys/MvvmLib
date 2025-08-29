@@ -1,9 +1,6 @@
-﻿using System.Diagnostics;
-using System.IO;
-using wpfCodeCheck.Domain.Datas;
+﻿using System.IO;
 using wpfCodeCheck.Domain.Local.Helpers;
-using wpfCodeCheck.Domain.Services;
-using wpfCodeCheck.Domain.Services.CompareServices;
+using wpfCodeCheck.Domain.Services.Interfaces;
 
 
 namespace wpfCodeCheck.Main.Local.Servies

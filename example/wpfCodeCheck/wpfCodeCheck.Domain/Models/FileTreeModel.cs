@@ -19,7 +19,7 @@ public class FileTreeModel : BaseModel
     public string FilePath { get; set; } = string.Empty;
     public string FileName { get; set; } = string.Empty;
     public string ProjectName { get; set; } = string.Empty;
-    public string CreateDate { get; set; } = string.Empty;
+    public DateTime CreateDate { get; set; }
     public long? FileSize { get; set; }
     public int LineCount { get; set; }
     public string Checksum { get; set; } = string.Empty;
@@ -150,6 +150,10 @@ public class FileTreeModel : BaseModel
 
 public enum CompareStatus
 {
+    /// <summary>
+    /// 양측 파일이 같음
+    /// </summary>
+    Same,
     /// <summary>입력 디렉토리에만 존재</summary>
     InputOnly,
     /// <summary>출력 디렉토리에만 존재</summary>

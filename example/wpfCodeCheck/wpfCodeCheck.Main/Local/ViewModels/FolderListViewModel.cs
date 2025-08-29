@@ -4,13 +4,13 @@ using CoreMvvmLib.WPF.Components;
 using CoreMvvmLib.Core.Services.DialogService;
 using wpfCodeCheck.Component.UI.Views;
 using CoreMvvmLib.Core.Messenger;
-using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Enums;
 using System.Windows;
 using System.ComponentModel;
 using wpfCodeCheck.Main.Services;
 using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Main.Local.Models;
+using wpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -50,9 +50,9 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [Property]
         private EFolderListType _folderLIstType;
         [Property]
-        private CustomObservableCollection<CodeInfoModel> _fileDatas = new();
+        private CustomObservableCollection<FileInfoDto> _fileDatas = new();
         [Property]
-        private CodeInfoModel _fileData = new();
+        private FileInfoDto _fileData = new();
         private bool _disposedValue;
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -100,22 +100,22 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             }            
         }
         private int _fileIndex = 1;
-        private List<CodeInfoModel> ConvertToCodeInfoModels(List<FileTreeModel> list)
+        private List<FileInfoDto> ConvertToCodeInfoModels(List<FileTreeModel> list)
         {
-            var flattenedList = new List<CodeInfoModel>();
+            var flattenedList = new List<FileInfoDto>();
             _fileIndex = 1; // 인덱스 초기화
             FlattenAndConvert(list, flattenedList);
             return flattenedList;
         }
 
-        private void FlattenAndConvert(List<FileTreeModel> list, List<CodeInfoModel> result)
+        private void FlattenAndConvert(List<FileTreeModel> list, List<FileInfoDto> result)
         {
             foreach (var item in list)
             {
                 if (!item.IsDirectory)
                 {
                     // 파일인 경우만 CodeInfoModel로 변환하여 추가
-                    result.Add(new CodeInfoModel()
+                    result.Add(new FileInfoDto()
                     {
                         Checksum = item.Checksum,
                         FilePath = item.FilePath,

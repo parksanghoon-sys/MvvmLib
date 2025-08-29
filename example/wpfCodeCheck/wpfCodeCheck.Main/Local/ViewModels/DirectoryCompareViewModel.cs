@@ -2,8 +2,7 @@
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
 using wpfCodeCheck.Domain.Enums;
-using wpfCodeCheck.Domain.Services;
-using wpfCodeCheck.Domain.Models;
+using wwpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {

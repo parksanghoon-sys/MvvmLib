@@ -19,6 +19,7 @@ using wpfCodeCheck.Main.Services;
 using wpfCodeCheck.Domain.Services.DirectoryServices;
 using wpfCodeCheck.SDDExport.UI.Views;
 using wpfCodeCheck.SDDExport.Local.ViewModels;
+using wpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck
 {

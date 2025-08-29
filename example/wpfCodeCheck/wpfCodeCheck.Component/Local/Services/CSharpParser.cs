@@ -8,12 +8,12 @@ namespace wpfCodeCheck.Component.Local.Services
 
     public class CSharpParser : ICodeParser
     {
-        public IList<ClassInfoModelModel> Parse(string code, string codePath)
+        public IList<ClassInfoModel> Parse(string code, string codePath)
         {
             var tree = CSharpSyntaxTree.ParseText(code);
             var root = tree.GetRoot() as CompilationUnitSyntax;
-            var functions = new List<FunctionInfoModelModel>();
-            var classInfos = new List<ClassInfoModelModel>();
+            var functions = new List<FunctionInfoModel>();
+            var classInfos = new List<ClassInfoModel>();
 
             var classes = root.DescendantNodes().OfType<ClassDeclarationSyntax>();
             foreach (var classNode in classes)
@@ -51,7 +51,7 @@ namespace wpfCodeCheck.Component.Local.Services
                     functionInfo.ParentFunctionName = parentFuncName == null ? className : parentFuncName;
                     functions.Add(functionInfo);
                 }
-                classinfo.FunctionInfoModels = functions;
+                classinfo.FunctionInfos = functions;
                 classInfos.Add(classinfo);
             }
 

@@ -4,10 +4,11 @@ using CoreMvvmLib.Core.Messenger;
 using System.Windows;
 using wpfCodeCheck.Main.Local.Exceptions;
 using wpfCodeCheck.Domain.Enums;
-using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Main.Services;
+using wpfCodeCheck.Domain.Services.Interfaces;
+using wwpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {

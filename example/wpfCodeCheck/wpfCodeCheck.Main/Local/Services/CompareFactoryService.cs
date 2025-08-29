@@ -1,11 +1,16 @@
 ﻿using wpfCodeCheck.Domain.Local.Helpers;
-using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Main.Local.Servies;
-using wpfCodeCheck.Domain.Services.DirectoryServices;
+using wpfCodeCheck.Main.Local.Services.CompareService;
+using wpfCodeCheck.Domain.Services.Interfaces;
+using wwpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.Main.Services
 {
+    public interface ICompareFactoryService
+    {
+
+    }
     public class CompareFactoryService
     {
         private readonly ISettingService _settingService;

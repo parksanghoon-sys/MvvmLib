@@ -2,6 +2,7 @@
 using CompareEngine;
 using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 {

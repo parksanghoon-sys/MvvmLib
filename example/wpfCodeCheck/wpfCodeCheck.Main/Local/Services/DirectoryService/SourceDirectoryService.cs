@@ -2,8 +2,8 @@
 using DocumentFormat.OpenXml.Wordprocessing;
 using System.IO;
 using wpfCodeCheck.Domain.Datas;
-using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Services.DirectoryServices;
+using wpfCodeCheck.Domain.Services.Interfaces;
 using wpfCodeCheck.Main.Local.Models;
 
 namespace wpfCodeCheck.Main.Local.Servies;

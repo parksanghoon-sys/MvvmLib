@@ -55,7 +55,7 @@ namespace wpfCodeCheck.Domain.Services
                         // 파일 정보 설정
                         var fileInfo = new FileInfo(entry);
                         fileModel.FileSize = fileInfo.Length;
-                        fileModel.CreateDate = fileInfo.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
+                        fileModel.CreateDate = fileInfo.CreationTime;
                         fileModel.LineCount = GetLineCount(entry);
                         fileModel.Checksum = CalculateChecksum(entry);
                     }

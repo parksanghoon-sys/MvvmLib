@@ -1,21 +1,17 @@
-﻿using DocumentFormat.OpenXml.Drawing;
-using Microsoft.Office.Interop.Excel;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.Json;
-using System.Windows;
 using TextCopy;
 using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Helpers;
 using wpfCodeCheck.Domain.Local.Helpers;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.ProjectChangeTracker.Local.Models;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxTokenParser;
 using Excel = Microsoft.Office.Interop.Excel;
+using wpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
 {
@@ -50,7 +46,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
             {
                 try
                 {
-                    if (_baseService.CompareResult is null)
+                    if (_baseService.DifferenceFiles is null)
                     {
                         Console.WriteLine("Not Data");
                         return;

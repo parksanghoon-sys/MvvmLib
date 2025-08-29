@@ -1,4 +1,5 @@
 ﻿using CompareEngine;
+using System.IO;
 using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Services;
 
@@ -87,13 +88,13 @@ namespace wpfCodeCheck.Main.Local.Services.CompareService
     /// <summary>
     /// 파일 비교 결과
     /// </summary>
-    public class CompareResult
-    {
-        public bool HasDifferences { get; set; }
-        public CompareText? SourceText { get; set; }
-        public CompareText? DestinationText { get; set; }
-        public List<CompareResultSpan> DiffResults { get; set; } = new List<CompareResultSpan>();
-        public FileTreeModel? File1 { get; set; }
-        public FileTreeModel? File2 { get; set; }
-    }
+    //public class CompareResult
+    //{
+    //    public bool HasDifferences { get; set; }
+    //    public CompareText? SourceText { get; set; }
+    //    public CompareText? DestinationText { get; set; }
+    //    public List<CompareResultSpan> DiffResults { get; set; } = new List<CompareResultSpan>();
+    //    public FileTreeModel? File1 { get; set; }
+    //    public FileTreeModel? File2 { get; set; }
+    //}
 }

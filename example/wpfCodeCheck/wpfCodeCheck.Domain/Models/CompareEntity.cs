@@ -1,0 +1,36 @@
+using wpfCodeCheck.Domain.Enums;
+using CoreMvvmLib.Design.Enums;
+
+namespace wpfCodeCheck.Domain.Models
+{
+    public class CompareEntity
+    {
+        public string FilePath { get; set; } = string.Empty;
+        public string FileName { get; set; } = string.Empty;
+        public string Checksum { get; set; } = string.Empty;
+        public long FileSize { get; set; }
+        public int LineCount { get; set; }
+        public DateTime CreateDate { get; set; }
+        public EFileType FileType { get; set; } 
+        public CompareStatus Status { get; set; } = CompareStatus.Same;
+        public bool IsComparison { get; set; }
+        
+        public CompareEntity? CompareTarget { get; set; }
+        
+        // 생성자
+        public CompareEntity() { }
+        
+        public CompareEntity(FileTreeModel fileModel)
+        {
+            FilePath = fileModel.FilePath;
+            FileName = fileModel.FileName;
+            Checksum = fileModel.Checksum;
+            FileSize = fileModel.FileSize ?? 0;
+            LineCount = fileModel.LineCount;
+            CreateDate = fileModel.CreateDate;
+            FileType = fileModel.FileType;
+            Status = fileModel.Status;
+            IsComparison = fileModel.IsComparison;
+        }
+    }
+}

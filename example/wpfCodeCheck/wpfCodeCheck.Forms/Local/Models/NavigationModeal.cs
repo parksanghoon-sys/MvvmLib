@@ -1,4 +1,4 @@
-﻿using CoreMvvmLib.Component.UI.Units;
+﻿using CoreMvvmLib.Design.Enums;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
