@@ -1,9 +1,9 @@
-﻿using wpfCodeCheck.Component.Local.Models;
+﻿using wpfCodeCheck.Domain.Models.Code;
 
 namespace wpfCodeCheck.Component.Local.Services
 {
     public interface ICodeParser
     {
-        IList<ClassInfo> Parse(string code, string codePath);
+        IList<ClassInfoModel> Parse(string code, string codePath);
     }
 }

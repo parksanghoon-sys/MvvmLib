@@ -6,7 +6,7 @@ using wpfCodeCheck.Main.UI.Views;
 using CoreMvvmLib.Core.Services.DialogService;
 using CoreMvvmLib.Core.Messenger;
 using wpfCodeCheck.ProjectChangeTracker.UI.Views;
-using wpfCodeCheck.Forms.Local.Models;
+using wpfCodeCheck.Domain.Models.UI;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.SDDExport.UI.Views;
@@ -19,12 +19,12 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
         private readonly IDialogService _dialogService;
         private readonly ISettingService _settingService;
         [Property]
-        private List<NavigationModeal> _sliderMenuList = new List<NavigationModeal>()
+        private List<NavigationModel> _sliderMenuList = new List<NavigationModel>()
         {
-            new NavigationModeal(IconType.Home, "Compare Directory", true),
-            new NavigationModeal(IconType.FileCheck, "File CheckSum",false),
-            new NavigationModeal(IconType.Export, "Excel Output",false),
-            new NavigationModeal(IconType.FileWord, "SDD Output",false)
+            new NavigationModel(IconType.Home, "Compare Directory", true),
+            new NavigationModel(IconType.FileCheck, "File CheckSum",false),
+            new NavigationModel(IconType.Export, "Excel Output",false),
+            new NavigationModel(IconType.FileWord, "SDD Output",false)
         };
         [Property]
         private bool _isDImming = false;
@@ -55,7 +55,7 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
             WeakReferenceMessenger.Default.Register<MainWindowViewModel, EMainViewType>(this, OnReceiveMainContentViewOnChange);            
         }
         [RelayCommand]
-        private void TabItemSelected(NavigationModeal model)
+        private void TabItemSelected(NavigationModel model)
         {
             switch (model.IconType)
             {
