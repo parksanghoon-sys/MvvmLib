@@ -1,4 +1,4 @@
-﻿using CoreMvvmLib.Component.UI.Units;
+﻿using wpfCodeCheck.Domain.Enums;
 
 namespace wpfCodeCheck.Domain.Models.Files
 {

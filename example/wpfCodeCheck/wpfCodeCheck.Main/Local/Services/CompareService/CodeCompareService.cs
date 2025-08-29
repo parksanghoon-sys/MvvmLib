@@ -2,6 +2,7 @@
 using System.Collections;
 using System.IO;
 using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Domain.Models.Compare;
 using wpfCodeCheck.Domain.Local.Helpers;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Services.CompareServices;
@@ -17,9 +18,9 @@ namespace wpfCodeCheck.Main.Local.Servies
         }
 
         #region Override Method
-        public override async Task<List<CompareEntity>> CompareModelCollections(IList<FileCompareModel> inputItems, IList<FileCompareModel> outputItems)
+        public override async Task<List<FileCompareModel>> CompareModelCollections(IList<FileCompareModel> inputItems, IList<FileCompareModel> outputItems)
         {
-            List<CompareEntity> diffReulstModel = new();
+            List<FileCompareModel> diffResultModel = new();
             int i = 0, j = 0;
             while (i < inputItems.Count && j < outputItems.Count)
             {
