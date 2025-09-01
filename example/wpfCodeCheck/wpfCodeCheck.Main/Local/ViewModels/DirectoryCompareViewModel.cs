@@ -1,8 +1,11 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
+using System.IO;
+using System.Windows;
 using wpfCodeCheck.Domain.Enums;
-using wwpfCodeCheck.Domain.Services.Interfaces;
+using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -12,10 +15,12 @@ namespace wpfCodeCheck.Main.Local.ViewModels
     public partial class DirectoryCompareViewModel : ViewModelBase
     {
         private readonly ISettingService _settingService;
+        private readonly IBaseService _baseService;
 
-        public DirectoryCompareViewModel(ISettingService settingService)
+        public DirectoryCompareViewModel(ISettingService settingService, IBaseService baseService)
         {
             _settingService = settingService;
+            _baseService = baseService;
             InputDirectoryPath = _settingService.GeneralSetting!.InputPath ?? "";
             OutputDirectoryPath = _settingService.GeneralSetting!.OutputPath ?? "";
             InputType = _settingService.GeneralSetting!.CompareType;
@@ -40,11 +45,22 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         [RelayCommand]
         private void Compare()
         {
+            if (!Directory.Exists(InputDirectoryPath))
+            {
+                MessageBox.Show("InputDirectory 경로를 입력하세요");
+                return;
+            }
+            if (!Directory.Exists(OutputDirectoryPath))
+            {
+                MessageBox.Show("OutputDirectory 경로를 입력하세요");
+                return;
+            }
             _settingService.GeneralSetting!.InputPath = InputDirectoryPath;
             _settingService.GeneralSetting!.OutputPath= OutputDirectoryPath;
             _settingService.GeneralSetting.CompareType = InputType;
 
             _settingService.SaveSetting();
+            
             WeakReferenceMessenger.Default.Send<EMainViewType>(EMainViewType.FILE_CHECKSUM);
         }    
     }

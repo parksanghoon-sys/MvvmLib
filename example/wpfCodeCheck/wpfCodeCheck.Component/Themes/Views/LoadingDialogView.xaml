@@ -26,6 +26,13 @@
                             FontSize="14"
                             Foreground="{TemplateBinding Color}"
                             Text="Loading..." />
+                        <TextBlock
+                            x:Name="PART_Status"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Foreground="{TemplateBinding Color}"
+                            Text="Loading..." />
                         <Ellipse
                             Width="{TemplateBinding Width}"
                             Height="{TemplateBinding Height}"

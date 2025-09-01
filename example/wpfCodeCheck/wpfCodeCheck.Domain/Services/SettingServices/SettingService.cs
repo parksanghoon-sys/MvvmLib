@@ -2,7 +2,7 @@
 using System.Reflection;
 using wpfCodeCheck.Domain.Helpers;
 using wpfCodeCheck.Domain.UseCases.Settings;
-using wwpfCodeCheck.Domain.Services.Interfaces;
+using wpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.Domain.Services
 {

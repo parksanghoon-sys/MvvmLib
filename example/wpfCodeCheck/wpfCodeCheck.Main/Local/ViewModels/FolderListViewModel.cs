@@ -1,54 +1,57 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
-using CoreMvvmLib.WPF.Components;
-using CoreMvvmLib.Core.Services.DialogService;
-using wpfCodeCheck.Component.UI.Views;
 using CoreMvvmLib.Core.Messenger;
-using wpfCodeCheck.Domain.Enums;
-using System.Windows;
+using CoreMvvmLib.Core.Services.DialogService;
+using CoreMvvmLib.WPF.Components;
 using System.ComponentModel;
-using wpfCodeCheck.Main.Services;
+using System.Windows;
+using wpfCodeCheck.Component.UI.Views;
+using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Models;
-using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Domain.Services.Interfaces;
+using wpfCodeCheck.Main.Local.Models;
+using wpfCodeCheck.Main.Local.Servies;
+using wpfCodeCheck.Main.Local.Services.FileDescription;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
     public partial class FolderListViewModel : ViewModelBase, IDisposable
-    {        
-        private readonly IDirectoryCompare _dierctoryFileInfoService;
-        private readonly CompareFactoryService _compareFactoryService;
+    {                        
         private readonly IDialogService _dialogService;
         private readonly IBaseService _baseService;
+        private readonly DirectoryExplorerService _directoryExplorerService;
+        private readonly IFileDescriptionService _fileDescriptionService;
 
-        public FolderListViewModel(CompareFactoryService compareFactoryService, 
+        public FolderListViewModel( 
             IDialogService dialogService,
-            IBaseService baseService)
-        {                       
-            _compareFactoryService = compareFactoryService;
+            IBaseService baseService,
+            DirectoryExplorerService directoryExplorerService,
+            IFileDescriptionService fileDescriptionService)
+        {                                   
             _dialogService = dialogService;
             _baseService = baseService;
-            _dierctoryFileInfoService = compareFactoryService.CreateIDirectoryCompareService();
-
+            _directoryExplorerService = directoryExplorerService;
+            _fileDescriptionService = fileDescriptionService;
             FileDatas = new();
 
-            WeakReferenceMessenger.Default.Register<FolderListViewModel, EFolderCompareList>(this, OnReceiveClearMessage);            
+            WeakReferenceMessenger.Default.Register<FolderListViewModel, EFolderCompareList>(this, OnReceiveClearMessage);
+            WeakReferenceMessenger.Default.Register<FolderListViewModel, ComparisonResultMessage>(this, OnReceiveComparisonResult);
             _baseService.PropertyChanged += OnPropertyChanged;
         }
-    
-        private string? _folerPath;
+        
+        private string? _folderPath;
 
         public string? FolderPath
         {
-            get => _folerPath;
+            get => _folderPath;
             set 
             { 
-                SetProperty(ref _folerPath,value);
+                SetProperty(ref _folderPath,value);
                 OnFolderPathChanged();
             }
         }      
         [Property]
-        private EFolderListType _folderLIstType;
+        private EFolderListType _folderListType;
         [Property]
         private CustomObservableCollection<FileInfoDto> _fileDatas = new();
         [Property]
@@ -59,13 +62,13 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             var baseService = sender as IBaseService;
             if (baseService != null)
             {
-                if (e.PropertyName == "FolderTypeDirectoryFiles")
+                if (e.PropertyName == "FolderTypeDictionaryFiles")
                 {
-                    List<FileTreeModel> files;
-                    if (baseService.FolderTypeDirectoryFiles.TryGetValue(FolderLIstType, out files))
+                    List<FileTreeModel> files = baseService.GetFolderTypeDictionaryFiles(FolderListType);
+                    if (files.Count > 0)
                     {
                         FileDatas.Clear();
-                        FileDatas.AddRange(ConvertToCodeInfoModels(files));                                            
+                        FileDatas.AddRange(_directoryExplorerService.FlattenAndConvert(files));                                            
                     }
                 }
             }
@@ -75,6 +78,47 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         {
             if (EFolderCompareList.CLEAR == list)
                 this.FileDatas.Clear();
+        }
+
+        /// <summary>
+        /// 비교 결과를 받아서 IsComparison 값 업데이트
+        /// </summary>
+        private void OnReceiveComparisonResult(FolderListViewModel model, ComparisonResultMessage comparisonResult)
+        {
+            if (FileDatas == null || !FileDatas.Any()) return;
+
+            // FileTreeModel의 IsComparison 값을 FileInfoDto에 반영
+            var fileTreeLookup = comparisonResult.ComparedFiles
+                .SelectMany(tree => FlattenFileTree(tree))
+                .Where(f => !f.IsDirectory)
+                .ToDictionary(f => f.FilePath, f => f.IsComparison);
+
+            foreach (var fileData in FileDatas)
+            {
+                if (fileTreeLookup.TryGetValue(fileData.FilePath, out var isComparison))
+                {
+                    fileData.IsComparison = isComparison;
+                }
+            }
+        }
+
+        /// <summary>
+        /// FileTreeModel을 평면화하여 모든 파일 추출
+        /// </summary>
+        private IEnumerable<FileTreeModel> FlattenFileTree(FileTreeModel node)
+        {
+            if (!node.IsDirectory)
+            {
+                yield return node;
+            }
+
+            foreach (var child in node.Children)
+            {
+                foreach (var descendant in FlattenFileTree(child))
+                {
+                    yield return descendant;
+                }
+            }
         }
         private async void OnFolderPathChanged()
         {
@@ -88,53 +132,42 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         {
             if (string.IsNullOrEmpty(FolderPath) == false)
             {
-                var dd = Application.Current.MainWindow;
+                Console.WriteLine($"[DEBUG] Starting directory scan: {FolderPath}");
+                Console.WriteLine($"[DEBUG] FolderListType: {FolderListType}");
+                
                 _dialogService.Show(this, typeof(LoadingDialogView), 300, 300);
-                var folderInfoList = await _dierctoryFileInfoService.GetDirectoryCodeFileInfosAsync(FolderPath);
+                
+                // 진행률 이벤트 구독 (디버깅용)
+                _directoryExplorerService.ProgressChanged += OnExplorerProgress;
+                
+                try
+                {
+                    var folderInfoList = await _directoryExplorerService.ExploreDirectoryAsync(FolderPath);
+                    Console.WriteLine($"[DEBUG] Scan completed. Found {folderInfoList.Count} items");
+                    
+                    _baseService.SetFolderTypeDictionaryFiles(FolderListType, folderInfoList);
+                    FileDatas.Clear();
 
-
-                await FileDatas.AddItemsAsync(ConvertToCodeInfoModels(folderInfoList));
-                //folderInfoList.ForEach(item =>  FileDatas.Add(item));
-                _dialogService.Close(typeof(LoadingDialogView));
-                WeakReferenceMessenger.Default.Send<DirectorySearchResult, FolderCompareViewModel>(new DirectorySearchResult(FolderLIstType, folderInfoList));
+                    var flattenedItems = _directoryExplorerService.FlattenAndConvert(folderInfoList);
+                    Console.WriteLine($"[DEBUG] Flattened to {flattenedItems.Count} files");
+                    
+                    await FileDatas.AddItemsAsync(flattenedItems);
+                    Console.WriteLine($"[DEBUG] Added {FileDatas.Count} items to UI");
+                    
+                    WeakReferenceMessenger.Default.Send<DirectorySearchResult, FolderCompareViewModel>(new DirectorySearchResult(FolderListType, folderInfoList));
+                }
+                finally
+                {
+                    _directoryExplorerService.ProgressChanged -= OnExplorerProgress;
+                    _dialogService.Close(typeof(LoadingDialogView));
+                }
             }            
         }
-        private int _fileIndex = 1;
-        private List<FileInfoDto> ConvertToCodeInfoModels(List<FileTreeModel> list)
+        
+        private void OnExplorerProgress(int percentage, string message)
         {
-            var flattenedList = new List<FileInfoDto>();
-            _fileIndex = 1; // 인덱스 초기화
-            FlattenAndConvert(list, flattenedList);
-            return flattenedList;
-        }
-
-        private void FlattenAndConvert(List<FileTreeModel> list, List<FileInfoDto> result)
-        {
-            foreach (var item in list)
-            {
-                if (!item.IsDirectory)
-                {
-                    // 파일인 경우만 CodeInfoModel로 변환하여 추가
-                    result.Add(new FileInfoDto()
-                    {
-                        Checksum = item.Checksum,
-                        FilePath = item.FilePath,
-                        FileName = item.FileName,
-                        CreateDate = item.CreateDate,
-                        LineCount = item.LineCount,
-                        IsComparison = item.IsComparison,
-                        FileSize = item.FileSize,
-                        FileIndex = _fileIndex++,
-                        FileType = item.FileType,
-                    });
-                }
-
-                if (item.Children != null && item.Children.Any())
-                {
-                    FlattenAndConvert(item.Children, result);
-                }
-            }
-        }
+            Console.WriteLine($"[DEBUG] {percentage}%: {message}");
+        }       
 
         protected virtual void Dispose(bool disposing)
         {
@@ -143,6 +176,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 if (disposing)
                 {
                     _baseService.PropertyChanged -= OnPropertyChanged;
+                    WeakReferenceMessenger.Default.UnRegister<FolderListViewModel, EFolderCompareList>(this, OnReceiveClearMessage);
+                    WeakReferenceMessenger.Default.UnRegister<FolderListViewModel, ComparisonResultMessage>(this, OnReceiveComparisonResult);
                     // TODO: 관리형 상태(관리형 개체)를 삭제합니다.
                 }
 

@@ -46,7 +46,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
             {
                 try
                 {
-                    if (_baseService.DifferenceFiles is null)
+                    if (_baseService.CompareResult is null)
                     {
                         Console.WriteLine("Not Data");
                         return;
@@ -63,7 +63,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                     var processResult = ProcessBeyondCompareCliExcuteion(inputFile.FilePath, outputFile.FilePath);
 
                     //_fileSemaphore.Release();
-                    CustomCodeComparer project = new CustomCodeComparer()
+                    CompareEntity project = new CompareEntity()
                     {
                         InputFileName = inputFile.FileName,
                         OutoutFileName = outputFile.FileName,
@@ -131,7 +131,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                     //_watcher.EnableRaisingEvents = true;
                     
                     _startCellIndex = 1;
-                    foreach (var project in _baseService.CompareResult.CompareResults)
+                    foreach (var project in _baseService.CompareResult)
                     {
                         //ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files\Beyond Compare 4\BComp.com");
                         //startInfo.WindowStyle = ProcessWindowStyle.Minimized;
@@ -253,7 +253,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
                                 ClipboardService.SetText(htmlContent.ToString());
                                 Thread.Sleep(10);
                                 // Excel 셀 선택 후 붙여넣기
-                                Excel.Range cell = worksheet.Cells[_startCellIndex, ECELL.COL_INPUT_LINE];
+                                Excel.Range cell = (Excel.Range)worksheet.Cells[_startCellIndex, ECELL.COL_INPUT_LINE];
                                 cell.Select();
                                 Thread.Sleep(10);
                                 worksheet.Paste();
@@ -543,7 +543,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         }
         private int GetLastUsedRow(Excel.Worksheet worksheet, ECELL column)
         {
-            Excel.Range columnRange = worksheet.Columns[column];
+            Excel.Range columnRange = (Excel.Range)worksheet.Columns[column];
 
             Excel.Range lastCell = columnRange.Cells.Find("*", System.Reflection.Missing.Value,
                 Excel.XlFindLookIn.xlFormulas, Excel.XlLookAt.xlPart, Excel.XlSearchOrder.xlByRows,

@@ -1,6 +1,5 @@
 using System.Security.Cryptography;
 using wpfCodeCheck.Domain.Models;
-using CoreMvvmLib.Design.Enums;
 using wpfCodeCheck.Domain.Services.Interfaces;
 using System.IO;
 using wpfCodeCheck.Domain.Enums;
@@ -31,6 +30,21 @@ namespace wpfCodeCheck.Main.Local.Servies.FileCheckSumService
             }
         }
 
+        public uint ComputeChecksum(byte[] input)
+        {
+            if (input == null || input.Length == 0)
+                return 0;
+
+            using (var sha256 = SHA256.Create())
+            {
+                var hashBytes = sha256.ComputeHash(input);
+
+                // 만약 string 대신 uint 리턴이라면, 해시 결과의 일부를 uint로 변환
+                // (여기서는 해시 앞 4바이트를 uint로 해석)
+                return BitConverter.ToUInt32(hashBytes, 0);
+            }
+        }
+
         public async Task<List<FileTreeModel>> GetDirectoryFileInfosAsync(string directoryPath)
         {
             var result = new List<FileTreeModel>();
@@ -52,7 +66,7 @@ namespace wpfCodeCheck.Main.Local.Servies.FileCheckSumService
                         {
                             FilePath = dir,
                             FileName = dirInfo.Name,                            
-                            CreateDate = dirInfo.CreationTime,
+                            CreateDate = dirInfo.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                             FileType = EFileType.DIRECTORY
                         };
 
@@ -71,7 +85,7 @@ namespace wpfCodeCheck.Main.Local.Servies.FileCheckSumService
                             FilePath = file,
                             FileName = fileInfo.Name,                            
                             FileSize = fileInfo.Length,
-                            CreateDate = fileInfo.CreationTime,
+                            CreateDate = fileInfo.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                             FileType = EFileType.FILE
                         };
 

@@ -1,9 +1,7 @@
 ﻿using CoreMvvmLib.Design.Enums;
-using System.IO;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Models.Base;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxTokenParser;
 
 namespace wpfCodeCheck.Main.Local.Models;
 
@@ -12,12 +10,23 @@ public class FileInfoDto : BaseModel
     public int FileIndex { get; set; }
     public string FilePath { get; set; } = string.Empty;
     public string FileName { get; set; } = string.Empty;
-    public DateTime CreateDate { get; set; }
+    public string CreateDate { get; set; }
     public long? FileSize { get; set; }
     public int LineCount { get; set; }
     public string Checksum { get; set; } = string.Empty;
     public IconType FileIcon => GetFileType(FileName);
     public EFileType FileType {  get; set; }
+
+    private string _description = string.Empty;
+    public string Description
+    {
+        get => _description;
+        set
+        {
+            _description = value;
+            OnPropertyChanged();
+        }
+    }
 
     private bool _isComparison;
     public bool IsComparison

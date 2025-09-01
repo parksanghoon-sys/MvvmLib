@@ -6,4 +6,5 @@ public interface IFileCheckSum
 {
     Task<string> CalculateChecksumAsync(string filePath);
     Task<List<FileTreeModel>> GetDirectoryFileInfosAsync(string directoryPath);
+    uint ComputeChecksum(byte[] input);
 }

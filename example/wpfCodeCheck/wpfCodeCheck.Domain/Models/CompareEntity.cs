@@ -10,10 +10,16 @@ namespace wpfCodeCheck.Domain.Models
         public string Checksum { get; set; } = string.Empty;
         public long FileSize { get; set; }
         public int LineCount { get; set; }
-        public DateTime CreateDate { get; set; }
+        public string CreateDate { get; set; }
         public EFileType FileType { get; set; } 
         public CompareStatus Status { get; set; } = CompareStatus.Same;
         public bool IsComparison { get; set; }
+        
+        // Input/Output 파일 관련 속성
+        public string InputFileName { get; set; } = string.Empty;
+        public string InputFilePath { get; set; } = string.Empty;
+        public string OutoutFileName { get; set; } = string.Empty;
+        public string OutoutFilePath { get; set; } = string.Empty;
         
         public CompareEntity? CompareTarget { get; set; }
         

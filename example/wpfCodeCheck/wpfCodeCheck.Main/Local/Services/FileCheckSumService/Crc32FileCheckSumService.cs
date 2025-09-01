@@ -41,7 +41,7 @@ namespace wpfCodeCheck.Domain.Services.Interfaces
 
             return rootFiles;
         }
-        private uint ComputeChecksum(byte[] input)
+        public uint ComputeChecksum(byte[] input)
         {
             unchecked
             {
@@ -62,7 +62,7 @@ namespace wpfCodeCheck.Domain.Services.Interfaces
                     FileName = fileInfo.Name,
                     FilePath = fileInfo.FullName,
                     FileSize = fileInfo.Length,
-                    CreateDate = fileInfo.CreationTime,
+                    CreateDate = fileInfo.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                     Depth = parent == null ? 0 : parent.Depth + 1,
                     Parent = parent
                 };
@@ -76,7 +76,7 @@ namespace wpfCodeCheck.Domain.Services.Interfaces
                 {
                     FileName = dirInfo.Name,
                     FilePath = dirInfo.FullName,
-                    CreateDate = dirInfo.CreationTime,
+                    CreateDate = dirInfo.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                     Depth = parent == null ? 0 : parent.Depth + 1,
                     Parent = parent
                 };

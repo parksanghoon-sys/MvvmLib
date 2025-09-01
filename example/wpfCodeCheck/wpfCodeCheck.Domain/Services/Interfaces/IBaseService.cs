@@ -1,22 +1,16 @@
 ﻿using System.ComponentModel;
 using wpfCodeCheck.Domain.Models;
+using wpfCodeCheck.Domain.Enums;
 
 namespace wpfCodeCheck.Domain.Services.Interfaces;
 
 public interface IBaseService : INotifyPropertyChanged
 {
-    FileTreeModel? InputTree { get; }
-    FileTreeModel? OutputTree { get; }
-    List<FileTreeModel> InputFiles { get; }
-    List<FileTreeModel> OutputFiles { get; }
-    List<FileTreeModel> DifferenceFiles { get; }
+    Dictionary<EFolderListType, List<FileTreeModel>> FolderTypeDictionaryFiles { get; }   
+    List<CompareEntity> DirectoryCompareResult { get; }
+    List<CompareEntity> CompareResult { get; }  // 레거시 호환성을 위한 별칭
 
-    Task LoadInputDirectoryAsync(string inputPath);
-    Task LoadOutputDirectoryAsync(string outputPath);
-    Task CompareDirectoriesAsync();
-
-    // Legacy methods for backward compatibility
-    void SetInputFiles(List<FileTreeModel> files);
-    void SetOutputFiles(List<FileTreeModel> files);
-    void SetDifferenceFiles(List<FileTreeModel> files);
+    void SetFolderTypeDictionaryFiles(EFolderListType folderType, List<FileTreeModel> files);
+    void SetDirectoryCompareReuslt(List<CompareEntity> compareResult);
+    List<FileTreeModel> GetFolderTypeDictionaryFiles(EFolderListType folderType);
 }

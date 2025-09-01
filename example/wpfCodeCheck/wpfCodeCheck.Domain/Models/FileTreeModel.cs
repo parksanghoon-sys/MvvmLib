@@ -19,7 +19,7 @@ public class FileTreeModel : BaseModel
     public string FilePath { get; set; } = string.Empty;
     public string FileName { get; set; } = string.Empty;
     public string ProjectName { get; set; } = string.Empty;
-    public DateTime CreateDate { get; set; }
+    public string CreateDate { get; set; } = string.Empty;
     public long? FileSize { get; set; }
     public int LineCount { get; set; }
     public string Checksum { get; set; } = string.Empty;

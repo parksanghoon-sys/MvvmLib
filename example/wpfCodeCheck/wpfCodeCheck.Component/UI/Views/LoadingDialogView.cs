@@ -9,7 +9,28 @@ using wpfCodeCheck.Domain.Enums;
 namespace wpfCodeCheck.Component.UI.Views
 {
     public class LoadingDialogView : DialogBaseView, IDisposable
-    {  
+    {
+        public string StatusMessage
+        {
+            get { return (string)GetValue(StatusMessageProperty); }
+            set { SetValue(StatusMessageProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for StatusMessage.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty StatusMessageProperty =
+            DependencyProperty.Register("StatusMessage", typeof(string), typeof(LoadingDialogView), new PropertyMetadata(""));
+
+
+        public double ScanProgress
+        {
+            get { return (double)GetValue(ScanProgressProperty); }
+            set { SetValue(ScanProgressProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ScanProgress.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ScanProgressProperty =
+            DependencyProperty.Register("ScanProgress", typeof(double), typeof(LoadingDialogView), new PropertyMetadata(0.0d));
+
         public double Diameter
         {
             get { return (double)GetValue(DiameterProperty); }
@@ -74,11 +95,13 @@ namespace wpfCodeCheck.Component.UI.Views
             };
         }
         TextBlock? text;
+        TextBlock? text2;
         int loading = 0;
         DispatcherTimer? loadingTimer;
         public override void OnApplyTemplate()
         {
             text = GetTemplateChild("PART_Loading") as TextBlock;
+            text2 = GetTemplateChild("PART_Status") as TextBlock;
             
             if (text != null)
             {
@@ -91,8 +114,8 @@ namespace wpfCodeCheck.Component.UI.Views
                 loadingTimer.Tick += (s, e) =>
                 {
                     loading += 1;
-                    text.Text = $"Loading {string.Join("", Enumerable.Repeat(".", loading))}";
-
+                    text.Text = $"Loading {$"{ScanProgress}%"}{string.Join("", Enumerable.Repeat(".", loading))}";
+                    text2.Text = StatusMessage;
                     if (loading == 5)
                     {
                         loading = 0;

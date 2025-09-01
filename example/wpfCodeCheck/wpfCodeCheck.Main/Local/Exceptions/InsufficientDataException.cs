@@ -12,7 +12,7 @@
             
         }
         public InsufficientDataException(string message, Exception innerException)
-     : base(message, innerException)
+            : base(message, innerException)
         {
         }
     }

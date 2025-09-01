@@ -20,9 +20,9 @@ namespace wpfCodeCheck.SDDExport.Local.ViewModels
 
         private void SetFileData()
         {
-            if (_baseService.OutputFiles != null)
+            if (_baseService.FolderTypeDictionaryFiles[Domain.Enums.EFolderListType.OUTPUT] != null)
             {
-                _fileDatas.AddRange(_baseService.OutputFiles);             
+                _fileDatas.AddRange(_baseService.FolderTypeDictionaryFiles[Domain.Enums.EFolderListType.OUTPUT]);             
             }
         }     
 

@@ -8,86 +8,37 @@ using wpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.Domain.Services
 {
-    public class BaseService : BaseModel, IBaseService        
+    public class BaseService : BaseModel, IBaseService
     {        
-        private readonly FileTreeService _fileTreeService;
-
-        private FileTreeModel? _inputTree;
-        private FileTreeModel? _outputTree;
-        private List<FileTreeModel> _inputFiles = new();
-        private List<FileTreeModel> _outputFiles = new();
-        private List<FileTreeModel> _differenceFiles = new();
-
+        private Dictionary<EFolderListType, List<FileTreeModel>> _folderTypeDictionaryFiles = new();
+        private List<CompareEntity> _compareResult = new();        
         public BaseService()
         {
-            _fileTreeService = new FileTreeService();
+            _folderTypeDictionaryFiles[EFolderListType.INPUT] = new List<FileTreeModel>();
+            _folderTypeDictionaryFiles[EFolderListType.OUTPUT] = new List<FileTreeModel>();
         }
 
-        public FileTreeModel? InputTree
+        public void SetFolderTypeDictionaryFiles(EFolderListType folderType, List<FileTreeModel> files)
         {
-            get => _inputTree;
-            private set => SetProperty(ref _inputTree, value);
+            _folderTypeDictionaryFiles[folderType] = files;
+            OnPropertyChanged(nameof(FolderTypeDictionaryFiles));
         }
 
-        public FileTreeModel? OutputTree
+        public Dictionary<EFolderListType, List<FileTreeModel>> FolderTypeDictionaryFiles 
+            => _folderTypeDictionaryFiles;
+
+        public void SetDirectoryCompareReuslt(List<CompareEntity> compareResult)
         {
-            get => _outputTree;
-            private set => SetProperty(ref _outputTree, value);
+            _compareResult = compareResult;
+            OnPropertyChanged(nameof(DirectoryCompareResult));
         }
 
-        public List<FileTreeModel> InputFiles
+        public List<CompareEntity> DirectoryCompareResult => _compareResult;
+        public List<CompareEntity> CompareResult => _compareResult;  // 레거시 호환성을 위한 별칭
+
+        public List<FileTreeModel> GetFolderTypeDictionaryFiles(EFolderListType folderType)
         {
-            get => _inputFiles;
-            private set => SetProperty(ref _inputFiles, value);
-        }
-
-        public List<FileTreeModel> OutputFiles
-        {
-            get => _outputFiles;
-            private set => SetProperty(ref _outputFiles, value);
-        }
-
-        public List<FileTreeModel> DifferenceFiles
-        {
-            get => _differenceFiles;
-            private set => SetProperty(ref _differenceFiles, value);
-        }
-
-        public async Task LoadInputDirectoryAsync(string inputPath)
-        {
-            InputTree = await _fileTreeService.BuildFileTreeAsync(inputPath);
-            InputFiles = InputTree.GetAllDescendants().Where(f => !f.IsDirectory).ToList();
-        }
-
-        public async Task LoadOutputDirectoryAsync(string outputPath)
-        {
-            OutputTree = await _fileTreeService.BuildFileTreeAsync(outputPath);
-            OutputFiles = OutputTree.GetAllDescendants().Where(f => !f.IsDirectory).ToList();
-        }
-
-        public async Task CompareDirectoriesAsync()
-        {
-            if (InputTree == null || OutputTree == null)
-                throw new InvalidOperationException("Both input and output directories must be loaded first.");
-
-            DifferenceFiles = await _fileTreeService.CompareFileTreesAsync(InputTree, OutputTree);
-        }
-
-        // Legacy methods for backward compatibility
-        public void SetInputFiles(List<FileTreeModel> files)
-        {
-            InputFiles = files;
-        }
-
-        public void SetOutputFiles(List<FileTreeModel> files)
-        {
-            OutputFiles = files;
-        }
-
-        public void SetDifferenceFiles(List<FileTreeModel> files)
-        {
-            DifferenceFiles = files;
-        }
-     
+            return _folderTypeDictionaryFiles.TryGetValue(folderType, out var files) ? files : new List<FileTreeModel>();
+        }      
     }
 }

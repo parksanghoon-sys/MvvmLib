@@ -9,7 +9,7 @@ namespace wpfCodeCheck.Domain.Enums
     public enum ECompareType
     {
         NONE,
-        SW_CODE,
+        SOURCECODE,
         FILE
     }
     public enum EFileType

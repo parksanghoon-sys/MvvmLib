@@ -2,24 +2,22 @@
 using CoreMvvmLib.WPF.Components;
 using CoreMvvmLib.WPF.Services;
 using System.Windows;
-using wpfCodeCheck.ProjectChangeTracker.Local.ViewModels;
-using wpfCodeCheck.ProjectChangeTracker.UI.Views;
+using wpfCodeCheck.Component.UI.Views;
+using wpfCodeCheck.Domain.Local.Helpers;
+using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Domain.Services.Interfaces;
 using wpfCodeCheck.Forms.Local.ViewModels;
 using wpfCodeCheck.Forms.UI.Views;
+using wpfCodeCheck.Main.Local.Services.CompareService;
+using wpfCodeCheck.Main.Local.Services.FileDescription;
+using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.Local.ViewModels;
 using wpfCodeCheck.Main.UI.Views;
-using wpfCodeCheck.Component.UI.Views;
-using wpfCodeCheck.Domain.Services;
-using wpfCodeCheck.Domain.Datas;
-using wpfCodeCheck.Domain.Local.Helpers;
 using wpfCodeCheck.ProjectChangeTracker.Local.Services;
-using wpfCodeCheck.Main.Local.Servies.CheckSumService;
-using wpfCodeCheck.Main.Local.Servies;
-using wpfCodeCheck.Main.Services;
-using wpfCodeCheck.Domain.Services.DirectoryServices;
-using wpfCodeCheck.SDDExport.UI.Views;
+using wpfCodeCheck.ProjectChangeTracker.Local.ViewModels;
+using wpfCodeCheck.ProjectChangeTracker.UI.Views;
 using wpfCodeCheck.SDDExport.Local.ViewModels;
-using wpfCodeCheck.Domain.Services.Interfaces;
+using wpfCodeCheck.SDDExport.UI.Views;
 
 namespace wpfCodeCheck
 {
@@ -34,25 +32,29 @@ namespace wpfCodeCheck
             
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<TestViewModel>();
-            services.AddSingleton<FolderCompareViewModel>();
-            services.AddSingleton<ComparisonResultsViewModel>();
+            services.AddSingleton<FolderCompareViewModel>();            
             services.AddSingleton<ComparisonResultsViewModel>();
             services.AddSingleton<DirectoryCompareViewModel>();
 
             services.AddTransient<SddExportViewModel>();
             services.AddTransient<FolderListViewModel>();            
 
-            services.AddTransient<IFileCheckSum, FileCheckSumCRC32>();
+            services.AddTransient<IFileCheckSum, Crc32FileCheckSumService>();            
 
             //services.AddTransient<CodeCompareService>();
-            services.AddTransient<CompareFactoryService>();
-            services.AddTransient<IDirectoryCompare, SourceDirectoryService>();
+            //services.AddTransient<ICompareFactoryService, CompareFactoryService>();
+            services.AddTransient<ICompareService, FileComparisonService>();
+            // 디렉토리 탐색 통합 시스템
+            services.AddTransient<DirectoryExplorerService>();
 
             services.AddTransient<ICsvHelper, CsvHelper>();
             services.AddTransient<IExcelPaser, InteropExcelParsser>();
 
             services.AddSingleton<IBaseService, BaseService>();
             services.AddSingleton<ISettingService, SettingService>();
+            
+            // FileDescriptionService 등록
+            services.AddSingleton<IFileDescriptionService, FileDescriptionService>();
 
             base.ConfigureServiceCollection(services);
         }
