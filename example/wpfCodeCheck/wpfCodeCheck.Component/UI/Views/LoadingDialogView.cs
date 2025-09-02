@@ -81,11 +81,11 @@ namespace wpfCodeCheck.Component.UI.Views
             this.Loaded += (s, e) =>
             {
                 WeakReferenceMessenger.Default.Send<EMainViewDimming>(EMainViewDimming.DIMMING);
-               
+
             };
             this.IsVisibleChanged += (s, e) =>
             {
-                if(this.Visibility == Visibility.Hidden)
+                if (this.Visibility == Visibility.Hidden)
                 {
                     WeakReferenceMessenger.Default.Send<EMainViewDimming>(EMainViewDimming.NONE);
                     WeakReferenceMessenger.Default.UnRegister<LoadingDialogView, (int, string)>(this, OnReceiveStatus);
@@ -102,30 +102,26 @@ namespace wpfCodeCheck.Component.UI.Views
 
         private void OnReceiveStatus(LoadingDialogView view, (int, string) status)
         {
-            lock (this._lock)
+            Application.Current.Dispatcher.BeginInvoke(() =>
             {
                 StatusMessage = status.Item2;
                 ScanProgress = status.Item1;
-                
-                //Application.Current.Dispatcher.BeginInvoke(() =>
-                //{
-                //    if(text2 is not null)
-                //        text2?.Dispatcher.Invoke(() => text2.Text = StatusMessage);
-                //});
-            
-            }            
+                if (statusText is not null)
+                    statusText.Text = StatusMessage;
+            });
+
         }
 
-        TextBlock? text;
-        TextBlock? text2;
-        
+        TextBlock? loadingTxt;
+        TextBlock? statusText;
+
         DispatcherTimer? loadingTimer;
         public override void OnApplyTemplate()
         {
-            text = GetTemplateChild("PART_Loading") as TextBlock;
-            text2 = GetTemplateChild("PART_Status") as TextBlock;
-            
-            if (text != null)
+            loadingTxt = GetTemplateChild("PART_Loading") as TextBlock;
+            statusText = GetTemplateChild("PART_Status") as TextBlock;
+
+            if (loadingTxt != null)
             {
                 loadingTimer = new DispatcherTimer();
 
@@ -136,7 +132,7 @@ namespace wpfCodeCheck.Component.UI.Views
                 loadingTimer.Tick += (s, e) =>
                 {
                     loading += 1;
-                    text.Text = $"Loading {$"{ScanProgress}%"}{string.Join("", Enumerable.Repeat(".", loading))}";
+                    loadingTxt.Text = $"Loading {$"{ScanProgress}%"}{string.Join("", Enumerable.Repeat(".", loading))}";
                     if (loading == 5)
                     {
                         loading = 0;

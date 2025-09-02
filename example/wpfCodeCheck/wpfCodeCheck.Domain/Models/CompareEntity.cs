@@ -38,5 +38,9 @@ namespace wpfCodeCheck.Domain.Models
             Status = fileModel.Status;
             IsComparison = fileModel.IsComparison;
         }
+        public override string ToString()
+        {
+            return $"Input : {InputFileName}; Output : {OutoutFileName} Status : {Status.ToString()}" ;
+        }
     }
 }

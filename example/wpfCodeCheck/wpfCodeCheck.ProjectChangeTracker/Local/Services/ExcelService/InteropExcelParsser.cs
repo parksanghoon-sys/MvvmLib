@@ -13,7 +13,7 @@ using wpfCodeCheck.ProjectChangeTracker.Local.Models;
 using Excel = Microsoft.Office.Interop.Excel;
 using wpfCodeCheck.Domain.Services.Interfaces;
 
-namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
+namespace wpfCodeCheck.ProjectChangeTracker.Local.Services.ExcelService
 {
     public class InteropExcelParsser : IExcelPaser
     {
@@ -28,7 +28,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         //private static FileSystemWatcher _watcher;
         private static AutoResetEvent _fileWrittenEvent = new AutoResetEvent(false);
         //private static SemaphoreSlim _fileSemaphore = new SemaphoreSlim(1, 1);
-        private readonly ICsvHelper? _csvHelper;
+        private readonly ICsvHelper _csvHelper;
         private readonly IBaseService _baseService;
         private List<FailClassAnalysisModel> _failClassAnalysisModels = new();
 

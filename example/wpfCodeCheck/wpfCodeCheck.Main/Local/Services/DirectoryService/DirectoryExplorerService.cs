@@ -1,4 +1,5 @@
 using CoreMvvmLib.Core.Messenger;
+using CoreMvvmLib.Core.Services.DialogService;
 using System.IO;
 using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Enums;
@@ -23,7 +24,7 @@ namespace wpfCodeCheck.Main.Local.Servies
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        List<FileInfoDto> FlattenAndConvert(List<FileTreeModel> list);
+        IEnumerable<FileInfoDto> FlattenAndConvert(List<FileTreeModel> list);
     }
     /// <summary>
     /// 개선된 디렉토리 탐색 통합 서비스    
@@ -32,40 +33,53 @@ namespace wpfCodeCheck.Main.Local.Servies
     {
         private readonly DirectoryScannerFactory _scannerFactory;
         private readonly ISettingService _settingService;
+        private readonly IDialogService _dialogService;
 
-        // 진행률 이벤트
+        /// <summary>
+        /// 디렉토리 스캔 진행률 이벤트
+        /// </summary>
         public event Action<int, string>? ProgressChanged;
 
-        public DirectoryExplorerService(IFileCheckSum fileCheckSum, ISettingService settingService)
+        /// <summary>
+        /// DirectoryExplorerService 생성자
+        /// </summary>
+        /// <param name="fileCheckSum">파일 체크섬 서비스</param>
+        /// <param name="settingService">설정 서비스</param>
+        public DirectoryExplorerService(IFileCheckSum fileCheckSum,
+            ISettingService settingService,
+            IDialogService dialogService)
         {
             _scannerFactory = new DirectoryScannerFactory(fileCheckSum);
             _settingService = settingService;
+            _dialogService = dialogService;
         }
 
         /// <summary>
-        /// 지정된 타입에 따라 디렉토리 탐색 (개선된 버전)
+        /// 비동기적으로 디렉토리를 탐색하여 파일 트리 모델을 생성합니다.
         /// </summary>
+        /// <param name="directoryPath">탐색할 디렉토리 경로</param>
+        /// <returns>탐색된 파일과 디렉토리의 트리 구조</returns>
         public async Task<List<FileTreeModel>> ExploreDirectoryAsync(string directoryPath)
         {
             // 기본값으로 FILE 타입 사용 (모든 파일 스캔)
             var compareType = _settingService.GeneralSetting?.CompareType ?? ECompareType.FILE;
-            
+
             // 디버깅 정보
             ProgressChanged?.Invoke(-1, $"Using scanner type: {compareType}");
             ProgressChanged?.Invoke(-1, $"Scanner description: {_scannerFactory.GetScannerDescription(compareType)}");
-            
+
             var scanner = _scannerFactory.CreateScanner(compareType);
-            
+
             // 진행률 이벤트 구독
             scanner.ProgressChanged += OnScannerProgressChanged;
-            
+
             try
             {
                 ProgressChanged?.Invoke(-1, $"Starting scan of directory: {directoryPath}");
                 ProgressChanged?.Invoke(-1, $"Directory exists: {Directory.Exists(directoryPath)}");
-                
+
                 var result = await scanner.ScanDirectoryAsync(directoryPath);
-                
+
                 ProgressChanged?.Invoke(-1, $"Scan completed. Found {result.Count} top-level items");
                 return result;
             }
@@ -82,18 +96,39 @@ namespace wpfCodeCheck.Main.Local.Servies
         private void OnScannerProgressChanged(int percentage, string message)
         {
             int scanProgress = Math.Max(0, Math.Min(100, percentage));
-            //WeakReferenceMessenger.Default.Send<(int, string), LoadingDialogView>(new(scanProgress, message));            
+            if (_dialogService.Activate(typeof(LoadingDialogView)))
+                WeakReferenceMessenger.Default.Send<(int, string), LoadingDialogView>(new(scanProgress, message));
+
         }
+        /// <summary>
+        /// 파일 인덱스 카운터
+        /// </summary>
         private int _fileIndex = 1;
-        public List<FileInfoDto> FlattenAndConvert(List<FileTreeModel> list)
+
+        /// <summary>
+        /// 계층구조의 FileTreeModel 목록을 평면적인 FileInfoDto 목록으로 변환합니다.
+        /// </summary>
+        /// <param name="list">변환할 FileTreeModel 목록</param>
+        /// <returns>평면화된 FileInfoDto 목록</returns>
+        public IEnumerable<FileInfoDto> FlattenAndConvert(List<FileTreeModel> list)
         {
-            List<FileInfoDto> result = new();            
+            //List<FileInfoDto> result = new();            
+            var flatList = Flatten(list);
+
+            return flatList
+                .Select((item, index) =>
+                {
+                    item.FileIndex = ++index;
+                    return item;
+                });
+        }
+        private IEnumerable<FileInfoDto> Flatten(List<FileTreeModel> list)
+        {
             foreach (var item in list)
             {
                 if (!item.IsDirectory)
                 {
-                    // 파일인 경우만 CodeInfoModel로 변환하여 추가
-                    result.Add(new FileInfoDto()
+                    yield return new FileInfoDto
                     {
                         Checksum = item.Checksum,
                         FilePath = item.FilePath,
@@ -102,20 +137,18 @@ namespace wpfCodeCheck.Main.Local.Servies
                         LineCount = item.LineCount,
                         IsComparison = item.IsComparison,
                         FileSize = item.FileSize,
-                        FileIndex = _fileIndex++,
                         FileType = item.FileType,
-                    });
+                    };
                 }
 
-                if (item.Children != null && item.Children.Any())
+                if (item.Children?.Any() == true)
                 {
-                    result.AddRange(FlattenAndConvert(item.Children));
+                    foreach (var child in Flatten(item.Children))
+                        yield return child;
                 }
             }
-            return result;
+
         }
-
     }
-
    
 }

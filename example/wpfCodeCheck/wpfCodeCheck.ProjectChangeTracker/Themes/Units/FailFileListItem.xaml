@@ -27,13 +27,13 @@
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Foreground="#FFFFFF"
-                                Text="{Binding InputFile.FileName}" />
+                                Text="{Binding InputFile.InputFileName}" />
                             <TextBlock Grid.Column="1"
                                        Margin="6,0,6,0"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Center"
                                        Foreground="#FFFFFF"
-                                       Text="{Binding OutputFile.FileName}" />
+                                       Text="{Binding OutputFile.OutoutFileName}" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>

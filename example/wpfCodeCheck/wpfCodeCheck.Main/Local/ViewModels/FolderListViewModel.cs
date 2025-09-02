@@ -144,7 +144,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     FileDatas.Clear();
 
                     var flattenedItems = _directoryExplorerService.FlattenAndConvert(folderInfoList);
-                    Console.WriteLine($"[DEBUG] Flattened to {flattenedItems.Count} files");
+                    
                     
                     await FileDatas.AddItemsAsync(flattenedItems);
                     Console.WriteLine($"[DEBUG] Added {FileDatas.Count} items to UI");

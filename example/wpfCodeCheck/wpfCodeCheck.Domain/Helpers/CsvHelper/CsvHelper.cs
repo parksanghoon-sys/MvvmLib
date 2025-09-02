@@ -5,8 +5,14 @@ using wpfCodeCheck.Domain.Helpers;
 
 namespace wpfCodeCheck.Domain.Local.Helpers
 {
+    /// <summary>
+    /// CSV 파일 생성, 읽기, 예외 처리 기능을 구현하는 클래스
+    /// </summary>
     public class CsvHelper : ICsvHelper
     {
+        /// <summary>
+        /// CsvHelper 생성자
+        /// </summary>
         public CsvHelper()
         {
             

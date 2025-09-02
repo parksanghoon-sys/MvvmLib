@@ -40,4 +40,8 @@
 	  <ProjectReference Include="..\wpfCodeCheck.Domain\wpfCodeCheck.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Local\Services\BeyondService\" />
+  </ItemGroup>
+
 </Project>

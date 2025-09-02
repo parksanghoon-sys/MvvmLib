@@ -9,11 +9,10 @@ using wpfCodeCheck.Domain.Services.Interfaces;
 using wpfCodeCheck.Forms.Local.ViewModels;
 using wpfCodeCheck.Forms.UI.Views;
 using wpfCodeCheck.Main.Local.Services.CompareService;
-using wpfCodeCheck.Main.Local.Services.FileDescription;
 using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.Local.ViewModels;
 using wpfCodeCheck.Main.UI.Views;
-using wpfCodeCheck.ProjectChangeTracker.Local.Services;
+using wpfCodeCheck.ProjectChangeTracker.Local.Services.ExcelService;
 using wpfCodeCheck.ProjectChangeTracker.Local.ViewModels;
 using wpfCodeCheck.ProjectChangeTracker.UI.Views;
 using wpfCodeCheck.SDDExport.Local.ViewModels;
@@ -33,7 +32,7 @@ namespace wpfCodeCheck
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<TestViewModel>();
             services.AddSingleton<FolderCompareViewModel>();            
-            services.AddSingleton<wpfCodeCheck.ProjectChangeTracker.Local.ViewModels.ComparisonResultsViewModel>();
+            services.AddSingleton<ComparisonResultsViewModel>();
             services.AddSingleton<DirectoryCompareViewModel>();
 
             services.AddTransient<SddExportViewModel>();

@@ -12,15 +12,32 @@ using wpfCodeCheck.Main.Local.Services.CompareService;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
+    /// <summary>
+    /// 폴더 비교 기능을 담당하는 뷰모델 클래스
+    /// 두 디렉토리를 비교하여 차이점을 분석하고 결과를 내보냅니다.
+    /// </summary>
     public partial class FolderCompareViewModel : ViewModelBase, IDisposable
     {        
+        /// <summary>
+        /// 입력 디렉토리의 파일 트리 모델
+        /// </summary>
         private List<FileTreeModel> _inputFileTree = new();
+        /// <summary>
+        /// 출력 디렉토리의 파일 트리 모델
+        /// </summary>
         private List<FileTreeModel> _outputFileTree = new();                
         
         private readonly IBaseService _baseService;
         private readonly ISettingService _settingService;
         private readonly ICompareService _compareService;
 
+        /// <summary>
+        /// FolderCompareViewModel 생성자
+        /// </summary>
+        /// <param name="baseService">기본 서비스</param>
+        /// <param name="settingService">설정 서비스</param>
+        /// <param name="fileCheckSum">파일 체크섬 서비스</param>
+        /// <param name="compareService">비교 서비스</param>
         public FolderCompareViewModel(IBaseService baseService,
             ISettingService settingService,            
             IFileCheckSum fileCheckSum,
@@ -37,11 +54,21 @@ namespace wpfCodeCheck.Main.Local.ViewModels
 
             WeakReferenceMessenger.Default.Register<FolderCompareViewModel, DirectorySearchResult>(this, OnReceiveCodeInfos);
         }  
+        /// <summary>
+        /// 비교할 입력 디렉토리 경로
+        /// </summary>
         [Property]
         private string? _inputDirectoryPath;
+        /// <summary>
+        /// 비교할 출력 디렉토리 경로
+        /// </summary>
         [Property]
         private string? _outputDirectoryPath;
 
+        /// <summary>
+        /// 두 디렉토리를 비동기적으로 비교하는 커맨드
+        /// </summary>
+        /// <returns>비동기 작업 태스크</returns>
         [AsyncRelayCommand]
         private async Task DirectoryCompare()
         {
