@@ -15,9 +15,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
     public partial class FolderCompareViewModel : ViewModelBase, IDisposable
     {        
         private List<FileTreeModel> _inputFileTree = new();
-        private List<FileTreeModel> _outputFileTree = new();
-        
-        private readonly DirectoryExplorerService _directoryExplorerService;        
+        private List<FileTreeModel> _outputFileTree = new();                
         
         private readonly IBaseService _baseService;
         private readonly ISettingService _settingService;
@@ -26,15 +24,13 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         public FolderCompareViewModel(IBaseService baseService,
             ISettingService settingService,            
             IFileCheckSum fileCheckSum,
-            ICompareService compareService,
-            DirectoryExplorerService directoryExplorerService)
+            ICompareService compareService)
         {
             _baseService = baseService;
             _settingService = settingService;
-            _compareService = compareService;
-            _directoryExplorerService = directoryExplorerService;
+            _compareService = compareService;            
             // 진행률 이벤트 구독
-            _directoryExplorerService.ProgressChanged += OnDirectoryExplorerProgressChanged;
+            //_directoryExplorerService.ProgressChanged += OnDirectoryExplorerProgressChanged;
 
             InputDirectoryPath = _settingService.GeneralSetting?.InputPath ?? string.Empty;
             OutputDirectoryPath = _settingService.GeneralSetting?.OutputPath ?? string.Empty;
@@ -45,10 +41,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private string? _inputDirectoryPath;
         [Property]
         private string? _outputDirectoryPath;
-        [Property]
-        private int _scanProgress;
-        [Property]
-        private string _scanStatusMessage = "대기 중...";
+
         [AsyncRelayCommand]
         private async Task DirectoryCompare()
         {
@@ -72,9 +65,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
 
                 // 차이점을 CompareEntity 형태로 변환하여 저장
                 var compareResults = _compareService.ConvertToCompareEntities(differences);
-                _baseService.SetDirectoryCompareReuslt(compareResults);
-              
-                
+                _baseService.SetDirectoryCompareReuslt(compareResults);                              
 
                 WeakReferenceMessenger.Default.Send<EMainViewType>(EMainViewType.EXPORT_EXCEL);
             }
@@ -84,19 +75,10 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             }
             finally
             {
-                ScanProgress = 0;
-                ScanStatusMessage = "대기 중...";
+
             }
         }
 
-        /// <summary>
-        /// 디렉토리 탐색 진행률 이벤트 핸들러
-        /// </summary>
-        private void OnDirectoryExplorerProgressChanged(int percentage, string message)
-        {
-            ScanProgress = Math.Max(0, Math.Min(100, percentage));
-            ScanStatusMessage = message;
-        }
         [RelayCommand]
         private void Export()
         {            
@@ -128,26 +110,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             _baseService.SetFolderTypeDictionaryFiles(directorySearchResult.type, directorySearchResult.fileDatas);
         }
 
-        private void UpdateComparisonResults(IList<FileTreeModel> hierarchyItems, IList<FileTreeModel> flatItems)
-        {
-            var flatLookup = flatItems.ToDictionary(f => f.FilePath, f => f.IsComparison);
-            
-            foreach (var item in hierarchyItems.SelectMany(h => h.GetAllDescendants()))
-            {
-                if (!item.IsDirectory && flatLookup.ContainsKey(item.FilePath))
-                {
-                    item.IsComparison = flatLookup[item.FilePath];
-                }
-            }
-        }
-
         public void Dispose()
         {
-            if (_directoryExplorerService != null)
-            {
-                _directoryExplorerService.ProgressChanged -= OnDirectoryExplorerProgressChanged;
-            }
-
             WeakReferenceMessenger.Default.UnRegister<FolderCompareViewModel, DirectorySearchResult>(this, OnReceiveCodeInfos);
         }
       

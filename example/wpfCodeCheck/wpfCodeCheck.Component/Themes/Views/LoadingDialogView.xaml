@@ -19,20 +19,25 @@
                         <converter:DiameterAndThicknessToStrokeDashArrayConverter x:Key="DiameterAndThicknessToStrokeDashArrayConverter" />
                     </ControlTemplate.Resources>
                     <Grid>
-                        <TextBlock
-                            x:Name="PART_Loading"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="14"
-                            Foreground="{TemplateBinding Color}"
-                            Text="Loading..." />
-                        <TextBlock
-                            x:Name="PART_Status"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="14"
-                            Foreground="{TemplateBinding Color}"
-                            Text="Loading..." />
+                        <units:UniformSpacingPanel 
+                            Orientation="Vertical"
+                            ChildSpacing="5">
+                            <TextBlock
+                                x:Name="PART_Loading"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Foreground="{TemplateBinding Color}"
+                                Text="Loading..." />
+                            <TextBlock
+                                x:Name="PART_Status"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Foreground="{TemplateBinding Color}"
+                                Text="..." />
+                        </units:UniformSpacingPanel>
+
                         <Ellipse
                             Width="{TemplateBinding Width}"
                             Height="{TemplateBinding Height}"

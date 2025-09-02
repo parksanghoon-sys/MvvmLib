@@ -12,6 +12,7 @@ using wpfCodeCheck.Domain.Services.Interfaces;
 using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.Local.Services.FileDescription;
+using System.Globalization;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -19,23 +20,20 @@ namespace wpfCodeCheck.Main.Local.ViewModels
     {                        
         private readonly IDialogService _dialogService;
         private readonly IBaseService _baseService;
-        private readonly DirectoryExplorerService _directoryExplorerService;
-        private readonly IFileDescriptionService _fileDescriptionService;
+        private readonly IDirectoryExplorerService _directoryExplorerService;        
 
         public FolderListViewModel( 
             IDialogService dialogService,
             IBaseService baseService,
-            DirectoryExplorerService directoryExplorerService,
-            IFileDescriptionService fileDescriptionService)
+            IDirectoryExplorerService directoryExplorerService)
         {                                   
             _dialogService = dialogService;
             _baseService = baseService;
             _directoryExplorerService = directoryExplorerService;
-            _fileDescriptionService = fileDescriptionService;
             FileDatas = new();
 
             WeakReferenceMessenger.Default.Register<FolderListViewModel, EFolderCompareList>(this, OnReceiveClearMessage);
-            WeakReferenceMessenger.Default.Register<FolderListViewModel, ComparisonResultMessage>(this, OnReceiveComparisonResult);
+            //WeakReferenceMessenger.Default.Register<FolderListViewModel, ComparisonResultMessage>(this, OnReceiveComparisonResult);
             _baseService.PropertyChanged += OnPropertyChanged;
         }
         
@@ -83,24 +81,24 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         /// <summary>
         /// 비교 결과를 받아서 IsComparison 값 업데이트
         /// </summary>
-        private void OnReceiveComparisonResult(FolderListViewModel model, ComparisonResultMessage comparisonResult)
-        {
-            if (FileDatas == null || !FileDatas.Any()) return;
+        //private void OnReceiveComparisonResult(FolderListViewModel model, ComparisonResultMessage comparisonResult)
+        //{
+        //    if (FileDatas == null || !FileDatas.Any()) return;
 
-            // FileTreeModel의 IsComparison 값을 FileInfoDto에 반영
-            var fileTreeLookup = comparisonResult.ComparedFiles
-                .SelectMany(tree => FlattenFileTree(tree))
-                .Where(f => !f.IsDirectory)
-                .ToDictionary(f => f.FilePath, f => f.IsComparison);
+        //    // FileTreeModel의 IsComparison 값을 FileInfoDto에 반영
+        //    var fileTreeLookup = comparisonResult.ComparedFiles
+        //        .SelectMany(tree => FlattenFileTree(tree))
+        //        .Where(f => !f.IsDirectory)
+        //        .ToDictionary(f => f.FilePath, f => f.IsComparison);
 
-            foreach (var fileData in FileDatas)
-            {
-                if (fileTreeLookup.TryGetValue(fileData.FilePath, out var isComparison))
-                {
-                    fileData.IsComparison = isComparison;
-                }
-            }
-        }
+        //    foreach (var fileData in FileDatas)
+        //    {
+        //        if (fileTreeLookup.TryGetValue(fileData.FilePath, out var isComparison))
+        //        {
+        //            fileData.IsComparison = isComparison;
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// FileTreeModel을 평면화하여 모든 파일 추출
@@ -135,10 +133,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 Console.WriteLine($"[DEBUG] Starting directory scan: {FolderPath}");
                 Console.WriteLine($"[DEBUG] FolderListType: {FolderListType}");
                 
-                _dialogService.Show(this, typeof(LoadingDialogView), 300, 300);
-                
-                // 진행률 이벤트 구독 (디버깅용)
-                _directoryExplorerService.ProgressChanged += OnExplorerProgress;
+                _dialogService.Show(this, typeof(LoadingDialogView), 300, 300);                                                
                 
                 try
                 {
@@ -157,17 +152,12 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                     WeakReferenceMessenger.Default.Send<DirectorySearchResult, FolderCompareViewModel>(new DirectorySearchResult(FolderListType, folderInfoList));
                 }
                 finally
-                {
-                    _directoryExplorerService.ProgressChanged -= OnExplorerProgress;
+                {                    
                     _dialogService.Close(typeof(LoadingDialogView));
                 }
             }            
         }
-        
-        private void OnExplorerProgress(int percentage, string message)
-        {
-            Console.WriteLine($"[DEBUG] {percentage}%: {message}");
-        }       
+              
 
         protected virtual void Dispose(bool disposing)
         {
@@ -177,7 +167,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 {
                     _baseService.PropertyChanged -= OnPropertyChanged;
                     WeakReferenceMessenger.Default.UnRegister<FolderListViewModel, EFolderCompareList>(this, OnReceiveClearMessage);
-                    WeakReferenceMessenger.Default.UnRegister<FolderListViewModel, ComparisonResultMessage>(this, OnReceiveComparisonResult);
+                    //WeakReferenceMessenger.Default.UnRegister<FolderListViewModel, ComparisonResultMessage>(this, OnReceiveComparisonResult);
                     // TODO: 관리형 상태(관리형 개체)를 삭제합니다.
                 }
 

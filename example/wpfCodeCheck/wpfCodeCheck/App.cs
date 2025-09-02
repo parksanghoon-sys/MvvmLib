@@ -33,7 +33,7 @@ namespace wpfCodeCheck
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<TestViewModel>();
             services.AddSingleton<FolderCompareViewModel>();            
-            services.AddSingleton<ComparisonResultsViewModel>();
+            services.AddSingleton<wpfCodeCheck.ProjectChangeTracker.Local.ViewModels.ComparisonResultsViewModel>();
             services.AddSingleton<DirectoryCompareViewModel>();
 
             services.AddTransient<SddExportViewModel>();
@@ -45,7 +45,7 @@ namespace wpfCodeCheck
             //services.AddTransient<ICompareFactoryService, CompareFactoryService>();
             services.AddTransient<ICompareService, FileComparisonService>();
             // 디렉토리 탐색 통합 시스템
-            services.AddTransient<DirectoryExplorerService>();
+            services.AddTransient<IDirectoryExplorerService, DirectoryExplorerService>();
 
             services.AddTransient<ICsvHelper, CsvHelper>();
             services.AddTransient<IExcelPaser, InteropExcelParsser>();
@@ -54,7 +54,7 @@ namespace wpfCodeCheck
             services.AddSingleton<ISettingService, SettingService>();
             
             // FileDescriptionService 등록
-            services.AddSingleton<IFileDescriptionService, FileDescriptionService>();
+            // services.AddSingleton<IFileDescriptionService, FileDescriptionService>();
 
             base.ConfigureServiceCollection(services);
         }
@@ -84,10 +84,7 @@ namespace wpfCodeCheck
         {          
             return new MainWindowView();            
         }
-        //public T GetService<T>() where T : class
-        //{
-        //    return Services.GetService<T>();
-        //}
+
         protected override void OnExit(ExitEventArgs e)
         {            
             base.OnExit(e);

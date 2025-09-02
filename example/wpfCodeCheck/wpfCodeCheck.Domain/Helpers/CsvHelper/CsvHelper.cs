@@ -6,7 +6,11 @@ using wpfCodeCheck.Domain.Helpers;
 namespace wpfCodeCheck.Domain.Local.Helpers
 {
     public class CsvHelper : ICsvHelper
-    {           
+    {
+        public CsvHelper()
+        {
+            
+        }
         /// <summary>
         /// 컬렉션 CSV 파일 만들기
         /// </summary>

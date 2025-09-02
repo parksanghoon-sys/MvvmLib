@@ -125,9 +125,6 @@ namespace wpfCodeCheck.Forms.Local.ViewModels
             else
                 IsDImming = true;
 
-        }
-
-      
-
+        }      
     }
 }

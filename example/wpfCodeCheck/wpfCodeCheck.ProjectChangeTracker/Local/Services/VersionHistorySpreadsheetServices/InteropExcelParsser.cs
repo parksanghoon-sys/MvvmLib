@@ -20,8 +20,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         private string _filePath;
         private Excel.Application excelApp = null;
         private Excel.Workbook workbook = null;
-        private Excel.Worksheet worksheet = null;
-        private int _startRowIndex;
+        private Excel.Worksheet worksheet = null;        
         private int _startCellIndex;
         private int _excelIndex = 1;
         private string _resultFilePath = @"D:\Temp\result.txt";
@@ -33,7 +32,7 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Services
         private readonly IBaseService _baseService;
         private List<FailClassAnalysisModel> _failClassAnalysisModels = new();
 
-        public InteropExcelParsser(ICsvHelper? csvHelper, IBaseService baseService)
+        public InteropExcelParsser(ICsvHelper csvHelper, IBaseService baseService)
         {
             _csvHelper = csvHelper;
             _baseService = baseService;

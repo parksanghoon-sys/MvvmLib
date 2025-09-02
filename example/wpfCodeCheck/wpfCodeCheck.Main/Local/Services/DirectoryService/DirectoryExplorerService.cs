@@ -1,17 +1,34 @@
+using CoreMvvmLib.Core.Messenger;
+using System.IO;
+using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Models;
 using wpfCodeCheck.Domain.Services.Interfaces;
 using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Main.Local.Services.DirectoryService;
 using wpfCodeCheck.Main.Local.Services.DirectoryService.Interfaces;
-using System.IO;
 
 namespace wpfCodeCheck.Main.Local.Servies
 {
+    public interface IDirectoryExplorerService
+    {
+        /// <summary>
+        /// 디렉토리를 탐색
+        /// </summary>
+        /// <param name="directoryPath">디렉토리 경로</param>
+        /// <returns>파일 정보</returns>
+        Task<List<FileTreeModel>> ExploreDirectoryAsync(string directoryPath);
+        /// <summary>
+        /// FileTreeModel 의 모델을 평탄화하여 1차원 FileInfoDto로 변경
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        List<FileInfoDto> FlattenAndConvert(List<FileTreeModel> list);
+    }
     /// <summary>
     /// 개선된 디렉토리 탐색 통합 서비스    
     /// </summary>
-    public class DirectoryExplorerService
+    public class DirectoryExplorerService : IDirectoryExplorerService
     {
         private readonly DirectoryScannerFactory _scannerFactory;
         private readonly ISettingService _settingService;
@@ -60,33 +77,17 @@ namespace wpfCodeCheck.Main.Local.Servies
         }
 
         /// <summary>
-        /// 스캐너 정보 반환
-        /// </summary>
-        public string GetScannerInfo(ECompareType compareType)
-        {
-            return _scannerFactory.GetScannerDescription(compareType);
-        }
-
-        /// <summary>
-        /// 지원되는 스캐너 타입들 반환
-        /// </summary>
-        public IEnumerable<ECompareType> GetSupportedScannerTypes()
-        {
-            return _scannerFactory.GetSupportedScannerTypes();
-        }
-
-        /// <summary>
         /// 스캐너 진행률 이벤트 핸들러
         /// </summary>
         private void OnScannerProgressChanged(int percentage, string message)
         {
-            ProgressChanged?.Invoke(percentage, message);
+            int scanProgress = Math.Max(0, Math.Min(100, percentage));
+            //WeakReferenceMessenger.Default.Send<(int, string), LoadingDialogView>(new(scanProgress, message));            
         }
-                    
+        private int _fileIndex = 1;
         public List<FileInfoDto> FlattenAndConvert(List<FileTreeModel> list)
         {
-            List<FileInfoDto> result = new();
-            int fileIndex = 1;
+            List<FileInfoDto> result = new();            
             foreach (var item in list)
             {
                 if (!item.IsDirectory)
@@ -101,7 +102,7 @@ namespace wpfCodeCheck.Main.Local.Servies
                         LineCount = item.LineCount,
                         IsComparison = item.IsComparison,
                         FileSize = item.FileSize,
-                        FileIndex = fileIndex++,
+                        FileIndex = _fileIndex++,
                         FileType = item.FileType,
                     });
                 }

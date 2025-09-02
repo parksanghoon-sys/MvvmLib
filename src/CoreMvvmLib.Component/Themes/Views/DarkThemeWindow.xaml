@@ -75,7 +75,7 @@
                             <Setter TargetName="PART_Dimming" Property="Grid.Row" Value="1"/>
                             <Setter Property="Effect">
                                 <Setter.Value>
-                                    <BlurEffect KernelType="Gaussian" Radius="{Binding RelativeSource={RelativeSource AncestorType=ctrls:DarkThemeWindow}, Path=DimmingOpacity}" />
+                                    <BlurEffect KernelType="Gaussian" Radius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DimmingOpacity}" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>

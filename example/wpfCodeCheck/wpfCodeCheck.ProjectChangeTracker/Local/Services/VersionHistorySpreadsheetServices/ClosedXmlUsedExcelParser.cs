@@ -17,9 +17,9 @@
 //        public ClosedXmlUsedExcelParser(IBaseService baseService)
 //        {
 //            _baseService = baseService;
-//        } 
+//        }
 
-//        public async Task<bool> WriteExcelAync(string fileFullName)            
+//        public async Task<bool> WriteExcelAync(string fileFullName)
 //        {
 //            _filePath = fileFullName;
 //            await Task.Run(() =>
@@ -42,7 +42,7 @@
 //                    {
 //                        foreach (var project in projects)
 //                        {
-            
+
 //                            int mergeStartRow = _startRowIndex;
 //                            var customCode = new CustomCodeComparer()
 //                            {
@@ -54,7 +54,7 @@
 
 //                            foreach (var data in customCode.CompareResultSpans)
 //                            {
-                                
+
 //                                switch (data.Status)
 //                                {
 //                                    case CompareResultSpanStatus.DeleteSource:
