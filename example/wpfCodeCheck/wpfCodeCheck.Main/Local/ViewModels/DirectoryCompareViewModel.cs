@@ -1,8 +1,12 @@
 ﻿using CoreMvvmLib.Core.Attributes;
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
+using System.IO;
+using System.Windows;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Domain.Services.Interfaces;
+using wpfCodeCheck.Domain.Services.LogService;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -11,11 +15,14 @@ namespace wpfCodeCheck.Main.Local.ViewModels
     /// </summary>
     public partial class DirectoryCompareViewModel : ViewModelBase
     {
-        private readonly ISettingService _settingService;
+        private readonly ISettingService _settingService;        
+        private readonly ILoggerService _loggerService;
 
-        public DirectoryCompareViewModel(ISettingService settingService)
+        public DirectoryCompareViewModel(ISettingService settingService,             
+            ILoggerService loggerService)
         {
-            _settingService = settingService;
+            _settingService = settingService;            
+            _loggerService = loggerService;
             InputDirectoryPath = _settingService.GeneralSetting!.InputPath ?? "";
             OutputDirectoryPath = _settingService.GeneralSetting!.OutputPath ?? "";
             InputType = _settingService.GeneralSetting!.CompareType;
@@ -24,8 +31,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private string _inputDirectoryPath = string.Empty;
         [Property]
         private string _outputDirectoryPath = string.Empty;        
-        private EType _inputType;
-        public EType InputType
+        private ECompareType _inputType;
+        public ECompareType InputType
         {
             get => _inputType;
             set
@@ -35,16 +42,27 @@ namespace wpfCodeCheck.Main.Local.ViewModels
                 OnPropertyChanged(nameof(IsEnbaleComapre));
             }
         }    
-        public bool IsEnbaleComapre  => InputType != EType.NONE;
+        public bool IsEnbaleComapre  => InputType != ECompareType.NONE;
 
         [RelayCommand]
         private void Compare()
         {
+            if (!Directory.Exists(InputDirectoryPath))
+            {
+                MessageBox.Show("InputDirectory 경로를 입력하세요");
+                return;
+            }
+            if (!Directory.Exists(OutputDirectoryPath))
+            {
+                MessageBox.Show("OutputDirectory 경로를 입력하세요");
+                return;
+            }
             _settingService.GeneralSetting!.InputPath = InputDirectoryPath;
             _settingService.GeneralSetting!.OutputPath= OutputDirectoryPath;
             _settingService.GeneralSetting.CompareType = InputType;
-
+            _loggerService.Info($"START : InputPath : {InputDirectoryPath}, OutputPath : {OutputDirectoryPath}");
             _settingService.SaveSetting();
+            
             WeakReferenceMessenger.Default.Send<EMainViewType>(EMainViewType.FILE_CHECKSUM);
         }    
     }

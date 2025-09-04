@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Domain.Models;
 
 namespace wpfCodeCheck.ProjectChangeTracker.Local.Models
 {
     public record class FailClassAnalysisModel()
     {
-        public FileEntity InputFile { get; init; } = new FileEntity();
-        public FileEntity OutputFile { get; init; } = new FileEntity();
+        public FileTreeModel InputFile { get; init; } = new FileTreeModel();
+        public FileTreeModel OutputFile { get; init; } = new FileTreeModel();
         public bool IsSelected { get; set; } = false;
     }
-
 }

@@ -2,7 +2,7 @@
 using CoreMvvmLib.Core.Components;
 using System.Windows;
 using wpfCodeCheck.Component.UI.Units;
-using wpfCodeCheck.Domain.Services;
+using wpfCodeCheck.Domain.Services.Interfaces;
 
 namespace wpfCodeCheck.Forms.Local.ViewModels
 {

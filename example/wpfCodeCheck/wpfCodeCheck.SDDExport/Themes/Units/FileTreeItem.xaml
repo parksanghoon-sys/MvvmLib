@@ -36,7 +36,7 @@
                                         x:Name="PART_Chevron"
                                         Margin="10"
                                         IsChecked="{Binding RelativeSource={RelativeSource Templatedparent}, Path=IsExpanded}" />
-                                    <units:ImageIcon Margin="10" Icon="{Binding FileType}" />
+                                    <units:ImageIcon Margin="10" Icon="{Binding IconType}" />
                                 </StackPanel>
                                 <TextBlock
                                     Grid.Column="1"

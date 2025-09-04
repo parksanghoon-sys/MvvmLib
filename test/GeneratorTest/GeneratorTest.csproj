@@ -25,7 +25,7 @@
 		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.8" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\src\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj">
+		<ProjectReference Include="..\..\src\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 			<OutputItemType>Analyzer</OutputItemType>
 		</ProjectReference>

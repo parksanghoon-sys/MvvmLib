@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using wpfCodeCheck.Domain.Datas;
+using wpfCodeCheck.Domain.Models;
 
 namespace wpfCodeCheck.SDDExport.UI.Units
 {
@@ -42,7 +42,7 @@ namespace wpfCodeCheck.SDDExport.UI.Units
         {
             e.Handled = true;
 
-            if (DataContext is FileCompareModel item)
+            if (DataContext is FileTreeModel item)
             {
                 SelectionCommand?.Execute(item);
             }

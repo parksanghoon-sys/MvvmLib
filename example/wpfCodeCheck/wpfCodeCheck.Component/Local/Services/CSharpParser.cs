@@ -1,20 +1,19 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using wpfCodeCheck.Component.Local.Models;
-using ParameterInfo = wpfCodeCheck.Component.Local.Models.ParameterInfo;
+using wpfCodeCheck.Domain.Models;
 
 namespace wpfCodeCheck.Component.Local.Services
 {
 
     public class CSharpParser : ICodeParser
     {
-        public IList<ClassInfo> Parse(string code, string codePath)
+        public IList<ClassInfoModel> Parse(string code, string codePath)
         {
             var tree = CSharpSyntaxTree.ParseText(code);
             var root = tree.GetRoot() as CompilationUnitSyntax;
-            var functions = new List<FunctionInfo>();
-            var classInfos = new List<ClassInfo>();
+            var functions = new List<FunctionInfoModel>();
+            var classInfos = new List<ClassInfoModel>();
 
             var classes = root.DescendantNodes().OfType<ClassDeclarationSyntax>();
             foreach (var classNode in classes)
@@ -23,7 +22,7 @@ namespace wpfCodeCheck.Component.Local.Services
                 var methods = classNode.DescendantNodes().OfType<MethodDeclarationSyntax>();
                 var variables = GetVariables(classNode);
 
-                var classinfo = new ClassInfo()
+                var classinfo = new ClassInfoModel()
                 {
                     ClassName = classNode.Identifier.Text,
                     ClassPath = codePath,
@@ -33,7 +32,7 @@ namespace wpfCodeCheck.Component.Local.Services
 
                 foreach (var method in methods)
                 {
-                    var functionInfo = new FunctionInfo
+                    var functionInfo = new FunctionInfoModel
                     {                                                
                         FunctionName = method.Identifier.Text,
                         ParentFunctionName = null,
@@ -42,7 +41,7 @@ namespace wpfCodeCheck.Component.Local.Services
                     };
                     foreach (var parameter in method.ParameterList.Parameters)
                     {
-                        functionInfo.Parameters.Add(new ParameterInfo
+                        functionInfo.Parameters.Add(new ParameterInfoModel
                         {
                             Name = parameter.Identifier.Text,
                             Type = parameter.Type!.ToString()
@@ -100,16 +99,16 @@ namespace wpfCodeCheck.Component.Local.Services
             return null;
         }
 
-        private List<VariableInfo> GetVariables(ClassDeclarationSyntax classNode)
+        private List<VariableInfoModel> GetVariables(ClassDeclarationSyntax classNode)
         {
-            var variables = new List<VariableInfo>();
+            var variables = new List<VariableInfoModel>();
 
             var fields = classNode.DescendantNodes().OfType<FieldDeclarationSyntax>();
             foreach (var field in fields)
             {
                 foreach (var variable in field.Declaration.Variables)
                 {
-                    variables.Add(new VariableInfo
+                    variables.Add(new VariableInfoModel
                     {
                         Name = variable.Identifier.Text,
                         Summary = GetSummary(field),
@@ -121,7 +120,7 @@ namespace wpfCodeCheck.Component.Local.Services
             var properties = classNode.DescendantNodes().OfType<PropertyDeclarationSyntax>();
             foreach (var property in properties)
             {
-                variables.Add(new VariableInfo
+                variables.Add(new VariableInfoModel
                 {
                     Name = property.Identifier.Text,
                     Summary = GetSummary(property),

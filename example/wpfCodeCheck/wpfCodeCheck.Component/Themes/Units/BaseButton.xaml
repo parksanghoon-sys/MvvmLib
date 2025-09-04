@@ -42,9 +42,9 @@
                             ChildSpacing="5"
                             Orientation="Horizontal">
                             <units:ImageIcon
-                                Icon="{TemplateBinding IconType}"
+                                Width="16"
                                 Height="16"
-                                Width="16" />
+                                Icon="{TemplateBinding IconType}" />
                             <ContentPresenter Style="{StaticResource IN}" />
                         </units:UniformSpacingPanel>
                     </Border>

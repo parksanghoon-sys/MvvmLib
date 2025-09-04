@@ -72,6 +72,11 @@ internal class DialogService : IDialogService
 
         return windowToActivate?.Activate() ?? false;
     }
+    public bool Activate(Type type)
+    {
+        var dialogConatiner = DialogStorage._dialogTypes[type];
+        return dialogConatiner.IsActivate;
+    }
 
     public bool Close(INotifyPropertyChanged viewModel)
     {

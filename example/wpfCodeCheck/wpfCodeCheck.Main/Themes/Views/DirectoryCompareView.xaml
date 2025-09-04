@@ -66,14 +66,14 @@
                                         Content="SW Code"
                                         FontSize="15"
                                         FontWeight="Bold"
-                                        IsChecked="{Binding InputType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enums:EType.SW_CODE}}" />
+                                        IsChecked="{Binding InputType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enums:ECompareType.SOURCECODE}}" />
                                     <componentUnits:BakcgroundRadioButton
                                         Width="110"
                                         Height="32"
                                         Content="File"
                                         FontSize="15"
                                         FontWeight="Bold"
-                                        IsChecked="{Binding InputType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enums:EType.FILE}}" />
+                                        IsChecked="{Binding InputType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static enums:ECompareType.FILE}}" />
                                 </units:UniformSpacingPanel>
                             </Border>
                         </Grid>

@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Local\Services\ExcelService\InteropExcelParsser.cs~RF3e325668.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <COMReference Include="Microsoft.Office.Interop.Excel">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>9</VersionMinor>
@@ -21,8 +25,10 @@
     </COMReference>
   </ItemGroup>
 
+
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.102.2" />
+    <PackageReference Include="System.IO.Packaging" Version="6.0.2" />
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
 

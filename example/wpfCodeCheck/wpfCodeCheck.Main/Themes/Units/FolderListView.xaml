@@ -17,7 +17,7 @@
 
     <Style TargetType="{x:Type localUnits:FolderListView}">
         <Setter Property="wpfLib:ViewModelLocator.AutoWireViewModel" Value="True" />
-        <Setter Property="Tag" Value="{Binding FolderLIstType, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+        <Setter Property="Tag" Value="{Binding FolderListType, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type localUnits:FolderListView}">

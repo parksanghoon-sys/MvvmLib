@@ -60,7 +60,7 @@
                                     Orientation="Horizontal">
                                     <TextBlock Text="기능" />
                                     <sharedUnits:BaseButton
-                                        Command="{Binding CompareCommand}"
+                                        Command="{Binding DirectoryCompareCommand}"
                                         Content="비교 시작"
                                         IconType="FileCheck" />
                                     <sharedUnits:BaseButton

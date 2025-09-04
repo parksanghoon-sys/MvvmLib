@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:auto="clr-namespace:CoreMvvmLib.WPF.ViewModelLocator;assembly=CoreMvvmLib.WPF"
     xmlns:views="clr-namespace:wpfCodeCheck.Component.UI.Views">
-    
+
     <Style TargetType="{x:Type views:CircularProgressBarView}">
         <!--<Setter Property="auto:ViewModelLocator.AutoWireViewModel" Value="True" />-->
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -18,11 +18,11 @@
                                 <PathGeometry>
                                     <PathFigure x:Name="ArcFigure" StartPoint="50,50">
                                         <ArcSegment
-                                        x:Name="PART_ArcSegment"
-                                        IsLargeArc="False"
-                                        Point="50,50"
-                                        Size="50,50"
-                                        SweepDirection="Clockwise" />
+                                            x:Name="PART_ArcSegment"
+                                            IsLargeArc="False"
+                                            Point="50,50"
+                                            Size="50,50"
+                                            SweepDirection="Clockwise" />
                                     </PathFigure>
                                 </PathGeometry>
                             </Path.Data>

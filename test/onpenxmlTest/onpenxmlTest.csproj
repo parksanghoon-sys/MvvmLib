@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.102.2" />
-    <PackageReference Include="DocumentFormat.OpenXml.DotNet.Core" Version="1.0.1" />
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
 
