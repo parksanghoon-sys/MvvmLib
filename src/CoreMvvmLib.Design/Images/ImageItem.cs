@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CoreMvvmLib.Design.Images
 {
     internal class ImageItem
     {
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
-        [JsonProperty("data")]
+        [JsonPropertyName("data")]
         public string Data { get; set; }
     }
 }

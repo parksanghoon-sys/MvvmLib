@@ -15,7 +15,7 @@
     <copyright>Copyright 2017 Kutamo Pty. Ltd.</copyright>
     <tags>exceptions web http error logging</tags>
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="10.0"  />
+
     </dependencies>
     <summary>ErrLog.IO is an exception and error logging tool.</summary>
   </metadata>

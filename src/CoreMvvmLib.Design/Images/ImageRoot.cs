@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace CoreMvvmLib.Design.Images
 {
     internal class ImageRoot
     {
-        [JsonProperty("images")]
+        [JsonPropertyName("images")]
         public List<ImageItem> Items { get; set; }
     }
 }

@@ -2,13 +2,10 @@
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Services.DialogService;
 using CoreMvvmLib.WPF.Components;
-using Newtonsoft.Json;
 using System.IO;
-using System.Windows.Markup;
 using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Helpers;
-using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Services.Interfaces;
 using wpfCodeCheck.ProjectChangeTracker.Local.Models;
 using wpfCodeCheck.ProjectChangeTracker.Local.Services;

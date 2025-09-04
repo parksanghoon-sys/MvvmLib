@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text.Json;
 using YamlDotNet.Serialization;
 
 namespace CoreMvvmLib.Design.Images
@@ -28,11 +28,8 @@ namespace CoreMvvmLib.Design.Images
                 Deserializer deserializer = new Deserializer ();
                 object yamlObject = deserializer.Deserialize<object> (r);
 
-                JsonSerializer js = new JsonSerializer ();
-                StringWriter w = new StringWriter ();
-                js.Serialize (w, yamlObject);
-                string jsonText = w.ToString ();
-                _data = JsonConvert.DeserializeObject<ImageRoot> (jsonText);
+                string jsonText = JsonSerializer.Serialize(yamlObject);
+                _data = JsonSerializer.Deserialize<ImageRoot>(jsonText);
                 _items = new Dictionary<string, ImageItem> ();
 
                 foreach (var item in _data.Items)

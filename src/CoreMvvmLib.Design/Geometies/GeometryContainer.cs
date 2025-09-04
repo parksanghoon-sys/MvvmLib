@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
 namespace CoreMvvmLib.Design.Geometies
