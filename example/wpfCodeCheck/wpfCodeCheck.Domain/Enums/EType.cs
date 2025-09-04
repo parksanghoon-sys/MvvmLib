@@ -39,4 +39,10 @@ namespace wpfCodeCheck.Domain.Enums
         /// </summary>
         FILE
     }
+    public enum EProjectType
+    { 
+        MUAV,
+        B6
+    }
+
 }

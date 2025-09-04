@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Local\Services\ExcelService\InteropExcelParsser.cs~RF3e325668.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <COMReference Include="Microsoft.Office.Interop.Excel">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>9</VersionMinor>
@@ -38,10 +42,6 @@
 	  <ProjectReference Include="..\..\..\lib\CompareEngine\CompareEngine.csproj" />	  
 	  <ProjectReference Include="..\wpfCodeCheck.Component\wpfCodeCheck.Component.csproj" />	  
 	  <ProjectReference Include="..\wpfCodeCheck.Domain\wpfCodeCheck.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Local\Services\BeyondService\" />
   </ItemGroup>
 
 </Project>

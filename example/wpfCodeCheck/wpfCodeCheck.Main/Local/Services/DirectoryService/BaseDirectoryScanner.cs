@@ -15,9 +15,7 @@ namespace wpfCodeCheck.Main.Local.Services.DirectoryService
     {
         protected readonly IFileCheckSum _fileCheckSum;
         protected readonly IFileFilterStrategy _filterStrategy;
-        protected readonly IFileTreeSorter _sorter;
-        
-        private int _fileIndex = 1;
+        protected readonly IFileTreeSorter _sorter;                
         private int _processedItems = 0;
 
         public event Action<int, string>? ProgressChanged;
@@ -36,8 +34,7 @@ namespace wpfCodeCheck.Main.Local.Services.DirectoryService
         {
             if (!Directory.Exists(path))
                 throw new DirectoryNotFoundException($"Directory not found: {path}");
-
-            _fileIndex = 1;
+            
             _processedItems = 0;
             
             ReportProgress(0, $"Starting scan: {path}");

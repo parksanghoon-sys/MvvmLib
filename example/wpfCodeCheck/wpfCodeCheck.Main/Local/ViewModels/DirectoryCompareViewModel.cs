@@ -6,6 +6,7 @@ using System.Windows;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Services.Interfaces;
+using wpfCodeCheck.Domain.Services.LogService;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -14,13 +15,14 @@ namespace wpfCodeCheck.Main.Local.ViewModels
     /// </summary>
     public partial class DirectoryCompareViewModel : ViewModelBase
     {
-        private readonly ISettingService _settingService;
-        private readonly IBaseService _baseService;
+        private readonly ISettingService _settingService;        
+        private readonly ILoggerService _loggerService;
 
-        public DirectoryCompareViewModel(ISettingService settingService, IBaseService baseService)
+        public DirectoryCompareViewModel(ISettingService settingService,             
+            ILoggerService loggerService)
         {
-            _settingService = settingService;
-            _baseService = baseService;
+            _settingService = settingService;            
+            _loggerService = loggerService;
             InputDirectoryPath = _settingService.GeneralSetting!.InputPath ?? "";
             OutputDirectoryPath = _settingService.GeneralSetting!.OutputPath ?? "";
             InputType = _settingService.GeneralSetting!.CompareType;
@@ -58,7 +60,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
             _settingService.GeneralSetting!.InputPath = InputDirectoryPath;
             _settingService.GeneralSetting!.OutputPath= OutputDirectoryPath;
             _settingService.GeneralSetting.CompareType = InputType;
-
+            _loggerService.Info($"START : InputPath : {InputDirectoryPath}, OutputPath : {OutputDirectoryPath}");
             _settingService.SaveSetting();
             
             WeakReferenceMessenger.Default.Send<EMainViewType>(EMainViewType.FILE_CHECKSUM);

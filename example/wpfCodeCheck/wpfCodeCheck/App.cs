@@ -6,12 +6,15 @@ using wpfCodeCheck.Component.UI.Views;
 using wpfCodeCheck.Domain.Local.Helpers;
 using wpfCodeCheck.Domain.Services;
 using wpfCodeCheck.Domain.Services.Interfaces;
+using wpfCodeCheck.Domain.Services.LogService;
 using wpfCodeCheck.Forms.Local.ViewModels;
 using wpfCodeCheck.Forms.UI.Views;
 using wpfCodeCheck.Main.Local.Services.CompareService;
 using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Main.Local.ViewModels;
 using wpfCodeCheck.Main.UI.Views;
+using wpfCodeCheck.ProjectChangeTracker.Local.Services;
+using wpfCodeCheck.ProjectChangeTracker.Local.Services.BeyondService;
 using wpfCodeCheck.ProjectChangeTracker.Local.Services.ExcelService;
 using wpfCodeCheck.ProjectChangeTracker.Local.ViewModels;
 using wpfCodeCheck.ProjectChangeTracker.UI.Views;
@@ -47,10 +50,13 @@ namespace wpfCodeCheck
             services.AddTransient<IDirectoryExplorerService, DirectoryExplorerService>();
 
             services.AddTransient<ICsvHelper, CsvHelper>();
-            services.AddTransient<IExcelPaser, InteropExcelParsser>();
+            services.AddTransient<IExcelProcessManager, ExcelProcessManager>();
+            services.AddTransient<IExcelPaserService, InteropExcelParsserService>();
+            services.AddTransient<IComparisonService, BeyondCompareService>();
 
             services.AddSingleton<IBaseService, BaseService>();
             services.AddSingleton<ISettingService, SettingService>();
+            services.AddSingleton<ILoggerService, FileLogger>();
             
             // FileDescriptionService 등록
             // services.AddSingleton<IFileDescriptionService, FileDescriptionService>();

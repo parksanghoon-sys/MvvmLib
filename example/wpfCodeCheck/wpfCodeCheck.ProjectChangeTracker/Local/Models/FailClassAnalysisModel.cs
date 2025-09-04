@@ -13,5 +13,4 @@ namespace wpfCodeCheck.ProjectChangeTracker.Local.Models
         public FileTreeModel OutputFile { get; init; } = new FileTreeModel();
         public bool IsSelected { get; set; } = false;
     }
-
 }

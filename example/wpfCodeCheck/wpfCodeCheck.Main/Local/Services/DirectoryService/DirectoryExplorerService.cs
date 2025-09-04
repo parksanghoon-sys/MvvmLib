@@ -94,10 +94,9 @@ namespace wpfCodeCheck.Main.Local.Servies
         /// 스캐너 진행률 이벤트 핸들러
         /// </summary>
         private void OnScannerProgressChanged(int percentage, string message)
-        {
-            int scanProgress = Math.Max(0, Math.Min(100, percentage));
+        {            
             if (_dialogService.Activate(typeof(LoadingDialogView)))
-                WeakReferenceMessenger.Default.Send<(int, string), LoadingDialogView>(new(scanProgress, message));
+                WeakReferenceMessenger.Default.Send<(int, string), LoadingDialogView>(new(0, message));
 
         }
         /// <summary>

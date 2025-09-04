@@ -2,10 +2,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:componentUnits="clr-namespace:wpfCodeCheck.Component.UI.Units;assembly=wpfCodeCheck.Component"
+    xmlns:converter="clr-namespace:wpfCodeCheck.Component.Local.Converters;assembly=wpfCodeCheck.Component"
+    xmlns:enums="clr-namespace:wpfCodeCheck.Domain.Enums;assembly=wpfCodeCheck.Domain"
+    xmlns:localUnits="clr-namespace:wpfCodeCheck.ProjectChangeTracker.UI.Units"
     xmlns:units="clr-namespace:CoreMvvmLib.Component.UI.Units;assembly=CoreMvvmLib.Component"
     xmlns:views="clr-namespace:wpfCodeCheck.ProjectChangeTracker.UI.Views"
-    xmlns:wpfLib="clr-namespace:CoreMvvmLib.WPF;assembly=CoreMvvmLib.WPF"
-    xmlns:localUnits="clr-namespace:wpfCodeCheck.ProjectChangeTracker.UI.Units">
+    xmlns:wpfLib="clr-namespace:CoreMvvmLib.WPF;assembly=CoreMvvmLib.WPF">
 
     <Style x:Key="CONTNET.BORDER" TargetType="{x:Type Border}">
         <Setter Property="BorderBrush" Value="#FF272727" />
@@ -32,8 +34,8 @@
     </Style>
     <Style TargetType="{x:Type views:ComparisonResultsView}">
         <Setter Property="wpfLib:ViewModelLocator.AutoWireViewModel" Value="True" />
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Margin" Value="10,10,10,10" />
         <Setter Property="Template">
             <Setter.Value>
@@ -46,31 +48,59 @@
                                     <componentUnits:LocatorTextBox Text="{Binding ExportOutputPath}" />
 
                                     <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="OutPut 파일 이름" />
-                                    <componentUnits:DarkTextBox Width="120"
-                                                                Height="25" 
-                                                                Text="{Binding ExportOutputFileName}" />
-                                    <units:UniformSpacingPanel ChildSpacing="5"
-                                                             Orientation="Horizontal">
-                                        <componentUnits:BaseButton Command="{Binding ExportAsyncCommand}" 
-                                                                   Content="Export" 
-                                                                   IconType="ArrowAll" />
-                                        <componentUnits:BaseButton Command="{Binding FileOpenCommand}"
-                                                                   Content="File Open"
-                                                                   IconType="FolderOpen" />
+                                    <componentUnits:DarkTextBox
+                                        Width="120"
+                                        Height="25"
+                                        Text="{Binding ExportOutputFileName}" />
+
+                                    <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="MUAB/B6" />
+                                    <units:UniformSpacingPanel ChildSpacing="8" Orientation="Horizontal">
+                                        <componentUnits:BakcgroundRadioButton
+                                            Width="110"
+                                            Height="32"
+                                            Content="MUAV"
+                                            FontSize="15"
+                                            FontWeight="Bold"
+                                            IsChecked="{Binding ProjectType, Converter={converter:EnumToBooleanConverter}, ConverterParameter={x:Static enums:EProjectType.MUAV}}" />
+                                        <componentUnits:BakcgroundRadioButton
+                                            Width="110"
+                                            Height="32"
+                                            Content="B6"
+                                            FontSize="15"
+                                            FontWeight="Bold"
+                                            IsChecked="{Binding ProjectType, Converter={converter:EnumToBooleanConverter}, ConverterParameter={x:Static enums:EProjectType.B6}}" />
+                                    </units:UniformSpacingPanel>
+                                    <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="문서 번호" />
+                                    <componentUnits:DarkTextBox
+                                        Width="120"
+                                        Height="25"
+                                        Text="{Binding DocumentNumber}" />
+                                    <TextBlock Style="{StaticResource DefaultTextBlockStyle}" Text="요약 정보" />
+                                    <componentUnits:DarkTextBox Text="{Binding Summery}" TextWrapping="Wrap" />
+                                    <units:UniformSpacingPanel ChildSpacing="5" Orientation="Horizontal">
+                                        <componentUnits:BaseButton
+                                            Command="{Binding ExportAsyncCommand}"
+                                            Content="Export"
+                                            IconType="ArrowAll" />
+                                        <componentUnits:BaseButton
+                                            Command="{Binding FileOpenCommand}"
+                                            Content="File Open"
+                                            IconType="FolderOpen" />
                                     </units:UniformSpacingPanel>
                                 </units:UniformSpacingPanel>
                                 <units:AutoGrid Grid.Row="1" Columns="*,Auto">
-                                    <localUnits:FailFileListBox Grid.Column="0"/>
+                                    <localUnits:FailFileListBox Grid.Column="0" />
                                     <Grid Grid.Column="1">
                                         <units:UniformSpacingPanel ChildSpacing="5">
-                                            <componentUnits:BaseButton Command="{Binding RetryAsyncCommand}" 
-                                                                       Content="Re Try" 
-                                                                       IconType="CogRefreshOutline" />
+                                            <componentUnits:BaseButton
+                                                Command="{Binding RetryAsyncCommand}"
+                                                Content="Re Try"
+                                                IconType="CogRefreshOutline" />
                                         </units:UniformSpacingPanel>
                                     </Grid>
                                 </units:AutoGrid>
                             </units:AutoGrid>
-                            
+
                         </Border>
                     </units:CustomAutoGrid>
                 </ControlTemplate>

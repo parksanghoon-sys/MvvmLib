@@ -2,13 +2,14 @@
 using CoreMvvmLib.Core.Components;
 using CoreMvvmLib.Core.Messenger;
 using System.Windows;
-using wpfCodeCheck.Main.Local.Exceptions;
 using wpfCodeCheck.Domain.Enums;
 using wpfCodeCheck.Domain.Models;
-using wpfCodeCheck.Main.Local.Models;
-using wpfCodeCheck.Main.Local.Servies;
 using wpfCodeCheck.Domain.Services.Interfaces;
+using wpfCodeCheck.Domain.Services.LogService;
+using wpfCodeCheck.Main.Local.Exceptions;
+using wpfCodeCheck.Main.Local.Models;
 using wpfCodeCheck.Main.Local.Services.CompareService;
+using wpfCodeCheck.Main.Local.Servies;
 
 namespace wpfCodeCheck.Main.Local.ViewModels
 {
@@ -30,6 +31,7 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         private readonly IBaseService _baseService;
         private readonly ISettingService _settingService;
         private readonly ICompareService _compareService;
+        private readonly ILoggerService _loggerService;
 
         /// <summary>
         /// FolderCompareViewModel 생성자
@@ -41,11 +43,13 @@ namespace wpfCodeCheck.Main.Local.ViewModels
         public FolderCompareViewModel(IBaseService baseService,
             ISettingService settingService,            
             IFileCheckSum fileCheckSum,
-            ICompareService compareService)
+            ICompareService compareService,
+            ILoggerService loggerService)
         {
             _baseService = baseService;
             _settingService = settingService;
-            _compareService = compareService;            
+            _compareService = compareService;
+            _loggerService = loggerService;
             // 진행률 이벤트 구독
             //_directoryExplorerService.ProgressChanged += OnDirectoryExplorerProgressChanged;
 
@@ -92,8 +96,8 @@ namespace wpfCodeCheck.Main.Local.ViewModels
 
                 // 차이점을 CompareEntity 형태로 변환하여 저장
                 var compareResults = _compareService.ConvertToCompareEntities(differences);
-                _baseService.SetDirectoryCompareReuslt(compareResults);                              
-
+                _baseService.SetDirectoryCompareReuslt(compareResults);
+                _loggerService.Info($"Compare : Diff TotalCount = {compareResults.Count}");
                 WeakReferenceMessenger.Default.Send<EMainViewType>(EMainViewType.EXPORT_EXCEL);
             }
             catch (Exception ex)
