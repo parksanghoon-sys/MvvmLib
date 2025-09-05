@@ -11,7 +11,7 @@ namespace wpfCodeCheck.Main.Local.Services.DirectoryService.Strategies
 
         public string[] FilePatterns => new[] 
         { 
-            "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml" 
+            "*.cxx", "*.cpp", "*.h", "*.cs", "*.xaml", "*.c"
         };
 
         public string[] ExcludedFileNames => new[] 
