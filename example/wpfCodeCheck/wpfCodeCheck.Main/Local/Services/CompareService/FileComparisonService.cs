@@ -197,26 +197,26 @@ namespace wpfCodeCheck.Main.Local.Servies
 
                     case CompareStatus.Different:
                         // 양쪽에 있지만 내용이 다른 파일 - 가장 중요!
-                        entity.InputFileName = diff.CompareTarget?.FileName ?? diff.FileName;
-                        entity.InputFilePath = diff.CompareTarget?.FilePath ?? diff.FilePath;
-                        entity.OutoutFileName = diff.FileName;
-                        entity.OutoutFilePath = diff.FilePath;
+                        entity.InputFileName = diff.FileName;
+                        entity.InputFilePath = diff.FilePath;
+                        entity.OutoutFileName = diff.CompareTarget?.FileName ?? diff.FileName;
+                        entity.OutoutFilePath = diff.CompareTarget?.FilePath ?? diff.FilePath;
                         break;
 
                     case CompareStatus.Same:
                         // 양쪽에 동일한 파일 (일반적으로 차이점 목록에 포함 안함)
-                        entity.InputFileName = diff.CompareTarget?.FileName ?? diff.FileName;
-                        entity.InputFilePath = diff.CompareTarget?.FilePath ?? diff.FilePath;
-                        entity.OutoutFileName = diff.FileName;
-                        entity.OutoutFilePath = diff.FilePath;
+                        entity.InputFileName = diff.FileName;
+                        entity.InputFilePath = diff.FilePath;
+                        entity.OutoutFileName = diff.CompareTarget?.FileName ?? diff.FileName;
+                        entity.OutoutFilePath = diff.CompareTarget?.FilePath ?? diff.FilePath;
                         break;
 
                     case CompareStatus.Both:
                         // Both는 비교 가능한 상태 (일반적으로는 Same과 유사하게 처리)
-                        entity.InputFileName = diff.CompareTarget?.FileName ?? diff.FileName;
-                        entity.InputFilePath = diff.CompareTarget?.FilePath ?? diff.FilePath;
-                        entity.OutoutFileName = diff.FileName;
-                        entity.OutoutFilePath = diff.FilePath;
+                        entity.InputFileName = diff.FileName;
+                        entity.InputFilePath = diff.FilePath;
+                        entity.OutoutFileName = diff.CompareTarget?.FileName ?? diff.FileName;
+                        entity.OutoutFilePath = diff.CompareTarget?.FilePath ?? diff.FilePath;
                         break;
 
                     default:

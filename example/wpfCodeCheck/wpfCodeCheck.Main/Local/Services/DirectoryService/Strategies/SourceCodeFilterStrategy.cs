@@ -24,7 +24,8 @@ namespace wpfCodeCheck.Main.Local.Services.DirectoryService.Strategies
         public string[] ExcludedFolders => new[] 
         { 
             "Debug", "Release", "bin", "obj", ".svn", ".git", ".vs", 
-            "Properties", "LogHelper.Net.Framework" ,"LibTest", "intermediate"
+            "Properties", "LogHelper.Net.Framework" ,
+            "LibTest", "intermediate", "LibLog","VirtualRtc"
         };
 
         public bool IsFileAllowed(FileInfo fileInfo)

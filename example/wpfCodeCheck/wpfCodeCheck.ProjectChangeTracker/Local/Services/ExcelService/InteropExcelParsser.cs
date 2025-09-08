@@ -193,7 +193,10 @@ public class InteropExcelParsserService : IExcelPaserService
             rgSummery.Value = _summery;
             rgIssue.Value = "영향없음";
             rgCode.Value = "A6";
-          
+
+            rgName.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            rgName.Borders.Weight = Excel.XlBorderWeight.xlThin;
+
             rgCode.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
             rgCode.Borders.Weight = Excel.XlBorderWeight.xlThin;
 
@@ -211,9 +214,6 @@ public class InteropExcelParsserService : IExcelPaserService
 
             rgIssue.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
             rgIssue.Borders.Weight = Excel.XlBorderWeight.xlThin;
-
-            rgSummery.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
-            rgSummery.Borders.Weight = Excel.XlBorderWeight.xlThin;
             // 테두리     
 
             // COM 해제
