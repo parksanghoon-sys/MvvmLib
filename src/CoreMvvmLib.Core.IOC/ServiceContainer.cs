@@ -1,4 +1,4 @@
-﻿using CoreMvvmLib.Core.Components;
+﻿using CoreMvvmLib.Core.Common;
 
 namespace CoreMvvmLib.Core.IOC
 {

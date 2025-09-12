@@ -224,30 +224,38 @@ namespace CoreMvvmLib.Component.UI.Units
 
         public static void FixedColumnWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            AutoGrid autoGrid = d as AutoGrid;
-            if (autoGrid.ColumnDefinitions.Count == 0)
-            {
-                autoGrid.ColumnDefinitions.Add(new ColumnDefinition());
-            }
+            AutoGrid? autoGrid = d as AutoGrid;
 
-            for (int i = 0; i < autoGrid.ColumnDefinitions.Count; i++)
+            if(autoGrid is not null)
             {
-                autoGrid.ColumnDefinitions[i].Width = (GridLength)e.NewValue;
-            }
+                if (autoGrid.ColumnDefinitions.Count == 0)
+                {
+                    autoGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                }
+
+                for (int i = 0; i < autoGrid.ColumnDefinitions.Count; i++)
+                {
+                    autoGrid.ColumnDefinitions[i].Width = (GridLength)e.NewValue;
+                }
+            }         
         }
 
         public static void FixedRowHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            AutoGrid autoGrid = d as AutoGrid;
-            if (autoGrid.RowDefinitions.Count == 0)
-            {
-                autoGrid.RowDefinitions.Add(new RowDefinition());
-            }
+            AutoGrid? autoGrid = d as AutoGrid;
 
-            for (int i = 0; i < autoGrid.RowDefinitions.Count; i++)
+            if(autoGrid is not null)
             {
-                autoGrid.RowDefinitions[i].Height = (GridLength)e.NewValue;
-            }
+                if (autoGrid.RowDefinitions.Count == 0)
+                {
+                    autoGrid.RowDefinitions.Add(new RowDefinition());
+                }
+
+                for (int i = 0; i < autoGrid.RowDefinitions.Count; i++)
+                {
+                    autoGrid.RowDefinitions[i].Height = (GridLength)e.NewValue;
+                }
+            }          
         }
 
         public static GridLength[] Parse(string text)
@@ -287,21 +295,24 @@ namespace CoreMvvmLib.Component.UI.Units
         {
             if ((int)e.NewValue >= 0)
             {
-                AutoGrid autoGrid = d as AutoGrid;
-                GridLength height = GridLength.Auto;
-                if (autoGrid.RowDefinitions.Count > 0)
+                AutoGrid? autoGrid = d as AutoGrid;
+                if( autoGrid is not null)
                 {
-                    height = autoGrid.RowDefinitions[0].Height;
-                }
-
-                autoGrid.RowDefinitions.Clear();
-                for (int i = 0; i < (int)e.NewValue; i++)
-                {
-                    autoGrid.RowDefinitions.Add(new RowDefinition
+                    GridLength height = GridLength.Auto;
+                    if (autoGrid.RowDefinitions.Count > 0)
                     {
-                        Height = height
-                    });
-                }
+                        height = autoGrid.RowDefinitions[0].Height;
+                    }
+
+                    autoGrid.RowDefinitions.Clear();
+                    for (int i = 0; i < (int)e.NewValue; i++)
+                    {
+                        autoGrid.RowDefinitions.Add(new RowDefinition
+                        {
+                            Height = height
+                        });
+                    }
+                }               
             }
         }
 
@@ -309,70 +320,80 @@ namespace CoreMvvmLib.Component.UI.Units
         {
             if (!((string)e.NewValue == string.Empty))
             {
-                AutoGrid autoGrid = d as AutoGrid;
-                autoGrid.RowDefinitions.Clear();
-                GridLength[] array = Parse((string)e.NewValue);
-                GridLength[] array2 = array;
-                foreach (GridLength height in array2)
+                AutoGrid? autoGrid = d as AutoGrid;
+                if (autoGrid is not null)
                 {
-                    autoGrid.RowDefinitions.Add(new RowDefinition
+                    autoGrid.RowDefinitions.Clear();
+                    GridLength[] array = Parse((string)e.NewValue);
+                    GridLength[] array2 = array;
+                    foreach (GridLength height in array2)
                     {
-                        Height = height
-                    });
-                }
+                        autoGrid.RowDefinitions.Add(new RowDefinition
+                        {
+                            Height = height
+                        });
+                    }
+                }                
             }
         }
 
         private static void OnChildHorizontalAlignmentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            AutoGrid autoGrid = d as AutoGrid;
-            foreach (UIElement child in autoGrid.Children)
+            AutoGrid? autoGrid = d as AutoGrid;
+            if (autoGrid is not null)
             {
-                if (autoGrid.ChildHorizontalAlignment.HasValue)
+                foreach (UIElement child in autoGrid.Children)
                 {
-                    child.SetValue(FrameworkElement.HorizontalAlignmentProperty, autoGrid.ChildHorizontalAlignment);
+                    if (autoGrid.ChildHorizontalAlignment.HasValue)
+                    {
+                        child.SetValue(FrameworkElement.HorizontalAlignmentProperty, autoGrid.ChildHorizontalAlignment);
+                    }
+                    else
+                    {
+                        child.SetValue(FrameworkElement.HorizontalAlignmentProperty, DependencyProperty.UnsetValue);
+                    }
                 }
-                else
-                {
-                    child.SetValue(FrameworkElement.HorizontalAlignmentProperty, DependencyProperty.UnsetValue);
-                }
-            }
+            }           
         }
 
         private static void OnChildMarginChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            AutoGrid autoGrid = d as AutoGrid;
-            foreach (UIElement child in autoGrid.Children)
+            AutoGrid? autoGrid = d as AutoGrid;
+            if (autoGrid is not null)
             {
-                if (autoGrid.ChildMargin.HasValue)
+                foreach (UIElement child in autoGrid.Children)
                 {
-                    child.SetValue(FrameworkElement.MarginProperty, autoGrid.ChildMargin);
-                }
-                else
-                {
-                    child.SetValue(FrameworkElement.MarginProperty, DependencyProperty.UnsetValue);
+                    if (autoGrid.ChildMargin.HasValue)
+                    {
+                        child.SetValue(FrameworkElement.MarginProperty, autoGrid.ChildMargin);
+                    }
+                    else
+                    {
+                        child.SetValue(FrameworkElement.MarginProperty, DependencyProperty.UnsetValue);
+                    }
                 }
             }
+          
         }
 
         private static void OnChildVerticalAlignmentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            AutoGrid autoGrid = d as AutoGrid;
-            foreach (UIElement child in autoGrid.Children)
+            AutoGrid? autoGrid = d as AutoGrid;
+            if (autoGrid is not null)
             {
-                if (autoGrid.ChildVerticalAlignment.HasValue)
+                foreach (UIElement child in autoGrid.Children)
                 {
-                    child.SetValue(FrameworkElement.VerticalAlignmentProperty, autoGrid.ChildVerticalAlignment);
-                }
-                else
-                {
-                    child.SetValue(FrameworkElement.VerticalAlignmentProperty, DependencyProperty.UnsetValue);
+                    if (autoGrid.ChildVerticalAlignment.HasValue)
+                    {
+                        child.SetValue(FrameworkElement.VerticalAlignmentProperty, autoGrid.ChildVerticalAlignment);
+                    }
+                    else
+                    {
+                        child.SetValue(FrameworkElement.VerticalAlignmentProperty, DependencyProperty.UnsetValue);
+                    }
                 }
             }
-        }
-
-        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
+      
         }
 
         private void ApplyChildLayout(UIElement child)

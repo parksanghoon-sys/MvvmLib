@@ -8,7 +8,7 @@
 		<UseWPF>true</UseWPF>
 		<!-- 패키지 정보 -->
 		<PackageId>CoreMvvmLib.Core</PackageId>
-		<PackageVersion>1.0.0</PackageVersion>
+		<PackageVersion>1.0.2</PackageVersion>
 		<Authors>shpark</Authors>
 		<Description>mvvm helper Automatic source generation for specific attributes</Description>
 		<Platforms>AnyCPU;x86</Platforms>
