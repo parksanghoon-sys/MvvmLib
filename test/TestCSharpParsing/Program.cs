@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis;
-using System.Reflection;
 using cliCSharpParsing;
 
 public class Program

@@ -1,4 +1,4 @@
-﻿using CoreMvvmLib.Core.Components;
+﻿using CoreMvvmLib;
 
 namespace RegionTest.ViewModels
 {

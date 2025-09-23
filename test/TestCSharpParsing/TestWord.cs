@@ -1,8 +1,6 @@
 ﻿
 using System.Runtime.InteropServices;
-using System.Text;
 using Microsoft.Office.Interop.Word;
-using System.IO;
 using Word = Microsoft.Office.Interop.Word;
 
 

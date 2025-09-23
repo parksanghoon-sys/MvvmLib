@@ -1,6 +1,6 @@
-﻿using CoreMvvmLib.Core.Attributes;
-using CoreMvvmLib.Core.Commands;
-using CoreMvvmLib.Core.Components;
+﻿using CoreMvvmLib;
+using CoreMvvmLib.Attributes;
+using CoreMvvmLib.Common.Commands;
 using CoreMvvmLib.Core.Services.DialogService;
 using System.Windows.Input;
 using WpfTest1.Views;
@@ -34,12 +34,12 @@ namespace WpfTest1.ViewModels
             _dialogService.Show(this, typeof(TestDialogView), 300, 200);
             IsChecked = !IsChecked;
         }
-        public ICommand TestCommandAsync => new RelayCommandAsync(async () =>
+        [AsyncRelayCommand]
+        public async Task Test2 ()
         {
             IsChecked = !IsChecked;
-
             await Task.Delay(1000);
-        });
+        }
         public ICommand Loaded1Command => new RelayCommand(new Action(() =>
         {
             System.Diagnostics.Debug.WriteLine("View Loaded!!");

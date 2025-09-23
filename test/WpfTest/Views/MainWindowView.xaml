@@ -399,7 +399,7 @@
             <Button
                 Width="80"
                 Height="20"
-                Command="{Binding TestCommandAsync}"
+                Command="{Binding Test2CommandAsync}"
                 Content="CommandAsync" />
             <local:ToggleSwitch
                 Width="60"

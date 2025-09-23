@@ -1,8 +1,8 @@
-﻿using CoreMvvmLib.Core.Components;
+﻿using CoreMvvmLib;
 
 namespace WpfTest1.ViewModels
 {
-    public class TestDialogViewModel : ViewModelBase
+    public partial class TestDialogViewModel : ViewModelBase
     {
     }
 }

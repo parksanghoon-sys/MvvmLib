@@ -1,6 +1,6 @@
-﻿using CoreMvvmLib.Core.Attributes;
-using CoreMvvmLib.Core.Commands;
-using CoreMvvmLib.Core.Components;
+﻿using CoreMvvmLib;
+using CoreMvvmLib.Attributes;
+using CoreMvvmLib.Common.Commands;
 using CoreMvvmLib.Core.Services.RegionManager;
 using System.Windows.Input;
 

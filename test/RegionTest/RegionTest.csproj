@@ -10,7 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" />
     <ProjectReference Include="..\..\src\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
   </ItemGroup>
 
