@@ -1,0 +1,1 @@
+dotnet pack src/MvvmLib/CoreMvvmLib.csproj
