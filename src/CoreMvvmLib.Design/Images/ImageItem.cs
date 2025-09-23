@@ -1,12 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using YamlDotNet.Serialization;
 
 namespace CoreMvvmLib.Design.Images
 {
     internal class ImageItem
     {
-        [JsonPropertyName("name")]
+        [YamlMember(Alias = "name")]        
         public string Name { get; set; }
-        [JsonPropertyName("data")]
+        [YamlMember(Alias = "data")]        
         public string Data { get; set; }
     }
 }
