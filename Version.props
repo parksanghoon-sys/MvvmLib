@@ -1,0 +1,29 @@
+<Project>
+  <PropertyGroup>
+    <!-- 현재 버전 -->
+    <VersionMajor>1</VersionMajor>
+    <VersionMinor>1</VersionMinor>
+    <VersionPatch>0</VersionPatch>
+    <VersionSuffix></VersionSuffix>
+
+    <!-- 조합된 버전 -->
+    <Version Condition="'$(VersionSuffix)' == ''">$(VersionMajor).$(VersionMinor).$(VersionPatch)</Version>
+    <Version Condition="'$(VersionSuffix)' != ''">$(VersionMajor).$(VersionMinor).$(VersionPatch)-$(VersionSuffix)</Version>
+
+    <!-- 패키지 메타데이터 -->
+    <Authors>shpark</Authors>
+    <Company>CoreMvvmLib</Company>
+    <Product>CoreMvvmLib</Product>
+    <Copyright>Copyright © $(Company) $([System.DateTime]::Now.Year)</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/parksanghoon-sys/MvvmLib</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/parksanghoon-sys/MvvmLib</PackageProjectUrl>
+    <Description>A modern MVVM library for .NET applications with source generators</Description>
+    <PackageTags>mvvm;wpf;source-generator;csharp;dotnet</PackageTags>
+
+    <!-- 빌드 설정 -->
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+</Project>
