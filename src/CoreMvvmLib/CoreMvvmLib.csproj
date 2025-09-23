@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Version.props에서 버전 정보 가져오기 -->
+  <Import Project="..\..\Version.props" />
+
+  <PropertyGroup>
+     <TargetFrameworks>net6.0;net8.0;netstandard2.0</TargetFrameworks>
+      <ImplicitUsings>enable</ImplicitUsings>
+      <LangVersion>latest</LangVersion>
+      <Product>CoreMvvmLib</Product>
+      <Description>Core MVVM library with source generators, IOC container, and services</Description>
+      <PackageTags>mvvm;ioc;source-generator;services;csharp;dotnet</PackageTags>
+      <Nullable>enable</Nullable>
+      <Platforms>AnyCPU;x86</Platforms>
+  </PropertyGroup>
+    <!--<ItemGroup>
+        <ProjectReference Include="..\CoreMvvmLib.Core.Common\CoreMvvmLib.Common.csproj" PrivateAssets="all" ReferenceOutputAssembly="true" Pack="true"/>
+        <ProjectReference Include="..\CoreMvvmLib.Core.IOC\CoreMvvmLib.IOC.csproj" PrivateAssets="all" ReferenceOutputAssembly="true" Pack="true"/>
+        <ProjectReference Include="..\CoreMvvmLib.Core.Services\CoreMvvmLib.Services.csproj" PrivateAssets="all" ReferenceOutputAssembly="true" Pack="true"/>
+        <ProjectReference Include="..\CoreMvvmLib.SourceGeneration\CoreMvvmLib.SourceGeneration.csproj" PrivateAssets="all" ReferenceOutputAssembly="true" Pack="true"/>
+    </ItemGroup>-->
+    <ItemGroup>
+        <!-- net6.0 DLL -->
+        <None Include="..\CoreMvvmLib.Core.Common\bin\$(Configuration)\net6.0\CoreMvvmLib.Common.dll" Pack="true" PackagePath="lib/net6.0">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\CoreMvvmLib.Core.IOC\bin\$(Configuration)\net6.0\CoreMvvmLib.IOC.dll" Pack="true" PackagePath="lib/net6.0">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\CoreMvvmLib.Core.Services\bin\$(Configuration)\net6.0\CoreMvvmLib.Services.dll" Pack="true" PackagePath="lib/net6.0">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <!-- net8.0 DLL -->
+        <None Include="..\CoreMvvmLib.Core.Common\bin\$(Configuration)\net8.0\CoreMvvmLib.Common.dll" Pack="true" PackagePath="lib/net8.0" />
+        <None Include="..\CoreMvvmLib.Core.IOC\bin\$(Configuration)\net8.0\CoreMvvmLib.IOC.dll" Pack="true" PackagePath="lib/net8.0" />
+        <None Include="..\CoreMvvmLib.Core.Services\bin\$(Configuration)\net8.0\CoreMvvmLib.Services.dll" Pack="true" PackagePath="lib/net8.0" />
+        <!-- netstandard2.0 DLL -->
+        <None Include="..\CoreMvvmLib.Core.Common\bin\$(Configuration)\netstandard2.0\CoreMvvmLib.Common.dll" Pack="true" PackagePath="lib/netstandard2.0" />
+        <None Include="..\CoreMvvmLib.Core.IOC\bin\$(Configuration)\netstandard2.0\CoreMvvmLib.IOC.dll" Pack="true" PackagePath="lib/netstandard2.0" />
+        <None Include="..\CoreMvvmLib.Core.Services\bin\$(Configuration)\netstandard2.0\CoreMvvmLib.Services.dll" Pack="true" PackagePath="lib/netstandard2.0" />
+        <!-- Source Generator DLL -->
+        <None Include="..\CoreMvvmLib.SourceGeneration\bin\$(Configuration)\netstandard2.0\CoreMvvmLib.SourceGeneration.dll" Pack="true" PackagePath="analyzers/dotnet/cs">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+</Project>
