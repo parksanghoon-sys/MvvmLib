@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<!--<TargetFrameworks>net48;net6.0;net7.0</TargetFrameworks>-->
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<UseWPF>true</UseWPF>
+		<!-- 패키지 정보 -->
+		<PackageId>CoreMvvmLib.SourceGeneration</PackageId>
+		<PackageVersion>1.0.2</PackageVersion>
+		<Authors>shpark</Authors>
+		<Description>mvvm helper Automatic source generation for specific attributes</Description>
+		<Platforms>AnyCPU;x86</Platforms>
+		<!--.NET 컴파일러 분석기(Roslyn analyzer)의 확장된 규칙(Extended Rules) 적용을 강제-->
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+		<!--dotnet build 또는 Visual Studio에서 빌드할 때 자동으로 NuGet 패키지(.nupkg)를 생성합니다.-->
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<!--XAML 마크업 컴파일 중에도 NuGet 패키지 참조를 포함할지를 결정합니다.-->
+		<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
+		<!--project.assets.json (NuGet lock file)에 명시된 모든 참조 어셈블리를 bin 폴더에 로컬로 복사합니다.-->
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<!-- Source Generator 설정 -->
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<IncludeSymbols>false</IncludeSymbols>
+		<DevelopmentDependency>true</DevelopmentDependency>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" />
+	</ItemGroup>
+	<!-- MSBuild 파일들을 패키지에 포함 (실제 파일이 있을 때만) -->
+	<ItemGroup Condition="Exists('build')">
+		<None Include="build\**" Pack="true" PackagePath="build\" />
+	</ItemGroup>
+
+	<ItemGroup Condition="Exists('buildTransitive')">
+		<None Include="buildTransitive\**" Pack="true" PackagePath="buildTransitive\" />
+	</ItemGroup>
+	<!-- Source Generator를 Analyzer로 패키징 -->
+	<ItemGroup>
+		<None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="analyzers\dotnet\cs\$(AssemblyName).dll" Visible="false" />
+	</ItemGroup>
+	<!-- buildTransitive/CoreMvvmLib.Core.targets -->
+</Project>
