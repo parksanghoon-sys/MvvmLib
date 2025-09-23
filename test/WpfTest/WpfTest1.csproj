@@ -9,14 +9,15 @@
 		<Platforms>AnyCPU;x86</Platforms>
 	</PropertyGroup>
 
+
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\CoreMvvmLib.Component\CoreMvvmLib.Component.csproj" />
-		<ProjectReference Include="..\..\src\CoreMvvmLib.Core\CoreMvvmLib.Core.csproj" >
-			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-			<OutputItemType>Analyzer</OutputItemType>
-		</ProjectReference>
 		<ProjectReference Include="..\..\src\CoreMvvmLib.Design\CoreMvvmLib.Design.csproj" />
 		<ProjectReference Include="..\..\src\CoreMvvmLib.WPF\CoreMvvmLib.WPF.csproj" />
+		<!-- 소스 제네레이터 프로젝트 참조 - 특별한 옵션 필요 -->
+		<ProjectReference Include="..\..\src\CoreMvvmLib.SourceGeneration\CoreMvvmLib.SourceGeneration.csproj"
+		                  OutputItemType="Analyzer"
+		                  ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 </Project>
