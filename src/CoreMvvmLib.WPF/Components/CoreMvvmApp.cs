@@ -1,10 +1,11 @@
 ﻿using CoreMvvmLib.Core.IOC;
 using CoreMvvmLib.WPF.Extensions;
+using CoreMvvmLib.WPF.Hosting;
 using System.Windows;
 
 namespace CoreMvvmLib.WPF.Components
 {
-    public abstract class CoreMvvmApp : Application
+    public abstract class CoreMvvmApp : HostApplication
     {
         public IServiceContainer Services { get; }
         public CoreMvvmApp()

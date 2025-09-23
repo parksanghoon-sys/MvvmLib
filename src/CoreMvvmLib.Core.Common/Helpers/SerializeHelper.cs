@@ -1,10 +1,9 @@
-﻿using System.IO;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
 using System.Xml;
 
-namespace CoreMvvmLib.Core.Helpers
+namespace CoreMvvmLib.Helpers
 {
     public class SerializeHelper
     {

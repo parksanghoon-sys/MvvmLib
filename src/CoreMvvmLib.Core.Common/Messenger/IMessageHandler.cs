@@ -1,4 +1,4 @@
-﻿namespace CoreMvvmLib.Core.Messenger
+﻿namespace CoreMvvmLib.Messenger
 {
     public interface IMessangeHandler
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CoreMvvmLib.Core.IOC
+﻿namespace CoreMvvmLib.Core.IOC
 {
     public static class ContainerProvider
     {

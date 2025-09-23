@@ -1,4 +1,4 @@
-﻿namespace CoreMvvmLib.Core.Attributes
+﻿namespace CoreMvvmLib.Attributes
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class PropertyAttribute : Attribute

@@ -1,4 +1,4 @@
-﻿namespace CoreMvvmLib.Core.Messenger
+﻿namespace CoreMvvmLib.Messenger
 {
     internal class MessageHandler<TReceiver, TMessage> : IMessangeHandler where TReceiver : class
     {

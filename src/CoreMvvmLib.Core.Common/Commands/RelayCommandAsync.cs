@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace CoreMvvmLib.Core.Commands;
+namespace CoreMvvmLib.Common.Commands;
 
 public class RelayCommandAsync : ICommand
 {

@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using IsSingleton = bool;
 namespace CoreMvvmLib.WPF.Services;
 
 internal class DialogStorage
